@@ -1,0 +1,281 @@
+﻿<!doctype html>
+<html lang="en" ng-app="RDash">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+    <title>BONE .NET</title>
+    <!-- STYLES -->
+    <link rel="stylesheet" type="text/css" href="assets/styles/lib/font-awesome.min.css">
+    <!-- jUI -->
+    <link href="assets/plugins/jquery-ui/themes/base/minified/jquery-ui.min.css" rel="stylesheet" />
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css" href="assets/styles/lib/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" type="text/css" href="assets/styles/lib/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" type="text/css" href="assets/styles/lib/ionicons.min.css" />
+    <!-- Angular UI Tree -->
+    <link rel="stylesheet" type="text/css" href="assets/styles/lib/angular-ui-tree.min.css" />
+
+    <!-- Core Style -->
+    <link rel="stylesheet" type="text/css" href="assets/styles/rdash.css">
+    <link rel="stylesheet" type="text/css" href="assets/styles/common.css">
+    <link rel="stylesheet" type="text/css" href="assets/styles/commonExt.css">
+
+    <!-- jquery Scripts -->
+    <!--<script src="assets/plugins/jquery/old/jquery-1.9.1.min.js"></script>
+    <script src="assets/plugins/jquery/old/jquery-migrate-1.1.0.min.js"></script>
+    <script type="text/javascript" src="assets/plugins/jquery/dist/jquery.min.js"></script>
+    <script src="assets/plugins/jquery-ui/ui/minified/jquery-ui.min.js"></script>
+    <script src="assets/plugins/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="assets/plugins/DataTables/media/js/jquery.dataTables.min.js"></script>-->
+
+    <!-- Angular JS -->
+    <!--<script type="text/javascript" src="assets/plugins/angular/angular.min.js"></script>
+    <script type="text/javascript" src="assets/plugins/angular/ocLazyLoad.min.js"></script>
+    <script type="text/javascript" src="assets/plugins/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+    <script type="text/javascript" src="assets/plugins/angular-cookies/angular-cookies.min.js"></script>
+    <script type="text/javascript" src="assets/plugins/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script type="text/javascript" src="assets/plugins/angular-breadcrumb/dist/angular-breadcrumb.js"></script>-->
+
+    <!-- localization i18n -->
+    <!--<script src="assets/plugins/angular/angular-resource.js"></script>-->
+
+</head>
+<body ng-controller="MasterCtrl">
+    <div id="page-wrapper" ng-class="{'open': toggle}" ng-cloak>
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar">
+                <li class="sidebar-main">
+                    <a ng-click="toggleSidebar()">
+                        <img src="assets/img/mufg_mb_rgb_pos.png">
+                        <span class="menu-icon glyphicon glyphicon-transfer"></span>
+                    </a>
+                </li>
+                <li class="sidebar-item" title="businessDate">
+                    <span class="item-icon fa fa-calendar"></span>
+                    <span ng-bind="fieldLastLogin | date:'dd-MMM-yyyy'"></span>
+                </li>
+                <li class="sidebar-title"><span>Application Menu</span></li>
+                <!--<li class="sidebar-list">
+                    <a href="#/ui">UI <span class="menu-icon fa fa-clipboard"></span></a>
+                </li>
+                <li class="sidebar-list">
+                    <a href="#/plugins">Plugins <span class="menu-icon fa fa-plug"></span></a>
+                </li>
+                <li class="sidebar-list">
+                    <a href="#/dashboard">Dash Board<span class="menu-icon fa fa-dashboard"></span></a>
+                </li>-->
+                <li class="sidebar-list">
+                    <a href="#/home">Home<span class="menu-icon fa fa-home"></span></a>
+                </li>
+                <!--<li class="sidebar-list">
+                    <a href="#/lab">Lab<span class="menu-icon fa fa-codepen"></span></a>
+                </li>-->
+
+                <li class="sidebar-list" id="menuCashBox">
+                    <a>Cash Box </a>
+                    <ul class="treeview-menu" style="text-indent: 0px;">
+                        <li><a href="#/registeropenbalance">Register Open Balance</a></li>
+                        <li><a href="#/registercashmovement">Register Cash Movement</a></li>
+                        <li><a href="#/registerclosebalance">Register Close Balance</a></li>
+
+                    </ul>
+                </li>
+
+                <li class="sidebar-list" id="menuMainVault">
+                    <a>Main Vault</a>
+                    <ul class="treeview-menu" style="text-indent: 0px;">
+                        <li><a href="#/registercashbalance">Register Cash Balance</a></li>
+                        <li><a href="#/registermainvaultcashmovement">Register Cash Movement</a></li>
+                        <!--<li><a href="window.open('/MainVaultDailyReport.aspx')">Cash Movement Daily Report</a></li>-->
+                        <li><a href="#/cashMovementDailyReport" target="_newtab">Cash Movement Daily Report</a></li>
+                    </ul>
+                </li>
+
+                <li class="sidebar-list" id="menuCashBoxManagement">
+                    <a href="#/cashboxmanagement">Cash Box Management</a>
+                </li>
+                <li class="sidebar-list" id="menuUserManagement">
+                    <a href="#/usermanagement">User Management</a>
+                </li>
+                <li class="sidebar-list" id="menuTransactionList">
+                    <a href="#/transactionlist">Transaction List</a>
+                </li>
+
+            </ul>
+            <!--
+            <div class="sidebar-footer">
+              <div class="col-xs-4">
+                <a href="https://github.com/rdash/rdash-angular" target="_blank">
+                  Github
+                </a>
+              </div>
+              <div class="col-xs-4">
+                <a href="https://github.com/rdash/rdash-angular/blob/master/README.md" target="_blank">
+                  About
+                </a>
+              </div>
+              <div class="col-xs-4">
+                <a href="#">
+                  Support
+                </a>
+              </div>
+            </div>-->
+
+        </div>
+        <!-- End Sidebar -->
+
+        <div id="content-wrapper">
+            <div class="page-content">
+
+                <!-- Header Bar -->
+                <div id="header-wrapper" class="row header">
+                    <div class="col-xs-12">
+                        <div class="user pull-right">
+                            <div class="item" ng-hide="false" title="Logout" ng-click="">
+                                <a href="" class="dropdown-toggle">
+                                    <i class="fa fa-sign-out" id="logout_btn"></i>
+                                </a>
+                            </div>
+                            <div class="meta usermeta" ng-hide="false">
+                                <div class="username" ng-bind="fieldUserName"></div>
+                                <div class="branch" ng-bind="(fieldUnitName) + ' Branch'"></div>
+                                <div class="last-login" ng-bind="'Last login: ' + (fieldLastLogin | date:'yyyy-MM-dd HH:mm')"></div>
+                            </div>
+
+                            <div class="item dropdown" uib-dropdown>
+                                <a href="#" class="dropdown-toggle" uib-dropdown-toggle>
+                                    <img src="assets/img/avatar.jpg">
+                                </a>
+                                <!--
+                                                <ul class="dropdown-menu dropdown-menu-right">
+                                                  <li class="dropdown-header">
+                                                    Joe Bloggs
+                                                  </li>
+                                                  <li class="divider"></li>
+                                                  <li class="link">
+                                                    <a href="#">
+                                                      Profile
+                                                    </a>
+                                                  </li>
+                                                  <li class="link">
+                                                    <a href="#">
+                                                      Menu Item
+                                                    </a>
+                                                  </li>
+                                                  <li class="link">
+                                                    <a href="#">
+                                                      Menu Item
+                                                    </a>
+                                                  </li>
+                                                  <li class="divider"></li>
+                                                  <li class="link">
+                                                    <a href="#">
+                                                      Logout
+                                                    </a>
+                                                  </li>
+                                                </ul>-->
+                            </div>
+
+                            <!--<div class="item dropdown" uib-dropdown>
+                             <a href="#" class="dropdown-toggle" uib-dropdown-toggle>
+                                <i class="fa fa-bell-o"></i>
+                              </a>
+                              <ul class="dropdown-menu dropdown-menu-right">
+                                <li class="dropdown-header">
+                                  Notifications
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                  <a href="#">Server Down!</a>
+                                </li>
+                              </ul>
+                            </div>-->
+                        </div>
+                        <div class="meta">
+                            <div class="page">
+                                Cash Control System
+                            </div>
+                            <div class="breadcrumb-links">
+                                <div ncy-breadcrumb></div> <!--Home/Cash Control System/-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Header Bar -->
+                <!-- Main Content -->
+                <div id="main-content" ui-view></div>
+                <!-- Footer -->
+                <div class="footer"><img src="assets/img/footer_copyright.gif" /><img class="pull-right" src="assets/img/footer_a_member_of_mufg.gif" /></div>
+                <!-- End Footer  -->
+            </div><!-- End Page Content -->
+        </div><!-- End Content Wrapper -->
+    </div><!-- End Page Wrapper -->
+    <!--Datatable-->
+    <script src="assets/plugins/Angular-datatables/src/angular-datatables.util.js"></script>
+    <script src="assets/plugins/Angular-datatables/src/angular-datatables.renderer.js"></script>
+    <script src="assets/plugins/Angular-datatables/src/angular-datatables.options.js"></script>
+    <script src="assets/plugins/Angular-datatables/src/angular-datatables.js"></script>
+    <script src="assets/plugins/Angular-datatables/src/angular-datatables.instances.js"></script>
+    <script src="assets/plugins/Angular-datatables/src/angular-datatables.factory.js"></script>
+    <script src="assets/plugins/Angular-datatables/src/angular-datatables.directive.js"></script>
+
+
+
+    <script src="assets/js/services/common.services.js"></script>
+    <script src="assets/js/services/cashmovement.services.js"></script>
+    <!-- Begin add Generated [TableName]Resource.js here -->
+    <script src="assets/js/services/cashboxResource.js"></script>
+    <script src="assets/js/services/applicationResource.js"></script>
+    <script src="assets/js/services/transactionResource.js"></script>
+    <script src="assets/js/services/openBalanceResource.js"></script>
+    <script src="assets/js/services/branchdenominationresource.js"></script>
+    <script src="assets/js/services/closeBalanceResource.js"></script>
+    <script src="assets/js/services/cashmovementResource.js"></script>
+    <script src="assets/js/services/cashDepositResource.js"></script>
+    <script src="assets/js/services/cashWithDrawalResource.js"></script>
+    <script src="assets/js/services/cashExchangeResource.js"></script>
+    <script src="assets/js/services/branchResource.js"></script>
+    <script src="assets/js/services/usersResource.js"></script>
+    <script src="assets/js/services/reportResource.js"></script>
+    <script src="assets/js/services/customerResource.js"></script>
+    <script src="assets/js/services/prefResource.js"></script>
+    <!-- Custom Scripts -->
+    <script type="text/javascript" src="assets/js/routes.js"></script>
+    <script type="text/javascript" src="assets/js/controllers/plugins-ctrl.js"></script>
+    <script type="text/javascript" src="assets/js/controllers/home-ctrl.js"></script>
+    <script type="text/javascript" src="assets/js/controllers/applications-ctrl.js"></script>
+    <script type="text/javascript" src="assets/js/controllers/lab-ctrl.js"></script>
+    <script type="text/javascript" src="assets/js/controllers/cashBoxManagement-ctrl.js"></script>
+    <script type="text/javascript" src="assets/js/controllers/registerMainVaultBalance-ctrl.js"></script>
+    <script type="text/javascript" src="assets/js/controllers/openBalance-ctrl.js"></script>
+    <script type="text/javascript" src="assets/js/controllers/registermainvaultmovement-ctrl.js"></script>
+    <script type="text/javascript" src="assets/js/controllers/closeBalance-ctrl.js"></script>
+    <script type="text/javascript" src="assets/js/controllers/cashMovement-ctrl.js"></script>
+    <script type="text/javascript" src="assets/js/controllers/registerCashDeposit-ctrl.js"></script>
+    <script type="text/javascript" src="assets/js/controllers/transactionlist-ctrl.js"></script>
+    <script type="text/javascript" src="assets/js/controllers/registerCashWithDrawal-ctrl.js"></script>
+    <script type="text/javascript" src="assets/js/controllers/mainvaultMovementDetail-ctrl.js"></script>
+    <script type="text/javascript" src="assets/js/controllers/registerCashExchange-ctrl.js"></script>
+    <script type="text/javascript" src="assets/js/controllers/cashopendetail-ctrl.js"></script>
+    <script type="text/javascript" src="assets/js/controllers/cashmovementdetail-ctrl.js"></script>
+    <script type="text/javascript" src="assets/js/controllers/cashmovementdailyreport-ctrl.js"></script>
+    <!-- Bone UI components-->
+    <script type="text/javascript" src="assets/js/controllers/master-ctrl.js"></script>
+    <script type="text/javascript" src="assets/js/directives/loading.js"></script>
+
+    <!-- Only use for Dashboard page for reference-->
+    <script type="text/javascript" src="assets/js/controllers/alert-ctrl.js"></script>
+    <script type="text/javascript" src="assets/js/directives/widget-header.js"></script>
+    <script type="text/javascript" src="assets/js/directives/widget-body.js"></script>
+    <script type="text/javascript" src="assets/js/directives/widget-footer.js"></script>
+    <script type="text/javascript" src="assets/js/directives/widget.js"></script>
+    <script type="text/javascript" src="assets/js/directives/section-header.js"></script>
+    <script type="text/javascript" src="assets/js/directives/section-body.js"></script>
+    <script type="text/javascript" src="assets/js/directives/section-footer.js"></script>
+    <script type="text/javascript" src="assets/js/directives/section.js"></script>
+</body>
+</html>
