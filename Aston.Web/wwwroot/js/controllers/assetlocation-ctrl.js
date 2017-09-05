@@ -17,7 +17,7 @@ app.controller('AssetLocationCtrl', function ($scope, assetLocationResource) {
 
     function AssetLocationModel() {
         return {
-            ID: 0,
+            ID: "temp",
             AssetID: null,
             LocationID: null,
             OnTransition: null,
@@ -74,7 +74,7 @@ app.controller('AssetLocationCtrl', function ($scope, assetLocationResource) {
     }
 
     $scope.edit = function(obj) {
-        $scope.assetlocation = obj;
+        $scope.assetlocation = angular.copy(obj);
         $scope.actionstatus = "Update";
         $("#modal-action").modal('show');
     }
@@ -101,8 +101,8 @@ app.controller('AssetLocationCtrl', function ($scope, assetLocationResource) {
         return itemA == itemB ? true : false;
     }
 
-    $scope.deletemodal = function () {
-        $scope.assetlocation = AssetLocationModel();
+    $scope.deletemodal = function (obj) {
+        $scope.assetlocation = angular.copy(obj);
         $scope.actionstatus = "Delete";
         $("#modal-action").modal('show');
     }
