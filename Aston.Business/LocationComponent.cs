@@ -14,6 +14,7 @@ namespace Aston.Business
     {
         AstonContext _context = new AstonContext();
         LocationExtensions _location = new LocationExtensions();
+        GenerateCodeComponent _generatecode = new GenerateCodeComponent();
         public Location GetLocationByCode(string code)
         {
             Location result = new Location();
@@ -35,7 +36,7 @@ namespace Aston.Business
             return result;
         }
 
-        public bool CreateLocation (Location obj)
+        public bool CreateLocation (LocationViewModel obj)
         {
             bool result;
             IDbContextTransaction transaction = _context.Database.BeginTransaction();
@@ -43,10 +44,15 @@ namespace Aston.Business
             {
                try
                 {
+                    obj.No = _location.GetLastNumberLocation();
+                    obj.SubCategory = _generatecode.SubCategoryLocation(obj.LocationTypeCD, obj.Floor);
+                    obj.Number = _generatecode.Number(obj.No);
+                    obj.Code = _generatecode.GenerateCode(obj.CompanyCode, obj.ApplicationCode, obj.MainCategory, obj.SubCategory, obj.Number);
+
                     Location location = new Location();
                     location.Code = obj.Code;
                     location.Description = obj.Description;
-                    location.No = obj.No;
+                    location.No = obj.Number;
                     location.Name = obj.Name;
                     location.Floor = obj.Floor;
                     location.LocationTypeCD = obj.LocationTypeCD;

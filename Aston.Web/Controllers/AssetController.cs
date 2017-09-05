@@ -51,7 +51,7 @@ namespace Aston.Web.Controllers
 
         [HttpPost]
         [Route("CreateAsset")]
-        public HttpResponseMessage CreateAsset(HttpRequestMessage request, [FromBody] Asset obj)
+        public HttpResponseMessage CreateAsset(HttpRequestMessage request, [FromBody] AssetViewModel obj)
         {
             HttpResponseMessage response = new HttpResponseMessage();
             obj.CreatedBy ="1";

@@ -39,10 +39,13 @@ namespace Aston.Web.Process
             return result;
         }
 
-        public HttpResponseMessage CreateLocation(Location obj)
+        public HttpResponseMessage CreateLocation(LocationViewModel obj)
         {
             HttpResponseMessage result = default(HttpResponseMessage);
             string requestUri = "api/location/CreateLocation";
+            obj.ApplicationCode = _serviceSettings.applicationCode;
+            obj.CompanyCode = _serviceSettings.companyCode;
+            obj.MainCategory = _serviceSettings.MainCategoryLocation;
             result = REST(requestUri, RESTConstants.POST, JsonConvert.SerializeObject(obj));
             return result;
         }

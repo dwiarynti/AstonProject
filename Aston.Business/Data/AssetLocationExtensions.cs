@@ -1,5 +1,6 @@
 ﻿using Aston.Entities;
 using Aston.Entities.DataContext;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,19 +13,20 @@ namespace Aston.Business.Data
         AstonContext context = new AstonContext();
         public AssetLocation GetAssetLocationByID(int id)
         {
-            var obj = context.AssetLocation.Where(p => p.ID == id).FirstOrDefault();
+            var obj = context.AssetLocation.Include(p => p.Asset).Include(p => p.Location).Where(p => p.ID == id).FirstOrDefault();
+         
             return obj;
         }
 
         public List<AssetLocation> GetAssetLocationByLocationID(int id)
         {
-            var obj = context.AssetLocation.Where(p => p.LocationID == id && p.DeletedDate == null && p.DeletedBy == null).ToList();
+            var obj = context.AssetLocation.Include(p => p.Asset).Include(p => p.Location).Where(p => p.LocationID == id && p.DeletedDate == null && p.DeletedBy == null).ToList();
             return obj;
         }
 
         public List<AssetLocation> GetAssetLocation()
         {
-            var obj = context.AssetLocation.Where(p => p.DeletedBy == null && p.DeletedDate == null).ToList();
+            var obj = context.AssetLocation.Include(p=>p.Asset).Include(p=>p.Location).Where(p => p.DeletedBy == null && p.DeletedDate == null).ToList();
             return obj;
         }
     }

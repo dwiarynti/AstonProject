@@ -24,6 +24,17 @@ namespace Aston.Entities.DataContext
             modelBuilder.Entity<MovementRequestDetail>().HasKey(m => m.ID);
             modelBuilder.Entity<Pref>().HasKey(m => m.ID);
 
+            modelBuilder.Entity<AssetLocation>()
+                .HasOne(m => m.Asset)
+                .WithMany(m => m.AssetLocation)
+                .HasForeignKey(m => m.AssetID);
+
+            modelBuilder.Entity<AssetLocation>()
+               .HasOne(m => m.Location)
+               .WithMany(p => p.AssetLocation)
+               .HasForeignKey(m => m.LocationID);
+
+
             base.OnModelCreating(modelBuilder);
         }
         public DbSet<Asset> Asset { get; set; }
