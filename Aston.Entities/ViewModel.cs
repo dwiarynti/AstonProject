@@ -15,6 +15,9 @@ namespace Aston.Entities
         public string Number { get; set; }
         public string AssetName { get; set; }
         public string LocationName { get; set; }
+        public string CreatedBy { get; set; }
+        public string UpdatedBy { get; set; }
+        public string DeletedBy { get; set; }
 
     }
 }

@@ -78,7 +78,7 @@ namespace Aston.Business
                
         }
 
-        public bool UpdateLocation(Location obj)
+        public bool UpdateLocation(LocationViewModel obj)
         {
             bool result;
             IDbContextTransaction transaction = _context.Database.BeginTransaction();
@@ -87,9 +87,16 @@ namespace Aston.Business
             {
                 try
                 {
-                    location.Code = obj.Code;
+                   
+                       
+                    obj.SubCategory = _generatecode.SubCategoryLocation(obj.LocationTypeCD, obj.Floor);
+                    obj.Code = _generatecode.GenerateCode(obj.CompanyCode, obj.ApplicationCode, obj.MainCategory, obj.SubCategory, location.No);
+                    if (location.Code != obj.Code)
+                    {
+                        location.Code = obj.Code;
+                          
+                    }
                     location.Description = obj.Description;
-                    location.No = obj.No;
                     location.Name = obj.Name;
                     location.Floor = obj.Floor;
                     location.LocationTypeCD = obj.LocationTypeCD;

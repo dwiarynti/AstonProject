@@ -59,7 +59,7 @@ namespace Aston.Web.Controllers
 
         [HttpPost]
         [Route("UpdateLocation")]
-        public HttpResponseMessage UpdateLocation(HttpRequestMessage request, [FromBody] Location obj)
+        public HttpResponseMessage UpdateLocation(HttpRequestMessage request, [FromBody] LocationViewModel obj)
         {
             HttpResponseMessage response = new HttpResponseMessage();
             obj.UpdatedBy = "1";

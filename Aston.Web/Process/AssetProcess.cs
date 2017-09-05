@@ -48,10 +48,13 @@ namespace Aston.Web.Process
             result = REST(requestUri, RESTConstants.POST, JsonConvert.SerializeObject(obj));
             return result;
         }
-        public HttpResponseMessage UpdateAsset(Asset obj)
+        public HttpResponseMessage UpdateAsset(AssetViewModel obj)
         {
             HttpResponseMessage result = default(HttpResponseMessage);
             string requestUri = "api/Asset/UpdateAsset";
+            obj.ApplicationCode = _serviceSettings.applicationCode;
+            obj.CompanyCode = _serviceSettings.companyCode;
+            obj.MainCategory = _serviceSettings.MainCategoryAsset;
             result = REST(requestUri, RESTConstants.POST, JsonConvert.SerializeObject(obj));
             return result;
         }

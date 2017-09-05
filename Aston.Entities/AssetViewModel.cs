@@ -10,8 +10,7 @@ namespace Aston.Entities
         // Move Asset
         public string location { get; set; }
         public List<string> listAsset { get; set; }
-        public string CreatedBy { get; set; }
-
+      
 
 
         //Asset

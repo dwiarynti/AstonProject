@@ -61,7 +61,7 @@ namespace Aston.Web.Controllers
 
         [HttpPost]
         [Route("UpdateAsset")]
-        public HttpResponseMessage UpdateAsset(HttpRequestMessage request, [FromBody] Asset obj)
+        public HttpResponseMessage UpdateAsset(HttpRequestMessage request, [FromBody] AssetViewModel obj)
         {
             HttpResponseMessage response = new HttpResponseMessage();
             obj.UpdatedBy = "1";

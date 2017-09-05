@@ -88,7 +88,7 @@ namespace Aston.Business
             return result;
         }
 
-        public bool UpdateAsset(Asset obj)
+        public bool UpdateAsset(AssetViewModel obj)
         {
             bool result;
             IDbContextTransaction transaction = _context.Database.BeginTransaction();
@@ -97,16 +97,21 @@ namespace Aston.Business
             {
                 try
                 {
-                    asset.Code = obj.Code;
+                  
+                    obj.SubCategory = _generatecode.SubCategoryAsset(obj.CategoryCD);
+                    obj.Code = _generatecode.GenerateCode(obj.CompanyCode, obj.ApplicationCode, obj.MainCategory, obj.SubCategory, asset.No);
+                    if (asset.Code != obj.Code)
+                    {
+
+                        asset.Code = obj.Code;
+                    }
                     asset.Description = obj.Description;
-                    asset.No = obj.No;
                     asset.Name = obj.Name;
                     asset.IsMovable = obj.IsMovable;
                     asset.Owner = obj.Owner;
                     asset.PurchaseDate = obj.PurchaseDate;
                     asset.PurchasePrice = obj.PurchasePrice;
                     asset.DepreciationDuration = obj.DepreciationDuration;
-                    asset.DisposedDate = obj.DisposedDate;
                     asset.ManufactureDate = obj.ManufactureDate;
                     asset.CategoryCD = obj.CategoryCD;
                     asset.StatusCD = obj.StatusCD;
