@@ -16,14 +16,14 @@ app.config([
                 url: '/assetmanagement',
                 templateUrl: 'views/assetmanagement.html'
             })
-            //.state('subject-create', {
-            //    url: '/subject-create',
-            //    templateUrl: '/javascripts/angular-assets/partialviews/subjects/create.html'
-            //})
-            //.state('subject-detail', {
-            //    url: '/subject-detail',
-            //    templateUrl: '/javascripts/angular-assets/partialviews/subjects/detail.html'
-            //})
+            .state('locationmanagement', {
+                url: '/locationmanagement',
+                templateUrl: 'views/locationmanagement.html'
+            })
+            .state('assetlocationmanagement', {
+                url: '/assetlocationmanagement',
+                templateUrl: 'views/assetlocationmanagement.html'
+            })
             //.state('subject-edit', {
             //    url: '/subject-edit',
             //    templateUrl: '/javascripts/angular-assets/partialviews/subjects/edit.html'

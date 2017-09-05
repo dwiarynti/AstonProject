@@ -1,8 +1,117 @@
 ﻿<div ng-controller="AssetCtrl">
-    {{test}}
-    <div class="form-group">
-        <label class="form-control-label">Email</label>
-        <input type="email" placeholder="Email Address" class="form-control">
+    <button type="button" class="btn btn-primary" ng-click="add()">Add</button>
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>Name</th>
+                <th>Description </th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="asset in assetlist">
+                <td>{{asset.Code}}</td>
+                <td>{{asset.Name}}</td>
+                <td>{{asset.Description}}</td>
+                <td>
+                    <button type="button" class="btn btn-default btn-width" ng-click="edit(asset)">Edit</button>
+                    <button type="button" class="btn btn-default btn-width" ng-click="deletemodal()">Delete</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="modal modal-message fade" id="modal-action" style="z-index: 10500">
+        <div class="modal-dialog" style="width: 50%">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">{{actionstatus}} Asset</h4>
+                    <a href="javascript:;" class="close" data-dismiss="modal">x</a>
+                </div>
+                <!--if action is add / edit-->
+                <div ng-if="actionstatus != 'Delete'" class="modal-body">
+                    <div ng-class="(asset.Name == null || asset.Name == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
+                        <label class="col-sm-3 form-control-label">Name*</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control form-control-success" placeholder="Name" ng-model="asset.Name">
+                            <small class="text-danger" ng-if="(asset.Name == null || asset.Name == '') && isValidate == false">Name is required</small>
+                        </div>
+                    </div>
+                    <div ng-class="(asset.Description == null || asset.Description == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
+                        <label class="col-sm-3 form-control-label">Description*</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control form-control-success" placeholder="Description" ng-model="asset.Description">
+                            <small class="text-danger" ng-if="(asset.Description == null || asset.Description == '') && isValidate == false">Description is required</small>
+                        </div>
+                    </div>
+                    <div ng-class="(asset.IsMovable == null || asset.IsMovable == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
+                        <label class="col-sm-3 form-control-label">Is Movable Asset*</label>
+                        <div class="col-sm-9">
+                            <input type="radio" name="choicestype" ng-model="asset.IsMovable" data-ng-value="true"/> True
+                            <input type="radio" name="choicestype" ng-model="asset.IsMovable" data-ng-value="false"/> False<br/>
+                            <small class="text-danger" ng-if="(asset.IsMovable == null || asset.IsMovable == '') && isValidate == false">Is Movable is required</small>
+                        </div>
+                    </div>
+                    <div ng-class="(asset.Owner == null || asset.Owner == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
+                        <label class="col-sm-3 form-control-label">Owner*</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control form-control-success" placeholder="Name" ng-model="asset.Owner">
+                            <small class="text-danger" ng-if="(asset.Owner == null || asset.Owner == '') && isValidate == false">Owner is required</small>
+                        </div>
+                    </div>
+                    <div ng-class="(asset.PurchaseDate == null || asset.PurchaseDate == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
+                        <label class="col-sm-3 form-control-label">Purchase Date*</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control form-control-success" placeholder="Purchase Date" ng-model="asset.PurchaseDate">
+                            <small class="text-danger" ng-if="(asset.PurchaseDate == null || asset.PurchaseDate == '') && isValidate == false">Purchase Date is required</small>
+                        </div>
+                    </div>
+                    <div ng-class="(asset.PurchasePrice == null || asset.PurchasePrice == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
+                        <label class="col-sm-3 form-control-label">Purchase Price*</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control form-control-success" placeholder="Purchase Price" ng-model="asset.PurchasePrice">
+                            <small class="text-danger" ng-if="(asset.PurchasePrice == null || asset.PurchasePrice == '') && isValidate == false">Purchase Price is required</small>
+                        </div>
+                    </div>
+                    <div ng-class="(asset.ManufactureDate == null || asset.ManufactureDate == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
+                        <label class="col-sm-3 form-control-label">Manufacture Date*</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control form-control-success" placeholder="Manufacture Date" ng-model="asset.ManufactureDate">
+                            <small class="text-danger" ng-if="(asset.ManufactureDate == null || asset.ManufactureDate == '') && isValidate == false">Manufacture Date is required</small>
+                        </div>
+                    </div>
+                    <div ng-class="(asset.CategoryCD == null || asset.CategoryCD == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
+                        <label class="col-sm-3 form-control-label">Category Code*</label>
+                        <div class="col-sm-9">
+                            <select name="account" class="form-control" ng-model="asset.CategoryCD">
+                                <option ng-repeat="category in categorylist" ng-selected="isSelectedItem(category.id,asset.CategoryCD)" value="{{category.id}}">{{category.value}}</option>
+                            </select>
+                            <small class="text-danger" ng-if="(asset.CategoryCD == null || asset.CategoryCD == '') && isValidate == false">Category Code is required</small>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!--if action is delete-->
+                <div ng-if="actionstatus == 'Delete'" class="modal-body">
+                    Are you sure you want to delete this asset ?
+                </div>
+                <div class="modal-footer">
+                    <a href="javascript:;" class="btn btn-default btn-width btn-margin" data-dismiss="modal">Cancel</a>
+                    <button ng-if="actionstatus == 'Create'" type="button" class="btn btn-default btn-width" ng-click="create()">
+                        <span>Create</span>
+                    </button>
+                    <button ng-if="actionstatus == 'Update'" type="button" class="btn btn-default btn-width" ng-click="update()">
+                        <span>Update</span>
+                    </button>
+                    <button ng-if="actionstatus == 'Delete'" type="button" class="btn btn-default btn-width" ng-click="delete()">
+                        <span>Delete</span>
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
+
 </div>
 
