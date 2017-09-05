@@ -15,6 +15,7 @@ namespace Aston.Business
         AstonContext _context = new AstonContext();
         AssetExtensions _asset = new AssetExtensions();
         LocationExtensions _location = new LocationExtensions();
+        GenerateCodeComponent _generatecode = new GenerateCodeComponent();
         public Asset GetAssetByCode (string barcode)
         {
             Asset result = new Asset();
@@ -37,7 +38,7 @@ namespace Aston.Business
             return result;
         }
 
-        public bool CreateAsset(Asset obj)
+        public bool CreateAsset(AssetViewModel obj)
         {
             bool result;
             IDbContextTransaction transaction = _context.Database.BeginTransaction();
@@ -45,11 +46,17 @@ namespace Aston.Business
             {
                 try
                 {
+                    obj.No = _asset.GetLastNumberAsset();
+                    obj.SubCategory = _generatecode.SubCategoryAsset(obj.CategoryCD);
+                    obj.Number = _generatecode.Number(obj.No);
+                    obj.Code = _generatecode.GenerateCode(obj.CompanyCode, obj.ApplicationCode, obj.MainCategory, obj.SubCategory, obj.Number);
+
+
                     Asset asset = new Asset();
                     asset.ID = obj.ID;
                     asset.Code = obj.Code;
                     asset.Description = obj.Description;
-                    asset.No = obj.No;
+                    asset.No = obj.Number;
                     asset.Name = obj.Name;
                     asset.IsMovable = obj.IsMovable;
                     asset.Owner = obj.Owner;
@@ -153,11 +160,7 @@ namespace Aston.Business
             return result;
         }
 
-     
-
-      
-
-
+       
 
     }
 }

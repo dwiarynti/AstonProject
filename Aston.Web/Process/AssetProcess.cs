@@ -38,10 +38,13 @@ namespace Aston.Web.Process
             result = REST(requestUri, RESTConstants.GET);
             return result;
         }
-        public HttpResponseMessage CreateAsset(Asset obj)
+        public HttpResponseMessage CreateAsset(AssetViewModel obj)
         {
             HttpResponseMessage result = default(HttpResponseMessage);
             string requestUri = "api/Asset/CreateAsset";
+            obj.ApplicationCode = _serviceSettings.applicationCode;
+            obj.CompanyCode = _serviceSettings.companyCode;
+            obj.MainCategory = _serviceSettings.MainCategoryAsset;
             result = REST(requestUri, RESTConstants.POST, JsonConvert.SerializeObject(obj));
             return result;
         }

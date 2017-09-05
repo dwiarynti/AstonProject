@@ -46,5 +46,25 @@ namespace Aston.Web.Base
             }
             return result;
         }
+
+        public string CompanyCode()
+        {
+            return _serviceSettings.companyCode;
+        }
+        public string applicationCode()
+        {
+            return _serviceSettings.applicationCode;
+        }
+
+        public string MainCategoryAsset()
+        {
+            return _serviceSettings.MainCategoryAsset;
+        }
+        
+        public string MainCategoryLocation()
+        {
+            return _serviceSettings.MainCategoryLocation;
+        }
+
     }
 }

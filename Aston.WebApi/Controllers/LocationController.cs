@@ -49,7 +49,7 @@ namespace Aston.WebApi.Controllers
 
         [HttpPost]
         [Route("CreateLocation")]
-        public HttpResponseMessage CreateLocation(HttpRequestMessage request, [FromBody] Location obj)
+        public HttpResponseMessage CreateLocation(HttpRequestMessage request, [FromBody] LocationViewModel obj)
         {
             var result = service.CreateLocation(obj);
             HttpResponseMessage response = new HttpResponseMessage();

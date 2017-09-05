@@ -26,6 +26,14 @@ namespace Aston.Business.Data
             var obj = context.Location.Where(p => p.DeletedBy == null && p.DeletedDate == null).ToList();
             return obj;
         }
+        public string GetLastNumberLocation()
+        {
+            List<int> listNo = context.Location.ToList().Select(o => Convert.ToInt32(o.No)).ToList();
+
+            int lastNumber = listNo.Count > 0 ? listNo.Max() : 0;
+            return Convert.ToString(lastNumber+1);
+
+        }
 
     }
 }

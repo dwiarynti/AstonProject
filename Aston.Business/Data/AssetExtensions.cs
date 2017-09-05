@@ -25,5 +25,13 @@ namespace Aston.Business.Data
             var obj = context.Asset.Where(p => p.DeletedBy == null && p.DeletedDate == null).ToList();
             return obj;
         }
+        public string GetLastNumberAsset()
+        {
+            List<int> listNo = context.Asset.ToList().Select(o => Convert.ToInt32(o.No)).ToList();
+
+            int lastNumber = listNo.Count > 0 ? listNo.Max() : 0;
+            return Convert.ToString(lastNumber+1);
+
+        }
     }
 }

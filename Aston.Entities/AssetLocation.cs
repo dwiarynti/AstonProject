@@ -18,5 +18,8 @@ namespace Aston.Entities
         public string UpdatedBy { get; set; }
         public string DeletedDate { get; set; }
         public string DeletedBy { get; set; }
+
+        public virtual Asset Asset { get; set; }
+        public virtual Location Location { get; set; }
     }
 }

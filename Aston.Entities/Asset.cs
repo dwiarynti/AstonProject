@@ -7,6 +7,10 @@ namespace Aston.Entities
 {
     public class Asset
     {
+        public Asset()
+        {
+            this.AssetLocation = new HashSet<AssetLocation>();
+        }
         public int ID { get; set; }
         public string Code { get; set; }
         public string Description { get; set; }
@@ -27,5 +31,7 @@ namespace Aston.Entities
         public string UpdatedBy { get; set; }
         public string DeletedDate { get; set; }
         public string DeletedBy { get; set; }
+
+        public virtual ICollection<AssetLocation> AssetLocation { get; set; }
     }
 }

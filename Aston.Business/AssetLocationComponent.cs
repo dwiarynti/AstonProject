@@ -17,25 +17,66 @@ namespace Aston.Business
         LocationExtensions _location = new LocationExtensions();
         AssetLocationExtensions _assetlocation = new AssetLocationExtensions();
 
-        public AssetLocation GetAssetLocationByID(int id)
+        public AssetLocationViewModel GetAssetLocationByID(int id)
         {
-            AssetLocation result = new AssetLocation();
-            result =  _assetlocation.GetAssetLocationByID(id);
+            AssetLocationViewModel result = new AssetLocationViewModel();
+
+            var assetlocation =  _assetlocation.GetAssetLocationByID(id);
+            if(assetlocation != null)
+            {
+                result.ID = assetlocation.ID;
+                result.AssetID = assetlocation.AssetID;
+                result.AssetName = assetlocation.Asset.Name;
+                result.LocationName = assetlocation.Location.Name;
+                result.OnTransition = assetlocation.OnTransition;
+                result.MovementRequestDetailID = assetlocation.MovementRequestDetailID;
+            }
             return result;
 
         }
 
-        public List<AssetLocation> GetAssetLocationByLocationID(int id)
+        public List<AssetLocationViewModel> GetAssetLocationByLocationID(int id)
         {
-            List<AssetLocation> result = new List<AssetLocation>();
-            result = _assetlocation.GetAssetLocationByLocationID(id);
+            List<AssetLocationViewModel> result = new List<AssetLocationViewModel>();
+            var assetlocation = _assetlocation.GetAssetLocationByLocationID(id);
+            if(assetlocation != null)
+            {
+                foreach (var item in assetlocation)
+                {
+                    AssetLocationViewModel model = new AssetLocationViewModel();
+                    model.ID = item.ID;
+                    model.AssetID = item.AssetID;
+                    model.AssetName = item.Asset.Name;
+                    model.LocationID = item.LocationID;
+                    model.LocationName = item.Location.Name;
+                    model.OnTransition = item.OnTransition;
+                    model.MovementRequestDetailID = item.MovementRequestDetailID;
+                    result.Add(model);
+                }
+            }
             return result;
         }
 
-        public List<AssetLocation> GetAssetLocation()
+        public List<AssetLocationViewModel> GetAssetLocation()
         {
-            List<AssetLocation> result = new List<AssetLocation>();
-            result = _assetlocation.GetAssetLocation();
+            List<AssetLocationViewModel> result = new List<AssetLocationViewModel>();
+
+            var assetlocation = _assetlocation.GetAssetLocation();
+            if(assetlocation != null)
+            {
+                foreach (var item in assetlocation)
+                {
+                    AssetLocationViewModel model = new AssetLocationViewModel();
+                    model.ID = item.ID;
+                    model.AssetID = item.AssetID;
+                    model.AssetName = item.Asset.Name;
+                    model.LocationID = item.LocationID;
+                    model.LocationName = item.Location.Name;
+                    model.OnTransition = item.OnTransition;
+                    model.MovementRequestDetailID = item.MovementRequestDetailID;
+                    result.Add(model);
+                }
+            }
             return result;
         }
         public bool MoveAsset(AssetViewModel obj)
