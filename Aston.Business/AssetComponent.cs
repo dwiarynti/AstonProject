@@ -16,25 +16,88 @@ namespace Aston.Business
         AssetExtensions _asset = new AssetExtensions();
         LocationExtensions _location = new LocationExtensions();
         GenerateCodeComponent _generatecode = new GenerateCodeComponent();
-        public Asset GetAssetByCode (string barcode)
+        PrefComponent _pref = new PrefComponent();
+        public AssetViewModel GetAssetByCode (string barcode)
         {
-            Asset result = new Asset();
-            result = _asset.GetAssetInfoByCode(barcode);
+            AssetViewModel result = new AssetViewModel();
+         
+            var asset = _asset.GetAssetInfoByCode(barcode);
+            var categoryCDName = _pref.GetPrefByCategoryCode(asset.CategoryCD);
+            var statusCDName = _pref.GetPrefByStatusCode(asset.StatusCD);
+
+            result.Code = asset.Code;
+            result.Description = asset.Description;
+            result.No = asset.No;
+            result.Name = asset.Name;
+            result.IsMovable = asset.IsMovable;
+            result.Owner = asset.Owner;
+            result.PurchaseDate = asset.PurchaseDate;
+            result.DepreciationDuration = asset.DepreciationDuration;
+            result.DisposedDate = asset.DisposedDate;
+            result.ManufactureDate = asset.ManufactureDate;
+            result.CategoryCD = asset.CategoryCD;
+            result.CategoryCDName = categoryCDName.Value;
+            result.StatusCD = asset.StatusCD;
+            result.StatusCDName = statusCDName.Value;
             return result;
         }
 
-        public List<Asset> GetAsset()
+       public List<AssetViewModel> GetAsset()
         {
-            List<Asset> result = new List<Asset>();
-            result = _asset.GetAsset();
+            List<AssetViewModel> result = new List<AssetViewModel>();
+            var asset = _asset.GetAsset();
+            foreach(var item in asset)
+            {
+                AssetViewModel model = new AssetViewModel();
+                var categoryCDName = _pref.GetPrefByCategoryCode(item.CategoryCD);
+                var statusCDName = _pref.GetPrefByStatusCode(item.StatusCD);
+
+                model.ID = item.ID;
+                model.Code = item.Code;
+                model.Description = item.Description;
+                model.No = item.No;
+                model.Name = item.Name;
+                model.IsMovable = item.IsMovable;
+                model.Owner = item.Owner;
+                model.PurchaseDate = item.PurchaseDate;
+                model.DepreciationDuration = item.DepreciationDuration;
+                model.DisposedDate = item.DisposedDate;
+                model.ManufactureDate = item.ManufactureDate;
+                model.CategoryCD = item.CategoryCD;              
+                model.CategoryCDName = categoryCDName.Value;             
+                model.StatusCD = item.StatusCD;
+                model.StatusCDName = statusCDName.Value;
+
+                result.Add(model);
+
+            }
             return result;
 
         }
 
-        public Asset GetAssetByID(int id)
+        public AssetViewModel GetAssetByID(int id)
         {
-            Asset result = new Asset();
-            result = _asset.GetAssetInfoByID(id);
+            AssetViewModel result = new AssetViewModel();
+
+            var asset = _asset.GetAssetInfoByID(id);
+            var categoryCDName = _pref.GetPrefByCategoryCode(asset.CategoryCD);
+            var statusCDName = _pref.GetPrefByStatusCode(asset.StatusCD);
+
+            result.Code = asset.Code;
+            result.Description = asset.Description;
+            result.No = asset.No;
+            result.Name = asset.Name;
+            result.IsMovable = asset.IsMovable;
+            result.Owner = asset.Owner;
+            result.PurchaseDate = asset.PurchaseDate;
+            result.DepreciationDuration = asset.DepreciationDuration;
+            result.DisposedDate = asset.DisposedDate;
+            result.ManufactureDate = asset.ManufactureDate;
+            result.CategoryCD = asset.CategoryCD;
+            result.CategoryCDName = categoryCDName.Value;
+            result.StatusCD = asset.StatusCD;
+            result.StatusCDName = statusCDName.Value;
+
             return result;
         }
 

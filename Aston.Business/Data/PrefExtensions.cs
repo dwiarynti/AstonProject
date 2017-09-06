@@ -23,5 +23,17 @@ namespace Aston.Business.Data
         {
             return context.Pref.Where(p => p.Type == "Status").ToList();
         }
+        public Pref GetPrefByCategoryCode(int code)
+        {
+            return context.Pref.Where(p => p.Type == "Category" && p.Code == code).FirstOrDefault();
+        }
+        public Pref GetPrefByStatusCode(int code)
+        {
+            return context.Pref.Where(p => p.Type == "Status" && p.Code == code).FirstOrDefault();
+        }
+        public Pref GetPrefByLocationTypeCode(int code)
+        {
+            return context.Pref.Where(p => p.Type == "LocationType" && p.Code == code).FirstOrDefault();
+        }
     }
 }
