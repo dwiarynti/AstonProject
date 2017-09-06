@@ -2,18 +2,15 @@
  * Location Controller
  */
 
-app.controller('LocationCtrl', function ($scope, locationResource) {
+app.controller('LocationCtrl', function ($scope, locationResource, prefResource) {
     var locationResources = new locationResource();
+    var prefResources = new prefResource();
+
     $scope.isValidate = true;
     $scope.locationlist = [];
     $scope.location = {};
     $scope.actionstatus = "";
-    $scope.categorylist = [
-        { id: 1, value: "Furniture" },
-        { id: 2, value: "Electronic" },
-        { id: 3, value: "Storage" },
-        { id: 4, value: "Computer" },
-    ];
+    $scope.locationtypelist = [];
 
     function LocationModel() {
         return {
@@ -34,9 +31,21 @@ app.controller('LocationCtrl', function ($scope, locationResource) {
         };
     }
 
-    locationResources.$GetLocation(function (data) {
-        $scope.locationlist = data.obj;
-    });
+    $scope.init = function() {
+        locationResources.$GetLocation(function (data) {
+            $scope.locationlist = data.obj;
+            console.log(data);
+        });
+        $scope.GetLocationType();
+    }
+
+    $scope.GetLocationType = function () {
+        prefResources.$GetLocationType(function (data) {
+            $scope.locationtypelist = data.obj;
+        });
+    }
+
+    $scope.init();
 
     $scope.add = function () {
         $scope.location = LocationModel();
@@ -74,7 +83,10 @@ app.controller('LocationCtrl', function ($scope, locationResource) {
         locationResources.LocationTypeCD = $scope.location.LocationTypeCD;
         console.log(locationResources);
         locationResources.$CreateLocation(function (data) {
-            $scope.locationlist = data.obj;
+            if (data.success) {
+                $scope.init();
+                $("#modal-action").modal('hide');
+            }
         });
     }
 
@@ -99,7 +111,10 @@ app.controller('LocationCtrl', function ($scope, locationResource) {
         locationResources.Floor = $scope.location.Floor;
         locationResources.LocationTypeCD = $scope.location.LocationTypeCD;
         locationResources.$UpdateLocation(function (data) {
-            $scope.locationlist = data.obj;
+            if (data.success) {
+                $scope.init();
+                $("#modal-action").modal('hide');
+            }
         });
     }
 
@@ -107,8 +122,8 @@ app.controller('LocationCtrl', function ($scope, locationResource) {
         return itemA == itemB ? true : false;
     }
 
-    $scope.deletemodal = function () {
-        $scope.location = LocationModel();
+    $scope.deletemodal = function (obj) {
+        $scope.location = angular.copy(obj);
         $scope.actionstatus = "Delete";
         $("#modal-action").modal('show');
     }
@@ -117,14 +132,13 @@ app.controller('LocationCtrl', function ($scope, locationResource) {
         locationResources.ID = $scope.location.ID;
         locationResources.Name = $scope.location.Name;
         locationResources.Description = $scope.location.Description;
-        locationResources.IsMovable = $scope.location.IsMovable;
-        locationResources.Owner = $scope.location.Owner;
-        locationResources.PurchaseDate = $scope.location.PurchaseDate;
-        locationResources.PurchasePrice = parseFloat($scope.location.PurchasePrice);
-        locationResources.ManufactureDate = $scope.location.ManufactureDate;
-        locationResources.CategoryCD = $scope.location.CategoryCD;
+        locationResources.Floor = $scope.location.Floor;
+        locationResources.LocationTypeCD = $scope.location.LocationTypeCD;
         locationResources.$DeleteLocation(function (data) {
-            $scope.locationlist = data.obj;
+            if (data.success) {
+                $scope.init();
+                $("#modal-action").modal('hide');
+            }
         });
     }
 

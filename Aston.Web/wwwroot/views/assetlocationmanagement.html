@@ -11,8 +11,8 @@
         </thead>
         <tbody>
             <tr ng-repeat="assetlocation in assetlocationlist">
-                <td>{{assetlocation.AssetID}}</td>
-                <td>{{assetlocation.LocationID}}</td>
+                <td>{{assetlocation.AssetName}}</td>
+                <td>{{assetlocation.LocationName}}</td>
                 <td>{{assetlocation.OnTransition}}</td>
                 <td>
                     <button type="button" class="btn btn-default btn-width" ng-click="edit(assetlocation)">Edit</button>
@@ -30,30 +30,30 @@
                     <a href="javascript:;" class="close" data-dismiss="modal">x</a>
                 </div>
                 <div ng-if="actionstatus != 'Delete'" class="modal-body">
-                    <div ng-class="(location.LocationTypeCD == null || location.LocationTypeCD == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
-                        <label class="col-sm-3 form-control-label">Location Type Code</label>
+                    <div ng-class="(assetlocation.AssetID == null || assetlocation.AssetID == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
+                        <label class="col-sm-3 form-control-label">Asset</label>
                         <div class="col-sm-9">
-                            <select name="account" class="form-control" ng-model="location.LocationTypeCD">
-                                <option ng-repeat="locationtype in locationtypelist" ng-selected="isSelectedItem(locationtype.id,location.LocationType)" value="{{locationtype.id}}">{{locationtype.value}}</option>
+                            <select name="account" class="form-control" ng-model="assetlocation.AssetID">
+                                <option ng-repeat="locationtype in locationtypelist" ng-selected="isSelectedItem(locationtype.id,assetlocation.LocationType)" value="{{locationtype.id}}">{{locationtype.value}}</option>
                             </select>
-                            <small class="text-danger" ng-if="(location.LocationTypeCD == null || location.LocationTypeCD == '') && isValidate == false">Floor is required</small>
+                            <small class="text-danger" ng-if="(assetlocation.AssetID == null || assetlocation.AssetID == '') && isValidate == false">Floor is required</small>
                         </div>
                     </div>
-                    <div ng-class="(location.LocationTypeCD == null || location.LocationTypeCD == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
-                        <label class="col-sm-3 form-control-label">Location Type Code</label>
+                    <div ng-class="(assetlocation.LocationID == null || assetlocation.LocationID == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
+                        <label class="col-sm-3 form-control-label">Location</label>
                         <div class="col-sm-9">
-                            <select name="account" class="form-control" ng-model="location.LocationTypeCD">
-                                <option ng-repeat="locationtype in locationtypelist" ng-selected="isSelectedItem(locationtype.id,location.LocationType)" value="{{locationtype.id}}">{{locationtype.value}}</option>
+                            <select name="account" class="form-control" ng-model="assetlocation.LocationID">
+                                <option ng-repeat="locationtype in locationtypelist" ng-selected="isSelectedItem(locationtype.id,assetlocation.LocationType)" value="{{locationtype.id}}">{{locationtype.value}}</option>
                             </select>
-                            <small class="text-danger" ng-if="(location.LocationTypeCD == null || location.LocationTypeCD == '') && isValidate == false">Floor is required</small>
+                            <small class="text-danger" ng-if="(assetlocation.LocationID == null || assetlocation.LocationID == '') && isValidate == false">Floor is required</small>
                         </div>
                     </div>
-                    <div ng-class="(asset.OnTransition == null || asset.OnTransition == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
+                    <div ng-class="(assetlocation.OnTransition == null || assetlocation.OnTransition == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
                         <label class="col-sm-3 form-control-label">On Transition*</label>
                         <div class="col-sm-9">
-                            <input type="radio" name="choicestype" ng-model="asset.OnTransition" data-ng-value="true" /> True
-                            <input type="radio" name="choicestype" ng-model="asset.OnTransition" data-ng-value="false" /> False<br />
-                            <small class="text-danger" ng-if="(asset.OnTransition == null || asset.OnTransition == '') && isValidate == false">OnTransition is required</small>
+                            <input type="radio" name="choicestype" ng-model="assetlocation.OnTransition" data-ng-value="true" /> True
+                            <input type="radio" name="choicestype" ng-model="assetlocation.OnTransition" data-ng-value="false" /> False<br />
+                            <small class="text-danger" ng-if="(assetlocation.OnTransition == null || assetlocation.OnTransition == '') && isValidate == false">OnTransition is required</small>
                         </div>
                     </div>
                 </div>

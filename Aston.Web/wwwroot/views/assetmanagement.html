@@ -8,6 +8,7 @@
                 <th>Description </th>
                 <th>Category</th>
                 <th>Owner</th>
+                <th>Is Movable Asset</th>
                 <th>Status</th>
                 <th>Action</th>
             </tr>
@@ -17,8 +18,9 @@
                 <td>{{asset.Code}}</td>
                 <td>{{asset.Name}}</td>
                 <td>{{asset.Description}}</td>
-                <td>{{asset.CategoryCDB}}</td>
+                <td>{{asset.CategoryCD}}</td>
                 <td>{{asset.Owner}}</td>
+                <td>{{asset.IsMovable}}</td>
                 <td>{{asset.StatusCD}}</td>
                 <td>
                     <button type="button" class="btn btn-default btn-width" ng-click="edit(asset)">Edit</button>
@@ -91,7 +93,7 @@
                         <label class="col-sm-3 form-control-label">Category Code*</label>
                         <div class="col-sm-9">
                             <select name="account" class="form-control" ng-model="asset.CategoryCD">
-                                <option ng-repeat="category in categorylist" ng-selected="isSelectedItem(category.id,asset.CategoryCD)" value="{{category.id}}">{{category.value}}</option>
+                                <option ng-repeat="category in categorylist" ng-selected="isSelectedItem(category.Code,asset.CategoryCD)" value="{{category.Code}}">{{category.Value}}</option>
                             </select>
                             <small class="text-danger" ng-if="(asset.CategoryCD == null || asset.CategoryCD == '') && isValidate == false">Category Code is required</small>
                         </div>

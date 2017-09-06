@@ -7,6 +7,7 @@
                 <th>Name</th>
                 <th>Description</th>
                 <th>Floor</th>
+                <th>Location Type</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -16,9 +17,10 @@
                 <td>{{location.Name}}</td>
                 <td>{{location.Description}}</td>
                 <td>{{location.Floor}}</td>
+                <td>{{location.LocationTypeCD}}</td>
                 <td>
                     <button type="button" class="btn btn-default btn-width" ng-click="edit(location)">Edit</button>
-                    <button type="button" class="btn btn-default btn-width" ng-click="deletemodal()">Delete</button>
+                    <button type="button" class="btn btn-default btn-width" ng-click="deletemodal(location)">Delete</button>
                 </td>
             </tr>
         </tbody>
@@ -57,7 +59,7 @@
                         <label class="col-sm-3 form-control-label">Location Type Code</label>
                         <div class="col-sm-9">
                             <select name="account" class="form-control" ng-model="location.LocationTypeCD">
-                                <option ng-repeat="locationtype in locationtypelist" ng-selected="isSelectedItem(locationtype.id,location.LocationType)" value="{{locationtype.id}}">{{locationtype.value}}</option>
+                                <option ng-repeat="locationtype in locationtypelist" ng-selected="isSelectedItem(locationtype.Code,location.LocationTypeCD)" value="{{locationtype.Code}}">{{locationtype.Value}}</option>
                             </select>
                             <small class="text-danger" ng-if="(location.LocationTypeCD == null || location.LocationTypeCD == '') && isValidate == false">Floor is required</small>
                         </div>

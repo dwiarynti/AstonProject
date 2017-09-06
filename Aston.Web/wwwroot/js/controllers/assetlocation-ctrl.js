@@ -31,10 +31,14 @@ app.controller('AssetLocationCtrl', function ($scope, assetLocationResource) {
         };
     }
 
-    assetLocationResources.$GetAssetLocation(function (data) {
-        console.log(data);
-        $scope.assetlocationlist = data.obj;
-    });
+    $scope.init = function() {
+        assetLocationResources.$GetAssetLocation(function (data) {
+            console.log(data);
+            $scope.assetlocationlist = data.obj;
+        });
+    }
+
+    $scope.init();
 
     $scope.add = function () {
         $scope.assetlocation = AssetLocationModel();
@@ -75,6 +79,7 @@ app.controller('AssetLocationCtrl', function ($scope, assetLocationResource) {
 
     $scope.edit = function(obj) {
         $scope.assetlocation = angular.copy(obj);
+        console.log($scope.assetlocation);
         $scope.actionstatus = "Update";
         $("#modal-action").modal('show');
     }
@@ -116,5 +121,9 @@ app.controller('AssetLocationCtrl', function ($scope, assetLocationResource) {
             $scope.assetlocationlist = data.obj;
         });
     }
+
+    //
+    $scope.selected ="";
+    $scope.names = ["john", "bill", "charlie", "robert", "alban", "oscar", "marie", "celine", "brad", "drew", "rebecca", "michel", "francis", "jean", "paul", "pierre", "nicolas", "alfred", "gerard", "louis", "albert", "edouard", "benoit", "guillaume", "nicolas", "joseph"];
 
 });

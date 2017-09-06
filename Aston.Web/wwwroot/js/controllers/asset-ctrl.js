@@ -2,18 +2,14 @@
  * Asset Controller
  */
 
-app.controller('AssetCtrl', function ($scope, assetResource) {
+app.controller('AssetCtrl', function ($scope, assetResource, prefResource) {
     var assetResources = new assetResource();
+    var prefResources = new prefResource();
     $scope.isValidate = true;
     $scope.assetlist = [];
     $scope.asset = {};
     $scope.actionstatus = "";
-    $scope.categorylist = [
-        { id: 1, value: "Furniture" },
-        { id: 2, value: "Electronic" },
-        { id: 3, value: "Storage" },
-        { id: 4, value: "Computer" },
-    ];
+    $scope.categorylist = [];
 
     function AssetModel() {
         return {
@@ -44,6 +40,14 @@ app.controller('AssetCtrl', function ($scope, assetResource) {
     $scope.init = function() {
         assetResources.$GetAsset(function (data) {
             $scope.assetlist = data.obj;
+            console.log(data);
+        });
+        $scope.GetCategory();
+    }
+
+    $scope.GetCategory = function() {
+        prefResources.$GetCategory(function (data) {
+            $scope.categorylist = data.obj;
         });
     }
 
