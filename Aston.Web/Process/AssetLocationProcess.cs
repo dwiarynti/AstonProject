@@ -45,6 +45,14 @@ namespace Aston.Web.Process
             result = REST(requestUri, RESTConstants.POST, JsonConvert.SerializeObject(obj));
             return result;
         }
+        public HttpResponseMessage CreateAssetLocation(AssetLocation obj)
+        {
+            HttpResponseMessage result = default(HttpResponseMessage);
+            string requestUri = "api/AssetLocation/CreateAssetLocation";
+            result = REST(requestUri, RESTConstants.POST, JsonConvert.SerializeObject(obj));
+            return result;
+        }
+
         public HttpResponseMessage UpdateAssetLocation(AssetLocation obj)
         {
             HttpResponseMessage result = default(HttpResponseMessage);

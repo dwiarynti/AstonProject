@@ -55,6 +55,17 @@ namespace Aston.Web.Controllers
             response = _assetLocationProcess.MoveAsset(obj);
             return response;
         }
+
+        [HttpPost]
+        [Route("CreateAssetLocation")]
+        public HttpResponseMessage CreateAssetLocation(HttpRequestMessage request, [FromBody] AssetLocation obj)
+        {
+            HttpResponseMessage response = new HttpResponseMessage();
+            obj.CreatedBy = "1";
+            response = _assetLocationProcess.CreateAssetLocation(obj);
+            return response;
+        }
+
         [HttpPost]
         [Route("UpdateAssetLocation")]
         public HttpResponseMessage UpdateAssetLocation(HttpRequestMessage request, [FromBody] AssetLocation obj)

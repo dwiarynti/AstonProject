@@ -128,6 +128,43 @@ namespace Aston.Business
             return result;
         }
 
+        public bool CreateAssetLocation(AssetLocation obj)
+        {
+            bool result;
+            IDbContextTransaction transaction = _context.Database.BeginTransaction();
+            if (obj != null)
+            {
+                try
+                {
+                    
+                    AssetLocation assetlocationobj = new AssetLocation();
+                           
+                    assetlocationobj.AssetID = obj.AssetID;
+                    assetlocationobj.LocationID = obj.LocationID;
+                    assetlocationobj.OnTransition = obj.OnTransition;
+                    assetlocationobj.CreatedDate = DateTime.Now.Date.ToString("ddMMyyyy");
+                    assetlocationobj.CreatedBy = obj.CreatedBy;
+                    assetlocationobj.MovementRequestDetailID = null;
+                    _context.AssetLocation.Add(assetlocationobj);
+                    _context.SaveChanges();
+                    transaction.Commit();
+                    result = true;
+                 
+
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    result = false;
+                }
+            }
+            else
+            {
+                result = false;
+            }
+            return result;
+        }
+
         public bool UpdateAssetLocation(AssetLocation obj)
         {
             bool result;
