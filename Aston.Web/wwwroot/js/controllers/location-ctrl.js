@@ -12,6 +12,9 @@ app.controller('LocationCtrl', function ($scope, locationResource, prefResource)
     $scope.actionstatus = "";
     $scope.locationtypelist = [];
 
+    $scope.dtOptions = { "aaSorting": [], "bPaginate": false, "bLengthChange": false, "bFilter": false, "bSort": false, "bInfo": false, "bAutoWidth": false };
+
+
     function LocationModel() {
         return {
             ID: "temp",
@@ -112,6 +115,7 @@ app.controller('LocationCtrl', function ($scope, locationResource, prefResource)
         locationResources.Description = $scope.location.Description;
         locationResources.Floor = $scope.location.Floor;
         locationResources.LocationTypeCD = $scope.location.LocationTypeCD;
+        locationResources.StatusCD = $scope.location.StatusCD;
         locationResources.$UpdateLocation(function (data) {
             if (data.success) {
                 $scope.init();
@@ -136,6 +140,7 @@ app.controller('LocationCtrl', function ($scope, locationResource, prefResource)
         locationResources.Description = $scope.location.Description;
         locationResources.Floor = $scope.location.Floor;
         locationResources.LocationTypeCD = $scope.location.LocationTypeCD;
+        locationResources.StatusCD = $scope.location.StatusCD;
         locationResources.$DeleteLocation(function (data) {
             if (data.success) {
                 $scope.init();

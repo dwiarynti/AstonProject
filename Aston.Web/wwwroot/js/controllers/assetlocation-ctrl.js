@@ -12,12 +12,9 @@ app.controller('AssetLocationCtrl', function ($scope, assetResource, locationRes
     $scope.assetlocationlist = [];
     $scope.assetlocation = {};
     $scope.actionstatus = "";
-    $scope.categorylist = [
-        { id: 1, value: "Furniture" },
-        { id: 2, value: "Electronic" },
-        { id: 3, value: "Storage" },
-        { id: 4, value: "Computer" },
-    ];
+
+    $scope.dtOptions = { "aaSorting": [], "bPaginate": false, "bLengthChange": false, "bFilter": false, "bSort": false, "bInfo": false, "bAutoWidth": false };
+
 
     function AssetLocationModel() {
         return {

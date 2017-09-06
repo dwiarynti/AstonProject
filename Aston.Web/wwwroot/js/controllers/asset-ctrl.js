@@ -11,6 +11,9 @@ app.controller('AssetCtrl', function ($scope, assetResource, prefResource) {
     $scope.actionstatus = "";
     $scope.categorylist = [];
 
+    $scope.dtOptions = { "aaSorting": [], "bPaginate": false, "bLengthChange": false, "bFilter": false, "bSort": false, "bInfo": false, "bAutoWidth": false };
+
+
     $('#datepicker-purchasedate,#datepicker-manufacturedate ').datepicker({
         todayHighlight: true,
         format: "dd-M-yyyy"
