@@ -23,5 +23,17 @@ namespace Aston.Business
         {
             return _pref.GetStatus();
         }
+        public Pref GetPrefByCategoryCode(int code)
+        {
+            return _pref.GetPrefByCategoryCode(code);
+        }
+        public Pref GetPrefByStatusCode(int code)
+        {
+            return _pref.GetPrefByStatusCode(code);
+        }
+        public Pref GetPrefByLocationTypeCode(int code)
+        {
+           return _pref.GetPrefByLocationTypeCode(code);
+        }
     }
 }

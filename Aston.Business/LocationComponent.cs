@@ -15,24 +15,68 @@ namespace Aston.Business
         AstonContext _context = new AstonContext();
         LocationExtensions _location = new LocationExtensions();
         GenerateCodeComponent _generatecode = new GenerateCodeComponent();
-        public Location GetLocationByCode(string code)
+        PrefComponent _pref = new PrefComponent();
+        public LocationViewModel GetLocationByCode(string code)
         {
-            Location result = new Location();
-            result = _location.GetLocationByCode(code);
+            LocationViewModel result = new LocationViewModel();
+            var location = _location.GetLocationByCode(code);
+            var statuscdname = _pref.GetPrefByStatusCode(location.StatusCD);
+            var locationtypename = _pref.GetPrefByLocationTypeCode(location.LocationTypeCD);
+
+            result.ID = location.ID;
+            result.Code = location.Code;
+            result.Description = location.Description;
+            result.No = location.No;
+            result.Floor = location.Floor;
+            result.LocationTypeCD = location.LocationTypeCD;
+            result.StatusCD = location.StatusCD;
+            result.StatusCDName = statuscdname.Value;
+            result.LocationTypeCDName = locationtypename.Value;
             return result;
         }
 
-        public Location GetLocationByID(int id)
+        public LocationViewModel GetLocationByID(int id)
         {
-            Location result = new Location();
-            result = _location.GetLocationByID(id);
+            LocationViewModel result = new LocationViewModel();
+            var location = _location.GetLocationByID(id);
+            var statuscdname = _pref.GetPrefByStatusCode(location.StatusCD);
+            var locationtypename = _pref.GetPrefByLocationTypeCode(location.LocationTypeCD);
+
+            result.ID = location.ID;
+            result.Code = location.Code;
+            result.Description = location.Description;
+            result.No = location.No;
+            result.Floor = location.Floor;
+            result.LocationTypeCD = location.LocationTypeCD;
+            result.StatusCD = location.StatusCD;
+            result.StatusCDName = statuscdname.Value;
+            result.LocationTypeCDName = locationtypename.Value;
+
             return result;
         }
        
-        public List<Location> GetLocation()
+        public List<LocationViewModel> GetLocation()
         {
-            List<Location> result = new List<Location>();
-            result = _location.GetLocation();
+            List<LocationViewModel> result = new List<LocationViewModel>();
+            var location = _location.GetLocation();
+            foreach(var item in location)
+            {
+                LocationViewModel model = new LocationViewModel();
+                var statuscdname = _pref.GetPrefByStatusCode(item.StatusCD);
+                var locationtypename = _pref.GetPrefByLocationTypeCode(item.LocationTypeCD);
+
+                model.ID = item.ID;
+                model.Code = item.Code;
+                model.Description = item.Description;
+                model.No = item.No;
+                model.Floor = item.Floor;
+                model.LocationTypeCD = item.LocationTypeCD;
+                model.StatusCD = item.StatusCD;
+                model.StatusCDName = statuscdname.Value;
+                model.LocationTypeCDName = locationtypename.Value;
+
+                result.Add(model);
+            }
             return result;
         }
 
