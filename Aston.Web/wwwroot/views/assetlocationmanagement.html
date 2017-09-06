@@ -51,8 +51,8 @@
                     <div ng-class="(assetlocation.OnTransition == null || assetlocation.OnTransition == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
                         <label class="col-sm-3 form-control-label">On Transition*</label>
                         <div class="col-sm-9">
-                            <input type="radio" name="choicestype" ng-model="assetlocation.OnTransition" data-ng-value="true" /> True
-                            <input type="radio" name="choicestype" ng-model="assetlocation.OnTransition" data-ng-value="false" /> False<br />
+                            <input type="radio" name="choicestype" ng-model="assetlocation.OnTransition" data-ng-value="true" class="radio-template"/> True
+                            <input type="radio" name="choicestype" ng-model="assetlocation.OnTransition" data-ng-value="false" class="radio-template"/> False<br />
                             <small class="text-danger" ng-if="(assetlocation.OnTransition | getType)  != 'boolean' && isValidate == false">OnTransition is required</small>
                         </div>
                     </div>

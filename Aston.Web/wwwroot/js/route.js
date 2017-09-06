@@ -23,7 +23,19 @@ app.config([
         $stateProvider
             .state('assetmanagement', {
                 url: '/assetmanagement',
-                templateUrl: 'views/assetmanagement.html'
+                templateUrl: 'views/assetmanagement.html',
+                resolve: {
+                    service: ['$ocLazyLoad', function ($ocLazyLoad) {
+                        return $ocLazyLoad.load({
+                            serie: true,
+                            files: [
+                                'js/ccsasset/bootstrap-datepicker/css/datepicker.css',
+                                'js/ccsasset/bootstrap-datepicker/css/datepicker3.css',
+                                'js/ccsasset/bootstrap-datepicker/js/bootstrap-datepicker.js'
+                            ]
+                        });
+                    }]
+                },
             })
             .state('locationmanagement', {
                 url: '/locationmanagement',

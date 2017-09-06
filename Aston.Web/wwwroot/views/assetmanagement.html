@@ -56,8 +56,8 @@
                     <div ng-class="(asset.IsMovable == null || asset.IsMovable == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
                         <label class="col-sm-3 form-control-label">Is Movable Asset*</label>
                         <div class="col-sm-9">
-                            <input type="radio" name="choicestype" ng-model="asset.IsMovable" data-ng-value="true"/> True
-                            <input type="radio" name="choicestype" ng-model="asset.IsMovable" data-ng-value="false"/> False<br/>
+                            <input type="radio" name="choicestype" ng-model="asset.IsMovable" data-ng-value="true" class="radio-template"/> True
+                            <input type="radio" name="choicestype" ng-model="asset.IsMovable" data-ng-value="false" class="radio-template"/> False<br/>
                             <small class="text-danger" ng-if="(asset.IsMovable == null || asset.IsMovable == '') && isValidate == false">Is Movable is required</small>
                         </div>
                     </div>
@@ -71,7 +71,9 @@
                     <div ng-class="(asset.PurchaseDate == null || asset.PurchaseDate == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
                         <label class="col-sm-3 form-control-label">Purchase Date*</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control form-control-success" placeholder="Purchase Date" ng-model="asset.PurchaseDate">
+                            <div class="datepicker_dis">
+                                <input type="text" class="form-control" id="datepicker-purchasedate" placeholder="Select Date" ng-model="asset.PurchaseDate" ng-click="showDatePickerPurchaseDate()"/>
+                            </div>
                             <small class="text-danger" ng-if="(asset.PurchaseDate == null || asset.PurchaseDate == '') && isValidate == false">Purchase Date is required</small>
                         </div>
                     </div>
@@ -85,7 +87,7 @@
                     <div ng-class="(asset.ManufactureDate == null || asset.ManufactureDate == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
                         <label class="col-sm-3 form-control-label">Manufacture Date*</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control form-control-success" placeholder="Manufacture Date" ng-model="asset.ManufactureDate">
+                            <input type="text" class="form-control" id="datepicker-manufacturedate" placeholder="Select Date" ng-model="asset.ManufactureDate" ng-click="showDatePickerManufactureDate()" />
                             <small class="text-danger" ng-if="(asset.ManufactureDate == null || asset.ManufactureDate == '') && isValidate == false">Manufacture Date is required</small>
                         </div>
                     </div>

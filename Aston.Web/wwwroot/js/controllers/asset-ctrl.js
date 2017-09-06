@@ -11,6 +11,19 @@ app.controller('AssetCtrl', function ($scope, assetResource, prefResource) {
     $scope.actionstatus = "";
     $scope.categorylist = [];
 
+    $('#datepicker-purchasedate,#datepicker-manufacturedate ').datepicker({
+        todayHighlight: true,
+        format: "dd-M-yyyy"
+    });
+
+    $scope.showDatePickerPurchaseDate = function () {
+        $('#datepicker-purchasedate').datepicker('show');
+    };
+
+    $scope.showDatePickerManufactureDate = function () {
+        $('#datepicker-manufacturedate').datepicker('show');
+    };
+
     function AssetModel() {
         return {
             ID: "temp",

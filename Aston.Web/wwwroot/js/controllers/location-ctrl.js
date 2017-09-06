@@ -82,6 +82,7 @@ app.controller('LocationCtrl', function ($scope, locationResource, prefResource)
         locationResources.Description = $scope.location.Description;
         locationResources.Floor = $scope.location.Floor;
         locationResources.LocationTypeCD = $scope.location.LocationTypeCD;
+        locationResources.StatusCD = 1;
         console.log(locationResources);
         locationResources.$CreateLocation(function (data) {
             if (data.success) {
