@@ -34,7 +34,7 @@
                         <label class="col-sm-3 form-control-label">Asset</label>
                         <div class="col-sm-9">
                             <select name="account" class="form-control" ng-model="assetlocation.AssetID">
-                                <option ng-repeat="locationtype in locationtypelist" ng-selected="isSelectedItem(locationtype.id,assetlocation.LocationType)" value="{{locationtype.id}}">{{locationtype.value}}</option>
+                                <option ng-repeat="asset in assetlist" ng-selected="isSelectedItem(asset.ID,assetlocation.AssetID)" value="{{asset.ID}}">{{asset.Name}}</option>
                             </select>
                             <small class="text-danger" ng-if="(assetlocation.AssetID == null || assetlocation.AssetID == '') && isValidate == false">Floor is required</small>
                         </div>
@@ -43,7 +43,7 @@
                         <label class="col-sm-3 form-control-label">Location</label>
                         <div class="col-sm-9">
                             <select name="account" class="form-control" ng-model="assetlocation.LocationID">
-                                <option ng-repeat="locationtype in locationtypelist" ng-selected="isSelectedItem(locationtype.id,assetlocation.LocationType)" value="{{locationtype.id}}">{{locationtype.value}}</option>
+                                <option ng-repeat="location in locationlist" ng-selected="isSelectedItem(location.ID,assetlocation.LocationID)" value="{{location.ID}}">{{location.Name}}</option>
                             </select>
                             <small class="text-danger" ng-if="(assetlocation.LocationID == null || assetlocation.LocationID == '') && isValidate == false">Floor is required</small>
                         </div>
@@ -53,7 +53,7 @@
                         <div class="col-sm-9">
                             <input type="radio" name="choicestype" ng-model="assetlocation.OnTransition" data-ng-value="true" /> True
                             <input type="radio" name="choicestype" ng-model="assetlocation.OnTransition" data-ng-value="false" /> False<br />
-                            <small class="text-danger" ng-if="(assetlocation.OnTransition == null || assetlocation.OnTransition == '') && isValidate == false">OnTransition is required</small>
+                            <small class="text-danger" ng-if="(assetlocation.OnTransition | getType)  != 'boolean' && isValidate == false">OnTransition is required</small>
                         </div>
                     </div>
                 </div>

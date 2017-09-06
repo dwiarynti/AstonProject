@@ -49,6 +49,7 @@ app.controller('LocationCtrl', function ($scope, locationResource, prefResource)
 
     $scope.add = function () {
         $scope.location = LocationModel();
+        $scope.isValidate = true;
         $scope.actionstatus = "Create";
         $("#modal-action").modal('show');
     }
@@ -64,7 +65,7 @@ app.controller('LocationCtrl', function ($scope, locationResource, prefResource)
 
     $scope.validationform = function () {
         var validationstatus = true;
-        var keys = Object.keys($scope.location);
+        var keys = Object.keys(LocationModel());
         for (var i = 0; i < keys.length; i++) {
             var key = keys[i];
             if ($scope.location[key] == null || $scope.location[key] == '') {

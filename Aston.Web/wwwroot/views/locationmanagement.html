@@ -17,7 +17,7 @@
                 <td>{{location.Name}}</td>
                 <td>{{location.Description}}</td>
                 <td>{{location.Floor}}</td>
-                <td>{{location.LocationTypeCD}}</td>
+                <td>{{location.LocationTypeCDName}}</td>
                 <td>
                     <button type="button" class="btn btn-default btn-width" ng-click="edit(location)">Edit</button>
                     <button type="button" class="btn btn-default btn-width" ng-click="deletemodal(location)">Delete</button>
@@ -56,12 +56,12 @@
                         </div>
                     </div>
                     <div ng-class="(location.LocationTypeCD == null || location.LocationTypeCD == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
-                        <label class="col-sm-3 form-control-label">Location Type Code</label>
+                        <label class="col-sm-3 form-control-label">Location Type Code*</label>
                         <div class="col-sm-9">
                             <select name="account" class="form-control" ng-model="location.LocationTypeCD">
                                 <option ng-repeat="locationtype in locationtypelist" ng-selected="isSelectedItem(locationtype.Code,location.LocationTypeCD)" value="{{locationtype.Code}}">{{locationtype.Value}}</option>
                             </select>
-                            <small class="text-danger" ng-if="(location.LocationTypeCD == null || location.LocationTypeCD == '') && isValidate == false">Floor is required</small>
+                            <small class="text-danger" ng-if="(location.LocationTypeCD == null || location.LocationTypeCD == '') && isValidate == false">Location Type Code is required</small>
                         </div>
                     </div>
 

@@ -2,9 +2,13 @@
  * Asset Controller
  */
 
-app.controller('AssetLocationCtrl', function ($scope, assetLocationResource) {
+app.controller('AssetLocationCtrl', function ($scope, assetResource, locationResource, assetLocationResource) {
+    var assetResources = new assetResource();
+    var locationResources = new locationResource();
     var assetLocationResources = new assetLocationResource();
     $scope.isValidate = true;
+    $scope.locationlist = [];
+    $scope.assetlist = [];
     $scope.assetlocationlist = [];
     $scope.assetlocation = {};
     $scope.actionstatus = "";
@@ -31,11 +35,28 @@ app.controller('AssetLocationCtrl', function ($scope, assetLocationResource) {
         };
     }
 
+    $scope.GetAsset = function() {
+        assetResources.$GetAsset(function (data) {
+            $scope.assetlist = data.obj;
+        });
+    }
+
+    $scope.GetLocation = function() {
+        locationResources.$GetLocation(function (data) {
+            $scope.locationlist = data.obj;
+        });
+    }
+
     $scope.init = function() {
         assetLocationResources.$GetAssetLocation(function (data) {
             console.log(data);
             $scope.assetlocationlist = data.obj;
         });
+        $scope.GetAsset();
+        $scope.GetLocation();
+
+        console.log($scope.assetlist);
+        console.log($scope.locationlist);
     }
 
     $scope.init();
@@ -55,25 +76,36 @@ app.controller('AssetLocationCtrl', function ($scope, assetLocationResource) {
 
     $scope.validationform = function () {
         var validationstatus = true;
-        var keys = Object.keys($scope.location);
+        var keys = Object.keys(AssetLocationModel());
         for (var i = 0; i < keys.length; i++) {
             var key = keys[i];
-            if ($scope.location[key] == null || $scope.location[key] == '') {
+            var value = $scope.assetlocation[key];
+            var datatype = typeof value;
+            if (datatype != "boolean" && validationstatus) {
+                if (value == null || value == "") {
+                    validationstatus = false;
+                    break;
+                }
+            } else if (!validationstatus) {
                 validationstatus = false;
                 break;
             }
+
         }
         return validationstatus;
     }
 
     $scope.CreateAssetLocation = function() {
         var assetLocationResources = new assetLocationResource();
-        assetLocationResources.AssetID = $scope.assetlocation.AssetID;
-        assetLocationResources.LocationID = $scope.assetlocation.LocationID;
+        assetLocationResources.AssetID = parseInt($scope.assetlocation.AssetID);
+        assetLocationResources.LocationID = parseInt($scope.assetlocation.LocationID);
         assetLocationResources.OnTransition = $scope.assetlocation.OnTransition;
         console.log(assetLocationResources);
-        assetLocationResources.$CreateAsset(function (data) {
-            $scope.assetlocationlist = data.obj;
+        assetLocationResources.$CreateAssetLocation(function (data) {
+            if (data.success) {
+                $("#modal-action").modal('hide');
+                $scope.init();
+            }
         });
     }
 
@@ -94,11 +126,14 @@ app.controller('AssetLocationCtrl', function ($scope, assetLocationResource) {
     $scope.UpdateAssetLocation = function() {
         var assetLocationResources = new assetLocationResource();
         assetLocationResources.ID = $scope.assetlocation.ID;
-        assetLocationResources.AssetID = $scope.assetlocation.AssetID;
-        assetLocationResources.LocationID = $scope.assetlocation.LocationID;
+        assetLocationResources.AssetID = parseInt($scope.assetlocation.AssetID);
+        assetLocationResources.LocationID = parseInt($scope.assetlocation.LocationID);
         assetLocationResources.OnTransition = $scope.assetlocation.OnTransition;
-        assetLocationResources.$UpdateAsset(function (data) {
-            $scope.assetlocationlist = data.obj;
+        assetLocationResources.$UpdateAssetLocation(function (data) {
+            if (data.success) {
+                $("#modal-action").modal('hide');
+                $scope.init();
+            }
         });
     }
 
@@ -114,11 +149,14 @@ app.controller('AssetLocationCtrl', function ($scope, assetLocationResource) {
     $scope.delete = function() {
         var assetLocationResources = new assetLocationResource();
         assetLocationResources.ID = $scope.assetlocation.ID;
-        assetLocationResources.AssetID = $scope.assetlocation.AssetID;
-        assetLocationResources.LocationID = $scope.assetlocation.LocationID;
+        assetLocationResources.AssetID = parseInt($scope.assetlocation.AssetID);
+        assetLocationResources.LocationID = parseInt($scope.assetlocation.LocationID);
         assetLocationResources.OnTransition = $scope.assetlocation.OnTransition;
         assetLocationResources.$DeleteAssetLocation(function (data) {
-            $scope.assetlocationlist = data.obj;
+            if (data.success) {
+                $("#modal-action").modal('hide');
+                $scope.init();
+            }
         });
     }
 

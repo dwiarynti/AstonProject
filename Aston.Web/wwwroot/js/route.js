@@ -1,10 +1,19 @@
 ////var app = angular.module("RDash");
+
+angular.module('customfilter', []).filter('getType', function () {
+    return function (obj) {
+        return typeof obj;
+    };
+});
+
 var app = angular.module("RDash",
 [
     'ui.router',
+    'datatables',
     'oc.lazyLoad',
     'common.services',
     'ngResource',
+    'customfilter'
 ]);
 
 app.config([
