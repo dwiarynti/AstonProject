@@ -1,56 +1,166 @@
 ﻿<!DOCTYPE html>
-<html>
+<html ng-app="RDash">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Aston.Web</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>ASTON</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all,follow">
 
     <environment names="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-        <link rel="stylesheet" href="~/css/site.css" />
+
+        @*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/css/site.css" />*@
+        <!-- Bootstrap CSS-->
+        <link rel="stylesheet" href="~/css/bootstrap.min.css">
+        <!-- Google fonts - Roboto -->
+        <link href="~/css/fonts-googleapis.css" rel="stylesheet" />
+        <!-- theme stylesheet-->
+        <link rel="stylesheet" href="~/css/style.default.css" id="theme-stylesheet">
+        <!-- Custom stylesheet - for your changes-->
+        <link href="~/css/custom.css" rel="stylesheet" />
+        <!-- Favicon-->
+        <link rel="shortcut icon" href="~/favicon.ico">
+        <!-- Font Awesome CDN-->
+        <!-- you can replace it by local Font Awesome-->
+        <!--<script src="https://use.fontawesome.com/99347ac47f.js"></script>-->
+        <!-- Font Icons CSS-->
+        <link href="~/css/icons.css" rel="stylesheet" />
     </environment>
     <environment names="Staging,Production">
-        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/css/bootstrap.min.css"
+        @*<link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/css/bootstrap.min.css"
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
-        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />*@
     </environment>
     @Html.ApplicationInsightsJavaScript(TelemetryConfiguration)
 </head>
-<body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Aston.Web</a>
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+<body  ng-controller="MasterCtrl">
+    <div class="page home-page">
+        <!-- Main Navbar-->
+        <header class="header">
+            <nav class="navbar">
+                <!-- Search Box-->
+                <div class="search-box">
+                    <button class="dismiss"><i class="icon-close"></i></button>
+                    <form id="searchForm" action="#" role="search">
+                        <input type="search" placeholder="What are you looking for..." class="form-control">
+                    </form>
+                </div>
+                <div class="container-fluid">
+                    <div class="navbar-holder d-flex align-items-center justify-content-between">
+                        <!-- Navbar Header-->
+                        <div class="navbar-header">
+                            <!-- Navbar Brand --><a href="index.html" class="navbar-brand">
+                                <div class="brand-text brand-big hidden-lg-down"><strong>ASTON</strong></div>
+                                <div class="brand-text brand-small"><strong>ASTON</strong></div>
+                            </a>
+                            <!-- Toggle Button--><a id="toggle-btn" href="#" class="menu-btn active"><span></span><span></span><span></span></a>
+                        </div>
+                        <!-- Navbar Menu -->
+                        <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center">                      
+                            @await Html.PartialAsync("_LoginPartial")
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        @inject UserManager<ApplicationUser> UserManager
+        @if (User.Identity.IsAuthenticated)
+        {
+        <div class="page-content d-flex align-items-stretch">
+            <!-- Side Navbar -->
+            <nav class="side-navbar">
+                <!-- Sidebar Header-->
+                <div class="sidebar-header d-flex align-items-center">
+                    <div class="avatar"></div>
+                    <div class="title">
+                        <h3><a asp-area="" asp-controller="Manage" asp-action="Index" title="Manage">Hello @UserManager.GetUserName(User)!</a></h3>
+                    </div>
+                </div>
+                <!-- Sidebar Navidation Menus--><span class="heading">Main</span>
+                <ul class="list-unstyled">
+                    <li class="active"> <a href="./"><i class="icon-home"></i>Home</a></li>
+                    <li ng-click="SendPageName('Asset')"> <a href="#assetmanagement"> <i class="icon-padnote"></i>Asset </a></li>
+                    <li ng-click="SendPageName('Location')"> <a href="#locationmanagement"> <i class="icon-padnote"></i>Location </a></li>
+                    <li ng-click="SendPageName('Asset Location')"> <a href="#assetlocationmanagement"> <i class="icon-padnote"></i>Asset Location </a></li>
                 </ul>
-                @await Html.PartialAsync("_LoginPartial")
+            </nav>
+            <div class="content-inner">
+                <!-- Page Header-->
+                <header class="page-header">
+                    <div class="container-fluid">
+                        <h2 class="no-margin-bottom">{{PageName}}</h2>
+                    </div>
+                </header>
+                <section class="dashboard-counts no-padding-bottom">
+                    <div class="container-fluid">
+                        <div class="row bg-white has-shadow">
+                            <div id="main-content" ui-view>
+                                @RenderBody()
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Page Footer-->
+                <footer class="main-footer">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <p>Your company &copy; 2017-2019</p>
+                            </div>
+                            <div class="col-sm-6 text-right">
+                                <p>Design by --</p>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
             </div>
         </div>
+        }
+        else
+        {
+            <section class="dashboard-counts no-padding-bottom">
+                <div class="container-fluid">
+                    <div class="row bg-white has-shadow">
+                        <div id="main-content" ui-view>
+                            @RenderBody()
+                        </div>
+                    </div>
+                </div>
+            </section>
+        }
     </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; 2017 - Aston.Web</p>
-        </footer>
-    </div>
-
+   
     <environment names="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
+        @*<script src="~/js/site.js" asp-append-version="true"></script>*@
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/tether.min.js"></script>
+        <script src="~/lib/bootstrap.min.js"></script>
+        <script src="~/lib/jquery.cookie.js"> </script>
+        <script src="~/lib/jquery.validate.min.js"></script>
+        <script src="~/lib/front.js"></script>
+
+        <!-- Angular JS -->
+        <script type="text/javascript" src="~/js/ccsasset/angular/angular.js"></script>
+        <script type="text/javascript" src="~/js/ccsasset/angular-ui-router/release/angular-ui-router.min.js"></script>
+        <script type="text/javascript" src="~/js/ccsasset/angular/ocLazyLoad.min.js"></script>
+        <script src="~/js/ccsasset/angular/angular-resource.js"></script>
+        <script src="~/js/route.js"></script>
+        <script src="~/js/services/common.services.js"></script>
+        <script src="~/js/services/assetResource.js"></script>
+        <script src="~/js/services/locationResource.js"></script>
+        <script src="~/js/services/assetlocationResource.js"></script>
+        <script src="~/js/services/prefResource.js"></script>
+        <script src="~/js/controllers/master-ctrl.js"></script>
+        <script src="~/js/controllers/asset-ctrl.js"></script>
+        <script src="~/js/controllers/location-ctrl.js"></script>
+        <script src="~/js/controllers/assetlocation-ctrl.js"></script>
     </environment>
     <environment names="Staging,Production">
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
