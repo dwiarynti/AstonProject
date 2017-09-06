@@ -17,7 +17,7 @@ app.controller('LocationCtrl', function ($scope, locationResource) {
 
     function LocationModel() {
         return {
-            ID: 0,
+            ID: "temp",
             //Code: null,
             Description: null,
             //No: null,
@@ -79,7 +79,7 @@ app.controller('LocationCtrl', function ($scope, locationResource) {
     }
 
     $scope.edit = function(obj) {
-        $scope.location = obj;
+        $scope.location = angular.copy(obj);
         $scope.actionstatus = "Update";
         $("#modal-action").modal('show');
     }

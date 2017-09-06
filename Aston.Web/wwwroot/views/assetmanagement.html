@@ -1,11 +1,14 @@
 ﻿<div ng-controller="AssetCtrl">
     <button type="button" class="btn btn-primary" ng-click="add()">Add</button>
-    <table class="table table-striped table-bordered">
+    <table id="data-table" datatable="ng" dt-options="dtOptions" width="100%" class="table table-striped table-bordered">
         <thead>
             <tr>
                 <th>Code</th>
                 <th>Name</th>
                 <th>Description </th>
+                <th>Category</th>
+                <th>Owner</th>
+                <th>Status</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -14,9 +17,12 @@
                 <td>{{asset.Code}}</td>
                 <td>{{asset.Name}}</td>
                 <td>{{asset.Description}}</td>
+                <td>{{asset.CategoryCDB}}</td>
+                <td>{{asset.Owner}}</td>
+                <td>{{asset.StatusCD}}</td>
                 <td>
                     <button type="button" class="btn btn-default btn-width" ng-click="edit(asset)">Edit</button>
-                    <button type="button" class="btn btn-default btn-width" ng-click="deletemodal()">Delete</button>
+                    <button type="button" class="btn btn-default btn-width" ng-click="deletemodal(asset)">Delete</button>
                 </td>
             </tr>
         </tbody>

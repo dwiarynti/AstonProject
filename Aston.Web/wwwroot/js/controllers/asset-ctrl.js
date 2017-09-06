@@ -17,7 +17,7 @@ app.controller('AssetCtrl', function ($scope, assetResource) {
 
     function AssetModel() {
         return {
-            ID: 0,
+            ID: "temp",
             //Code: null,
             Description: null,
             //No: null,
@@ -40,9 +40,15 @@ app.controller('AssetCtrl', function ($scope, assetResource) {
         };
     }
 
-    assetResources.$GetAsset(function (data) {
-        $scope.assetlist = data.obj;
-    });
+
+    $scope.init = function() {
+        assetResources.$GetAsset(function (data) {
+            $scope.assetlist = data.obj;
+        });
+    }
+
+    $scope.init();
+
 
     $scope.add = function () {
         $scope.asset = AssetModel();
@@ -63,7 +69,7 @@ app.controller('AssetCtrl', function ($scope, assetResource) {
         var keys = Object.keys(AssetModel());
         for (var i = 0; i < keys.length; i++) {
             var key = keys[i];
-            if ($scope.asset[key] == null || $scope.asset[key] == '') {
+            if ($scope.asset[key] == null || $scope.asset[key] == "") {
                 validationstatus = false;
                 break;
             }
@@ -81,14 +87,20 @@ app.controller('AssetCtrl', function ($scope, assetResource) {
         assetResources.PurchasePrice = parseFloat($scope.asset.PurchasePrice);
         assetResources.ManufactureDate = $scope.asset.ManufactureDate;
         assetResources.CategoryCD = $scope.asset.CategoryCD;
+        assetResources.CreatedBy = "test";
+        assetResources.StatusCD = 1;
         console.log(assetResources);
         assetResources.$CreateAsset(function (data) {
-            $scope.assetlist = data.obj;
+            if (data.success) {
+                $("#modal-action").modal('hide');
+                $scope.init();
+            }
         });
     }
 
-    $scope.edit = function(obj) {
-        $scope.asset = obj;
+    $scope.edit = function (obj) {
+        
+        $scope.asset = angular.copy(obj);
         $scope.isValidate = true;
         $scope.actionstatus = "Update";
         $("#modal-action").modal('show');
@@ -112,8 +124,13 @@ app.controller('AssetCtrl', function ($scope, assetResource) {
         assetResources.PurchasePrice = parseFloat($scope.asset.PurchasePrice);
         assetResources.ManufactureDate = $scope.asset.ManufactureDate;
         assetResources.CategoryCD = $scope.asset.CategoryCD;
+        assetResources.UpdatedBy = "test";
+        assetResources.StatusCD = 1;
         assetResources.$UpdateAsset(function (data) {
-            $scope.assetlist = data.obj;
+            if (data.success) {
+                $("#modal-action").modal('hide');
+                $scope.init();
+            }
         });
     }
 
@@ -121,8 +138,8 @@ app.controller('AssetCtrl', function ($scope, assetResource) {
         return itemA == itemB ? true : false;
     }
 
-    $scope.deletemodal = function () {
-        $scope.asset = AssetModel();
+    $scope.deletemodal = function (obj) {
+        $scope.asset = angular.copy(obj);
         $scope.actionstatus = "Delete";
         $("#modal-action").modal('show');
     }
@@ -138,7 +155,10 @@ app.controller('AssetCtrl', function ($scope, assetResource) {
         assetResources.ManufactureDate = $scope.asset.ManufactureDate;
         assetResources.CategoryCD = $scope.asset.CategoryCD;
         assetResources.$DeleteAsset(function (data) {
-            $scope.assetlist = data.obj;
+            if (data.success) {
+                $("#modal-action").modal('hide');
+                $scope.init();
+            }
         });
     }
 
