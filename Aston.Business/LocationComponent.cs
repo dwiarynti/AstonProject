@@ -27,6 +27,7 @@ namespace Aston.Business
             result.Code = location.Code;
             result.Description = location.Description;
             result.No = location.No;
+            result.Name = location.Name;
             result.Floor = location.Floor;
             result.LocationTypeCD = location.LocationTypeCD;
             result.StatusCD = location.StatusCD;
@@ -44,6 +45,7 @@ namespace Aston.Business
 
             result.ID = location.ID;
             result.Code = location.Code;
+            result.Name = location.Name;
             result.Description = location.Description;
             result.No = location.No;
             result.Floor = location.Floor;
@@ -67,6 +69,7 @@ namespace Aston.Business
 
                 model.ID = item.ID;
                 model.Code = item.Code;
+                model.Name = item.Name;
                 model.Description = item.Description;
                 model.No = item.No;
                 model.Floor = item.Floor;
