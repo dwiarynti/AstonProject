@@ -123,11 +123,11 @@ namespace Aston.Business
                     asset.Name = obj.Name;
                     asset.IsMovable = obj.IsMovable;
                     asset.Owner = obj.Owner;
-                    asset.PurchaseDate = obj.PurchaseDate;
+                    asset.PurchaseDate =Convert.ToDateTime(obj.PurchaseDate).ToString("ddMMyyyy");
                     asset.PurchasePrice = obj.PurchasePrice;
-                    asset.DepreciationDuration = obj.DepreciationDuration;
-                    asset.DisposedDate = obj.DisposedDate;
-                    asset.ManufactureDate = obj.ManufactureDate;
+                    asset.DepreciationDuration = obj.DepreciationDuration != null ? Convert.ToDateTime(obj.DepreciationDuration).ToString("ddMMyyyy") : null;
+                    asset.DisposedDate = obj.DisposedDate != null ? Convert.ToDateTime(obj.DisposedDate).ToString("ddMMyyyy") : null;
+                    asset.ManufactureDate = Convert.ToDateTime(obj.ManufactureDate).ToString("ddMMyyyy");
                     asset.CategoryCD = obj.CategoryCD;
                     asset.StatusCD = obj.StatusCD;
                     asset.CreatedDate = DateTime.Now.Date.ToString("ddMMyyyy");
@@ -172,10 +172,10 @@ namespace Aston.Business
                     asset.Name = obj.Name;
                     asset.IsMovable = obj.IsMovable;
                     asset.Owner = obj.Owner;
-                    asset.PurchaseDate = obj.PurchaseDate;
+                    asset.PurchaseDate = Convert.ToDateTime(obj.PurchaseDate).ToString("ddMMyyyy");
                     asset.PurchasePrice = obj.PurchasePrice;
                     asset.DepreciationDuration = obj.DepreciationDuration;
-                    asset.ManufactureDate = obj.ManufactureDate;
+                    asset.ManufactureDate = Convert.ToDateTime(obj.ManufactureDate).ToString("ddMMyyyy");
                     asset.CategoryCD = obj.CategoryCD;
                     asset.StatusCD = obj.StatusCD;
                     asset.UpdatedBy = obj.UpdatedBy;
