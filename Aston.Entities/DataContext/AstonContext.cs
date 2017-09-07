@@ -34,11 +34,6 @@ namespace Aston.Entities.DataContext
                .WithMany(p => p.AssetLocation)
                .HasForeignKey(m => m.LocationID);
 
-            modelBuilder.Entity<MovementRequestDetail>()
-                .HasOne(m => m.MovementRequest)
-                .WithMany(m => m.MovementRequestDetail)
-                .HasForeignKey(m => m.MovementRequestID);
-
 
             base.OnModelCreating(modelBuilder);
         }

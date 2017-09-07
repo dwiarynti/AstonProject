@@ -19,6 +19,5 @@ namespace Aston.Entities
         public string UpdatedBy { get; set; }
         public string DeletedDate { get; set; }
         public string DeletedBy { get; set; }
-        public virtual MovementRequest MovementRequest { get; set; }
     }
 }

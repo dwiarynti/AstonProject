@@ -10,8 +10,7 @@ namespace Aston.Entities
         // Move Asset
         public string location { get; set; }
         public List<string> listAsset { get; set; }
-        
-        public int  MovementRequestDetailID { get; set; }
+      
 
 
         //Asset
