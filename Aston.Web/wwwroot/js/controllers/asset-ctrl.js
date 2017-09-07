@@ -89,10 +89,18 @@ app.controller('AssetCtrl', function ($scope, assetResource, prefResource) {
         var keys = Object.keys(AssetModel());
         for (var i = 0; i < keys.length; i++) {
             var key = keys[i];
-            if ($scope.asset[key] == null || $scope.asset[key] == "") {
+            var value = $scope.asset[key];
+            var datatype = typeof value;
+            if (datatype != "boolean" && validationstatus) {
+                if (value == null || value == "") {
+                    validationstatus = false;
+                    break;
+                }
+            } else if (!validationstatus) {
                 validationstatus = false;
                 break;
             }
+
         }
         return validationstatus;
     }
