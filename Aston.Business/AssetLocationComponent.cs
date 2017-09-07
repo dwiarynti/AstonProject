@@ -27,6 +27,7 @@ namespace Aston.Business
                 result.ID = assetlocation.ID;
                 result.AssetID = assetlocation.AssetID;
                 result.AssetName = assetlocation.Asset.Name;
+                result.LocationID = assetlocation.LocationID;
                 result.LocationName = assetlocation.Location.Name;
                 result.OnTransition = assetlocation.OnTransition;
                 result.MovementRequestDetailID = assetlocation.MovementRequestDetailID;

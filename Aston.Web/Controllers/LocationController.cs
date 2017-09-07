@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using Aston.Web.Process;
 using System.Net.Http;
 using Aston.Entities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Aston.Web.Controllers
 {
+    [Authorize]
     [Produces("application/json")]
     [Route("api/Location")]
     public class LocationController : Controller

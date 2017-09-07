@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Aston.Entities.DataContext;
 using Aston.Business;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Aston.Web.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
 
