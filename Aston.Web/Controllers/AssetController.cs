@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net.Http;
 using Aston.Web.Process;
 using Aston.Entities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Aston.Web.Controllers
 {
+    [Authorize]
     [Produces("application/json")]
     [Route("api/Asset")]
     public class AssetController : Controller

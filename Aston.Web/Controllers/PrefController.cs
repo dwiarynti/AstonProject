@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Aston.Web.Process;
 using System.Net.Http;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Aston.Web.Controllers
 {
+    [Authorize]
     [Produces("application/json")]
     [Route("api/Pref")]
     public class PrefController : Controller
