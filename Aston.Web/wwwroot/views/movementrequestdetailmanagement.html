@@ -1,0 +1,142 @@
+﻿<div ng-controller="MovementRequestDetailCtrl">
+    <div ng-class="(asset.MovementDate == null || asset.MovementDate == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
+        <label class="col-sm-3 form-control-label">Movement Date*</label>
+        <div class="col-sm-9">
+            <div class="datepicker_dis">
+                <input type="text" class="form-control" id="datepicker-movementdate" placeholder="Select Date" ng-model="movementrequestobj.MovementDate" ng-click="showDatePickerMovementDate()" />
+            </div>
+            <small class="text-danger" ng-if="(movementrequestobj.MovementDate == null || movementrequestobj.MovementDate == '') && isValidate == false">Movement Date is required</small>
+        </div>
+    </div>
+    <div ng-class="(movementrequestobj.Description == null || movementrequestobj.Description == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
+        <label class="col-sm-3 form-control-label">Description</label>
+        <div class="col-sm-9">
+            <input type="text" class="form-control form-control-success" placeholder="Description" ng-model="movementrequestobj.Description">
+            <small class="text-danger" ng-if="(movementrequestobj.Description == null || movementrequestobj.Description == '') && isValidate == false">Movement Price is required</small>
+        </div>
+    </div>
+    <div ng-hide="isLoading" class="form-group">
+        <div class="col-sm-12">
+            <button type="button" class="btn btn-primary" ng-click="Add()">Add</button>
+        </div>
+    </div>
+
+    <table id="data-table1" datatable="ng" dt-options="dtOptions" width="100%" class="table table-striped table-bordered">
+        <thead>
+        <tr>
+            <th>Asset Category</th>
+            <th>Description</th>
+            <th>Quantity</th>
+            <th>Request To</th>
+            <th>Transfered</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="asset in assetlist"></tr>
+        </tbody>
+    </table>
+
+    <div ng-hide="isLoading" class="form-group m-b-50">
+        <div class="col-md-12 text-right">
+            <button ng-if="movementrequestobj.ID == 0" type="button" class="btn btn-primary" ng-click="Save()">Save</button>
+            <button ng-if="movementrequestobj.ID != 0" type="button" class="btn btn-primary" ng-click="Update()">Update</button>
+        </div>
+    </div>
+
+
+    <div class="modal modal-message fade" id="modal-action" style="z-index: 10500">
+        <div class="modal-dialog" style="width: 80%">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">{{actionstatus}} Asset</h4>
+                    <a href="javascript:;" class="close" data-dismiss="modal">x</a>
+                </div>
+                <!--if action is add / edit-->
+                <div ng-if="actionstatus != 'Delete'" class="modal-body">
+                    <div ng-class="(movementrequest.Name == null || movementrequest.Name == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
+                        <label class="col-sm-3 form-control-label">Name*</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control form-control-success" placeholder="Name" ng-model="movementrequest.Name">
+                            <small class="text-danger" ng-if="(movementrequest.Name == null || movementrequest.Name == '') && isValidate == false">Name is required</small>
+                        </div>
+                    </div>
+                    <div ng-class="(movementrequest.Description == null || movementrequest.Description == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
+                        <label class="col-sm-3 form-control-label">Description*</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control form-control-success" placeholder="Description" ng-model="movementrequest.Description">
+                            <small class="text-danger" ng-if="(movementrequest.Description == null || movementrequest.Description == '') && isValidate == false">Description is required</small>
+                        </div>
+                    </div>
+                    <div ng-class="(movementrequest.IsMovable == null || movementrequest.IsMovable == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
+                        <label class="col-sm-3 form-control-label">Is Movable Asset*</label>
+                        <div class="col-sm-9">
+                            <input type="radio" name="choicestype" ng-model="movementrequest.IsMovable" data-ng-value="true" class="radio-template"/> True
+                            <input type="radio" name="choicestype" ng-model="movementrequest.IsMovable" data-ng-value="false" class="radio-template"/> False<br/>
+                            <small class="text-danger" ng-if="(movementrequestlocation.IsMovable | getType)  != 'boolean' && isValidate == false">Is Movable is required</small>
+                        </div>
+                    </div>
+                    <div ng-class="(movementrequest.Owner == null || movementrequest.Owner == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
+                        <label class="col-sm-3 form-control-label">Owner*</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control form-control-success" placeholder="Name" ng-model="movementrequest.Owner">
+                            <small class="text-danger" ng-if="(movementrequest.Owner == null || movementrequest.Owner == '') && isValidate == false">Owner is required</small>
+                        </div>
+                    </div>
+                    <div ng-class="(movementrequest.MovementDate == null || movementrequest.MovementDate == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
+                        <label class="col-sm-3 form-control-label">Movement Date*</label>
+                        <div class="col-sm-9">
+                            <div class="datepicker_dis">
+                                <input type="text" class="form-control" id="datepicker-Movementdate" placeholder="Select Date" ng-model="movementrequest.MovementDate" ng-click="showDatePickerMovementDate()"/>
+                            </div>
+                            <small class="text-danger" ng-if="(movementrequest.MovementDate == null || movementrequest.MovementDate == '') && isValidate == false">Movement Date is required</small>
+                        </div>
+                    </div>
+                    <div ng-class="(movementrequest.Description == null || movementrequest.Description == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
+                        <label class="col-sm-3 form-control-label">Movement Price*</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control form-control-success" placeholder="Movement Price" ng-model="movementrequest.Description">
+                            <small class="text-danger" ng-if="(movementrequest.Description == null || movementrequest.Description == '') && isValidate == false">Movement Price is required</small>
+                        </div>
+                    </div>
+                    <div ng-class="(movementrequest.ManufactureDate == null || movementrequest.ManufactureDate == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
+                        <label class="col-sm-3 form-control-label">Manufacture Date*</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="datepicker-manufacturedate" placeholder="Select Date" ng-model="movementrequest.ManufactureDate" ng-click="showDatePickerManufactureDate()" />
+                            <small class="text-danger" ng-if="(movementrequest.ManufactureDate == null || movementrequest.ManufactureDate == '') && isValidate == false">Manufacture Date is required</small>
+                        </div>
+                    </div>
+                    <div ng-class="(movementrequest.CategoryCD == null || movementrequest.CategoryCD == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
+                        <label class="col-sm-3 form-control-label">Category Code*</label>
+                        <div class="col-sm-9">
+                            <select name="account" class="form-control" ng-model="movementrequest.CategoryCD">
+                                <option ng-repeat="category in categorylist" ng-selected="isSelectedItem(category.Code,movementrequest.CategoryCD)" value="{{category.Code}}">{{category.Value}}</option>
+                            </select>
+                            <small class="text-danger" ng-if="(movementrequest.CategoryCD == null || movementrequest.CategoryCD == '') && isValidate == false">Category Code is required</small>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!--if action is delete-->
+                <div ng-if="actionstatus == 'Delete'" class="modal-body">
+                    Are you sure you want to delete this movement request detail ?
+                </div>
+                <div class="modal-footer">
+                    <a href="javascript:;" class="btn btn-default btn-width btn-margin" data-dismiss="modal">Cancel</a>
+                    <button ng-if="actionstatus == 'Create'" type="button" class="btn btn-default btn-width" ng-click="create()">
+                        <span>Create</span>
+                    </button>
+                    <button ng-if="actionstatus == 'Update'" type="button" class="btn btn-default btn-width" ng-click="update()">
+                        <span>Update</span>
+                    </button>
+                    <button ng-if="actionstatus == 'Delete'" type="button" class="btn btn-default btn-width" ng-click="delete()">
+                        <span>Delete</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+

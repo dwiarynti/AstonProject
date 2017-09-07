@@ -2,7 +2,7 @@
  * Asset Controller
  */
 
-app.controller('AssetCtrl', function ($scope, assetResource, prefResource) {
+app.controller('AssetCtrl', function ($scope, $rootScope, assetResource, prefResource) {
     var assetResources = new assetResource();
     var prefResources = new prefResource();
     $scope.isValidate = true;
@@ -10,13 +10,14 @@ app.controller('AssetCtrl', function ($scope, assetResource, prefResource) {
     $scope.asset = {};
     $scope.actionstatus = "";
     $scope.categorylist = [];
+    $rootScope.PageName = "Asset";
 
     $scope.dtOptions = { "aaSorting": [], "bPaginate": false, "bLengthChange": false, "bFilter": false, "bSort": false, "bInfo": false, "bAutoWidth": false };
 
 
     $('#datepicker-purchasedate,#datepicker-manufacturedate ').datepicker({
         todayHighlight: true,
-        format: "dd-M-yyyy"
+        format: "ddMMyyyy"
     });
 
     $scope.showDatePickerPurchaseDate = function () {
@@ -56,7 +57,6 @@ app.controller('AssetCtrl', function ($scope, assetResource, prefResource) {
     $scope.init = function() {
         assetResources.$GetAsset(function (data) {
             $scope.assetlist = data.obj;
-            console.log(data);
         });
         $scope.GetCategory();
     }
@@ -117,7 +117,6 @@ app.controller('AssetCtrl', function ($scope, assetResource, prefResource) {
         assetResources.CategoryCD = $scope.asset.CategoryCD;
         assetResources.CreatedBy = "test";
         assetResources.StatusCD = 1;
-        console.log(assetResources);
         assetResources.$CreateAsset(function (data) {
             if (data.success) {
                 $("#modal-action").modal('hide');
@@ -129,6 +128,8 @@ app.controller('AssetCtrl', function ($scope, assetResource, prefResource) {
     $scope.edit = function (obj) {
         
         $scope.asset = angular.copy(obj);
+        $scope.asset.PurchaseDate = $scope.asset.PurchaseDate != null || $scope.asset.PurchaseDate != "" ? $scope.convertdate($scope.asset.PurchaseDate) : "";
+        $scope.asset.ManufactureDate = $scope.asset.ManufactureDate != null || $scope.asset.ManufactureDate != "" ? $scope.convertdate($scope.asset.ManufactureDate):"";
         $scope.isValidate = true;
         $scope.actionstatus = "Update";
         $("#modal-action").modal('show');
@@ -188,6 +189,16 @@ app.controller('AssetCtrl', function ($scope, assetResource, prefResource) {
                 $scope.init();
             }
         });
+    }
+
+    $scope.convertdate = function(stringdate) {
+        var a = Date.parse(stringdate.replace(/^(\d\d)(\d\d)(\d\d\d\d)$/, "$2-$1-$3"));
+        var myDate = new Date(parseInt(a));
+        var month = ("0" + (myDate.getMonth() + 1)).slice(-2);
+        var day = ("0" + myDate.getDate()).slice(-2);
+        var year = myDate.getFullYear();
+        var date = day + "/" + month + "/" + year;
+        return date;
     }
 
 });

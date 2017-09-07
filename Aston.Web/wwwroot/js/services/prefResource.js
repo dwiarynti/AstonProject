@@ -1,8 +1,6 @@
 ﻿(function () {
     "use strict";
-    angular
-        .module("common.services")
-        .factory("prefResource",
+    app.factory("prefResource",
                 ["$resource",
                  prefResource]);
     function prefResource($resource) {
