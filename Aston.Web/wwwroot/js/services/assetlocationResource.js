@@ -10,7 +10,7 @@
         { id: '@id' },
         {
             GetAssetLocation: { method: 'GET', params: { action: 'GetAssetLocation' } },
-            CreateAssetLocation: { method: 'POST', params: { action: 'MoveAsset' } },
+            CreateAssetLocation: { method: 'POST', params: { action: 'CreateAssetLocation' } },
             UpdateAssetLocation: { method: 'POST', params: { action: 'UpdateAssetLocation' } },
             DeleteAssetLocation: { method: 'POST', params: { action: 'DeleteAssetLocation' } },
 

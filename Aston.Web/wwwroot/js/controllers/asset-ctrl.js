@@ -16,7 +16,7 @@ app.controller('AssetCtrl', function ($scope, assetResource, prefResource) {
 
     $('#datepicker-purchasedate,#datepicker-manufacturedate ').datepicker({
         todayHighlight: true,
-        format: "dd-M-yyyy"
+        format: "ddMMyyyy"
     });
 
     $scope.showDatePickerPurchaseDate = function () {
@@ -129,6 +129,8 @@ app.controller('AssetCtrl', function ($scope, assetResource, prefResource) {
     $scope.edit = function (obj) {
         
         $scope.asset = angular.copy(obj);
+        $scope.asset.PurchaseDate = $scope.asset.PurchaseDate != null || $scope.asset.PurchaseDate != "" ? $scope.convertdate($scope.asset.PurchaseDate) : "";
+        $scope.asset.ManufactureDate = $scope.asset.ManufactureDate != null || $scope.asset.ManufactureDate != "" ? $scope.convertdate($scope.asset.ManufactureDate):"";
         $scope.isValidate = true;
         $scope.actionstatus = "Update";
         $("#modal-action").modal('show');
@@ -188,6 +190,16 @@ app.controller('AssetCtrl', function ($scope, assetResource, prefResource) {
                 $scope.init();
             }
         });
+    }
+
+    $scope.convertdate = function(stringdate) {
+        var a = Date.parse(stringdate.replace(/^(\d\d)(\d\d)(\d\d\d\d)$/, "$2-$1-$3"));
+        var myDate = new Date(parseInt(a));
+        var month = ("0" + (myDate.getMonth() + 1)).slice(-2);
+        var day = ("0" + myDate.getDate()).slice(-2);
+        var year = myDate.getFullYear();
+        var date = day + "/" + month + "/" + year;
+        return date;
     }
 
 });
