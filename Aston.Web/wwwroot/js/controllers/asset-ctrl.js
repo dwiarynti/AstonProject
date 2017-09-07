@@ -2,7 +2,7 @@
  * Asset Controller
  */
 
-app.controller('AssetCtrl', function ($scope, assetResource, prefResource) {
+app.controller('AssetCtrl', function ($scope, $rootScope, assetResource, prefResource) {
     var assetResources = new assetResource();
     var prefResources = new prefResource();
     $scope.isValidate = true;
@@ -10,6 +10,7 @@ app.controller('AssetCtrl', function ($scope, assetResource, prefResource) {
     $scope.asset = {};
     $scope.actionstatus = "";
     $scope.categorylist = [];
+    $rootScope.PageName = "Asset";
 
     $scope.dtOptions = { "aaSorting": [], "bPaginate": false, "bLengthChange": false, "bFilter": false, "bSort": false, "bInfo": false, "bAutoWidth": false };
 
@@ -56,7 +57,6 @@ app.controller('AssetCtrl', function ($scope, assetResource, prefResource) {
     $scope.init = function() {
         assetResources.$GetAsset(function (data) {
             $scope.assetlist = data.obj;
-            console.log(data);
         });
         $scope.GetCategory();
     }
@@ -117,7 +117,6 @@ app.controller('AssetCtrl', function ($scope, assetResource, prefResource) {
         assetResources.CategoryCD = $scope.asset.CategoryCD;
         assetResources.CreatedBy = "test";
         assetResources.StatusCD = 1;
-        console.log(assetResources);
         assetResources.$CreateAsset(function (data) {
             if (data.success) {
                 $("#modal-action").modal('hide');

@@ -1,8 +1,6 @@
 ﻿(function () {
     "use strict";
-    angular
-        .module("common.services")
-        .factory("assetLocationResource",
+    app.factory("assetLocationResource",
                 ["$resource",
                  assetLocationResource]);
     function assetLocationResource($resource) {

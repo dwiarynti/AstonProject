@@ -2,7 +2,7 @@
  * Location Controller
  */
 
-app.controller('LocationCtrl', function ($scope, locationResource, prefResource) {
+app.controller('LocationCtrl', function ($scope, $rootScope, locationResource, prefResource) {
     var locationResources = new locationResource();
     var prefResources = new prefResource();
 
@@ -11,6 +11,8 @@ app.controller('LocationCtrl', function ($scope, locationResource, prefResource)
     $scope.location = {};
     $scope.actionstatus = "";
     $scope.locationtypelist = [];
+    $rootScope.PageName = "Location";
+
 
     $scope.dtOptions = { "aaSorting": [], "bPaginate": false, "bLengthChange": false, "bFilter": false, "bSort": false, "bInfo": false, "bAutoWidth": false };
 
@@ -37,7 +39,6 @@ app.controller('LocationCtrl', function ($scope, locationResource, prefResource)
     $scope.init = function() {
         locationResources.$GetLocation(function (data) {
             $scope.locationlist = data.obj;
-            console.log(data);
         });
         $scope.GetLocationType();
     }
@@ -86,7 +87,6 @@ app.controller('LocationCtrl', function ($scope, locationResource, prefResource)
         locationResources.Floor = $scope.location.Floor;
         locationResources.LocationTypeCD = $scope.location.LocationTypeCD;
         locationResources.StatusCD = 1;
-        console.log(locationResources);
         locationResources.$CreateLocation(function (data) {
             if (data.success) {
                 $scope.init();

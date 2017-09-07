@@ -1,24 +1,28 @@
 ﻿<div ng-controller="AssetLocationCtrl">
-    <button type="button" class="btn btn-primary" ng-click="add()">Add</button>
+    <div ng-hide="isLoading" class="form-group">
+        <div class="col-sm-12">
+            <button type="button" class="btn btn-primary" ng-click="add()">Add</button>
+        </div>
+    </div>
     <table id="data-table" datatable="ng" dt-options="dtOptions" width="100%" class="table table-striped table-bordered">
         <thead>
-            <tr>
-                <th>Asset</th>
-                <th>Location</th>
-                <th>On Transition</th>
-                <th>Action</th>
-            </tr>
+        <tr>
+            <th>Asset</th>
+            <th>Location</th>
+            <th>On Transition</th>
+            <th>Action</th>
+        </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="assetlocation in assetlocationlist">
-                <td>{{assetlocation.AssetName}}</td>
-                <td>{{assetlocation.LocationName}}</td>
-                <td>{{assetlocation.OnTransition}}</td>
-                <td>
-                    <button type="button" class="btn btn-default btn-width" ng-click="edit(assetlocation)">Edit</button>
-                    <button type="button" class="btn btn-default btn-width" ng-click="deletemodal(assetlocation)">Delete</button>
-                </td>
-            </tr>
+        <tr ng-repeat="assetlocation in assetlocationlist">
+            <td>{{assetlocation.AssetName}}</td>
+            <td>{{assetlocation.LocationName}}</td>
+            <td>{{assetlocation.OnTransition}}</td>
+            <td>
+                <button type="button" class="btn btn-default btn-width" ng-click="edit(assetlocation)">Edit</button>
+                <button type="button" class="btn btn-default btn-width" ng-click="deletemodal(assetlocation)">Delete</button>
+            </td>
+        </tr>
         </tbody>
     </table>
 
@@ -52,7 +56,7 @@
                         <label class="col-sm-3 form-control-label">On Transition*</label>
                         <div class="col-sm-9">
                             <input type="radio" name="choicestype" ng-model="assetlocation.OnTransition" data-ng-value="true" class="radio-template"/> True
-                            <input type="radio" name="choicestype" ng-model="assetlocation.OnTransition" data-ng-value="false" class="radio-template"/> False<br />
+                            <input type="radio" name="choicestype" ng-model="assetlocation.OnTransition" data-ng-value="false" class="radio-template"/> False<br/>
                             <small class="text-danger" ng-if="(assetlocation.OnTransition | getType)  != 'boolean' && isValidate == false">OnTransition is required</small>
                         </div>
                     </div>

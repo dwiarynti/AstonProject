@@ -2,7 +2,7 @@
  * Asset Controller
  */
 
-app.controller('AssetLocationCtrl', function ($scope, assetResource, locationResource, assetLocationResource) {
+app.controller('AssetLocationCtrl', function ($scope, $rootScope, assetResource, locationResource, assetLocationResource) {
     var assetResources = new assetResource();
     var locationResources = new locationResource();
     var assetLocationResources = new assetLocationResource();
@@ -12,6 +12,7 @@ app.controller('AssetLocationCtrl', function ($scope, assetResource, locationRes
     $scope.assetlocationlist = [];
     $scope.assetlocation = {};
     $scope.actionstatus = "";
+    $rootScope.PageName = "Asset Location";
 
     $scope.dtOptions = { "aaSorting": [], "bPaginate": false, "bLengthChange": false, "bFilter": false, "bSort": false, "bInfo": false, "bAutoWidth": false };
 
@@ -46,14 +47,10 @@ app.controller('AssetLocationCtrl', function ($scope, assetResource, locationRes
 
     $scope.init = function() {
         assetLocationResources.$GetAssetLocation(function (data) {
-            console.log(data);
             $scope.assetlocationlist = data.obj;
         });
         $scope.GetAsset();
         $scope.GetLocation();
-
-        console.log($scope.assetlist);
-        console.log($scope.locationlist);
     }
 
     $scope.init();
@@ -97,7 +94,6 @@ app.controller('AssetLocationCtrl', function ($scope, assetResource, locationRes
         assetLocationResources.AssetID = parseInt($scope.assetlocation.AssetID);
         assetLocationResources.LocationID = parseInt($scope.assetlocation.LocationID);
         assetLocationResources.OnTransition = $scope.assetlocation.OnTransition;
-        console.log(assetLocationResources);
         assetLocationResources.$CreateAssetLocation(function (data) {
             if (data.success) {
                 $("#modal-action").modal('hide');
@@ -108,7 +104,6 @@ app.controller('AssetLocationCtrl', function ($scope, assetResource, locationRes
 
     $scope.edit = function(obj) {
         $scope.assetlocation = angular.copy(obj);
-        console.log($scope.assetlocation);
         $scope.actionstatus = "Update";
         $("#modal-action").modal('show');
     }
