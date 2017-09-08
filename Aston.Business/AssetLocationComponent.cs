@@ -101,7 +101,7 @@ namespace Aston.Business
                             assetlocationobj.OnTransition = false;
                             assetlocationobj.CreatedDate = date.Date.ToString("ddMMyyyy");
                             assetlocationobj.CreatedBy = obj.CreatedBy;
-                            assetlocationobj.MovementRequestDetailID = null;
+                            assetlocationobj.MovementRequestDetailID = obj.MovementRequestDetailID ;
                             _context.AssetLocation.Add(assetlocationobj);
                             _context.SaveChanges();
                         }
@@ -145,7 +145,7 @@ namespace Aston.Business
                     assetlocationobj.OnTransition = obj.OnTransition;
                     assetlocationobj.CreatedDate = DateTime.Now.Date.ToString("ddMMyyyy");
                     assetlocationobj.CreatedBy = obj.CreatedBy;
-                    assetlocationobj.MovementRequestDetailID = null;
+                    assetlocationobj.MovementRequestDetailID = obj.MovementRequestDetailID;
                     _context.AssetLocation.Add(assetlocationobj);
                     _context.SaveChanges();
                     transaction.Commit();
