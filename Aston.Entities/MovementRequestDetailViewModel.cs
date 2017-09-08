@@ -10,7 +10,7 @@ namespace Aston.Entities
         public int ID { get; set; }
         public int MovementRequestID { get; set; }
         public string Description { get; set; }
-        public string AssetCategoryCD { get; set; }
+        public int AssetCategoryCD { get; set; }
         public int Quantity { get; set; }
         public int RequestTo { get; set; }
         public string CreatedDate { get; set; }
