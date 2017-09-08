@@ -4,13 +4,13 @@
                 ["$resource",
                  movementrequestResource]);
     function movementrequestResource($resource) {
-        return $resource("/api/movementrequest/:action",
+        return $resource("/api/MovementRequest/:action",
         { id: '@id' },
         {
-            Getmovementrequest: { method: 'GET', params: { action: 'Getmovementrequest' } },
-            Createmovementrequest: { method: 'POST', params: { action: 'Createmovementrequest' } },
-            Updatemovementrequest: { method: 'POST', params: { action: 'Updatemovementrequest' } },
-            Deletemovementrequest: { method: 'POST', params: { action: 'Deletemovementrequest' } },
+            GetMovementRequest: { method: 'GET', params: { action: 'GetMovementRequest' } },
+            CreateMovementRequest: { method: 'POST', params: { action: 'CreateMovementRequest' } },
+            UpdateMovementRequest: { method: 'POST', params: { action: 'UpdateMovementRequest' } },
+            DeleteMovementRequest: { method: 'POST', params: { action: 'DeleteMovementRequest' } },
 
         });
     }

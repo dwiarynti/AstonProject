@@ -82,10 +82,11 @@
                 </div>
                 <!-- Sidebar Navidation Menus--><span class="heading">Main</span>
                 <ul class="list-unstyled">
-                    <li class="active"> <a href="./"><i class="icon-home"></i>Home</a></li>
-                    <li ng-click="SendPageName('Asset')"> <a href="#assetmanagement"> <i class="icon-padnote"></i>Asset </a></li>
-                    <li ng-click="SendPageName('Location')"> <a href="#locationmanagement"> <i class="icon-padnote"></i>Location </a></li>
-                    <li ng-click="SendPageName('Asset Location')"> <a href="#assetlocationmanagement"> <i class="icon-padnote"></i>Asset Location </a></li>
+                    <li class="active"> <a href="#home"><i class="icon-home"></i>Home</a></li>
+                    <li> <a href="#assetmanagement"> <i class="icon-padnote"></i>Asset</a></li>
+                    <li> <a href="#locationmanagement"> <i class="icon-padnote"></i>Location</a></li>
+                    <li> <a href="#assetlocationmanagement"> <i class="icon-padnote"></i>Asset Location</a></li>
+                    <li> <a href="#movementrequestmanagement"> <i class="icon-padnote"></i>Movement Request</a></li>
                 </ul>
             </nav>
             <div class="content-inner">
@@ -110,7 +111,7 @@
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-sm-6">
-                                <p>Your company &copy; 2017-2019</p>
+                                <p>Escurity &copy; 2017-2019</p>
                             </div>
                             <div class="col-sm-6 text-right">
                                 <p>Design by --</p>
@@ -160,15 +161,19 @@
         <script type="text/javascript" src="~/js/ccsasset/Angular-datatables/src/angular-datatables.factory.js"></script>
         <script type="text/javascript" src="~/js/ccsasset/Angular-datatables/src/angular-datatables.directive.js"></script>
         <script src="~/js/route.js"></script>
-        <script src="~/js/services/common.services.js"></script>
+        <script src="~/js/services/transferobject.service.js"></script>
         <script src="~/js/services/assetResource.js"></script>
         <script src="~/js/services/locationResource.js"></script>
         <script src="~/js/services/assetlocationResource.js"></script>
         <script src="~/js/services/prefResource.js"></script>
+        <script src="~/js/services/movementrequestResource.js"></script>
         <script src="~/js/controllers/master-ctrl.js"></script>
         <script src="~/js/controllers/asset-ctrl.js"></script>
         <script src="~/js/controllers/location-ctrl.js"></script>
         <script src="~/js/controllers/assetlocation-ctrl.js"></script>
+        <script src="~/js/controllers/movementrequest-ctrl.js"></script>
+        <script src="~/js/controllers/movementrequestdetail-ctrl.js"></script>
+        <script src="~/js/controllers/home-ctrl.js"></script>
     </environment>
     <environment names="Staging,Production">
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"

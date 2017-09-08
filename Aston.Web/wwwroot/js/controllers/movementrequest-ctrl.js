@@ -2,8 +2,8 @@
  * movementrequest Controller
  */
 
-app.controller('MovementRequestCtrl', function ($scope, $rootScope, $state, transferobjectService) {
-
+app.controller('MovementRequestCtrl', function ($scope, $rootScope, $state, transferobjectService, movementrequestResource) {
+    var movementrequestResources = new movementrequestResource();
     $scope.movementrequestlist = [];
     $scope.movementrequest = {};
     $rootScope.PageName = "Movement Request";
@@ -12,16 +12,33 @@ app.controller('MovementRequestCtrl', function ($scope, $rootScope, $state, tran
     $scope.dtOptions = { "aaSorting": [], "bPaginate": false, "bLengthChange": false, "bFilter": false, "bSort": false, "bInfo": false, "bAutoWidth": false };
 
     $scope.init = function() {
-        //movementrequestResources.$Getmovementrequest(function (data) {
-        //    $scope.movementrequestlist = data.obj;
-        //    console.log(data);
-        //});
+        movementrequestResources.$GetMovementRequest(function (data) {
+            $scope.movementrequestlist = data.obj;
+            console.log(data);
+        });
+    }
+
+    function movementrequesModel() {
+        return {
+            ID: "temp",
+            MovementDate: null,
+            Description: null,
+            ApprovedDate: null,
+            ApprovedBy: null,
+            MovementRequestDetail:[]
+            //CreatedDate: null,
+            //CreatedBy: null,
+            //UpdatedDate: null,
+            //UpdatedBy: null,
+            //DeletedDate: null,
+            //DeletedBy: null
+        };
     }
 
     $scope.init();
 
     $scope.add = function () {
-        transferobjectService.addObj = { "data": "test" };
+        transferobjectService.addObj = movementrequesModel();
         $state.go('movementrequestdetailmanagement');
     }
 

@@ -1,5 +1,5 @@
 ﻿<div ng-controller="MovementRequestDetailCtrl">
-    <div ng-class="(asset.MovementDate == null || asset.MovementDate == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
+    <div ng-class="(movementrequestdetail.MovementDate == null || movementrequestdetail.MovementDate == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
         <label class="col-sm-3 form-control-label">Movement Date*</label>
         <div class="col-sm-9">
             <div class="datepicker_dis">
@@ -33,14 +33,40 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="asset in assetlist"></tr>
+        <tr ng-repeat="movementrequestdetail in movementrequestobj.MovementRequestDetail">
+            <!--viewmode-->
+            <td ng-if="movementrequestdetail.editmode == false">{{movementrequestdetail.AssetCategoryCD}}</td>
+            <td ng-if="movementrequestdetail.editmode == false">{{movementrequestdetail.Description}}</td>
+            <td ng-if="movementrequestdetail.editmode == false">{{movementrequestdetail.Quantity}}</td>
+            <td ng-if="movementrequestdetail.editmode == false">{{movementrequestdetail.RequestedTo}}</td>
+            <td ng-if="movementrequestdetail.editmode == false">{{movementrequestdetail.Transfered}}</td>
+            <td ng-if="movementrequestdetail.editmode == false">
+                <button type="button" class="btn btn-default btn-width" ng-click="edit(asset)">Edit</button>
+                <button type="button" class="btn btn-default btn-width" ng-click="deletemodal($index)">Cancel</button>
+            </td>
+
+            <!--manipulation mode-->
+            <td ng-if="movementrequestdetail.editmode == true">
+                <select name="account" class="form-control" ng-model="movementrequestdetail.AssetCategoryCD">
+                    <option ng-repeat="category in categorylist" ng-selected="isSelectedItem(category.Code,movementrequestdetail.CategoryCD)" value="{{category.Code}}">{{category.Value}}</option>
+                </select>
+            </td>
+            <td ng-if="movementrequestdetail.editmode == true"><input type="text" class="form-control form-control-success" placeholder="Description" ng-model="movementrequestdetail.Description"></td>
+            <td ng-if="movementrequestdetail.editmode == true"><input type="text" class="form-control form-control-success" placeholder="Description" ng-model="movementrequestdetail.Quantity"></td>
+            <td ng-if="movementrequestdetail.editmode == true"><input type="text" class="form-control form-control-success" placeholder="Description" ng-model="movementrequestdetail.RequestedTo"></td>
+            <td ng-if="movementrequestdetail.editmode == true"><input type="text"  disabled="true" class="form-control form-control-success" placeholder="Description" ng-model="movementrequestdetail.Transfered"></td>
+            <td ng-if="movementrequestdetail.editmode == true">
+                <button type="button" class="btn btn-default btn-width" ng-click="addMRD(movementrequestdetail)">Add</button>
+                <button type="button" class="btn btn-default btn-width" ng-click="turnoffmanipulationmode($index)">Cancel</button>
+            </td>
+        </tr>
         </tbody>
     </table>
 
     <div ng-hide="isLoading" class="form-group m-b-50">
         <div class="col-md-12 text-right">
-            <button ng-if="movementrequestobj.ID == 0" type="button" class="btn btn-primary" ng-click="Save()">Save</button>
-            <button ng-if="movementrequestobj.ID != 0" type="button" class="btn btn-primary" ng-click="Update()">Update</button>
+            <button ng-if="movementrequestobj.ID == 'temp'" type="button" class="btn btn-primary" ng-click="SaveMovementRequest()">Save</button>
+            <button ng-if="movementrequestobj.ID != 'temp'" type="button" class="btn btn-primary" ng-click="Update()">Update</button>
         </div>
     </div>
 

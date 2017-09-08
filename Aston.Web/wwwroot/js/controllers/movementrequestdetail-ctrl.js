@@ -2,10 +2,14 @@
  * movementrequest Controller
  */
 
-app.controller('MovementRequestDetailCtrl', function ($scope, $rootScope, transferobjectService) {
+app.controller('MovementRequestDetailCtrl', function ($scope, $rootScope, transferobjectService, movementrequestResource, prefResource) {
+    var movementrequestResources = new movementrequestResource();
+    var prefResources = new prefResource();
     $scope.isValidate = true;
     $scope.movementrequestobj = transferobjectService.addObj;
     $scope.movementrequest = {};
+    $scope.movementrequestdetailList = [];
+    $scope.categorylist = [];
     $rootScope.PageName = "Movement Request Detail";
 
 
@@ -14,21 +18,21 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $rootScope, transf
 
     $('#datepicker-movementdate').datepicker({
         todayHighlight: true,
-        format: "ddMMyyyy"
+        format: "dd-MM-yyyy"
     });
 
     $scope.showDatePickerMovementDate = function () {
         $('#datepicker-movementdate').datepicker('show');
     };
 
-    function movementrequestDetailModel() {
+    function movementrequesModel() {
         return {
             ID: "temp",
-            MovementRequestID:null,
+            MovementDate: null,
             Description: null,
-            AssetCategoryCD: null,
-            Quantity: null,
-            RequestedTo: null,
+            ApprovedDate: null,
+            ApprovedBy: null,
+            MovementRequestDetail: []
             //CreatedDate: null,
             //CreatedBy: null,
             //UpdatedDate: null,
@@ -36,6 +40,95 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $rootScope, transf
             //DeletedDate: null,
             //DeletedBy: null
         };
+    }
+
+    function movementrequestDetailModel() {
+        return {
+            ID: "temp",
+            MovementRequestID: null,
+            Description: null,
+            AssetCategoryCD: null,
+            Quantity: null,
+            RequestedTo: null,
+            editmode:false,
+        //CreatedDate: null,
+        //CreatedBy: null,
+        //UpdatedDate: null,
+        //UpdatedBy: null,
+        //DeletedDate: null,
+        //DeletedBy: null
+    };
+    }
+
+    $scope.Add = function () {
+        var obj = movementrequestDetailModel();
+        obj.editmode = true;
+        $scope.movementrequestobj.MovementRequestDetail.push(obj);
+    }
+    $scope.GetCategory = function () {
+        prefResources.$GetCategory(function (data) {
+            $scope.categorylist = data.obj;
+        });
+    }
+
+    $scope.GetCategory();
+
+    $scope.addMRD = function(obj) {
+        obj.editmode = false;
+    }
+
+    $scope.turnoffmanipulationmode = function (index) {
+        $scope.movementrequestobj.MovementRequestDetail.splice(index, 1);
+    }
+
+
+    $scope.Save = function () {
+        $scope.isValidate = $scope.validationform();
+        if ($scope.isValidate) {
+            $scope.SaveAsset();
+        }
+    }
+
+    $scope.validationform = function () {
+        var validationstatus = true;
+        var keys = Object.keys(movementrequesModel());
+        for (var i = 0; i < keys.length; i++) {
+            var key = keys[i];
+            var value = $scope.movementrequestobj[key];
+            var datatype = typeof value;
+            if (datatype != "boolean" && validationstatus) {
+                if (value == null || value == "") {
+                    validationstatus = false;
+                    break;
+                }
+            } else if (!validationstatus) {
+                validationstatus = false;
+                break;
+            }
+        }
+        return validationstatus;
+    }
+
+    $scope.SaveMovementRequest = function () {
+        var movementrequestResources = new movementrequestResource();
+        movementrequestResources.MovementDate = $scope.movementrequestobj.MovementDate;
+        movementrequestResources.Description = $scope.movementrequestobj.Description;
+        movementrequestResources.MovementRequestDetail = $scope.movementrequestobj.MovementRequestDetail;
+
+        angular.forEach(movementrequestResources.MovementRequestDetail, function(data) {
+            delete data.ID;
+            delete data.editmode;
+            data.AssetCategoryCD = parseInt(data.AssetCategoryCD);
+            data.Quantity = parseInt(data.Quantity);
+            data.RequestedTo = parseInt(data.RequestedTo);
+        });
+        console.log(movementrequestResources);
+        movementrequestResources.$CreateMovementRequest(function (data) {
+            if (data.success) {
+                $("#modal-action").modal('hide');
+                $scope.init();
+            }
+        });
     }
 
 
