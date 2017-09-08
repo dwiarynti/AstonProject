@@ -32,6 +32,7 @@ namespace Aston.Business
             result.IsMovable = asset.IsMovable;
             result.Owner = asset.Owner;
             result.PurchaseDate = asset.PurchaseDate;
+            result.PurchasePrice = asset.PurchasePrice;
             result.DepreciationDuration = asset.DepreciationDuration;
             result.DisposedDate = asset.DisposedDate;
             result.ManufactureDate = asset.ManufactureDate;
@@ -60,6 +61,7 @@ namespace Aston.Business
                 model.IsMovable = item.IsMovable;
                 model.Owner = item.Owner;
                 model.PurchaseDate = item.PurchaseDate;
+                model.PurchasePrice = item.PurchasePrice;
                 model.DepreciationDuration = item.DepreciationDuration;
                 model.DisposedDate = item.DisposedDate;
                 model.ManufactureDate = item.ManufactureDate;
@@ -90,6 +92,7 @@ namespace Aston.Business
             result.IsMovable = asset.IsMovable;
             result.Owner = asset.Owner;
             result.PurchaseDate = asset.PurchaseDate;
+            result.PurchasePrice = asset.PurchasePrice;
             result.DepreciationDuration = asset.DepreciationDuration;
             result.DisposedDate = asset.DisposedDate;
             result.ManufactureDate = asset.ManufactureDate;
