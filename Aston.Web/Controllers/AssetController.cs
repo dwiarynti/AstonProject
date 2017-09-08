@@ -56,7 +56,7 @@ namespace Aston.Web.Controllers
         public HttpResponseMessage CreateAsset(HttpRequestMessage request, [FromBody] AssetViewModel obj)
         {
             HttpResponseMessage response = new HttpResponseMessage();
-            obj.CreatedBy ="1";
+            obj.CreatedBy =User.Identity.Name;
             response = _assetProcess.CreateAsset(obj);
             return response;
         }
@@ -66,7 +66,7 @@ namespace Aston.Web.Controllers
         public HttpResponseMessage UpdateAsset(HttpRequestMessage request, [FromBody] AssetViewModel obj)
         {
             HttpResponseMessage response = new HttpResponseMessage();
-            obj.UpdatedBy = "1";
+            obj.UpdatedBy = User.Identity.Name;
             response = _assetProcess.UpdateAsset(obj);
             return response;
         }
@@ -76,7 +76,7 @@ namespace Aston.Web.Controllers
         public HttpResponseMessage DeleteAsset(HttpRequestMessage request, [FromBody] Asset obj)
         {
             HttpResponseMessage response = new HttpResponseMessage();
-            obj.DeletedBy = "1";
+            obj.DeletedBy = User.Identity.Name;
             response = _assetProcess.DeleteAsset(obj);
             return response;
         }

@@ -59,8 +59,15 @@ namespace Aston.Web.Process
             result = REST(requestUri, RESTConstants.POST, JsonConvert.SerializeObject(obj));
             return result;
         }
+        public HttpResponseMessage DeleteMovementRequestDetail(MovementRequestDetail obj)
+        {
+            HttpResponseMessage result = default(HttpResponseMessage);
+            string requestUri = "api/MovementRequest/DeleteMovementRequestDetail/";
+            result = REST(requestUri, RESTConstants.POST, JsonConvert.SerializeObject(obj));
+            return result;
+        }
 
 
-    
+
     }
 }

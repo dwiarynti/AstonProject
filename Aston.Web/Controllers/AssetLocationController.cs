@@ -53,7 +53,6 @@ namespace Aston.Web.Controllers
         public HttpResponseMessage MoveAsset(HttpRequestMessage request, [FromBody] AssetViewModel obj)
         {
             HttpResponseMessage response = new HttpResponseMessage();
-            obj.CreatedBy = "1";
             response = _assetLocationProcess.MoveAsset(obj);
             return response;
         }
@@ -63,7 +62,7 @@ namespace Aston.Web.Controllers
         public HttpResponseMessage CreateAssetLocation(HttpRequestMessage request, [FromBody] AssetLocation obj)
         {
             HttpResponseMessage response = new HttpResponseMessage();
-            obj.CreatedBy = "1";
+            obj.CreatedBy = User.Identity.Name;
             response = _assetLocationProcess.CreateAssetLocation(obj);
             return response;
         }
@@ -73,7 +72,7 @@ namespace Aston.Web.Controllers
         public HttpResponseMessage UpdateAssetLocation(HttpRequestMessage request, [FromBody] AssetLocation obj)
         {
             HttpResponseMessage response = new HttpResponseMessage();
-            obj.UpdatedBy = "1";
+            obj.UpdatedBy = User.Identity.Name;
             response = _assetLocationProcess.UpdateAssetLocation(obj);
             return response;
         }
@@ -82,7 +81,7 @@ namespace Aston.Web.Controllers
         public HttpResponseMessage MoveAsset(HttpRequestMessage request, [FromBody] AssetLocation obj)
         {
             HttpResponseMessage response = new HttpResponseMessage();
-            obj.DeletedBy = "1";
+            obj.DeletedBy = User.Identity.Name;
             response = _assetLocationProcess.DeleteAssetLocation(obj);
             return response;
         }

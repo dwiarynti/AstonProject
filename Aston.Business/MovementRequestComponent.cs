@@ -107,20 +107,20 @@ namespace Aston.Business
         {
             bool result;
             IDbContextTransaction transaction = _context.Database.BeginTransaction();
-            int count = 0;
             try
             {
                 var movement = _movementrequest.GetMovementRequestByID(obj.ID);
                 movement.Description = obj.Description;
+                movement.Notes = obj.Notes;
+                movement.StatusCD = obj.StatusCD;
                 movement.UpdatedBy = obj.UpdatedBy;
                 movement.UpdatedDate = DateTime.Now.ToString("ddMMyyyy");
-
+                
                 movement.MovementRequestDetail = null;
                 foreach (var item in obj.MovementRequestDetail)
                 {
                     var detail = _movementrequest.GetMovementRequestDetailByID(item.ID);
-                    if (item.IsUpdate == true)
-                    {
+                  
                         detail.Description = item.Description;
                         detail.AssetCategoryCD = item.AssetCategoryCD;
                         detail.Quantity = item.Quantity;
@@ -128,14 +128,7 @@ namespace Aston.Business
                         detail.UpdatedBy = obj.UpdatedBy;
                         detail.UpdatedDate = DateTime.Now.ToString("ddMMyyyy");
 
-                    }
-                    else
-                    {
-                        detail.DeletedBy = obj.UpdatedBy;
-                        detail.DeletedDate = DateTime.Now.ToString("ddMMyyyy");
-                    }
-
-                    movement.MovementRequestDetail.Add(detail);
+                        movement.MovementRequestDetail.Add(detail);
                 }
 
                 _context.Entry(movement).State = EntityState.Modified;
@@ -169,6 +162,35 @@ namespace Aston.Business
                         item.DeletedDate = DateTime.Now.Date.ToString("ddMMyyyy");
                     }
                     _context.Entry(movement).State = EntityState.Modified;
+                    _context.SaveChanges();
+                    transaction.Commit();
+                    result = true;
+                }
+                catch (Exception ex)
+                {
+                    result = false;
+                    transaction.Rollback();
+                }
+            }
+            else
+            {
+                result = false;
+            }
+            return result;
+        }
+        public bool DeleteMovementRequestDetail(MovementRequestDetail obj)
+        {
+            bool result;
+            IDbContextTransaction transaction = _context.Database.BeginTransaction();
+            var detail = _movementrequest.GetMovementRequestDetailByID(obj.ID);
+            if (detail != null)
+            {
+                try
+                {
+                    detail.DeletedBy = obj.DeletedBy;
+                    detail.DeletedDate = DateTime.Now.Date.ToString("ddMMyyyy");
+
+                    _context.Entry(detail).State = EntityState.Modified;
                     _context.SaveChanges();
                     transaction.Commit();
                     result = true;

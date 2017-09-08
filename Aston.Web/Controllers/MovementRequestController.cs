@@ -43,7 +43,7 @@ namespace Aston.Web.Controllers
         public HttpResponseMessage CreateMovementRequest(HttpRequestMessage request, [FromBody] MovementRequestViewModel obj)
         {
             HttpResponseMessage response = new HttpResponseMessage();
-            obj.CreatedBy = "1";
+            obj.CreatedBy = User.Identity.Name;
             response = _movementProcess.CreateMovementRequest(obj);
             return response;
         }
@@ -52,7 +52,7 @@ namespace Aston.Web.Controllers
         public HttpResponseMessage UpdateMovementRequest(HttpRequestMessage request, [FromBody] MovementRequestViewModel obj)
         {
             HttpResponseMessage response = new HttpResponseMessage();
-            obj.UpdatedBy = "1";
+            obj.UpdatedBy = User.Identity.Name;
             response = _movementProcess.UpdateMovementRequest(obj);
             return response;
         }
@@ -61,7 +61,7 @@ namespace Aston.Web.Controllers
         public HttpResponseMessage ApproveMovementRequest(HttpRequestMessage request, [FromBody] MovementRequest obj)
         {
             HttpResponseMessage response = new HttpResponseMessage();
-            obj.UpdatedBy = "1";
+            obj.UpdatedBy = User.Identity.Name;
             response = _movementProcess.ApproveMovementRequest(obj);
             return response;
         }
@@ -70,8 +70,17 @@ namespace Aston.Web.Controllers
         public HttpResponseMessage DeleteMovementRequest(HttpRequestMessage request, [FromBody] MovementRequest obj)
         {
             HttpResponseMessage response = new HttpResponseMessage();
-            obj.DeletedBy = "1";
+            obj.DeletedBy = User.Identity.Name;
             response = _movementProcess.DeleteMovementRequest(obj);
+            return response;
+        }
+        [HttpPost]
+        [Route("DeleteMovementRequestDetail")]
+        public HttpResponseMessage DeleteMovementRequestDetail(HttpRequestMessage request, [FromBody] MovementRequestDetail obj)
+        {
+            HttpResponseMessage response = new HttpResponseMessage();
+            obj.DeletedBy = User.Identity.Name;
+            response = _movementProcess.DeleteMovementRequestDetail(obj);
             return response;
         }
     }
