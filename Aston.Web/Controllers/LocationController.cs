@@ -54,7 +54,7 @@ namespace Aston.Web.Controllers
         public HttpResponseMessage CreateLocation(HttpRequestMessage request, [FromBody] LocationViewModel obj)
         {
             HttpResponseMessage response = new HttpResponseMessage();
-            obj.CreatedBy = "1";
+            obj.CreatedBy = User.Identity.Name;
             response = _locationProcess.CreateLocation(obj);
             return response;
         }
@@ -64,7 +64,7 @@ namespace Aston.Web.Controllers
         public HttpResponseMessage UpdateLocation(HttpRequestMessage request, [FromBody] LocationViewModel obj)
         {
             HttpResponseMessage response = new HttpResponseMessage();
-            obj.UpdatedBy = "1";
+            obj.UpdatedBy = User.Identity.Name;
             response = _locationProcess.UpdateLocation(obj);
             return response;
         }
@@ -74,7 +74,7 @@ namespace Aston.Web.Controllers
         public HttpResponseMessage DeleteLocation(HttpRequestMessage request, [FromBody] Location obj)
         {
             HttpResponseMessage response = new HttpResponseMessage();
-            obj.DeletedBy = "1";
+            obj.DeletedBy = User.Identity.Name;
             response = _locationProcess.DeleteLocation(obj);
             return response;
         }
