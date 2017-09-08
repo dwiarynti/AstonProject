@@ -74,5 +74,14 @@ namespace Aston.Web.Controllers
             response = _movementProcess.DeleteMovementRequest(obj);
             return response;
         }
+        [HttpPost]
+        [Route("DeleteMovementRequestDetail")]
+        public HttpResponseMessage DeleteMovementRequestDetail(HttpRequestMessage request, [FromBody] MovementRequestDetail obj)
+        {
+            HttpResponseMessage response = new HttpResponseMessage();
+            obj.DeletedBy = User.Identity.Name;
+            response = _movementProcess.DeleteMovementRequestDetail(obj);
+            return response;
+        }
     }
 }

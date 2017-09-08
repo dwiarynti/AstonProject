@@ -11,6 +11,7 @@ namespace Aston.Entities
         public string location { get; set; }
         public List<string> listAsset { get; set; }
         public int MovementRequestDetailID { get; set; }
+        public string CreatedDate { get; set; }
 
 
         //Asset
