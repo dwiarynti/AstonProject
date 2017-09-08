@@ -18,8 +18,12 @@ var app = angular.module("RDash",
 app.config([
     '$stateProvider', '$urlRouterProvider',
     function ($stateProvider, $urlRouterProvider) {
-
+        //$urlRouterProvider.otherwise('/home');
         $stateProvider
+            .state('home', {
+                url: '/home',
+                templateUrl: 'views/home.html'
+            })
             .state('assetmanagement', {
                 url: '/assetmanagement',
                 templateUrl: 'views/assetmanagement.html',
