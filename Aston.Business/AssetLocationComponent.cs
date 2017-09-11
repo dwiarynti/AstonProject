@@ -228,5 +228,28 @@ namespace Aston.Business
             }
             return result;
         }
+
+        public List<AssetLocationViewModel> GetAssetLocationByMovementDetailID(int id,int categorycdid)
+        {
+            List<AssetLocationViewModel> result = new List<AssetLocationViewModel>();
+
+            var assetlocation = _assetlocation.GetAssetLocationByMovementDetailID(id,categorycdid);
+            if (assetlocation != null)
+            {
+                foreach (var item in assetlocation)
+                {
+                    AssetLocationViewModel model = new AssetLocationViewModel();
+                    model.ID = item.ID;
+                    model.AssetID = item.AssetID;
+                    model.AssetName = item.Asset.Name;
+                    model.LocationID = item.LocationID;
+                    model.LocationName = item.Location.Name;
+                    model.OnTransition = item.OnTransition;
+                    model.MovementRequestDetailID = item.MovementRequestDetailID;
+                    result.Add(model);
+                }
+            }
+            return result;
+        }
     }
 }

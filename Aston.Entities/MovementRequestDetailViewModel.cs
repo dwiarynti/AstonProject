@@ -21,5 +21,6 @@ namespace Aston.Entities
         public string DeletedBy { get; set; }
         public bool IsDelete { get; set; }
         public bool IsUpdate { get; set; }
+        public int Transfered { get; set; }
     }
 }
