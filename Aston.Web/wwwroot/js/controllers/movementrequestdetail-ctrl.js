@@ -14,7 +14,18 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $rootScope
 
     //console.log($scope.movementrequestobj.MovementRequestDetail);
     
+    $scope.convertdate = function (stringdate) {
+        var a = Date.parse(stringdate.replace(/^(\d\d)(\d\d)(\d\d\d\d)$/, "$2-$1-$3"));
+        var myDate = new Date(parseInt(a));
+        var month = ("0" + (myDate.getMonth() + 1)).slice(-2);
+        var day = ("0" + myDate.getDate()).slice(-2);
+        var year = myDate.getFullYear();
+        var date = day + "/" + month + "/" + year;
+        return date;
+    }
+
     $scope.init = function () {
+        $scope.movementrequestobj.MovementDate = $scope.convertdate($scope.movementrequestobj.MovementDate);
         angular.forEach($scope.movementrequestobj.MovementRequestDetail, function(data) {
             data.editmode = false;
         });
@@ -31,7 +42,7 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $rootScope
 
     $('#datepicker-movementdate').datepicker({
         todayHighlight: true,
-        format: "dd-MM-yyyy"
+        format: "ddMMMyyyy"
     });
 
     $scope.showDatePickerMovementDate = function () {
@@ -177,18 +188,6 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $rootScope
                 //$scope.init();
             }
         });
-    }
-
-
-   
-    $scope.convertdate = function(stringdate) {
-        var a = Date.parse(stringdate.replace(/^(\d\d)(\d\d)(\d\d\d\d)$/, "$2-$1-$3"));
-        var myDate = new Date(parseInt(a));
-        var month = ("0" + (myDate.getMonth() + 1)).slice(-2);
-        var day = ("0" + myDate.getDate()).slice(-2);
-        var year = myDate.getFullYear();
-        var date = day + "/" + month + "/" + year;
-        return date;
     }
 
     $scope.isSelectedItem = function (itemA, itemB) {
