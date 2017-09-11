@@ -33,16 +33,18 @@ namespace Aston.Business
                 model.Notes = item.Notes;
                 model.ApprovalStatus = item.ApprovalStatus;
                 model.ApprovalStatusName = approvalname != null ? approvalname.Value : null;
+                model.MovementRequestDetail = new List<MovementRequestDetailViewModel>();
                 foreach (var item2 in item.MovementRequestDetail)
                 {
                     MovementRequestDetailViewModel detail = new MovementRequestDetailViewModel();
                     var categoryname = _pref.GetLookupByCategoryCode(item2.AssetCategoryCD);
                     detail.ID = item2.ID;
                     detail.MovementRequestID = item2.MovementRequestID;
+                    detail.Description = item2.Description;
                     detail.AssetCategoryCD = item2.AssetCategoryCD;
                     detail.CategoryCDName = categoryname!= null ? categoryname.Value: null;
                     detail.RequestTo = item2.RequestedTo;
-                    model.MovementRequestDetail = new List<MovementRequestDetailViewModel>();
+                    detail.Quantity = item2.Quantity;
                     model.MovementRequestDetail.Add(detail);
                 }
                 result.Add(model);
@@ -64,25 +66,28 @@ namespace Aston.Business
             result.Notes = movement.Notes;
             result.ApprovalStatus = movement.ApprovalStatus;
             result.ApprovalStatusName = approvalname != null ? approvalname.Value : null;
+            result.MovementRequestDetail = new List<MovementRequestDetailViewModel>();
             foreach (var item in movement.MovementRequestDetail)
             {
                 MovementRequestDetailViewModel detail = new MovementRequestDetailViewModel();
                 var categoryname = _pref.GetLookupByCategoryCode(item.AssetCategoryCD);
                 detail.ID = item.ID;
                 detail.MovementRequestID = item.MovementRequestID;
+                detail.Description = item.Description;
                 detail.AssetCategoryCD = item.AssetCategoryCD;
                 detail.CategoryCDName = categoryname != null ? categoryname.Value : null;
                 detail.RequestTo = item.RequestedTo;
-                result.MovementRequestDetail = new List<MovementRequestDetailViewModel>();
+                detail.Quantity = item.Quantity;
+              
                 result.MovementRequestDetail.Add(detail);
             }
             return result;
 
         }
 
-        public bool CreateMovementRequest(MovementRequestViewModel obj)
+        public ResultViewModel CreateMovementRequest(MovementRequestViewModel obj)
         {
-            bool result;
+            ResultViewModel result = new ResultViewModel();
             IDbContextTransaction transaction = _context.Database.BeginTransaction();
             if (obj != null)
             {
@@ -109,17 +114,20 @@ namespace Aston.Business
                     _context.MovementRequest.Add(movement);
                     _context.SaveChanges();
                     transaction.Commit();
-                    result = true;
+                    result.resultstatus = true;
+                    result.movementrequest = movement;
                 }
                 catch (Exception ex)
                 {
                     transaction.Rollback();
-                    result = false;
+                    result.resultstatus = false;
+                    result.movementrequest = null;
                 }
             }
             else
             {
-                result = false;
+                result.resultstatus = false;
+                result.movementrequest = null;
             }
 
             return result;
@@ -159,9 +167,9 @@ namespace Aston.Business
             return result;
         }
 
-        public bool UpdateMovementRequest(MovementRequestViewModel obj)
+        public ResultViewModel UpdateMovementRequest(MovementRequestViewModel obj)
         {
-            bool result;
+            ResultViewModel result = new ResultViewModel();
             IDbContextTransaction transaction = _context.Database.BeginTransaction();
             try
             {
@@ -191,12 +199,14 @@ namespace Aston.Business
                 _context.Entry(movement).State = EntityState.Modified;
                 _context.SaveChanges();
                 transaction.Commit();
-                result = true;
+                result.movementrequest = movement;
+                result.resultstatus = true;
 
             }
             catch (Exception ex)
             {
-                result = false;
+                result.movementrequest = null;
+                result.resultstatus = false;
             }
             return result;
         }

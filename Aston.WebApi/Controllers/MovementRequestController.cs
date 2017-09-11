@@ -41,7 +41,7 @@ namespace Aston.WebApi.Controllers
         {
             var result = service.CreateMovementRequest(obj);
             HttpResponseMessage response = new HttpResponseMessage();
-            response = request.CreateResponse(HttpStatusCode.OK, new { success = true, obj = result });
+            response = request.CreateResponse(HttpStatusCode.OK, new { success = result.resultstatus, obj = result.movementrequest });
             return response;
         }
         [HttpPost]
@@ -58,8 +58,9 @@ namespace Aston.WebApi.Controllers
         public HttpResponseMessage UpdateMovementRequest(HttpRequestMessage request, [FromBody] MovementRequestViewModel obj)
         {
             var result = service.UpdateMovementRequest(obj);
+           
             HttpResponseMessage response = new HttpResponseMessage();
-            response = request.CreateResponse(HttpStatusCode.OK, new { success = true, obj = result });
+            response = request.CreateResponse(HttpStatusCode.OK, new { success = result.resultstatus, obj = result.movementrequest });
             return response;
         }
         [HttpPost]
