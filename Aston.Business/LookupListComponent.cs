@@ -10,6 +10,7 @@ namespace Aston.Business
     public class LookupListComponent
     {
         LookupListExtensions _pref = new LookupListExtensions();
+        DepartmentExtensions _department = new DepartmentExtensions();
 
         public List<LookupList> GetCategory()
         {
@@ -42,6 +43,16 @@ namespace Aston.Business
         public LookupList GetLookupByApprovalStatusCode(int code)
         {
             return _pref.GetLookupByApprovalStatusCode(code);
+        }
+     
+        public List<Department> GetDepartment()
+        {
+            return _department.GetDepartment();
+        }
+
+        public Department GetDepartmentByID(int id)
+        {
+            return _department.GetDepartmentByID(id);
         }
     }
 }

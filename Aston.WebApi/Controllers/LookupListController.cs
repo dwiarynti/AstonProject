@@ -53,5 +53,25 @@ namespace Aston.WebApi.Controllers
             return response;
         }
 
+
+        [HttpGet]
+        [Route("GetDepartment")]
+        public HttpResponseMessage GetDepartment(HttpRequestMessage request)
+        {
+            var result = service.GetDepartment();
+            HttpResponseMessage response = new HttpResponseMessage();
+            response = request.CreateResponse(HttpStatusCode.OK, new { success = true, obj = result });
+            return response;
+        }
+        [HttpGet]
+        [Route("GetDepartmentByID/{id}")]
+        public HttpResponseMessage GetDepartmentByID(HttpRequestMessage request,int id)
+        {
+            var result = service.GetDepartmentByID(id);
+            HttpResponseMessage response = new HttpResponseMessage();
+            response = request.CreateResponse(HttpStatusCode.OK, new { success = true, obj = result });
+            return response;
+        }
+
     }
 }

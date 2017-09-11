@@ -44,5 +44,19 @@ namespace Aston.Web.Process
             result = REST(requestUri, RESTConstants.GET);
             return result;
         }
+        public HttpResponseMessage GetDepartmentByID(int id)
+        {
+            HttpResponseMessage result = default(HttpResponseMessage);
+            string requestUri = "api/LookupList/GetDepartmentByID/" + id;
+            result = REST(requestUri, RESTConstants.GET);
+            return result;
+        }
+        public HttpResponseMessage GetDepartment()
+        {
+            HttpResponseMessage result = default(HttpResponseMessage);
+            string requestUri = "api/LookupList/GetDepartment/";
+            result = REST(requestUri, RESTConstants.GET);
+            return result;
+        }
     }
 }
