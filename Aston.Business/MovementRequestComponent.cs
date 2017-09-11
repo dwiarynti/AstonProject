@@ -15,7 +15,7 @@ namespace Aston.Business
         AstonContext _context = new AstonContext();
         MovementRequestExtensions _movementrequest = new MovementRequestExtensions();
         LookupListComponent _pref = new LookupListComponent();
-
+        DepartmentExtensions _department = new DepartmentExtensions();
         public List<MovementRequestViewModel> GetMovementRequest()
         {
             List<MovementRequestViewModel> result = new List<MovementRequestViewModel>();
@@ -38,12 +38,14 @@ namespace Aston.Business
                 {
                     MovementRequestDetailViewModel detail = new MovementRequestDetailViewModel();
                     var categoryname = _pref.GetLookupByCategoryCode(item2.AssetCategoryCD);
+                    var deparment = _department.GetDepartmentByID(item2.RequestedTo);
                     detail.ID = item2.ID;
                     detail.MovementRequestID = item2.MovementRequestID;
                     detail.Description = item2.Description;
                     detail.AssetCategoryCD = item2.AssetCategoryCD;
                     detail.CategoryCDName = categoryname!= null ? categoryname.Value: null;
                     detail.RequestTo = item2.RequestedTo;
+                    detail.RequestToName = deparment != null ? deparment.Name : null;
                     detail.Quantity = item2.Quantity;
                     model.MovementRequestDetail.Add(detail);
                 }
@@ -71,12 +73,15 @@ namespace Aston.Business
             {
                 MovementRequestDetailViewModel detail = new MovementRequestDetailViewModel();
                 var categoryname = _pref.GetLookupByCategoryCode(item.AssetCategoryCD);
+                var deparment = _department.GetDepartmentByID(item.RequestedTo);
+
                 detail.ID = item.ID;
                 detail.MovementRequestID = item.MovementRequestID;
                 detail.Description = item.Description;
                 detail.AssetCategoryCD = item.AssetCategoryCD;
                 detail.CategoryCDName = categoryname != null ? categoryname.Value : null;
                 detail.RequestTo = item.RequestedTo;
+                detail.RequestToName = deparment != null ? deparment.Name : null;
                 detail.Quantity = item.Quantity;
               
                 result.MovementRequestDetail.Add(detail);
