@@ -2,9 +2,9 @@
  * Asset Controller
  */
 
-app.controller('AssetCtrl', function ($scope, $rootScope, assetResource, prefResource) {
+app.controller('AssetCtrl', function ($scope, $rootScope, assetResource, lookuplistResource) {
     var assetResources = new assetResource();
-    var prefResources = new prefResource();
+    var lookuplistResources = new lookuplistResource();
     $scope.isValidate = true;
     $scope.assetlist = [];
     $scope.asset = {};
@@ -62,7 +62,7 @@ app.controller('AssetCtrl', function ($scope, $rootScope, assetResource, prefRes
     }
 
     $scope.GetCategory = function() {
-        prefResources.$GetCategory(function (data) {
+        lookuplistResources.$GetCategory(function (data) {
             $scope.categorylist = data.obj;
         });
     }

@@ -1,10 +1,10 @@
 ﻿(function () {
     "use strict";
-    app.factory("prefResource",
+    app.factory("lookuplistResource",
                 ["$resource",
-                 prefResource]);
-    function prefResource($resource) {
-        return $resource("/api/Pref/:action",
+                 lookuplistResource]);
+    function lookuplistResource($resource) {
+        return $resource("/api/LookupList/:action",
         { id: '@id' },
         {
             GetCategory: { method: 'GET', params: { action: 'GetCategory' } },

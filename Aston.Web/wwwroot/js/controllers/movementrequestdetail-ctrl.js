@@ -2,9 +2,9 @@
  * movementrequest Controller
  */
 
-app.controller('MovementRequestDetailCtrl', function ($scope, $rootScope, transferobjectService, movementrequestResource, prefResource) {
+app.controller('MovementRequestDetailCtrl', function ($scope, $rootScope, transferobjectService, movementrequestResource, lookuplistResource) {
     var movementrequestResources = new movementrequestResource();
-    var prefResources = new prefResource();
+    var lookuplistResources = new lookuplistResource();
     $scope.isValidate = true;
     $scope.movementrequestobj = transferobjectService.addObj;
     $scope.movementrequest = {};
@@ -66,7 +66,7 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $rootScope, transf
         $scope.movementrequestobj.MovementRequestDetail.push(obj);
     }
     $scope.GetCategory = function () {
-        prefResources.$GetCategory(function (data) {
+        lookuplistResources.$GetCategory(function (data) {
             $scope.categorylist = data.obj;
         });
     }
