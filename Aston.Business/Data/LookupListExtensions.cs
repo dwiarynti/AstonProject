@@ -41,7 +41,7 @@ namespace Aston.Business.Data
         }
         public LookupList GetLookupByApprovalStatusCode(int code)
         {
-            return context.LookupList.Where(p => p.Type == "LocationType" && p.Code == code).FirstOrDefault();
+            return context.LookupList.Where(p => p.Type == "ApprovalStatus" && p.Code == code).FirstOrDefault();
         }
     }
 }

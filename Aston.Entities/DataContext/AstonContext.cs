@@ -23,6 +23,7 @@ namespace Aston.Entities.DataContext
             modelBuilder.Entity<MovementRequest>().HasKey(m => m.ID);
             modelBuilder.Entity<MovementRequestDetail>().HasKey(m => m.ID);
             modelBuilder.Entity<LookupList>().HasKey(m => m.ID);
+            modelBuilder.Entity<Department>().HasKey(m => m.ID);
 
             modelBuilder.Entity<AssetLocation>()
                 .HasOne(m => m.Asset)
@@ -48,5 +49,6 @@ namespace Aston.Entities.DataContext
         public DbSet<MovementRequest> MovementRequest { get; set; }
         public DbSet<MovementRequestDetail> MovementRequestDetail { get; set; }
         public DbSet<LookupList> LookupList { get; set; }
+        public DbSet<Department> Department { get; set; }
     }
 }
