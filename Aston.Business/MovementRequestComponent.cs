@@ -28,7 +28,7 @@ namespace Aston.Business
                 model.ID = item.ID;
                 model.MovementDate = item.MovementDate;
                 model.Description = item.Description;
-                model.ApprovedDate = item.MovementDate;
+                model.ApprovedDate = item.ApprovedDate;
                 model.ApprovedBy = item.ApprovedBy;
                 model.Notes = item.Notes;
                 model.ApprovalStatus = item.ApprovalStatus;
@@ -61,7 +61,7 @@ namespace Aston.Business
             result.ID = movement.ID;
             result.MovementDate = movement.MovementDate;
             result.Description = movement.Description;
-            result.ApprovedDate = movement.MovementDate;
+            result.ApprovedDate = movement.ApprovedDate;
             result.ApprovedBy = movement.ApprovedBy;
             result.Notes = movement.Notes;
             result.ApprovalStatus = movement.ApprovalStatus;
