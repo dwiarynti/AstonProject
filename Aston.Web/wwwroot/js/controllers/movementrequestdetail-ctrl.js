@@ -118,6 +118,7 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $rootScope, transf
         angular.forEach(movementrequestResources.MovementRequestDetail, function(data) {
             delete data.ID;
             delete data.editmode;
+            delete data.MovementRequestID;
             data.AssetCategoryCD = parseInt(data.AssetCategoryCD);
             data.Quantity = parseInt(data.Quantity);
             data.RequestedTo = parseInt(data.RequestedTo);
