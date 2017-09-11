@@ -2,7 +2,7 @@
  * movementrequest Controller
  */
 
-app.controller('MovementRequestDetailCtrl', function ($scope, $state, $rootScope, transferobjectService, movementrequestResource, lookuplistResource) {
+app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $rootScope, transferobjectService, movementrequestResource, lookuplistResource) {
     var movementrequestResources = new movementrequestResource();
     var lookuplistResources = new lookuplistResource();
     $scope.isValidate = true;
@@ -14,10 +14,23 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $rootScope
 
     //console.log($scope.movementrequestobj.MovementRequestDetail);
     
+    $scope.convertdate = function (stringdate) {
+        var a = Date.parse(stringdate.replace(/^(\d\d)(\d\d)(\d\d\d\d)$/, "$2-$1-$3"));
+        var myDate = new Date(parseInt(a));
+        var month = ("0" + (myDate.getMonth() + 1)).slice(-2);
+        var day = ("0" + myDate.getDate()).slice(-2);
+        var year = myDate.getFullYear();
+        var date = day + "/" + month + "/" + year;
+        return date;
+    }
+
     $scope.init = function () {
-        angular.forEach($scope.movementrequestobj.MovementRequestDetail, function(data) {
-            data.editmode = false;
-        });
+        if ($scope.movementrequestobj.ID != 'temp') {
+            $scope.movementrequestobj.MovementDate = $scope.convertdate($scope.movementrequestobj.MovementDate);
+            angular.forEach($scope.movementrequestobj.MovementRequestDetail, function (data) {
+                data.editmode = false;
+            });
+        }
     }
 
     if ($scope.movementrequestobj.ID == undefined) {
@@ -31,7 +44,7 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $rootScope
 
     $('#datepicker-movementdate').datepicker({
         todayHighlight: true,
-        format: "dd-MM-yyyy"
+        format: "d/mm/yy"
     });
 
     $scope.showDatePickerMovementDate = function () {
@@ -62,7 +75,7 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $rootScope
             Description: null,
             AssetCategoryCD: null,
             Quantity: null,
-            RequestedTo: null,
+            RequestTo : null,
             editmode:false,
         //CreatedDate: null,
         //CreatedBy: null,
@@ -135,7 +148,7 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $rootScope
         movementrequestResources.MovementDate = $scope.movementrequestobj.MovementDate;
         movementrequestResources.Description = $scope.movementrequestobj.Description;
         movementrequestResources.ApprovalStatus = 1;
-        movementrequestResources.MovementRequestDetail = $scope.movementrequestobj.MovementRequestDetail;
+        movementrequestResources.MovementRequestDetail = angular.copy($scope.movementrequestobj.MovementRequestDetail);
 
         angular.forEach(movementrequestResources.MovementRequestDetail, function(data) {
             delete data.ID;
@@ -146,12 +159,12 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $rootScope
             data.RequestedTo = parseInt(data.RequestedTo);
         });
         console.log(movementrequestResources);
-        movementrequestResources.$CreateMovementRequest(function (data) {
-            if (data.success) {
-                //$scope.movementrequestobj = ;
-                //$scope.init();
-            }
-        });
+        //movementrequestResources.$CreateMovementRequest(function (data) {
+        //    if (data.success) {
+        //        //$scope.movementrequestobj = ;
+        //        //$scope.init();
+        //    }
+        //});
     }
 
 
@@ -160,7 +173,7 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $rootScope
         movementrequestResources.MovementDate = $scope.movementrequestobj.MovementDate;
         movementrequestResources.Description = $scope.movementrequestobj.Description;
         movementrequestResources.ApprovalStatus = 1;
-        movementrequestResources.MovementRequestDetail = $scope.movementrequestobj.MovementRequestDetail;
+        movementrequestResources.MovementRequestDetail = angular.copy($scope.movementrequestobj.MovementRequestDetail);
 
         angular.forEach(movementrequestResources.MovementRequestDetail, function (data) {
             delete data.ID;
@@ -179,20 +192,13 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $rootScope
         });
     }
 
-
-   
-    $scope.convertdate = function(stringdate) {
-        var a = Date.parse(stringdate.replace(/^(\d\d)(\d\d)(\d\d\d\d)$/, "$2-$1-$3"));
-        var myDate = new Date(parseInt(a));
-        var month = ("0" + (myDate.getMonth() + 1)).slice(-2);
-        var day = ("0" + myDate.getDate()).slice(-2);
-        var year = myDate.getFullYear();
-        var date = day + "/" + month + "/" + year;
-        return date;
-    }
-
     $scope.isSelectedItem = function (itemA, itemB) {
         return itemA == itemB ? true : false;
+    }
+
+    $scope.getCategoryName = function (obj) {
+        var a = $filter('filter')($scope.categorylist, function (category) { return category.Code === parseInt(obj.AssetCategoryCD) })[0];
+        obj.CategoryCDName = a.Value;
     }
 
 });

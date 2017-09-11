@@ -14,7 +14,7 @@ app.controller('MovementRequestCtrl', function ($scope, $rootScope, $state, tran
     $scope.init = function() {
         movementrequestResources.$GetMovementRequest(function (data) {
             $scope.movementrequestlist = data.obj;
-            //console.log(data);
+            console.log(data);
         });
     }
 
@@ -51,7 +51,7 @@ app.controller('MovementRequestCtrl', function ($scope, $rootScope, $state, tran
         $scope.movementrequest = angular.copy(obj);
         $("#modal-action").modal('show');
     }
-    $scope.delete = function () {
+    $scope.DeleteMovementRequest = function () {
         var movementrequestResources = new movementrequestResource();
         movementrequestResources.ID = $scope.movementrequest.ID;
         movementrequestResources.MovementDate = $scope.movementrequest.MovementDate;
