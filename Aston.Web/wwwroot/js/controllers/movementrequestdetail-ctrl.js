@@ -2,9 +2,9 @@
  * movementrequest Controller
  */
 
-app.controller('MovementRequestDetailCtrl', function ($scope, $rootScope, transferobjectService, movementrequestResource, prefResource) {
+app.controller('MovementRequestDetailCtrl', function ($scope, $state, $rootScope, transferobjectService, movementrequestResource, lookuplistResource) {
     var movementrequestResources = new movementrequestResource();
-    var prefResources = new prefResource();
+    var lookuplistResources = new lookuplistResource();
     $scope.isValidate = true;
     $scope.movementrequestobj = transferobjectService.addObj;
     $scope.movementrequest = {};
@@ -12,6 +12,9 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $rootScope, transf
     $scope.categorylist = [];
     $rootScope.PageName = "Movement Request Detail";
 
+    if ($scope.movementrequestobj.ID == undefined) {
+        $state.go('movementrequestmanagement');
+    }
 
     $scope.dtOptions = { "aaSorting": [], "bPaginate": false, "bLengthChange": false, "bFilter": false, "bSort": false, "bInfo": false, "bAutoWidth": false };
 
@@ -66,7 +69,7 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $rootScope, transf
         $scope.movementrequestobj.MovementRequestDetail.push(obj);
     }
     $scope.GetCategory = function () {
-        prefResources.$GetCategory(function (data) {
+        lookuplistResources.$GetCategory(function (data) {
             $scope.categorylist = data.obj;
         });
     }
@@ -113,6 +116,7 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $rootScope, transf
         var movementrequestResources = new movementrequestResource();
         movementrequestResources.MovementDate = $scope.movementrequestobj.MovementDate;
         movementrequestResources.Description = $scope.movementrequestobj.Description;
+        movementrequestResources.ApprovalStatus = 1;
         movementrequestResources.MovementRequestDetail = $scope.movementrequestobj.MovementRequestDetail;
 
         angular.forEach(movementrequestResources.MovementRequestDetail, function(data) {
@@ -126,8 +130,8 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $rootScope, transf
         console.log(movementrequestResources);
         movementrequestResources.$CreateMovementRequest(function (data) {
             if (data.success) {
-                $("#modal-action").modal('hide');
-                $scope.init();
+                //$scope.movementrequestobj = ;
+                //$scope.init();
             }
         });
     }

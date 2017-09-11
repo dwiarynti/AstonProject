@@ -2,9 +2,9 @@
  * Location Controller
  */
 
-app.controller('LocationCtrl', function ($scope, $rootScope, locationResource, prefResource) {
+app.controller('LocationCtrl', function ($scope, $rootScope, locationResource, lookuplistResource) {
     var locationResources = new locationResource();
-    var prefResources = new prefResource();
+    var lookuplistResources = new lookuplistResource();
 
     $scope.isValidate = true;
     $scope.locationlist = [];
@@ -44,7 +44,7 @@ app.controller('LocationCtrl', function ($scope, $rootScope, locationResource, p
     }
 
     $scope.GetLocationType = function () {
-        prefResources.$GetLocationType(function (data) {
+        lookuplistResources.$GetLocationType(function (data) {
             $scope.locationtypelist = data.obj;
         });
     }
