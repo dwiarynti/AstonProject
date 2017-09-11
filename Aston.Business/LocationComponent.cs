@@ -15,13 +15,13 @@ namespace Aston.Business
         AstonContext _context = new AstonContext();
         LocationExtensions _location = new LocationExtensions();
         GenerateCodeComponent _generatecode = new GenerateCodeComponent();
-        PrefComponent _pref = new PrefComponent();
+        LookupListComponent _pref = new LookupListComponent();
         public LocationViewModel GetLocationByCode(string code)
         {
             LocationViewModel result = new LocationViewModel();
             var location = _location.GetLocationByCode(code);
-            var statuscdname = _pref.GetPrefByStatusCode(location.StatusCD);
-            var locationtypename = _pref.GetPrefByLocationTypeCode(location.LocationTypeCD);
+            var statuscdname = _pref.GetLookupByStatusCode(location.StatusCD);
+            var locationtypename = _pref.GetLookupByLocationTypeCode(location.LocationTypeCD);
 
             result.ID = location.ID;
             result.Code = location.Code;
@@ -40,8 +40,8 @@ namespace Aston.Business
         {
             LocationViewModel result = new LocationViewModel();
             var location = _location.GetLocationByID(id);
-            var statuscdname = _pref.GetPrefByStatusCode(location.StatusCD);
-            var locationtypename = _pref.GetPrefByLocationTypeCode(location.LocationTypeCD);
+            var statuscdname = _pref.GetLookupByStatusCode(location.StatusCD);
+            var locationtypename = _pref.GetLookupByLocationTypeCode(location.LocationTypeCD);
 
             result.ID = location.ID;
             result.Code = location.Code;
@@ -64,8 +64,8 @@ namespace Aston.Business
             foreach(var item in location)
             {
                 LocationViewModel model = new LocationViewModel();
-                var statuscdname = _pref.GetPrefByStatusCode(item.StatusCD);
-                var locationtypename = _pref.GetPrefByLocationTypeCode(item.LocationTypeCD);
+                var statuscdname = _pref.GetLookupByStatusCode(item.StatusCD);
+                var locationtypename = _pref.GetLookupByLocationTypeCode(item.LocationTypeCD);
 
                 model.ID = item.ID;
                 model.Code = item.Code;

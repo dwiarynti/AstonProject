@@ -80,7 +80,7 @@ namespace Aston.Web
             services.AddTransient<AssetProcess>();
             services.AddTransient<AssetLocationProcess>();
             services.AddTransient<LocationProcess>();
-            services.AddTransient<PrefProcess>();
+            services.AddTransient<LookupListProcess>();
             services.AddTransient<MovementRequestProcces>();
         }
 

@@ -16,14 +16,14 @@ namespace Aston.Business
         AssetExtensions _asset = new AssetExtensions();
         LocationExtensions _location = new LocationExtensions();
         GenerateCodeComponent _generatecode = new GenerateCodeComponent();
-        PrefComponent _pref = new PrefComponent();
+        LookupListComponent _pref = new LookupListComponent();
         public AssetViewModel GetAssetByCode (string barcode)
         {
             AssetViewModel result = new AssetViewModel();
          
             var asset = _asset.GetAssetInfoByCode(barcode);
-            var categoryCDName = _pref.GetPrefByCategoryCode(asset.CategoryCD);
-            var statusCDName = _pref.GetPrefByStatusCode(asset.StatusCD);
+            var categoryCDName = _pref.GetLookupByCategoryCode(asset.CategoryCD);
+            var statusCDName = _pref.GetLookupByStatusCode(asset.StatusCD);
 
             result.Code = asset.Code;
             result.Description = asset.Description;
@@ -50,8 +50,8 @@ namespace Aston.Business
             foreach(var item in asset)
             {
                 AssetViewModel model = new AssetViewModel();
-                var categoryCDName = _pref.GetPrefByCategoryCode(item.CategoryCD);
-                var statusCDName = _pref.GetPrefByStatusCode(item.StatusCD);
+                var categoryCDName = _pref.GetLookupByCategoryCode(item.CategoryCD);
+                var statusCDName = _pref.GetLookupByStatusCode(item.StatusCD);
 
                 model.ID = item.ID;
                 model.Code = item.Code;
@@ -82,8 +82,8 @@ namespace Aston.Business
             AssetViewModel result = new AssetViewModel();
 
             var asset = _asset.GetAssetInfoByID(id);
-            var categoryCDName = _pref.GetPrefByCategoryCode(asset.CategoryCD);
-            var statusCDName = _pref.GetPrefByStatusCode(asset.StatusCD);
+            var categoryCDName = _pref.GetLookupByCategoryCode(asset.CategoryCD);
+            var statusCDName = _pref.GetLookupByStatusCode(asset.StatusCD);
 
             result.Code = asset.Code;
             result.Description = asset.Description;

@@ -12,12 +12,12 @@ namespace Aston.Web.Controllers
 {
     [Authorize]
     [Produces("application/json")]
-    [Route("api/Pref")]
-    public class PrefController : Controller
+    [Route("api/LookupList")]
+    public class LookupListController : Controller
     {
-        private readonly PrefProcess _prefProcess;
+        private readonly LookupListProcess _prefProcess;
 
-        public PrefController(PrefProcess prefProcess)
+        public LookupListController(LookupListProcess prefProcess)
         {
             _prefProcess = prefProcess;
         }
@@ -44,6 +44,14 @@ namespace Aston.Web.Controllers
         {
             HttpResponseMessage response = new HttpResponseMessage();
             response = _prefProcess.GetStatus();
+            return response;
+        }
+        [Route("GetApprovalStatus")]
+        [HttpGet]
+        public HttpResponseMessage GetApprovalStatus(HttpRequestMessage request)
+        {
+            HttpResponseMessage response = new HttpResponseMessage();
+            response = _prefProcess.GetApprovalStatus();
             return response;
         }
 

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Aston.Entities
 {
-    public class Pref
+    public class LookupList
     {
         public int ID { get; set; }
         public int Code { get; set; }

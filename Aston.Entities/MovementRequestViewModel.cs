@@ -13,7 +13,7 @@ namespace Aston.Entities
         public string Description { get; set; }
         public string ApprovedDate { get; set; }
         public string ApprovedBy { get; set; }
-        public int StatusCD { get; set; }
+        public int ApprovalStatus { get; set; }
         public string Notes { get; set; }
         public string CreatedDate { get; set; }
         public string CreatedBy { get; set; }

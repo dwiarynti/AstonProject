@@ -9,31 +9,38 @@ using System.Threading.Tasks;
 
 namespace Aston.Web.Process
 {
-    public class PrefProcess :ProcessComponent
+    public class LookupListProcess :ProcessComponent
     {
         private readonly AppSetting _serviceSettings;
-        public PrefProcess(IOptions<AppSetting> serviceSettings) : base(serviceSettings)
+        public LookupListProcess(IOptions<AppSetting> serviceSettings) : base(serviceSettings)
         {
             _serviceSettings = serviceSettings.Value;
         }
         public HttpResponseMessage GetCategory()
         {
             HttpResponseMessage result = default(HttpResponseMessage);
-            string requestUri = "api/pref/GetCategory/";
+            string requestUri = "api/LookupList/GetCategory/";
             result = REST(requestUri, RESTConstants.GET);
             return result;
         }
         public HttpResponseMessage GetLocationType()
         {
             HttpResponseMessage result = default(HttpResponseMessage);
-            string requestUri = "api/pref/GetLocationType/";
+            string requestUri = "api/LookupList/GetLocationType/";
             result = REST(requestUri, RESTConstants.GET);
             return result;
         }
         public HttpResponseMessage GetStatus()
         {
             HttpResponseMessage result = default(HttpResponseMessage);
-            string requestUri = "api/pref/GetStatus/";
+            string requestUri = "api/LookupList/GetStatus/";
+            result = REST(requestUri, RESTConstants.GET);
+            return result;
+        }
+        public HttpResponseMessage GetApprovalStatus()
+        {
+            HttpResponseMessage result = default(HttpResponseMessage);
+            string requestUri = "api/LookupList/GetApprovalStatus/";
             result = REST(requestUri, RESTConstants.GET);
             return result;
         }

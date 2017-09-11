@@ -37,6 +37,7 @@ namespace Aston.Business
                     MovementRequest movement = new MovementRequest();
                     movement.MovementDate = Convert.ToDateTime(obj.MovementDate).ToString("ddMMyyyy");
                     movement.Description = obj.Description;
+                    movement.ApprovalStatus = obj.ApprovalStatus;
                     movement.CreatedDate = DateTime.Now.ToString("ddMMyyyy");
                     movement.CreatedBy = obj.CreatedBy;
 
@@ -46,7 +47,7 @@ namespace Aston.Business
                         detail.Description = item.Description;
                         detail.AssetCategoryCD = item.AssetCategoryCD;
                         detail.Quantity = item.Quantity;
-                        detail.RequestTo = item.RequestTo;
+                        detail.RequestedTo = item.RequestTo;
                         detail.CreatedDate = movement.CreatedDate;
                         detail.CreatedBy = movement.CreatedBy;
                         movement.MovementRequestDetail.Add(detail);
@@ -82,6 +83,7 @@ namespace Aston.Business
                 {
                     request.ApprovedBy = obj.ApprovedBy;
                     request.ApprovedDate = DateTime.Now.ToString("ddMMyyyy");
+                    request.ApprovalStatus = obj.ApprovalStatus;
                     request.UpdatedBy = obj.UpdatedBy;
                     request.UpdatedDate = DateTime.Now.ToString("ddMMyyyy");
 
@@ -111,8 +113,9 @@ namespace Aston.Business
             {
                 var movement = _movementrequest.GetMovementRequestByID(obj.ID);
                 movement.Description = obj.Description;
+                movement.ApprovalStatus = obj.ApprovalStatus;
                 movement.Notes = obj.Notes;
-                movement.StatusCD = obj.StatusCD;
+                movement.ApprovalStatus = obj.ApprovalStatus;
                 movement.UpdatedBy = obj.UpdatedBy;
                 movement.UpdatedDate = DateTime.Now.ToString("ddMMyyyy");
                 
@@ -124,7 +127,7 @@ namespace Aston.Business
                         detail.Description = item.Description;
                         detail.AssetCategoryCD = item.AssetCategoryCD;
                         detail.Quantity = item.Quantity;
-                        detail.RequestTo = item.RequestTo;
+                        detail.RequestedTo = item.RequestTo;
                         detail.UpdatedBy = obj.UpdatedBy;
                         detail.UpdatedDate = DateTime.Now.ToString("ddMMyyyy");
 

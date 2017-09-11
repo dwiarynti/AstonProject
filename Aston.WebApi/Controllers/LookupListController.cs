@@ -11,10 +11,10 @@ using System.Net;
 
 namespace Aston.WebApi.Controllers
 {
-    [Route("api/pref")]
-    public class PrefController : Controller
+    [Route("api/LookupList")]
+    public class LookupListController : Controller
     {
-        PrefComponent service = new PrefComponent();
+        LookupListComponent service = new LookupListComponent();
 
         [HttpGet]
         [Route("GetCategory")]
@@ -39,6 +39,15 @@ namespace Aston.WebApi.Controllers
         public HttpResponseMessage GetStatus(HttpRequestMessage request)
         {
             var result = service.GetStatus();
+            HttpResponseMessage response = new HttpResponseMessage();
+            response = request.CreateResponse(HttpStatusCode.OK, new { success = true, obj = result });
+            return response;
+        }
+        [HttpGet]
+        [Route("GetApprovalStatus")]
+        public HttpResponseMessage GetApprovalStatus(HttpRequestMessage request)
+        {
+            var result = service.GetApprovalStatus();
             HttpResponseMessage response = new HttpResponseMessage();
             response = request.CreateResponse(HttpStatusCode.OK, new { success = true, obj = result });
             return response;
