@@ -14,7 +14,7 @@ app.controller('MovementRequestCtrl', function ($scope, $rootScope, $state, tran
     $scope.init = function() {
         movementrequestResources.$GetMovementRequest(function (data) {
             $scope.movementrequestlist = data.obj;
-            console.log(data);
+            //console.log(data);
         });
     }
 
@@ -54,12 +54,12 @@ app.controller('MovementRequestCtrl', function ($scope, $rootScope, $state, tran
     $scope.delete = function () {
         var movementrequestResources = new movementrequestResource();
         movementrequestResources.ID = $scope.movementrequest.ID;
-        movementrequestResources.Name = $scope.movementrequest.Name;
+        movementrequestResources.MovementDate = $scope.movementrequest.MovementDate;
         movementrequestResources.Description = $scope.movementrequest.Description;
-        movementrequestResources.Floor = $scope.movementrequest.Floor;
-        movementrequestResources.movementrequestTypeCD = $scope.movementrequest.movementrequestTypeCD;
-        movementrequestResources.StatusCD = $scope.movementrequest.StatusCD;
-        movementrequestResources.$Deletemovementrequest(function (data) {
+        movementrequestResources.ApprovedDate = $scope.movementrequest.ApprovedDate;
+        movementrequestResources.ApprovedBy = $scope.movementrequest.ApprovedBy;
+        movementrequestResources.MovementRequestDetail = $scope.movementrequest.MovementRequestDetail;
+        movementrequestResources.$DeleteMovementRequest(function (data) {
             if (data.success) {
                 $scope.init();
                 $("#modal-action").modal('hide');

@@ -35,29 +35,33 @@
         <tbody>
         <tr ng-repeat="movementrequestdetail in movementrequestobj.MovementRequestDetail">
             <!--viewmode-->
-            <td ng-if="movementrequestdetail.editmode == false">{{movementrequestdetail.AssetCategoryCD}}</td>
+            <td ng-if="movementrequestdetail.editmode == false">{{movementrequestdetail.CategoryCDName}}</td>
             <td ng-if="movementrequestdetail.editmode == false">{{movementrequestdetail.Description}}</td>
             <td ng-if="movementrequestdetail.editmode == false">{{movementrequestdetail.Quantity}}</td>
             <td ng-if="movementrequestdetail.editmode == false">{{movementrequestdetail.RequestedTo}}</td>
             <td ng-if="movementrequestdetail.editmode == false">{{movementrequestdetail.Transfered}}</td>
             <td ng-if="movementrequestdetail.editmode == false">
-                <button type="button" class="btn btn-default btn-width" ng-click="edit(asset)">Edit</button>
+                <button type="button" class="btn btn-default btn-width" ng-click="editMRD(movementrequestdetail)">Edit</button>
                 <button type="button" class="btn btn-default btn-width" ng-click="deletemodal($index)">Cancel</button>
             </td>
 
             <!--manipulation mode-->
             <td ng-if="movementrequestdetail.editmode == true">
                 <select name="account" class="form-control" ng-model="movementrequestdetail.AssetCategoryCD">
-                    <option ng-repeat="category in categorylist" ng-selected="isSelectedItem(category.Code,movementrequestdetail.CategoryCD)" value="{{category.Code}}">{{category.Value}}</option>
+                    <option ng-repeat="category in categorylist" ng-selected="isSelectedItem(category.Code,movementrequestdetail.AssetCategoryCD)" value="{{category.Code}}">{{category.Value}}</option>
                 </select>
             </td>
             <td ng-if="movementrequestdetail.editmode == true"><input type="text" class="form-control form-control-success" placeholder="Description" ng-model="movementrequestdetail.Description"></td>
             <td ng-if="movementrequestdetail.editmode == true"><input type="text" class="form-control form-control-success" placeholder="Description" ng-model="movementrequestdetail.Quantity"></td>
             <td ng-if="movementrequestdetail.editmode == true"><input type="text" class="form-control form-control-success" placeholder="Description" ng-model="movementrequestdetail.RequestedTo"></td>
             <td ng-if="movementrequestdetail.editmode == true"><input type="text"  disabled="true" class="form-control form-control-success" placeholder="Description" ng-model="movementrequestdetail.Transfered"></td>
-            <td ng-if="movementrequestdetail.editmode == true">
+            <td ng-if="movementrequestdetail.editmode == true && movementrequestdetail.ID == 'temp'">
                 <button type="button" class="btn btn-default btn-width" ng-click="addMRD(movementrequestdetail)">Add</button>
-                <button type="button" class="btn btn-default btn-width" ng-click="turnoffmanipulationmode($index)">Cancel</button>
+                <button type="button" class="btn btn-default btn-width" ng-click="turnoffaddmode($index)">Cancel</button>
+            </td>
+            <td ng-if="movementrequestdetail.editmode == true && movementrequestdetail.ID != 'temp'">
+                <button type="button" class="btn btn-default btn-width" ng-click="addMRD(movementrequestdetail)">Add</button>
+                <button type="button" class="btn btn-default btn-width" ng-click="turnoffeditmode(movementrequestdetail)">Cancel</button>
             </td>
         </tr>
         </tbody>
@@ -132,15 +136,15 @@
                             <small class="text-danger" ng-if="(movementrequest.ManufactureDate == null || movementrequest.ManufactureDate == '') && isValidate == false">Manufacture Date is required</small>
                         </div>
                     </div>
-                    <div ng-class="(movementrequest.CategoryCD == null || movementrequest.CategoryCD == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
+                    <!--<div ng-class="(movementrequest.AssetCategoryCD == null || movementrequest.AssetCategoryCD == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
                         <label class="col-sm-3 form-control-label">Category Code*</label>
                         <div class="col-sm-9">
-                            <select name="account" class="form-control" ng-model="movementrequest.CategoryCD">
-                                <option ng-repeat="category in categorylist" ng-selected="isSelectedItem(category.Code,movementrequest.CategoryCD)" value="{{category.Code}}">{{category.Value}}</option>
+                            <select name="account" class="form-control" ng-model="movementrequest.AssetCategoryCD">
+                                <option ng-repeat="category in categorylist" ng-selected="isSelectedItem(category.Code,movementrequest.AssetCategoryCD)" value="{{category.Code}}">{{category.Value}}</option>
                             </select>
-                            <small class="text-danger" ng-if="(movementrequest.CategoryCD == null || movementrequest.CategoryCD == '') && isValidate == false">Category Code is required</small>
+                            <small class="text-danger" ng-if="(movementrequest.AssetCategoryCD == null || movementrequest.AssetCategoryCD == '') && isValidate == false">Category Code is required</small>
                         </div>
-                    </div>
+                    </div>-->
 
                 </div>
 
