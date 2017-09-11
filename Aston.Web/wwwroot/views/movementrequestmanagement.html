@@ -16,7 +16,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="movementrequest in movementrequestlist">
+        <tr ng-repeat="movementrequest in movementrequestlist" ng-click="edit(movementrequest)">
             <td>{{movementrequest.MovementDate}}</td>
             <td>{{movementrequest.Description}}</td>
             <td>{{movementrequest.ApprovedDate}}</td>

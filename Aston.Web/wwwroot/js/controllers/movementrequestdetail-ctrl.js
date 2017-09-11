@@ -12,8 +12,18 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $rootScope
     $scope.categorylist = [];
     $rootScope.PageName = "Movement Request Detail";
 
+    //console.log($scope.movementrequestobj.MovementRequestDetail);
+    
+    $scope.init = function () {
+        angular.forEach($scope.movementrequestobj.MovementRequestDetail, function(data) {
+            data.editmode = false;
+        });
+    }
+
     if ($scope.movementrequestobj.ID == undefined) {
         $state.go('movementrequestmanagement');
+    } else {
+        $scope.init();
     }
 
     $scope.dtOptions = { "aaSorting": [], "bPaginate": false, "bLengthChange": false, "bFilter": false, "bSort": false, "bInfo": false, "bAutoWidth": false };
@@ -80,8 +90,16 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $rootScope
         obj.editmode = false;
     }
 
-    $scope.turnoffmanipulationmode = function (index) {
+    $scope.editMRD = function (obj) {
+        obj.editmode = true;
+    }
+
+    $scope.turnoffaddmode = function (index) {
         $scope.movementrequestobj.MovementRequestDetail.splice(index, 1);
+    }
+
+    $scope.turnoffeditmode = function (obj) {
+        obj.editmode = false;
     }
 
 
@@ -137,6 +155,31 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $rootScope
     }
 
 
+    $scope.UpdateMovementRequest = function () {
+        var movementrequestResources = new movementrequestResource();
+        movementrequestResources.MovementDate = $scope.movementrequestobj.MovementDate;
+        movementrequestResources.Description = $scope.movementrequestobj.Description;
+        movementrequestResources.ApprovalStatus = 1;
+        movementrequestResources.MovementRequestDetail = $scope.movementrequestobj.MovementRequestDetail;
+
+        angular.forEach(movementrequestResources.MovementRequestDetail, function (data) {
+            delete data.ID;
+            delete data.editmode;
+            delete data.MovementRequestID;
+            data.AssetCategoryCD = parseInt(data.AssetCategoryCD);
+            data.Quantity = parseInt(data.Quantity);
+            data.RequestedTo = parseInt(data.RequestedTo);
+        });
+        console.log(movementrequestResources);
+        movementrequestResources.$UpdateMovementRequest(function (data) {
+            if (data.success) {
+                //$scope.movementrequestobj = ;
+                //$scope.init();
+            }
+        });
+    }
+
+
    
     $scope.convertdate = function(stringdate) {
         var a = Date.parse(stringdate.replace(/^(\d\d)(\d\d)(\d\d\d\d)$/, "$2-$1-$3"));
@@ -146,6 +189,10 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $rootScope
         var year = myDate.getFullYear();
         var date = day + "/" + month + "/" + year;
         return date;
+    }
+
+    $scope.isSelectedItem = function (itemA, itemB) {
+        return itemA == itemB ? true : false;
     }
 
 });
