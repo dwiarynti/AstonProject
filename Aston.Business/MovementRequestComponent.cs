@@ -195,16 +195,24 @@ namespace Aston.Business
                 movement.MovementRequestDetail = null;
                 foreach (var item in obj.MovementRequestDetail)
                 {
-                    var detail = _movementrequest.GetMovementRequestDetailByID(item.ID);
-                  
-                        detail.Description = item.Description;
-                        detail.AssetCategoryCD = item.AssetCategoryCD;
-                        detail.Quantity = item.Quantity;
-                        detail.RequestedTo = item.RequestTo;
-                        detail.UpdatedBy = obj.UpdatedBy;
-                        detail.UpdatedDate = DateTime.Now.ToString("ddMMyyyy");
+                        var detail = _movementrequest.GetMovementRequestDetailByID(item.ID);
 
+                        if (item.IsUpdate == true)
+                        {
+                            detail.Description = item.Description;
+                            detail.AssetCategoryCD = item.AssetCategoryCD;
+                            detail.Quantity = item.Quantity;
+                            detail.RequestedTo = item.RequestTo;
+                            detail.UpdatedBy = obj.UpdatedBy;
+                            detail.UpdatedDate = DateTime.Now.ToString("ddMMyyyy");
+                        }
+                        else if (item.IsDelete == true)
+                        {
+                            detail.DeletedDate = DateTime.Now.ToString("ddMMyyyy");
+                            detail.DeletedBy = obj.UpdatedBy;
+                        }
                         movement.MovementRequestDetail.Add(detail);
+                        
                 }
 
                 _context.Entry(movement).State = EntityState.Modified;
