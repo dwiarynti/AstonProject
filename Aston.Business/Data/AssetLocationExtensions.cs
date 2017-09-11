@@ -29,5 +29,11 @@ namespace Aston.Business.Data
             var obj = context.AssetLocation.Include(p=>p.Asset).Include(p=>p.Location).Where(p => p.DeletedBy == null && p.DeletedDate == null).ToList();
             return obj;
         }
+
+        public List<AssetLocation> GetAssetLocationByMovementDetailID(int id , int statuscategory)
+        {
+            var obj = context.AssetLocation.Include(p=>p.Asset).Include(p=>p.Location).Where(p => p.MovementRequestDetailID == id && p.DeletedDate == null && p.Asset.CategoryCD == id).ToList();
+            return obj;
+        }
     }
 }

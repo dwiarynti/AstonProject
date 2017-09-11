@@ -16,6 +16,7 @@ namespace Aston.Business
         MovementRequestExtensions _movementrequest = new MovementRequestExtensions();
         LookupListComponent _pref = new LookupListComponent();
         DepartmentExtensions _department = new DepartmentExtensions();
+        AssetLocationComponent _assetlocation = new AssetLocationComponent();
         public List<MovementRequestViewModel> GetMovementRequest()
         {
             List<MovementRequestViewModel> result = new List<MovementRequestViewModel>();
@@ -25,6 +26,7 @@ namespace Aston.Business
             {
                 MovementRequestViewModel model = new MovementRequestViewModel();
                 var approvalname = _pref.GetLookupByApprovalStatusCode(item.ApprovalStatus);
+             
                 model.ID = item.ID;
                 model.MovementDate = item.MovementDate;
                 model.Description = item.Description;
@@ -33,12 +35,15 @@ namespace Aston.Business
                 model.Notes = item.Notes;
                 model.ApprovalStatus = item.ApprovalStatus;
                 model.ApprovalStatusName = approvalname != null ? approvalname.Value : null;
+                
                 model.MovementRequestDetail = new List<MovementRequestDetailViewModel>();
                 foreach (var item2 in item.MovementRequestDetail)
                 {
                     MovementRequestDetailViewModel detail = new MovementRequestDetailViewModel();
                     var categoryname = _pref.GetLookupByCategoryCode(item2.AssetCategoryCD);
                     var deparment = _department.GetDepartmentByID(item2.RequestedTo);
+                    var moveasset = _assetlocation.GetAssetLocationByMovementDetailID(item2.ID,item2.AssetCategoryCD);
+
                     detail.ID = item2.ID;
                     detail.MovementRequestID = item2.MovementRequestID;
                     detail.Description = item2.Description;
@@ -47,6 +52,7 @@ namespace Aston.Business
                     detail.RequestTo = item2.RequestedTo;
                     detail.RequestToName = deparment != null ? deparment.Name : null;
                     detail.Quantity = item2.Quantity;
+                    detail.Transfered = moveasset != null ? moveasset.Count : 0;
                     model.MovementRequestDetail.Add(detail);
                 }
                 result.Add(model);
@@ -74,7 +80,7 @@ namespace Aston.Business
                 MovementRequestDetailViewModel detail = new MovementRequestDetailViewModel();
                 var categoryname = _pref.GetLookupByCategoryCode(item.AssetCategoryCD);
                 var deparment = _department.GetDepartmentByID(item.RequestedTo);
-
+                var moveasset = _assetlocation.GetAssetLocationByMovementDetailID(item.ID,item.AssetCategoryCD);
                 detail.ID = item.ID;
                 detail.MovementRequestID = item.MovementRequestID;
                 detail.Description = item.Description;
@@ -83,7 +89,7 @@ namespace Aston.Business
                 detail.RequestTo = item.RequestedTo;
                 detail.RequestToName = deparment != null ? deparment.Name : null;
                 detail.Quantity = item.Quantity;
-              
+                detail.Transfered = moveasset != null ? moveasset.Count : 0;
                 result.MovementRequestDetail.Add(detail);
             }
             return result;
