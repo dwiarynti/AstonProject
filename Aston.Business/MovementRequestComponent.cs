@@ -14,16 +14,70 @@ namespace Aston.Business
     {
         AstonContext _context = new AstonContext();
         MovementRequestExtensions _movementrequest = new MovementRequestExtensions();
+        LookupListComponent _pref = new LookupListComponent();
 
-        public List<MovementRequest> GetMovementRequest()
+        public List<MovementRequestViewModel> GetMovementRequest()
         {
-            List<MovementRequest> result = new List<MovementRequest>();
-            result = _movementrequest.GetMovementRequest();
+            List<MovementRequestViewModel> result = new List<MovementRequestViewModel>();
+            var movement = _movementrequest.GetMovementRequest();
+            
+            foreach(var item in movement)
+            {
+                MovementRequestViewModel model = new MovementRequestViewModel();
+                var approvalname = _pref.GetLookupByApprovalStatusCode(item.ApprovalStatus);
+                model.ID = item.ID;
+                model.MovementDate = item.MovementDate;
+                model.Description = item.Description;
+                model.ApprovedDate = item.MovementDate;
+                model.ApprovedBy = item.ApprovedBy;
+                model.Notes = item.Notes;
+                model.ApprovalStatus = item.ApprovalStatus;
+                model.ApprovalStatusName = approvalname != null ? approvalname.Value : null;
+                foreach (var item2 in item.MovementRequestDetail)
+                {
+                    MovementRequestDetailViewModel detail = new MovementRequestDetailViewModel();
+                    var categoryname = _pref.GetLookupByCategoryCode(item2.AssetCategoryCD);
+                    detail.ID = item2.ID;
+                    detail.MovementRequestID = item2.MovementRequestID;
+                    detail.AssetCategoryCD = item2.AssetCategoryCD;
+                    detail.CategoryCDName = categoryname!= null ? categoryname.Value: null;
+                    detail.RequestTo = item2.RequestedTo;
+                    model.MovementRequestDetail = new List<MovementRequestDetailViewModel>();
+                    model.MovementRequestDetail.Add(detail);
+                }
+                result.Add(model);
+            }
             return result;
         }
-        public MovementRequest GetMovementRequestByID(int id)
+        public MovementRequestViewModel GetMovementRequestByID(int id)
         {
-            return _movementrequest.GetMovementRequestByID(id);
+
+            var movement = _movementrequest.GetMovementRequestByID(id);
+
+            MovementRequestViewModel result = new MovementRequestViewModel();
+            var approvalname = _pref.GetLookupByApprovalStatusCode(movement.ApprovalStatus);
+            result.ID = movement.ID;
+            result.MovementDate = movement.MovementDate;
+            result.Description = movement.Description;
+            result.ApprovedDate = movement.MovementDate;
+            result.ApprovedBy = movement.ApprovedBy;
+            result.Notes = movement.Notes;
+            result.ApprovalStatus = movement.ApprovalStatus;
+            result.ApprovalStatusName = approvalname != null ? approvalname.Value : null;
+            foreach (var item in movement.MovementRequestDetail)
+            {
+                MovementRequestDetailViewModel detail = new MovementRequestDetailViewModel();
+                var categoryname = _pref.GetLookupByCategoryCode(item.AssetCategoryCD);
+                detail.ID = item.ID;
+                detail.MovementRequestID = item.MovementRequestID;
+                detail.AssetCategoryCD = item.AssetCategoryCD;
+                detail.CategoryCDName = categoryname != null ? categoryname.Value : null;
+                detail.RequestTo = item.RequestedTo;
+                result.MovementRequestDetail = new List<MovementRequestDetailViewModel>();
+                result.MovementRequestDetail.Add(detail);
+            }
+            return result;
+
         }
 
         public bool CreateMovementRequest(MovementRequestViewModel obj)

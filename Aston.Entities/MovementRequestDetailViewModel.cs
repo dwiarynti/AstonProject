@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Aston.Entities
 {
-    public class MovementRequestDetailViewModel
+    public class MovementRequestDetailViewModel : ViewModel
     {
         public int ID { get; set; }
         public int MovementRequestID { get; set; }

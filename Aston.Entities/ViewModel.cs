@@ -16,6 +16,7 @@ namespace Aston.Entities
         public string AssetName { get; set; }
         public string LocationName { get; set; }
         public string CategoryCDName { get; set; }
+        public string ApprovalStatusName { get; set; }
         public string StatusCDName { get; set; }
         public string LocationTypeCDName { get; set; }
         public string CreatedBy { get; set; }
