@@ -186,7 +186,7 @@ namespace Aston.Business
             {
                 var movement = _movementrequest.GetMovementRequestByID(obj.ID);
                 movement.Description = obj.Description;
-                movement.MovementDate = obj.MovementDate;          
+                movement.MovementDate =Convert.ToDateTime(obj.MovementDate).ToString("ddMMyyyy");          
                 movement.ApprovalStatus = obj.ApprovalStatus;
                 movement.UpdatedBy = obj.UpdatedBy;
                 movement.UpdatedDate = DateTime.Now.ToString("ddMMyyyy");
