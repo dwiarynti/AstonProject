@@ -126,7 +126,7 @@ namespace Aston.Business
                     _context.SaveChanges();
                     transaction.Commit();
                     result.resultstatus = true;
-                    result.movementrequest = movement;
+                    result.movementrequest = GetMovementRequestByID(movement.ID);
                 }
                 catch (Exception ex)
                 {
@@ -229,7 +229,7 @@ namespace Aston.Business
                 _context.Update(movement);
                 _context.SaveChanges();
                 transaction.Commit();
-                result.movementrequestModel = GetMovementRequestByID(movement.ID);
+                result.movementrequest = GetMovementRequestByID(movement.ID);
                 result.resultstatus = true;
 
             }
