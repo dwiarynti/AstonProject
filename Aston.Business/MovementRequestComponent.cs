@@ -39,21 +39,24 @@ namespace Aston.Business
                 model.MovementRequestDetail = new List<MovementRequestDetailViewModel>();
                 foreach (var item2 in item.MovementRequestDetail)
                 {
-                    MovementRequestDetailViewModel detail = new MovementRequestDetailViewModel();
-                    var categoryname = _pref.GetLookupByCategoryCode(item2.AssetCategoryCD);
-                    var deparment = _department.GetDepartmentByID(item2.RequestedTo);
-                    var moveasset = _assetlocation.GetAssetLocationByMovementDetailID(item2.ID,item2.AssetCategoryCD);
+                    if (item2.DeletedBy == null && item2.DeletedDate == null)
+                    {
+                        MovementRequestDetailViewModel detail = new MovementRequestDetailViewModel();
+                        var categoryname = _pref.GetLookupByCategoryCode(item2.AssetCategoryCD);
+                        var deparment = _department.GetDepartmentByID(item2.RequestedTo);
+                        var moveasset = _assetlocation.GetAssetLocationByMovementDetailID(item2.ID, item2.AssetCategoryCD);
 
-                    detail.ID = item2.ID;
-                    detail.MovementRequestID = item2.MovementRequestID;
-                    detail.Description = item2.Description;
-                    detail.AssetCategoryCD = item2.AssetCategoryCD;
-                    detail.CategoryCDName = categoryname!= null ? categoryname.Value: null;
-                    detail.RequestTo = item2.RequestedTo;
-                    detail.RequestToName = deparment != null ? deparment.Name : null;
-                    detail.Quantity = item2.Quantity;
-                    detail.Transfered = moveasset != null ? moveasset.Count : 0;
-                    model.MovementRequestDetail.Add(detail);
+                        detail.ID = item2.ID;
+                        detail.MovementRequestID = item2.MovementRequestID;
+                        detail.Description = item2.Description;
+                        detail.AssetCategoryCD = item2.AssetCategoryCD;
+                        detail.CategoryCDName = categoryname != null ? categoryname.Value : null;
+                        detail.RequestTo = item2.RequestedTo;
+                        detail.RequestToName = deparment != null ? deparment.Name : null;
+                        detail.Quantity = item2.Quantity;
+                        detail.Transfered = moveasset != null ? moveasset.Count : 0;
+                        model.MovementRequestDetail.Add(detail);
+                    }
                 }
                 result.Add(model);
             }
@@ -77,20 +80,23 @@ namespace Aston.Business
             result.MovementRequestDetail = new List<MovementRequestDetailViewModel>();
             foreach (var item in movement.MovementRequestDetail)
             {
-                MovementRequestDetailViewModel detail = new MovementRequestDetailViewModel();
-                var categoryname = _pref.GetLookupByCategoryCode(item.AssetCategoryCD);
-                var deparment = _department.GetDepartmentByID(item.RequestedTo);
-                var moveasset = _assetlocation.GetAssetLocationByMovementDetailID(item.ID,item.AssetCategoryCD);
-                detail.ID = item.ID;
-                detail.MovementRequestID = item.MovementRequestID;
-                detail.Description = item.Description;
-                detail.AssetCategoryCD = item.AssetCategoryCD;
-                detail.CategoryCDName = categoryname != null ? categoryname.Value : null;
-                detail.RequestTo = item.RequestedTo;
-                detail.RequestToName = deparment != null ? deparment.Name : null;
-                detail.Quantity = item.Quantity;
-                detail.Transfered = moveasset != null ? moveasset.Count : 0;
-                result.MovementRequestDetail.Add(detail);
+                if (item.DeletedDate == null && item.DeletedBy == null)
+                {
+                    MovementRequestDetailViewModel detail = new MovementRequestDetailViewModel();
+                    var categoryname = _pref.GetLookupByCategoryCode(item.AssetCategoryCD);
+                    var deparment = _department.GetDepartmentByID(item.RequestedTo);
+                    var moveasset = _assetlocation.GetAssetLocationByMovementDetailID(item.ID, item.AssetCategoryCD);
+                    detail.ID = item.ID;
+                    detail.MovementRequestID = item.MovementRequestID;
+                    detail.Description = item.Description;
+                    detail.AssetCategoryCD = item.AssetCategoryCD;
+                    detail.CategoryCDName = categoryname != null ? categoryname.Value : null;
+                    detail.RequestTo = item.RequestedTo;
+                    detail.RequestToName = deparment != null ? deparment.Name : null;
+                    detail.Quantity = item.Quantity;
+                    detail.Transfered = moveasset != null ? moveasset.Count : 0;
+                    result.MovementRequestDetail.Add(detail);
+                }
             }
             return result;
 
