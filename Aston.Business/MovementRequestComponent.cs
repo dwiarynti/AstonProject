@@ -201,21 +201,24 @@ namespace Aston.Business
                 foreach(var item in movement.MovementRequestDetail)
                 {
                     var data = obj.MovementRequestDetail.Where(p => p.ID == item.ID).FirstOrDefault();
-                    if(data.IsUpdate == true)
+                    if (data != null)
                     {
-                        item.Description = data.Description;
-                        item.AssetCategoryCD = data.AssetCategoryCD;
-                        item.Quantity = data.Quantity;
-                        item.RequestedTo = data.RequestTo;
-                        item.UpdatedBy = obj.UpdatedBy;
-                        item.UpdatedDate = DateTime.Now.ToString("ddMMyyyy");
+                        if (data.IsUpdate == true)
+                        {
+                            item.Description = data.Description;
+                            item.AssetCategoryCD = data.AssetCategoryCD;
+                            item.Quantity = data.Quantity;
+                            item.RequestedTo = data.RequestTo;
+                            item.UpdatedBy = obj.UpdatedBy;
+                            item.UpdatedDate = DateTime.Now.ToString("ddMMyyyy");
+                        }
+                        else if (data.IsDelete == true)
+                        {
+                            item.DeletedDate = DateTime.Now.ToString("ddMMyyyy");
+                            item.DeletedBy = obj.UpdatedBy;
+                        }
+                        obj.MovementRequestDetail.Remove(data);
                     }
-                    else if (data.IsDelete == true)
-                    {
-                        item.DeletedDate = DateTime.Now.ToString("ddMMyyyy");
-                        item.DeletedBy = obj.UpdatedBy;
-                    }
-                    obj.MovementRequestDetail.Remove(data);
                 }
 
                 foreach (var item in obj.MovementRequestDetail)
