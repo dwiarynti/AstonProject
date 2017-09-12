@@ -105,7 +105,7 @@ namespace Aston.Business
                 try
                 {
                     MovementRequest movement = new MovementRequest();
-                    movement.MovementDate = Convert.ToDateTime(obj.MovementDate).ToString("ddMMyyyy");
+                    movement.MovementDate = obj.MovementDate.Replace("/", string.Empty);
                     movement.Description = obj.Description;
                     movement.ApprovalStatus = obj.ApprovalStatus;
                     movement.CreatedDate = DateTime.Now.ToString("ddMMyyyy");
@@ -184,14 +184,15 @@ namespace Aston.Business
             IDbContextTransaction transaction = _context.Database.BeginTransaction();
             try
             {
+
                 var movement = _movementrequest.GetMovementRequestByID(obj.ID);
                 movement.Description = obj.Description;
-                movement.MovementDate =Convert.ToDateTime(obj.MovementDate).ToString("ddMMyyyy");          
+                movement.MovementDate = obj.MovementDate.Replace("/",string.Empty);
                 movement.ApprovalStatus = obj.ApprovalStatus;
                 movement.UpdatedBy = obj.UpdatedBy;
                 movement.UpdatedDate = DateTime.Now.ToString("ddMMyyyy");
                 
-                movement.MovementRequestDetail = null;
+                movement.MovementRequestDetail = new List<MovementRequestDetail>();
                 foreach (var item in obj.MovementRequestDetail)
                 {
                         var detail = _movementrequest.GetMovementRequestDetailByID(item.ID);
