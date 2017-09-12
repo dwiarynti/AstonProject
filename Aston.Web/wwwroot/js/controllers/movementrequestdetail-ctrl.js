@@ -2,7 +2,7 @@
  * movementrequest Controller
  */
 
-app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $rootScope, transferobjectService, movementrequestResource, lookuplistResource) {
+app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $rootScope, $window, transferobjectService, movementrequestResource, lookuplistResource) {
     var movementrequestResources = new movementrequestResource();
     var lookuplistResources = new lookuplistResource();
     $scope.isValidate = true;
@@ -212,6 +212,7 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
             //console.log(movementrequestResources);
             movementrequestResources.$CreateMovementRequest(function (data) {
                 if (data.success) {
+                    $window.alert("Data saved successfully");
                     console.log(data);
                     //$scope.movementrequestobj = ;
                     //$scope.init();
@@ -238,6 +239,8 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
                 var IDdatatype = typeof data.ID;
                 if (IDdatatype == "string") {
                     delete data.ID;
+                    delete data.IsDelete;
+                    delete data.IsUpdate;
                 }
                 delete data.editmode;
                 data.AssetCategoryCD = parseInt(data.AssetCategoryCD);
@@ -248,6 +251,7 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
 
             movementrequestResources.$UpdateMovementRequest(function (data) {
                 if (data.success) {
+                    $window.alert("Data saved successfully");
                     console.log(data);
                     //$scope.movementrequestobj = ;
                     //$scope.init();
