@@ -2,7 +2,7 @@
  * Asset Controller
  */
 
-app.controller('AssetLocationCtrl', function ($scope, $rootScope, assetResource, locationResource, assetLocationResource) {
+app.controller('AssetLocationCtrl', function ($scope, $rootScope, assetResource, locationResource, assetLocationResource, commonService) {
     var assetResources = new assetResource();
     var locationResources = new locationResource();
     var assetLocationResources = new assetLocationResource();
@@ -62,31 +62,10 @@ app.controller('AssetLocationCtrl', function ($scope, $rootScope, assetResource,
     }
 
     $scope.create = function () {
-        $scope.isValidate = $scope.validationform();
+        $scope.isValidate = commonService.validationform(AssetLocationModel(), $scope.assetlocation);
         if ($scope.isValidate) {
             $scope.CreateAssetLocation();
         }
-    }
-
-    $scope.validationform = function () {
-        var validationstatus = true;
-        var keys = Object.keys(AssetLocationModel());
-        for (var i = 0; i < keys.length; i++) {
-            var key = keys[i];
-            var value = $scope.assetlocation[key];
-            var datatype = typeof value;
-            if (datatype != "boolean" && validationstatus) {
-                if (value == null || value == "") {
-                    validationstatus = false;
-                    break;
-                }
-            } else if (!validationstatus) {
-                validationstatus = false;
-                break;
-            }
-
-        }
-        return validationstatus;
     }
 
     $scope.CreateAssetLocation = function() {
@@ -109,7 +88,7 @@ app.controller('AssetLocationCtrl', function ($scope, $rootScope, assetResource,
     }
 
     $scope.update = function() {
-        $scope.isValidate = $scope.validationform();
+        $scope.isValidate = commonService.validationform(AssetLocationModel(), $scope.assetlocation);
         if ($scope.isValidate) {
             $scope.UpdateAssetLocation();
         }

@@ -2,7 +2,7 @@
  * Asset Controller
  */
 
-app.controller('AssetCtrl', function ($scope, $rootScope, assetResource, lookuplistResource) {
+app.controller('AssetCtrl', function ($scope, $rootScope, assetResource, lookuplistResource, commonService) {
     var assetResources = new assetResource();
     var lookuplistResources = new lookuplistResource();
     $scope.isValidate = true;
@@ -78,31 +78,10 @@ app.controller('AssetCtrl', function ($scope, $rootScope, assetResource, lookupl
     }
 
     $scope.create = function () {
-        $scope.isValidate = $scope.validationform();
+        $scope.isValidate = commonService.validationform(AssetModel(), $scope.asset);
         if ($scope.isValidate) {
             $scope.CreateAsset();
         }
-    }
-
-    $scope.validationform = function () {
-        var validationstatus = true;
-        var keys = Object.keys(AssetModel());
-        for (var i = 0; i < keys.length; i++) {
-            var key = keys[i];
-            var value = $scope.asset[key];
-            var datatype = typeof value;
-            if (datatype != "boolean" && validationstatus) {
-                if (value == null || value == "") {
-                    validationstatus = false;
-                    break;
-                }
-            } else if (!validationstatus) {
-                validationstatus = false;
-                break;
-            }
-
-        }
-        return validationstatus;
     }
 
     $scope.CreateAsset = function() {
@@ -128,15 +107,15 @@ app.controller('AssetCtrl', function ($scope, $rootScope, assetResource, lookupl
     $scope.edit = function (obj) {
         
         $scope.asset = angular.copy(obj);
-        $scope.asset.PurchaseDate = $scope.asset.PurchaseDate != null || $scope.asset.PurchaseDate != "" ? $scope.convertdate($scope.asset.PurchaseDate) : "";
-        $scope.asset.ManufactureDate = $scope.asset.ManufactureDate != null || $scope.asset.ManufactureDate != "" ? $scope.convertdate($scope.asset.ManufactureDate):"";
+        $scope.asset.PurchaseDate = $scope.asset.PurchaseDate != null || $scope.asset.PurchaseDate != "" ? commonService.convertdate($scope.asset.PurchaseDate) : "";
+        $scope.asset.ManufactureDate = $scope.asset.ManufactureDate != null || $scope.asset.ManufactureDate != "" ? commonService.convertdate($scope.asset.ManufactureDate) : "";
         $scope.isValidate = true;
         $scope.actionstatus = "Update";
         $("#modal-action").modal('show');
     }
 
     $scope.update = function() {
-        $scope.isValidate = $scope.validationform();
+        $scope.isValidate = commonService.validationform(AssetModel(), $scope.asset);
         if ($scope.isValidate) {
             $scope.UpdateAsset();
         }
@@ -189,16 +168,6 @@ app.controller('AssetCtrl', function ($scope, $rootScope, assetResource, lookupl
                 $scope.init();
             }
         });
-    }
-
-    $scope.convertdate = function(stringdate) {
-        var a = Date.parse(stringdate.replace(/^(\d\d)(\d\d)(\d\d\d\d)$/, "$2-$1-$3"));
-        var myDate = new Date(parseInt(a));
-        var month = ("0" + (myDate.getMonth() + 1)).slice(-2);
-        var day = ("0" + myDate.getDate()).slice(-2);
-        var year = myDate.getFullYear();
-        var date = day + "/" + month + "/" + year;
-        return date;
     }
 
 });

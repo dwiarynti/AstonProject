@@ -2,7 +2,7 @@
  * movementrequest Controller
  */
 
-app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $rootScope, $window, transferobjectService, movementrequestResource, lookuplistResource) {
+app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $rootScope, $window, transferobjectService, movementrequestResource, lookuplistResource, commonService) {
     var movementrequestResources = new movementrequestResource();
     var lookuplistResources = new lookuplistResource();
     $scope.isValidate = true;
@@ -15,21 +15,9 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
     $rootScope.PageName = "Movement Request Detail";
     $scope.validationmessagelist = [];
 
-    //console.log($scope.movementrequestobj.MovementRequestDetail);
-    
-    $scope.convertdate = function (stringdate) {
-        var a = Date.parse(stringdate.replace(/^(\d\d)(\d\d)(\d\d\d\d)$/, "$2-$1-$3"));
-        var myDate = new Date(parseInt(a));
-        var month = ("0" + (myDate.getMonth() + 1)).slice(-2);
-        var day = ("0" + myDate.getDate()).slice(-2);
-        var year = myDate.getFullYear();
-        var date = day + "/" + month + "/" + year;
-        return date;
-    }
-
     $scope.init = function () {
         if ($scope.movementrequestobj.ID != 'temp') {
-            $scope.movementrequestobj.MovementDate = $scope.convertdate($scope.movementrequestobj.MovementDate);
+            $scope.movementrequestobj.MovementDate = commonService.convertdate($scope.movementrequestobj.MovementDate);
             angular.forEach($scope.movementrequestobj.MovementRequestDetail, function (data) {
                 data.editmode = false;
                 data.IsDelete = false;
@@ -197,7 +185,7 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
             var movementrequestResources = new movementrequestResource();
             movementrequestResources.MovementDate = $scope.movementrequestobj.MovementDate;
             movementrequestResources.Description = $scope.movementrequestobj.Description;
-            movementrequestResources.ApprovalStatus = 1;
+            movementrequestResources.ApprovalStatus = 2;
             movementrequestResources.MovementRequestDetail = angular.copy($scope.movementrequestobj.MovementRequestDetail);
 
             angular.forEach(movementrequestResources.MovementRequestDetail, function (data) {
@@ -233,7 +221,7 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
             movementrequestResources.ID = $scope.movementrequestobj.ID;
             movementrequestResources.MovementDate = $scope.movementrequestobj.MovementDate;
             movementrequestResources.Description = $scope.movementrequestobj.Description;
-            movementrequestResources.ApprovalStatus = 1;
+            movementrequestResources.ApprovalStatus = 2;
             movementrequestResources.MovementRequestDetail = angular.copy($scope.movementrequestobj.MovementRequestDetail);
             angular.forEach(movementrequestResources.MovementRequestDetail, function (data) {
                 var IDdatatype = typeof data.ID;

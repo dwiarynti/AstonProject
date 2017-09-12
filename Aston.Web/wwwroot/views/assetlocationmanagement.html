@@ -1,85 +1,92 @@
-﻿<div ng-controller="AssetLocationCtrl">
-    <div ng-hide="isLoading" class="form-group">
-        <div class="col-sm-12">
-            <button type="button" class="btn btn-primary" ng-click="add()">Add</button>
-        </div>
-    </div>
-    <table id="data-table" datatable="ng" dt-options="dtOptions" width="100%" class="table table-striped table-bordered">
-        <thead>
-        <tr>
-            <th>Asset</th>
-            <th>Location</th>
-            <th>On Transition</th>
-            <th>Action</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr ng-repeat="assetlocation in assetlocationlist">
-            <td>{{assetlocation.AssetName}}</td>
-            <td>{{assetlocation.LocationName}}</td>
-            <td>{{assetlocation.OnTransition}}</td>
-            <td>
-                <button type="button" class="btn btn-default btn-width" ng-click="edit(assetlocation)">Edit</button>
-                <button type="button" class="btn btn-default btn-width" ng-click="deletemodal(assetlocation)">Delete</button>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+﻿<div class="container-fluid">
+    <div class="row bg-white has-shadow">
+        <div id="main-content" style="width: 100%" ui-view>
+            <div ng-controller="AssetLocationCtrl">
+                <div ng-hide="isLoading" class="form-group">
+                    <div class="col-sm-12">
+                        <button type="button" class="btn btn-primary" ng-click="add()">Add</button>
+                    </div>
+                </div>
+                <table id="data-table" datatable="ng" dt-options="dtOptions" width="100%" class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Asset</th>
+                            <th>Location</th>
+                            <th>On Transition</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="assetlocation in assetlocationlist">
+                            <td>{{assetlocation.AssetName}}</td>
+                            <td>{{assetlocation.LocationName}}</td>
+                            <td>{{assetlocation.OnTransition}}</td>
+                            <td>
+                                <button type="button" class="btn btn-default btn-width" ng-click="edit(assetlocation)">Edit</button>
+                                <button type="button" class="btn btn-default btn-width" ng-click="deletemodal(assetlocation)">Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
 
-    <div class="modal modal-message fade" id="modal-action" style="z-index: 10500">
-        <div class="modal-dialog" style="width: 50%">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">{{actionstatus}} Asset Location</h4>
-                    <a href="javascript:;" class="close" data-dismiss="modal">x</a>
-                </div>
-                <div ng-if="actionstatus != 'Delete'" class="modal-body">
-                    <div ng-class="(assetlocation.AssetID == null || assetlocation.AssetID == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
-                        <label class="col-sm-3 form-control-label">Asset</label>
-                        <div class="col-sm-9">
-                            <select name="account" class="form-control" ng-model="assetlocation.AssetID">
-                                <option ng-repeat="asset in assetlist" ng-selected="isSelectedItem(asset.ID,assetlocation.AssetID)" value="{{asset.ID}}">{{asset.Name}}</option>
-                            </select>
-                            <small class="text-danger" ng-if="(assetlocation.AssetID == null || assetlocation.AssetID == '') && isValidate == false">Floor is required</small>
-                        </div>
-                    </div>
-                    <div ng-class="(assetlocation.LocationID == null || assetlocation.LocationID == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
-                        <label class="col-sm-3 form-control-label">Location</label>
-                        <div class="col-sm-9">
-                            <select name="account" class="form-control" ng-model="assetlocation.LocationID">
-                                <option ng-repeat="location in locationlist" ng-selected="isSelectedItem(location.ID,assetlocation.LocationID)" value="{{location.ID}}">{{location.Name}}</option>
-                            </select>
-                            <small class="text-danger" ng-if="(assetlocation.LocationID == null || assetlocation.LocationID == '') && isValidate == false">Floor is required</small>
-                        </div>
-                    </div>
-                    <div ng-class="(assetlocation.OnTransition == null || assetlocation.OnTransition == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
-                        <label class="col-sm-3 form-control-label">On Transition*</label>
-                        <div class="col-sm-9">
-                            <input type="radio" name="choicestype" ng-model="assetlocation.OnTransition" data-ng-value="true" class="radio-template"/> True
-                            <input type="radio" name="choicestype" ng-model="assetlocation.OnTransition" data-ng-value="false" class="radio-template"/> False<br/>
-                            <small class="text-danger" ng-if="(assetlocation.OnTransition | getType)  != 'boolean' && isValidate == false">OnTransition is required</small>
+                <div class="modal modal-message fade" id="modal-action" style="z-index: 10500">
+                    <div class="modal-dialog" style="width: 50%">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">{{actionstatus}} Asset Location</h4>
+                                <a href="javascript:;" class="close" data-dismiss="modal">x</a>
+                            </div>
+                            <div ng-if="actionstatus != 'Delete'" class="modal-body">
+                                <div ng-class="(assetlocation.AssetID == null || assetlocation.AssetID == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
+                                    <label class="col-sm-3 form-control-label">Asset</label>
+                                    <div class="col-sm-9">
+                                        <select name="account" class="form-control" ng-model="assetlocation.AssetID">
+                                            <option ng-repeat="asset in assetlist" ng-selected="isSelectedItem(asset.ID,assetlocation.AssetID)" value="{{asset.ID}}">{{asset.Name}}</option>
+                                        </select>
+                                        <small class="text-danger" ng-if="(assetlocation.AssetID == null || assetlocation.AssetID == '') && isValidate == false">Floor is required</small>
+                                    </div>
+                                </div>
+                                <div ng-class="(assetlocation.LocationID == null || assetlocation.LocationID == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
+                                    <label class="col-sm-3 form-control-label">Location</label>
+                                    <div class="col-sm-9">
+                                        <select name="account" class="form-control" ng-model="assetlocation.LocationID">
+                                            <option ng-repeat="location in locationlist" ng-selected="isSelectedItem(location.ID,assetlocation.LocationID)" value="{{location.ID}}">{{location.Name}}</option>
+                                        </select>
+                                        <small class="text-danger" ng-if="(assetlocation.LocationID == null || assetlocation.LocationID == '') && isValidate == false">Floor is required</small>
+                                    </div>
+                                </div>
+                                <div ng-class="(assetlocation.OnTransition == null || assetlocation.OnTransition == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
+                                    <label class="col-sm-3 form-control-label">On Transition*</label>
+                                    <div class="col-sm-9">
+                                        <input type="radio" name="choicestype" ng-model="assetlocation.OnTransition" data-ng-value="true" class="radio-template" /> True
+                                        <input type="radio" name="choicestype" ng-model="assetlocation.OnTransition" data-ng-value="false" class="radio-template" /> False<br />
+                                        <small class="text-danger" ng-if="(assetlocation.OnTransition | getType)  != 'boolean' && isValidate == false">OnTransition is required</small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div ng-if="actionstatus == 'Delete'" class="modal-body">
+                                Are you sure you want to delete this asset location ?
+                            </div>
+                            <div class="modal-footer">
+                                <a href="javascript:;" class="btn btn-default btn-width btn-margin" data-dismiss="modal">Cancel</a>
+                                <button ng-if="actionstatus == 'Create'" type="button" class="btn btn-default btn-width" ng-click="create()">
+                                    <span>Create</span>
+                                </button>
+                                <button ng-if="actionstatus == 'Update'" type="button" class="btn btn-default btn-width" ng-click="update()">
+                                    <span>Update</span>
+                                </button>
+                                <button ng-if="actionstatus == 'Delete'" type="button" class="btn btn-default btn-width" ng-click="delete()">
+                                    <span>Delete</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div ng-if="actionstatus == 'Delete'" class="modal-body">
-                    Are you sure you want to delete this asset location ?
-                </div>
-                <div class="modal-footer">
-                    <a href="javascript:;" class="btn btn-default btn-width btn-margin" data-dismiss="modal">Cancel</a>
-                    <button ng-if="actionstatus == 'Create'" type="button" class="btn btn-default btn-width" ng-click="create()">
-                        <span>Create</span>
-                    </button>
-                    <button ng-if="actionstatus == 'Update'" type="button" class="btn btn-default btn-width" ng-click="update()">
-                        <span>Update</span>
-                    </button>
-                    <button ng-if="actionstatus == 'Delete'" type="button" class="btn btn-default btn-width" ng-click="delete()">
-                        <span>Delete</span>
-                    </button>
-                </div>
             </div>
         </div>
     </div>
-
 </div>
+
 

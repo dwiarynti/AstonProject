@@ -2,7 +2,7 @@
  * Location Controller
  */
 
-app.controller('LocationCtrl', function ($scope, $rootScope, locationResource, lookuplistResource) {
+app.controller('LocationCtrl', function ($scope, $rootScope, locationResource, lookuplistResource, commonService) {
     var locationResources = new locationResource();
     var lookuplistResources = new lookuplistResource();
 
@@ -61,23 +61,10 @@ app.controller('LocationCtrl', function ($scope, $rootScope, locationResource, l
 
 
     $scope.create = function () {
-        $scope.isValidate = $scope.validationform();
+        $scope.isValidate = commonService.validationform(LocationModel(), $scope.location);
         if ($scope.isValidate) {
             $scope.CreateLocation();
         }
-    }
-
-    $scope.validationform = function () {
-        var validationstatus = true;
-        var keys = Object.keys(LocationModel());
-        for (var i = 0; i < keys.length; i++) {
-            var key = keys[i];
-            if ($scope.location[key] == null || $scope.location[key] == '') {
-                validationstatus = false;
-                break;
-            }
-        }
-        return validationstatus;
     }
 
     $scope.CreateLocation = function() {
@@ -102,7 +89,7 @@ app.controller('LocationCtrl', function ($scope, $rootScope, locationResource, l
     }
 
     $scope.update = function() {
-        $scope.isValidate = $scope.validationform();
+        $scope.isValidate = commonService.validationform(LocationModel(), $scope.location);
         if ($scope.isValidate) {
             $scope.UpdateLocation();
         }

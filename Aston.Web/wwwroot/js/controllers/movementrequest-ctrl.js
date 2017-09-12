@@ -2,7 +2,7 @@
  * movementrequest Controller
  */
 
-app.controller('MovementRequestCtrl', function ($scope, $rootScope, $state, transferobjectService, movementrequestResource) {
+app.controller('MovementRequestCtrl', function ($scope, $rootScope, $state, transferobjectService, movementrequestResource, commonService) {
     var movementrequestResources = new movementrequestResource();
     $scope.movementrequestlist = [];
     $scope.movementrequest = {};
@@ -13,6 +13,10 @@ app.controller('MovementRequestCtrl', function ($scope, $rootScope, $state, tran
 
     $scope.init = function() {
         movementrequestResources.$GetMovementRequest(function (data) {
+            angular.forEach(data.obj, function(obj) {
+                obj.MovementDate = commonService.convertdate(obj.MovementDate);
+                obj.ApprovedDate = obj.ApprovedDate != null ? commonService.convertdate(obj.ApprovedDate) : obj.ApprovedDate;
+            });
             $scope.movementrequestlist = data.obj;
             console.log(data);
         });

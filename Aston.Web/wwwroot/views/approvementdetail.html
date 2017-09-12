@@ -10,11 +10,15 @@
                     <a href="#">
                         <h3 class="h5">{{movementrequest.Description}}</h3>
                     </a>
-                    <small>{{movementrequest.MovementDate}}</small>
+                    <small><!--Posted on 5th June 2017 by Aria Smith.--> </small>
                 </div>
+                <!--<div class="form-group row">
+                    <button class="btn btn-secondary">Cancel</button>
+                    <button class="btn btn-primary">Save changes</button>
+                </div>-->
                 <div style="width: 100%;">
                     <div class="col-md-12 text-right">
-                        <button type="button" class="btn btn-primary" ng-click="Approve(movementrequest)">Approve</button>
+                        <button type="button" class="btn btn-primary" ng-click="SaveMovementRequest()">Approve</button>
                         <button type="button" class="btn btn-secondary" ng-click="UpdateMovementRequest()">Details</button>
                     </div>
                 </div>
