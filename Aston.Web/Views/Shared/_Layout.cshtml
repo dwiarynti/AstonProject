@@ -27,7 +27,9 @@
         <!-- you can replace it by local Font Awesome-->
         <!--<script src="https://use.fontawesome.com/99347ac47f.js"></script>-->
         <!-- Font Icons CSS-->
-        <link href="~/css/icons.css" rel="stylesheet" />
+        <link href="~/css/icons.css" rel="stylesheet"/>
+        <link href="~/js/ccsasset/bootstrap-datepicker/css/datepicker.css" rel="stylesheet" />
+        <link href="~/js/ccsasset/bootstrap-datepicker/css/datepicker3.css" rel="stylesheet" />
     </environment>
     <environment names="Staging,Production">
         @*<link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/css/bootstrap.min.css"
@@ -99,7 +101,7 @@
                 <section class="dashboard-counts no-padding-bottom">
                     <div class="container-fluid">
                         <div class="row bg-white has-shadow">
-                            <div id="main-content" ui-view>
+                            <div id="main-content" style="width: 100%" ui-view>
                                 @RenderBody()
                             </div>
                         </div>
@@ -127,7 +129,7 @@
             <section class="dashboard-counts no-padding-bottom">
                 <div class="container-fluid">
                     <div class="row bg-white has-shadow">
-                        <div id="main-content" ui-view>
+                        <div id="main-content" style="width: 100%" ui-view>
                             @RenderBody()
                         </div>
                     </div>
@@ -160,12 +162,13 @@
         <script type="text/javascript" src="~/js/ccsasset/Angular-datatables/src/angular-datatables.instances.js"></script>
         <script type="text/javascript" src="~/js/ccsasset/Angular-datatables/src/angular-datatables.factory.js"></script>
         <script type="text/javascript" src="~/js/ccsasset/Angular-datatables/src/angular-datatables.directive.js"></script>
+        <script src="~/js/ccsasset/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
         <script src="~/js/route.js"></script>
         <script src="~/js/services/transferobject.service.js"></script>
         <script src="~/js/services/assetResource.js"></script>
         <script src="~/js/services/locationResource.js"></script>
         <script src="~/js/services/assetlocationResource.js"></script>
-        <script src="~/js/services/prefResource.js"></script>
+        <script src="~/js/services/lookuplistResource.js"></script>
         <script src="~/js/services/movementrequestResource.js"></script>
         <script src="~/js/controllers/master-ctrl.js"></script>
         <script src="~/js/controllers/asset-ctrl.js"></script>
