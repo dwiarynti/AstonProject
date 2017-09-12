@@ -24,6 +24,13 @@ namespace Aston.Web.Process
             result = REST(requestUri, RESTConstants.GET);
             return result;
         }
+        public HttpResponseMessage GetMovementRequestNeedApproval()
+        {
+            HttpResponseMessage result = default(HttpResponseMessage);
+            string requestUri = "api/MovementRequest/GetMovementRequestNeedApproval/";
+            result = REST(requestUri, RESTConstants.GET);
+            return result;
+        }
         public HttpResponseMessage GetMovementRequestByID(int id)
         {
             HttpResponseMessage result = default(HttpResponseMessage);

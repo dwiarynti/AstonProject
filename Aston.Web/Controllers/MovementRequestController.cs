@@ -38,6 +38,14 @@ namespace Aston.Web.Controllers
             response = _movementProcess.GetMovementRequest();
             return response;
         }
+        [Route("GetMovementRequestNeedApproval")]
+        [HttpGet]
+        public HttpResponseMessage GetMovementRequestNeedApproval(HttpRequestMessage request)
+        {
+            HttpResponseMessage response = new HttpResponseMessage();
+            response = _movementProcess.GetMovementRequestNeedApproval();
+            return response;
+        }
         [HttpPost]
         [Route("CreateMovementRequest")]
         public HttpResponseMessage CreateMovementRequest(HttpRequestMessage request, [FromBody] MovementRequestViewModel obj)

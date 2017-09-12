@@ -25,5 +25,9 @@ namespace Aston.Business.Data
         {
             return _context.MovementRequest.Include(p => p.MovementRequestDetail).Where(p => p.DeletedDate == null && p.DeletedBy == null).ToList();
         }
+        public List<MovementRequest> GetMovementRequestNeedApproval()
+        {
+            return _context.MovementRequest.Include(p => p.MovementRequestDetail).Where(p => p.DeletedDate == null && p.DeletedBy == null && p.ApprovalStatus != 1).ToList();
+        }
     }
 }

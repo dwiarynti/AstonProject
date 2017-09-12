@@ -26,6 +26,17 @@ namespace Aston.WebApi.Controllers
             response = request.CreateResponse(HttpStatusCode.OK, new { success = true, obj = result });
             return response;
         }
+
+        [HttpGet]
+        [Route("GetMovementRequestNeedApproval")]
+        public HttpResponseMessage GetMovementRequestNeedApproval(HttpRequestMessage request)
+        {
+            var result = service.GetMovementRequestNeedApproval();
+            HttpResponseMessage response = new HttpResponseMessage();
+            response = request.CreateResponse(HttpStatusCode.OK, new { success = true, obj = result });
+            return response;
+        }
+
         [HttpGet]
         [Route("GetMovementRequestByID/{id}")]
         public HttpResponseMessage GetMovementRequestByID(HttpRequestMessage request, int id)
