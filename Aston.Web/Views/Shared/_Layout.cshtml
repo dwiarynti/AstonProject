@@ -98,7 +98,10 @@
                         <h2 class="no-margin-bottom">{{PageName}}</h2>
                     </div>
                 </header>
-                <section class="dashboard-counts no-padding-bottom">
+                <section class="dashboard-counts no-padding-bottom" ui-view>
+                    @RenderBody()
+                </section>
+                @*<section class="dashboard-counts no-padding-bottom">
                     <div class="container-fluid">
                         <div class="row bg-white has-shadow">
                             <div id="main-content" style="width: 100%" ui-view>
@@ -106,7 +109,7 @@
                             </div>
                         </div>
                     </div>
-                </section>
+                </section>*@
 
                 <!-- Page Footer-->
                 <footer class="main-footer">
@@ -165,6 +168,7 @@
         <script src="~/js/ccsasset/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
         <script src="~/js/route.js"></script>
         <script src="~/js/services/transferobject.service.js"></script>
+        <script src="~/js/services/commonService.js"></script>
         <script src="~/js/services/assetResource.js"></script>
         <script src="~/js/services/locationResource.js"></script>
         <script src="~/js/services/assetlocationResource.js"></script>
@@ -177,6 +181,7 @@
         <script src="~/js/controllers/movementrequest-ctrl.js"></script>
         <script src="~/js/controllers/movementrequestdetail-ctrl.js"></script>
         <script src="~/js/controllers/home-ctrl.js"></script>
+        <script src="~/js/controllers/approvementdetail-ctrl.js"></script>
     </environment>
     <environment names="Staging,Production">
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
