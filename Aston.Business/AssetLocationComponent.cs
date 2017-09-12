@@ -89,19 +89,28 @@ namespace Aston.Business
                 try
                 {
                     var location = _location.GetLocationByCode(obj.location);
-                    if (obj.listAsset != null)
+
+                    var listAsset = _context.Asset.Where(p => p.Code.Any(o => obj.listAsset.Contains(p.Code))).Select(p => p.ID);
+                    if (listAsset != null)
                     {
-                        foreach (var item in obj.listAsset)
+                        foreach (var id in listAsset.ToList())
                         {
                             AssetLocation assetlocationobj = new AssetLocation();
                             var date = DateTime.Now;
-                            var asset = _asset.GetAssetInfoByCode(item);
-                            assetlocationobj.AssetID = asset.ID;
+
+                            assetlocationobj.AssetID = id;
                             assetlocationobj.LocationID = location.ID;
                             assetlocationobj.OnTransition = false;
                             assetlocationobj.CreatedDate = date.Date.ToString("ddMMyyyy");
                             assetlocationobj.CreatedBy = obj.CreatedBy;
-                            assetlocationobj.MovementRequestDetailID = obj.MovementRequestDetailID ;
+                            if (obj.MovementRequestDetailID != 0)
+                            {
+                                assetlocationobj.MovementRequestDetailID = obj.MovementRequestDetailID;
+                            }
+                            else
+                            {
+                                assetlocationobj.MovementRequestDetailID = null;
+                            }
                             _context.AssetLocation.Add(assetlocationobj);
                             _context.SaveChanges();
                         }
