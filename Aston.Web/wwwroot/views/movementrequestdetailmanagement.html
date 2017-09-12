@@ -8,11 +8,11 @@
             <small class="text-danger" ng-if="(movementrequestobj.MovementDate == null || movementrequestobj.MovementDate == '') && isValidate == false">Movement Date is required</small>
         </div>
     </div>
-    <div ng-class="(movementrequestobj.Description == null || movementrequestobj.Description == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
+    <div class="form-group row">
         <label class="col-sm-3 form-control-label">Description</label>
         <div class="col-sm-9">
             <input type="text" class="form-control form-control-success" placeholder="Description" ng-model="movementrequestobj.Description">
-            <small class="text-danger" ng-if="(movementrequestobj.Description == null || movementrequestobj.Description == '') && isValidate == false">Movement Price is required</small>
+            <!--<small class="text-danger" ng-if="(movementrequestobj.Description == null || movementrequestobj.Description == '') && isValidate == false">Movement Price is required</small>-->
         </div>
     </div>
     <div ng-hide="isLoading" class="form-group">
@@ -20,7 +20,8 @@
             <button type="button" class="btn btn-primary" ng-click="Add()">Add</button>
         </div>
     </div>
-
+    
+    <p ng-repeat="validationmessage in validationmessagelist"><small class="text-danger">*{{validationmessage.message}}</small></p>
     <table id="data-table1" datatable="ng" dt-options="dtOptions" width="100%" class="table table-bordered">
         <thead>
         <tr>

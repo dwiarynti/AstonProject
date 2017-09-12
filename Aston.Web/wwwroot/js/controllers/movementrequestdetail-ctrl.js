@@ -13,8 +13,9 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
     $scope.movementrequestdetailBackup = {};
     $scope.departmentlist = [];
     $rootScope.PageName = "Movement Request Detail";
+    $scope.validationmessagelist = [];
 
-    console.log($scope.movementrequestobj.MovementRequestDetail);
+    //console.log($scope.movementrequestobj.MovementRequestDetail);
     
     $scope.convertdate = function (stringdate) {
         var a = Date.parse(stringdate.replace(/^(\d\d)(\d\d)(\d\d\d\d)$/, "$2-$1-$3"));
@@ -56,7 +57,7 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
 
     $('#datepicker-movementdate').datepicker({
         todayHighlight: true,
-        format: "d/mm/yy"
+        format: "d/mm/yyyy"
     });
 
     $scope.showDatePickerMovementDate = function () {
@@ -68,8 +69,8 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
             ID: "temp",
             MovementDate: null,
             Description: null,
-            ApprovedDate: null,
-            ApprovedBy: null,
+            //ApprovedDate: null,
+            //ApprovedBy: null,
             MovementRequestDetail: []
             //CreatedDate: null,
             //CreatedBy: null,
@@ -83,12 +84,12 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
     function movementrequestDetailModel() {
         return {
             ID: "temp",
-            MovementRequestID: null,
+            //MovementRequestID: null,
             Description: null,
             AssetCategoryCD: null,
             Quantity: null,
             RequestTo : null,
-            editmode:false,
+            //editmode:false,
         //CreatedDate: null,
         //CreatedBy: null,
         //IsUpdateDate: null,
@@ -101,6 +102,8 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
     $scope.Add = function () {
         var obj = movementrequestDetailModel();
         obj.editmode = true;
+        obj.IsUpdate = false;
+        obj.IsDelete = false;
         $scope.movementrequestobj.MovementRequestDetail.push(obj);
     }
     $scope.GetCategory = function () {
@@ -146,72 +149,105 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
     }
 
     $scope.validationform = function () {
+        $scope.validationmessagelist = [];
         var validationstatus = true;
-        var keys = Object.keys(movementrequesModel());
-        for (var i = 0; i < keys.length; i++) {
-            var key = keys[i];
-            var value = $scope.movementrequestobj[key];
-            var datatype = typeof value;
-            if (datatype != "boolean" && validationstatus) {
-                if (value == null || value == "") {
-                    validationstatus = false;
-                    break;
-                }
-            } else if (!validationstatus) {
-                validationstatus = false;
-                break;
+        if ($scope.movementrequestobj.MovementDate == "" || $scope.movementrequestobj.MovementDate == null) {
+            validationstatus = false;
+        } else {
+            var validationtableresultlist = [];
+            for (var i = 0; i < $scope.movementrequestobj.MovementRequestDetail.length; i++) {
+                var data = $scope.movementrequestobj.MovementRequestDetail[i];
+                var row = i + 1;
+                var result = $scope.validationtable(movementrequestDetailModel(), data, row);
+                validationtableresultlist.push(result);
             }
+            var validationresult = $filter('filter')(validationtableresultlist, function (obj) { return obj === false });
+            //console.log(validationresult);
+            validationstatus = validationresult.length != 0 ? false : true;
         }
+
         return validationstatus;
     }
 
-    $scope.SaveMovementRequest = function () {
-        var movementrequestResources = new movementrequestResource();
-        movementrequestResources.MovementDate = $scope.movementrequestobj.MovementDate;
-        movementrequestResources.Description = $scope.movementrequestobj.Description;
-        movementrequestResources.ApprovalStatus = 1;
-        movementrequestResources.MovementRequestDetail = angular.copy($scope.movementrequestobj.MovementRequestDetail);
+    $scope.validationtable = function (model, data, row) {
 
-        angular.forEach(movementrequestResources.MovementRequestDetail, function(data) {
-            delete data.ID;
-            delete data.editmode;
-            delete data.MovementRequestID;
-            data.AssetCategoryCD = parseInt(data.AssetCategoryCD);
-            data.Quantity = parseInt(data.Quantity);
-            data.RequestedTo = parseInt(data.RequestedTo);
-        });
-        console.log(movementrequestResources);
-        //movementrequestResources.$CreateMovementRequest(function (data) {
-        //    if (data.success) {
-        //        //$scope.movementrequestobj = ;
-        //        //$scope.init();
-        //    }
-        //});
+        var result = true;
+        var keys = Object.keys(model);
+        for (var i = 0; i < keys.length; i++) {
+            var key = keys[i];
+            var value = data[key];
+            var datatype = typeof value;
+            if (datatype != "boolean") {
+                if (value == null || value == "") {
+                    $scope.validationmessagelist.push({ message: key + " is Required at row " + row });
+                    result = false;
+                    //break;
+                }
+            }
+        }
+        return result;
+    }
+
+    $scope.SaveMovementRequest = function () {
+
+        $scope.isValidate = $scope.validationform();
+        console.log($scope.isValidate);
+
+        if ($scope.isValidate) {
+            var movementrequestResources = new movementrequestResource();
+            movementrequestResources.MovementDate = $scope.movementrequestobj.MovementDate;
+            movementrequestResources.Description = $scope.movementrequestobj.Description;
+            movementrequestResources.ApprovalStatus = 1;
+            movementrequestResources.MovementRequestDetail = angular.copy($scope.movementrequestobj.MovementRequestDetail);
+
+            angular.forEach(movementrequestResources.MovementRequestDetail, function(data) {
+                delete data.ID;
+                delete data.editmode;
+                delete data.MovementRequestID;
+                data.AssetCategoryCD = parseInt(data.AssetCategoryCD);
+                data.Quantity = parseInt(data.Quantity);
+                data.RequestedTo = parseInt(data.RequestedTo);
+            });
+            //console.log(movementrequestResources);
+            movementrequestResources.$CreateMovementRequest(function (data) {
+                if (data.success) {
+                    console.log(data);
+                    //$scope.movementrequestobj = ;
+                    //$scope.init();
+                }
+            });
+        }
+
+        
     }
 
 
     $scope.UpdateMovementRequest = function () {
-        var movementrequestResources = new movementrequestResource();
-        movementrequestResources.ID = $scope.movementrequestobj.ID;
-        movementrequestResources.MovementDate = $scope.movementrequestobj.MovementDate;
-        movementrequestResources.Description = $scope.movementrequestobj.Description;
-        movementrequestResources.ApprovalStatus = 1;
-        movementrequestResources.MovementRequestDetail = angular.copy($scope.movementrequestobj.MovementRequestDetail);
 
-        angular.forEach(movementrequestResources.MovementRequestDetail, function (data) {
-            delete data.editmode;
-            data.AssetCategoryCD = parseInt(data.AssetCategoryCD);
-            data.Quantity = parseInt(data.Quantity);
-            data.RequestedTo = parseInt(data.RequestedTo);
-        });
-        console.log(movementrequestResources);
-        movementrequestResources.$UpdateMovementRequest(function (data) {
-            if (data.success) {
-                console.log(data);
-                //$scope.movementrequestobj = ;
-                //$scope.init();
-            }
-        });
+        $scope.isValidate = $scope.validationform();
+
+        if ($scope.isValidate) {
+            var movementrequestResources = new movementrequestResource();
+            movementrequestResources.ID = $scope.movementrequestobj.ID;
+            movementrequestResources.MovementDate = $scope.movementrequestobj.MovementDate;
+            movementrequestResources.Description = $scope.movementrequestobj.Description;
+            movementrequestResources.ApprovalStatus = 1;
+            movementrequestResources.MovementRequestDetail = angular.copy($scope.movementrequestobj.MovementRequestDetail);
+
+            angular.forEach(movementrequestResources.MovementRequestDetail, function (data) {
+                delete data.editmode;
+                data.AssetCategoryCD = parseInt(data.AssetCategoryCD);
+                data.Quantity = parseInt(data.Quantity);
+                data.RequestedTo = parseInt(data.RequestedTo);
+            });
+            movementrequestResources.$UpdateMovementRequest(function (data) {
+                if (data.success) {
+                    console.log(data);
+                    //$scope.movementrequestobj = ;
+                    //$scope.init();
+                }
+            });
+        }
     }
 
     $scope.isSelectedItem = function (itemA, itemB) {
