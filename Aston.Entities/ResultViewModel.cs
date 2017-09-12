@@ -10,5 +10,6 @@ namespace Aston.Entities
         public bool resultstatus { get; set; }
 
         public MovementRequest movementrequest { get; set; }
+        public MovementRequestViewModel movementrequestModel { get; set; }
     }
 }

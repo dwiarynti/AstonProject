@@ -192,38 +192,50 @@ namespace Aston.Business
                 movement.UpdatedBy = obj.UpdatedBy;
                 movement.UpdatedDate = DateTime.Now.ToString("ddMMyyyy");
                 
-                movement.MovementRequestDetail = new List<MovementRequestDetail>();
+                foreach(var item in movement.MovementRequestDetail)
+                {
+                    var data = obj.MovementRequestDetail.Where(p => p.ID == item.ID).FirstOrDefault();
+                    if(data.IsUpdate == true)
+                    {
+                        item.Description = data.Description;
+                        item.AssetCategoryCD = data.AssetCategoryCD;
+                        item.Quantity = data.Quantity;
+                        item.RequestedTo = data.RequestTo;
+                        item.UpdatedBy = obj.UpdatedBy;
+                        item.UpdatedDate = DateTime.Now.ToString("ddMMyyyy");
+                    }
+                    else if (data.IsDelete == true)
+                    {
+                        item.DeletedDate = DateTime.Now.ToString("ddMMyyyy");
+                        item.DeletedBy = obj.UpdatedBy;
+                    }
+                    obj.MovementRequestDetail.Remove(data);
+                }
+
                 foreach (var item in obj.MovementRequestDetail)
                 {
-                        var detail = _movementrequest.GetMovementRequestDetailByID(item.ID);
-
-                        if (item.IsUpdate == true)
-                        {
-                            detail.Description = item.Description;
-                            detail.AssetCategoryCD = item.AssetCategoryCD;
-                            detail.Quantity = item.Quantity;
-                            detail.RequestedTo = item.RequestTo;
-                            detail.UpdatedBy = obj.UpdatedBy;
-                            detail.UpdatedDate = DateTime.Now.ToString("ddMMyyyy");
-                        }
-                        else if (item.IsDelete == true)
-                        {
-                            detail.DeletedDate = DateTime.Now.ToString("ddMMyyyy");
-                            detail.DeletedBy = obj.UpdatedBy;
-                        }
-                        movement.MovementRequestDetail.Add(detail);
+                    MovementRequestDetail detail = new MovementRequestDetail();
+                    detail.Description = item.Description;
+                    detail.AssetCategoryCD = item.AssetCategoryCD;
+                    detail.Quantity = item.Quantity;
+                    detail.RequestedTo = item.RequestTo;
+                    detail.CreatedBy = obj.UpdatedBy;
+                    detail.CreatedDate = DateTime.Now.ToString("ddMMyyyy");
+                       
+                    movement.MovementRequestDetail.Add(detail);
                         
                 }
 
-                _context.Entry(movement).State = EntityState.Modified;
+                _context.Update(movement);
                 _context.SaveChanges();
                 transaction.Commit();
-                result.movementrequest = movement;
+                result.movementrequestModel = GetMovementRequestByID(movement.ID);
                 result.resultstatus = true;
 
             }
             catch (Exception ex)
             {
+                transaction.Rollback();
                 result.movementrequest = null;
                 result.resultstatus = false;
             }
@@ -247,7 +259,7 @@ namespace Aston.Business
                         item.DeletedBy = obj.DeletedBy;
                         item.DeletedDate = DateTime.Now.Date.ToString("ddMMyyyy");
                     }
-                    _context.Entry(movement).State = EntityState.Modified;
+                    _context.Update(movement);
                     _context.SaveChanges();
                     transaction.Commit();
                     result = true;

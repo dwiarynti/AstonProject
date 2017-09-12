@@ -60,7 +60,7 @@ namespace Aston.WebApi.Controllers
             var result = service.UpdateMovementRequest(obj);
            
             HttpResponseMessage response = new HttpResponseMessage();
-            response = request.CreateResponse(HttpStatusCode.OK, new { success = result.resultstatus, obj = result.movementrequest });
+            response = request.CreateResponse(HttpStatusCode.OK, new { success = result.resultstatus, obj = result.movementrequestModel });
             return response;
         }
         [HttpPost]
