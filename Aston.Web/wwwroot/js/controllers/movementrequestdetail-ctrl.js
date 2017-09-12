@@ -10,9 +10,11 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
     $scope.movementrequest = {};
     $scope.movementrequestdetailList = [];
     $scope.categorylist = [];
+    $scope.movementrequestdetailBackup = {};
+    $scope.departmentlist = [];
     $rootScope.PageName = "Movement Request Detail";
 
-    //console.log($scope.movementrequestobj.MovementRequestDetail);
+    console.log($scope.movementrequestobj.MovementRequestDetail);
     
     $scope.convertdate = function (stringdate) {
         var a = Date.parse(stringdate.replace(/^(\d\d)(\d\d)(\d\d\d\d)$/, "$2-$1-$3"));
@@ -29,9 +31,19 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
             $scope.movementrequestobj.MovementDate = $scope.convertdate($scope.movementrequestobj.MovementDate);
             angular.forEach($scope.movementrequestobj.MovementRequestDetail, function (data) {
                 data.editmode = false;
+                data.IsDelete = false;
+                data.IsUpdate = false;
             });
         }
     }
+
+    $scope.GetDepartment = function() {
+        lookuplistResources.$GetDepartment(function(data) {
+            $scope.departmentlist = data.obj;
+        });
+    }
+
+    $scope.GetDepartment();
 
     if ($scope.movementrequestobj.ID == undefined) {
         $state.go('movementrequestmanagement');
@@ -61,10 +73,10 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
             MovementRequestDetail: []
             //CreatedDate: null,
             //CreatedBy: null,
-            //UpdatedDate: null,
-            //UpdatedBy: null,
-            //DeletedDate: null,
-            //DeletedBy: null
+            //IsUpdateDate: null,
+            //IsUpdateBy: null,
+            //IsDeleteDate: null,
+            //IsDeleteBy: null
         };
     }
 
@@ -79,10 +91,10 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
             editmode:false,
         //CreatedDate: null,
         //CreatedBy: null,
-        //UpdatedDate: null,
-        //UpdatedBy: null,
-        //DeletedDate: null,
-        //DeletedBy: null
+        //IsUpdateDate: null,
+        //IsUpdateBy: null,
+        //IsDeleteDate: null,
+        //IsDeleteBy: null
     };
     }
 
@@ -101,10 +113,12 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
 
     $scope.addMRD = function(obj) {
         obj.editmode = false;
+        obj.IsUpdate = true;
     }
 
     $scope.editMRD = function (obj) {
         obj.editmode = true;
+        $scope.movementrequestdetailBackup = angular.copy(obj);
     }
 
     $scope.turnoffaddmode = function (index) {
@@ -112,9 +126,17 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
     }
 
     $scope.turnoffeditmode = function (obj) {
+        obj.CategoryCDName = $scope.movementrequestdetailBackup.CategoryCDName;
+        obj.Description = $scope.movementrequestdetailBackup.Description;
+        obj.Quantity = $scope.movementrequestdetailBackup.Quantity;
+        obj.RequestTo = $scope.movementrequestdetailBackup.RequestTo;
+        obj.AssetCategoryCD = $scope.movementrequestdetailBackup.AssetCategoryCD;
         obj.editmode = false;
     }
 
+    $scope.deleteMRD = function (obj) {
+        obj.IsDelete = true;
+    }
 
     $scope.Save = function () {
         $scope.isValidate = $scope.validationform();
@@ -170,15 +192,14 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
 
     $scope.UpdateMovementRequest = function () {
         var movementrequestResources = new movementrequestResource();
+        movementrequestResources.ID = $scope.movementrequestobj.ID;
         movementrequestResources.MovementDate = $scope.movementrequestobj.MovementDate;
         movementrequestResources.Description = $scope.movementrequestobj.Description;
         movementrequestResources.ApprovalStatus = 1;
         movementrequestResources.MovementRequestDetail = angular.copy($scope.movementrequestobj.MovementRequestDetail);
 
         angular.forEach(movementrequestResources.MovementRequestDetail, function (data) {
-            delete data.ID;
             delete data.editmode;
-            delete data.MovementRequestID;
             data.AssetCategoryCD = parseInt(data.AssetCategoryCD);
             data.Quantity = parseInt(data.Quantity);
             data.RequestedTo = parseInt(data.RequestedTo);
@@ -186,6 +207,7 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
         console.log(movementrequestResources);
         movementrequestResources.$UpdateMovementRequest(function (data) {
             if (data.success) {
+                console.log(data);
                 //$scope.movementrequestobj = ;
                 //$scope.init();
             }
@@ -199,6 +221,11 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
     $scope.getCategoryName = function (obj) {
         var a = $filter('filter')($scope.categorylist, function (category) { return category.Code === parseInt(obj.AssetCategoryCD) })[0];
         obj.CategoryCDName = a.Value;
+    }
+
+    $scope.getDepartmentName = function (obj) {
+        var a = $filter('filter')($scope.departmentlist, function (department) { return department.ID === parseInt(obj.RequestTo) })[0];
+        obj.RequestToName = a.Name;
     }
 
 });

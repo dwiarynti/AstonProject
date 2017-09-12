@@ -10,6 +10,8 @@
             GetCategory: { method: 'GET', params: { action: 'GetCategory' } },
             GetLocationType: { method: 'GET', params: { action: 'GetLocationType' } },
             GetStatus: { method: 'GET', params: { action: 'GetStatus' } },
+            GetDepartment: { method: 'GET', params: { action: 'GetDepartment' } },
+            GetDepartmentByID: { method: 'GET', params: { action: 'GetDepartmentByID' } },
 
         });
     }
