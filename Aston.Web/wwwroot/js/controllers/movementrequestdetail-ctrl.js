@@ -200,13 +200,14 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
             movementrequestResources.ApprovalStatus = 1;
             movementrequestResources.MovementRequestDetail = angular.copy($scope.movementrequestobj.MovementRequestDetail);
 
-            angular.forEach(movementrequestResources.MovementRequestDetail, function(data) {
+            angular.forEach(movementrequestResources.MovementRequestDetail, function (data) {
+
                 delete data.ID;
                 delete data.editmode;
                 delete data.MovementRequestID;
                 data.AssetCategoryCD = parseInt(data.AssetCategoryCD);
                 data.Quantity = parseInt(data.Quantity);
-                data.RequestedTo = parseInt(data.RequestedTo);
+                data.RequestTo = parseInt(data.RequestTo);
             });
             //console.log(movementrequestResources);
             movementrequestResources.$CreateMovementRequest(function (data) {
@@ -233,13 +234,18 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
             movementrequestResources.Description = $scope.movementrequestobj.Description;
             movementrequestResources.ApprovalStatus = 1;
             movementrequestResources.MovementRequestDetail = angular.copy($scope.movementrequestobj.MovementRequestDetail);
-
             angular.forEach(movementrequestResources.MovementRequestDetail, function (data) {
+                var IDdatatype = typeof data.ID;
+                if (IDdatatype == "string") {
+                    delete data.ID;
+                }
                 delete data.editmode;
                 data.AssetCategoryCD = parseInt(data.AssetCategoryCD);
                 data.Quantity = parseInt(data.Quantity);
-                data.RequestedTo = parseInt(data.RequestedTo);
+                data.RequestTo = parseInt(data.RequestTo);
             });
+            console.log(movementrequestResources);
+
             movementrequestResources.$UpdateMovementRequest(function (data) {
                 if (data.success) {
                     console.log(data);
