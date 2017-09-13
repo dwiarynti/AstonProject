@@ -16,7 +16,7 @@ namespace Aston.Business
         AssetExtensions _asset = new AssetExtensions();
         LocationExtensions _location = new LocationExtensions();
         AssetLocationExtensions _assetlocation = new AssetLocationExtensions();
-
+        MovementRequestExtensions _movementrequest = new MovementRequestExtensions();
         public AssetLocationViewModel GetAssetLocationByID(int id)
         {
             AssetLocationViewModel result = new AssetLocationViewModel();
@@ -138,40 +138,65 @@ namespace Aston.Business
             return result;
         }
 
-        public bool CreateAssetLocation(AssetLocation obj)
+        public ResultViewModel CreateAssetLocation(AssetLocationViewModel obj)
         {
-            bool result;
+            ResultViewModel result = new ResultViewModel();
             IDbContextTransaction transaction = _context.Database.BeginTransaction();
             if (obj != null)
             {
-                try
-                {
-                    
-                    AssetLocation assetlocationobj = new AssetLocation();
-                           
-                    assetlocationobj.AssetID = obj.AssetID;
-                    assetlocationobj.LocationID = obj.LocationID;
-                    assetlocationobj.OnTransition = obj.OnTransition;
-                    assetlocationobj.CreatedDate = DateTime.Now.Date.ToString("ddMMyyyy");
-                    assetlocationobj.CreatedBy = obj.CreatedBy;
-                    assetlocationobj.MovementRequestDetailID = obj.MovementRequestDetailID;
-                    _context.AssetLocation.Add(assetlocationobj);
-                    _context.SaveChanges();
-                    transaction.Commit();
-                    result = true;
-                 
+                var movementrequestdetail = _context.MovementRequestDetail.Where(p => p.ID == obj.MovementRequestDetailID).FirstOrDefault();
+                var movementrequest = _context.MovementRequest.Where(p => p.ID == movementrequestdetail.MovementRequestID).FirstOrDefault();
 
-                }
-                catch (Exception ex)
+                var checkassetlocation = _context.AssetLocation.Where(p => p.MovementRequestDetailID == obj.MovementRequestDetailID && p.DeletedDate != null).Count();
+
+                int totalmoved = 0;
+                totalmoved = (movementrequestdetail.Quantity - checkassetlocation) - obj.AssetLocation.Count();
+
+                if(totalmoved > 0)
                 {
-                    transaction.Rollback();
-                    result = false;
+                    foreach(var item in obj.AssetLocation)
+                    {
+                       
+                        if(_context.AssetLocation.Count() < totalmoved)
+                        {
+                            AssetLocation assetlocationobj = new AssetLocation();
+
+                            assetlocationobj.AssetID = item.AssetID;
+                            assetlocationobj.LocationID = movementrequest.LocationID;
+                            assetlocationobj.OnTransition = item.OnTransition;
+                            assetlocationobj.CreatedDate = DateTime.Now.Date.ToString("ddMMyyyy");
+                            assetlocationobj.CreatedBy = item.CreatedBy;
+                            assetlocationobj.MovementRequestDetailID = item.MovementRequestDetailID;
+                            _context.AssetLocation.Add(assetlocationobj);
+                            obj.AssetLocation.Remove(item);
+                        }
+                    }
+                    if (obj.AssetLocation.Count != 0)
+                    {
+                        result.resultmessage = "the inputed asset exceed the requested asset";
+                        result.resultstatus = false;
+                    }
+                    else
+                    {
+                        _context.SaveChanges();
+                        transaction.Commit();
+                        result.resultstatus = true;
+                    }
                 }
+                else
+                {
+                    result.resultstatus = false;
+                    result.resultmessage = "Total asset already same with the request asset";
+                }
+                
             }
             else
             {
-                result = false;
+                result.resultstatus = false;
+                result.resultmessage = "The object is null";
             }
+
+           
             return result;
         }
 

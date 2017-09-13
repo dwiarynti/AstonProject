@@ -60,11 +60,11 @@ namespace Aston.WebApi.Controllers
         }
         [HttpPost]
         [Route("CreateAssetLocation")]
-        public HttpResponseMessage CreateAssetLocation(HttpRequestMessage request, [FromBody] AssetLocation obj)
+        public HttpResponseMessage CreateAssetLocation(HttpRequestMessage request, [FromBody] AssetLocationViewModel obj)
         {
             var result = service.CreateAssetLocation(obj);
             HttpResponseMessage response = new HttpResponseMessage();
-            response = request.CreateResponse(HttpStatusCode.OK, new { success = result });
+            response = request.CreateResponse(HttpStatusCode.OK, new { success = result , obj = request});
             return response;
         }
 
