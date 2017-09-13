@@ -9,8 +9,12 @@ namespace Aston.Entities
     {
         public int ID { get; set; }
         public int AssetID { get; set; }
-        public int LocationID { get; set; }
+        public Nullable<int> LocationID { get; set; }
         public Nullable<bool> OnTransition { get; set; }
         public Nullable<int> MovementRequestDetailID { get; set; }
+
+        public List<AssetLocation> AssetLocation { get; set; }
+
+     
     }
 }

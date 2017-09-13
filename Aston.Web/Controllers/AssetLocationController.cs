@@ -59,7 +59,7 @@ namespace Aston.Web.Controllers
 
         [HttpPost]
         [Route("CreateAssetLocation")]
-        public HttpResponseMessage CreateAssetLocation(HttpRequestMessage request, [FromBody] AssetLocation obj)
+        public HttpResponseMessage CreateAssetLocation(HttpRequestMessage request, [FromBody] AssetLocationViewModel obj)
         {
             HttpResponseMessage response = new HttpResponseMessage();
             obj.CreatedBy = User.Identity.Name;
