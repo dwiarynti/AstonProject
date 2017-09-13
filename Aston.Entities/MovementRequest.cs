@@ -13,6 +13,7 @@ namespace Aston.Entities
         }
         public int ID { get; set; }
         public string MovementDate { get; set; }
+        public Nullable<int> LocationID { get; set; }
         public string Description { get; set; }
         public string ApprovedDate { get; set; }
         public string ApprovedBy { get; set; }
