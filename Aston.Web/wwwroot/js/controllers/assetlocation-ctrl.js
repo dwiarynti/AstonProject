@@ -13,6 +13,7 @@ app.controller('AssetLocationCtrl', function ($scope, $rootScope, assetResource,
     $scope.assetlocation = {};
     $scope.actionstatus = "";
     $rootScope.PageName = "Asset Location";
+    $scope.OnTransitionStatus = false;
 
     $scope.dtOptions = { "aaSorting": [], "bPaginate": false, "bLengthChange": false, "bFilter": false, "bSort": false, "bInfo": false, "bAutoWidth": false };
 
@@ -87,7 +88,9 @@ app.controller('AssetLocationCtrl', function ($scope, $rootScope, assetResource,
         $("#modal-action").modal('show');
     }
 
-    $scope.update = function() {
+    $scope.update = function () {
+
+        $scope.assetlocation = $scope.OnTransitionStatus ? $scope.assetlocation : $scope.OnTransitionStatus;
         $scope.isValidate = commonService.validationform(AssetLocationModel(), $scope.assetlocation);
         if ($scope.isValidate) {
             $scope.UpdateAssetLocation();

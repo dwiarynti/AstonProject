@@ -26,6 +26,7 @@ app.controller('MovementRequestCtrl', function ($scope, $rootScope, $state, tran
         return {
             ID: "temp",
             MovementDate: null,
+            LocationID: null,
             Description: null,
             ApprovedDate: null,
             ApprovedBy: null,

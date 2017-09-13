@@ -60,12 +60,12 @@
                                         <small class="text-danger" ng-if="(asset.Description == null || asset.Description == '') && isValidate == false">Description is required</small>
                                     </div>
                                 </div>
-                                <div ng-class="(asset.IsMovable == null || asset.IsMovable == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
+                                <div ng-class="(asset.IsMovable | getType)  != 'boolean' && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
                                     <label class="col-sm-3 form-control-label">Is Movable Asset*</label>
                                     <div class="col-sm-9">
-                                        <input type="radio" name="choicestype" ng-model="asset.IsMovable" data-ng-value="true" class="radio-template" /> True
-                                        <input type="radio" name="choicestype" ng-model="asset.IsMovable" data-ng-value="false" class="radio-template" /> False<br />
-                                        <small class="text-danger" ng-if="(assetlocation.IsMovable | getType)  != 'boolean' && isValidate == false">Is Movable is required</small>
+                                        <input type="radio" name="IsMovable" ng-model="asset.IsMovable" data-ng-value="true" class="radio-template"/> True
+                                        <input type="radio" name="IsMovable" ng-model="asset.IsMovable" data-ng-value="false" class="radio-template"/> False<br/>
+                                        <small class="text-danger" ng-if="(asset.IsMovable | getType) != 'boolean' && isValidate == false">Is Movable is required</small>
                                     </div>
                                 </div>
                                 <div ng-class="(asset.Owner == null || asset.Owner == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">

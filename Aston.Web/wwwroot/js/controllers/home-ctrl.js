@@ -2,7 +2,7 @@
  * Asset Controller
  */
 
-app.controller('HomeCtrl', function ($scope, $rootScope, movementrequestResource, commonService) {
+app.controller('HomeCtrl', function ($scope, $rootScope, $window, movementrequestResource, commonService) {
     var movementrequestResources = new movementrequestResource();
     $scope.movementrequestlist = [];
     $rootScope.PageName = "Home";
@@ -10,6 +10,7 @@ app.controller('HomeCtrl', function ($scope, $rootScope, movementrequestResource
 
 
     $scope.init = function () {
+        $scope.movementrequestlist = [];
         movementrequestResources.$GetMovementRequestNeedApproval(function (data) {
             angular.forEach(data.obj, function (obj) {
                 obj.MovementDate = commonService.convertdate(obj.MovementDate);
@@ -25,6 +26,7 @@ app.controller('HomeCtrl', function ($scope, $rootScope, movementrequestResource
         movementrequestResources.ApprovalStatus = 1;
         movementrequestResources.$ApproveMovementRequest(function (data) {
             if (data.success) {
+                $window.alert("Data approved successfully");
                 $scope.init();
             }
         });

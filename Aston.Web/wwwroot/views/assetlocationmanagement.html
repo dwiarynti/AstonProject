@@ -2,11 +2,11 @@
     <div class="row bg-white has-shadow">
         <div id="main-content" style="width: 100%" ui-view>
             <div ng-controller="AssetLocationCtrl">
-                <div ng-hide="isLoading" class="form-group">
+                <!--<div ng-hide="isLoading" class="form-group">
                     <div class="col-sm-12">
                         <button type="button" class="btn btn-primary" ng-click="add()">Add</button>
                     </div>
-                </div>
+                </div>-->
                 <table id="data-table" datatable="ng" dt-options="dtOptions" width="100%" class="table table-striped table-bordered">
                     <thead>
                         <tr>
@@ -55,7 +55,7 @@
                                         <small class="text-danger" ng-if="(assetlocation.LocationID == null || assetlocation.LocationID == '') && isValidate == false">Floor is required</small>
                                     </div>
                                 </div>
-                                <div ng-class="(assetlocation.OnTransition == null || assetlocation.OnTransition == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
+                                <div ng-if="OnTransitionStatus == true" ng-class="(assetlocation.OnTransition | getType)  != 'boolean' && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
                                     <label class="col-sm-3 form-control-label">On Transition*</label>
                                     <div class="col-sm-9">
                                         <input type="radio" name="choicestype" ng-model="assetlocation.OnTransition" data-ng-value="true" class="radio-template" /> True

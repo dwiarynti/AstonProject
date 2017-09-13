@@ -14,6 +14,8 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
     $scope.departmentlist = [];
     $rootScope.PageName = "Movement Request Detail";
     $scope.validationmessagelist = [];
+    $scope.assetlocationlist = [];
+    $scope.selectedasset = {};
 
     $scope.init = function () {
         if ($scope.movementrequestobj.ID != 'temp') {
@@ -260,6 +262,15 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
     $scope.getDepartmentName = function (obj) {
         var a = $filter('filter')($scope.departmentlist, function (department) { return department.ID === parseInt(obj.RequestTo) })[0];
         obj.RequestToName = a.Name;
+    }
+
+    $scope.selectasset = function() {
+        $("#modal-addasset").modal('show');
+    }
+
+    $scope.addassetlocation = function (obj) {
+        var data = JSON.parse(obj);
+        $scope.assetlocationlist.push({ AssetID: data.Code, LocationID: $scope.movementrequestobj.LocationName });
     }
 
 });

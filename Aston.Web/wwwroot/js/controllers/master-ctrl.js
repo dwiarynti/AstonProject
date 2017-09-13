@@ -7,5 +7,6 @@ angular.module('RDash')
 
 function MasterCtrl($scope, $rootScope, $state) {
     $rootScope.PageName = '';
+    $rootScope.openassetlocation = false;
 
 }
