@@ -208,7 +208,7 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
             movementrequestResources.MovementDate = $scope.movementrequestobj.MovementDate;
             movementrequestResources.Description = $scope.movementrequestobj.Description;
             movementrequestResources.ApprovalStatus = 2;
-            movementrequestResources.LocationID = 2;
+            movementrequestResources.LocationID = parseInt($scope.movementrequestobj.LocationID);
             movementrequestResources.MovementRequestDetail = angular.copy($scope.movementrequestobj.MovementRequestDetail);
 
             angular.forEach(movementrequestResources.MovementRequestDetail, function (data) {
@@ -245,6 +245,7 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
             movementrequestResources.MovementDate = $scope.movementrequestobj.MovementDate;
             movementrequestResources.Description = $scope.movementrequestobj.Description;
             movementrequestResources.ApprovalStatus = 2;
+            movementrequestResources.LocationID = parseInt($scope.movementrequestobj.LocationID);
             movementrequestResources.MovementRequestDetail = angular.copy($scope.movementrequestobj.MovementRequestDetail);
             angular.forEach(movementrequestResources.MovementRequestDetail, function (data) {
                 var IDdatatype = typeof data.ID;
@@ -324,7 +325,7 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
         assetLocationResources.LocationID = parseInt($scope.movementrequestobj.LocationID);
         assetLocationResources.OnTransition = $scope.OnTransitionStatus;
         assetLocationResources.AssetLocation = $scope.selectedassetlist;
-        assetLocationResources.MovementRequestDetailID = $scope.$scope.movementrequestdetailBackup.ID;
+        assetLocationResources.MovementRequestDetailID = $scope.movementrequestdetailBackup.ID;
 
         assetLocationResources.$CreateAssetLocation(function (data) {
             if (data.success) {
