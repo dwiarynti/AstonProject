@@ -30,7 +30,7 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
 
     $scope.init = function () {
         if ($scope.movementrequestobj.ID != 'temp') {
-            $scope.movementrequestobj.MovementDate = commonService.convertdate($scope.movementrequestobj.MovementDate);
+            //$scope.movementrequestobj.MovementDate = commonService.convertdate($scope.movementrequestobj.MovementDate);
             angular.forEach($scope.movementrequestobj.MovementRequestDetail, function (data) {
                 data.editmode = false;
                 data.IsDelete = false;
@@ -308,6 +308,7 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
                 AssetID: data.ID,
                 AssetName: data.Name,
                 LocationID: $scope.movementrequestobj.LocationID,
+                LocationName: $scope.movementrequestobj.LocationName,
                 OnTransition: $scope.OnTransitionStatus,
                 MovementRequestDetailID: data.ID,
             });
@@ -324,8 +325,9 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
         //assetLocationResources.AssetID = parseInt($scope.assetlocation.AssetID);
         assetLocationResources.LocationID = parseInt($scope.movementrequestobj.LocationID);
         assetLocationResources.OnTransition = $scope.OnTransitionStatus;
-        assetLocationResources.AssetLocation = $scope.selectedassetlist;
         assetLocationResources.MovementRequestDetailID = $scope.movementrequestdetailBackup.ID;
+
+        assetLocationResources.AssetLocation = $scope.selectedassetlist;
 
         assetLocationResources.$CreateAssetLocation(function (data) {
             if (data.success) {

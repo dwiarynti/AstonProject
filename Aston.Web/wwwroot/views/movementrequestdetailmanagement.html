@@ -14,8 +14,8 @@
                 <div  ng-class="(movementrequestobj.LocationID == null || movementrequestobj.LocationID == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
                     <label class="col-sm-3 form-control-label">Location*</label>
                     <div class="col-sm-9">
-                        <select name="account" class="form-control" ng-model="movementrequestobj.LocationID">
-                            <option ng-repeat="location in locationlist" ng-selected="isSelectedItem(location.ID,movementrequestobj.LocationID)" value="{{location.ID}}">{{location.Name}}</option>
+                        <select class="form-control" ng-model="movementrequestobj.LocationID">
+                            <option ng-repeat="location in locationlist" ng-selected="isSelectedItem(movementrequestobj.LocationID, location.ID)" value="{{location.ID}}">{{location.Name}}</option>
                         </select>
                         <small class="text-danger" ng-if="(movementrequestobj.LocationID == null || movementrequestobj.LocationID == '') && isValidate == false">Location is required</small>
                     </div>
@@ -107,7 +107,7 @@
                                 <div ng-class="(movementrequest.AssetCategoryCD == null || movementrequest.AssetCategoryCD == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
                                     <label class="col-sm-3 form-control-label">Category Code*</label>
                                     <div class="col-sm-9">
-                                        <select name="account" class="form-control" ng-model="movementrequest.AssetCategoryCD">
+                                        <select class="form-control" ng-model="movementrequest.AssetCategoryCD">
                                             <option ng-repeat="category in categorylist" ng-selected="isSelectedItem(category.Code,movementrequest.AssetCategoryCD)" value="{{category.Code}}">{{category.Value}}</option>
                                         </select>
                                         <small class="text-danger" ng-if="(movementrequest.AssetCategoryCD == null || movementrequest.AssetCategoryCD == '') && isValidate == false">Category Code is required</small>
@@ -146,13 +146,13 @@
                                 <div ng-class="(movementrequest.AssetCategoryCD == null || movementrequest.AssetCategoryCD == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
                                     <label class="col-sm-3 form-control-label">Asset*</label>
                                     <div class="col-sm-7">
-                                        <select name="account" class="form-control" ng-model="selectedasset">
+                                        <select class="form-control" ng-model="selectedasset">
                                             <option ng-repeat="asset in assetlist" value="{{asset}}">{{asset.Code}}-{{asset.Name}}</option>
                                         </select>
                                         <small class="text-danger" ng-if="asseterrormessage != ''">{{asseterrormessage}}</small>
                                     </div>
                                     <div class="col-sm-2">
-                                        <button type="button" ng-disable="selectedassetlist.length == movementrequestdetailBackup.Quantity" class="btn btn-default btn-width" ng-click="addassetlocation(selectedasset)">
+                                        <button type="button" ng-disabled="selectedassetlist.length == movementrequestdetailBackup.Quantity" class="btn btn-default btn-width" ng-click="addassetlocation(selectedasset)">
                                             <span>Add</span>
                                         </button>
                                     </div>
@@ -167,7 +167,7 @@
                                     <tbody>
                                         <tr ng-repeat="selectedasset in selectedassetlist">
                                             <td>{{selectedasset.AssetName}}</td>
-                                            <td>{{selectedasset.LocationID}}</td>
+                                            <td>{{selectedasset.LocationName}}</td>
                                         </tr>
                                     </tbody>
                                 </table>
