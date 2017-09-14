@@ -31,6 +31,7 @@ namespace Aston.Business
                 model.MovementDate = item.MovementDate;
                 model.Description = item.Description;
                 model.ApprovedDate = item.ApprovedDate;
+                model.LocationID = item.LocationID;
                 model.ApprovedBy = item.ApprovedBy;
                 model.Notes = item.Notes;
                 model.ApprovalStatus = item.ApprovalStatus;
@@ -77,6 +78,7 @@ namespace Aston.Business
                 model.MovementDate = item.MovementDate;
                 model.Description = item.Description;
                 model.ApprovedDate = item.ApprovedDate;
+                model.LocationID = item.LocationID;
                 model.ApprovedBy = item.ApprovedBy;
                 model.Notes = item.Notes;
                 model.ApprovalStatus = item.ApprovalStatus;
@@ -117,6 +119,7 @@ namespace Aston.Business
             var approvalname = _pref.GetLookupByApprovalStatusCode(movement.ApprovalStatus);
             result.ID = movement.ID;
             result.MovementDate = movement.MovementDate;
+            result.LocationID = movement.LocationID;
             result.Description = movement.Description;
             result.ApprovedDate = movement.ApprovedDate;
             result.ApprovedBy = movement.ApprovedBy;
@@ -177,20 +180,20 @@ namespace Aston.Business
                     _context.MovementRequest.Add(movement);
                     _context.SaveChanges();
                     transaction.Commit();
-                    result.resultstatus = true;
-                    result.movementrequest = GetMovementRequestByID(movement.ID);
+                    result.status = true;
+                    result.movementRequest = GetMovementRequestByID(movement.ID);
                 }
                 catch (Exception ex)
                 {
                     transaction.Rollback();
-                    result.resultstatus = false;
-                    result.movementrequest = null;
+                    result.status = false;
+                    result.movementRequest = null;
                 }
             }
             else
             {
-                result.resultstatus = false;
-                result.movementrequest = null;
+                result.status = false;
+                result.movementRequest = null;
             }
 
             return result;
@@ -284,15 +287,15 @@ namespace Aston.Business
                 _context.Update(movement);
                 _context.SaveChanges();
                 transaction.Commit();
-                result.movementrequest = GetMovementRequestByID(movement.ID);
-                result.resultstatus = true;
+                result.movementRequest = GetMovementRequestByID(movement.ID);
+                result.status = true;
 
             }
             catch (Exception ex)
             {
                 transaction.Rollback();
-                result.movementrequest = null;
-                result.resultstatus = false;
+                result.movementRequest = null;
+                result.status = false;
             }
             return result;
         }
