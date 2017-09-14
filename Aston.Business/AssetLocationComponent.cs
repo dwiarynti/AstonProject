@@ -91,11 +91,15 @@ namespace Aston.Business
                     var location = _location.GetLocationByCode(obj.location);
                     var movementrequestdetail = _context.MovementRequestDetail.Where(p => p.ID == obj.MovementRequestDetailID).FirstOrDefault();
                     var movementrequest = _context.MovementRequest.Where(p => p.ID == movementrequestdetail.MovementRequestID).FirstOrDefault();
-                   
-                  
-                   
+                    int totalmoved = 0;
+                    var checkassetlocation = _context.AssetLocation.Where(p => p.MovementRequestDetailID == obj.MovementRequestDetailID && p.DeletedDate != null).Count();
+                    totalmoved = (movementrequestdetail.Quantity - checkassetlocation);
 
-                    
+
+
+
+
+
                 }
                 catch(Exception ex)
                 {
@@ -247,7 +251,7 @@ namespace Aston.Business
                     totalmoved = (movementrequestdetail.Quantity - checkassetlocation);
 
 
-                    if (obj.AssetLocation.Count() > totalmoved)
+                    if (obj.AssetLocation.Count() < totalmoved)
                     {
                         foreach (var item in obj.AssetLocation)
                         {
