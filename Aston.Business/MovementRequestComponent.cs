@@ -213,7 +213,7 @@ namespace Aston.Business
             {
                 try
                 {
-                    request.ApprovedBy = obj.ApprovedBy;
+                    request.ApprovedBy = obj.UpdatedBy;
                     request.ApprovedDate = DateTime.Now.ToString("ddMMyyyy");
                     request.ApprovalStatus = obj.ApprovalStatus;
                     request.UpdatedBy = obj.UpdatedBy;
