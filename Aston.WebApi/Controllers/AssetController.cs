@@ -40,6 +40,15 @@ namespace Aston.WebApi.Controllers
             response = request.CreateResponse(HttpStatusCode.OK, new { success = true, obj = result });
             return response;
         }
+        [HttpGet]
+        [Route("GetAssetByCategoryCode/{id}")]
+        public HttpResponseMessage GetAssetByCategoryCode(HttpRequestMessage request, int id)
+        {
+            var result = service.GetAssetByCategoryCode(id);
+            HttpResponseMessage response = new HttpResponseMessage();
+            response = request.CreateResponse(HttpStatusCode.OK, new { success = true, obj = result });
+            return response;
+        }
 
         [HttpGet]
         [Route("GetAsset")]

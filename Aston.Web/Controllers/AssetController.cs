@@ -40,6 +40,14 @@ namespace Aston.Web.Controllers
             response = _assetProcess.GetAssetByID(id);
             return response;
         }
+        [Route("GetAssetByCategoryCode/{id}")]
+        [HttpGet]
+        public HttpResponseMessage GetAssetByCategoryCode(HttpRequestMessage request, int id)
+        {
+            HttpResponseMessage response = new HttpResponseMessage();
+            response = _assetProcess.GetAssetByCategoryCode(id);
+            return response;
+        }
 
         [Route("GetAsset")]
         [HttpGet]

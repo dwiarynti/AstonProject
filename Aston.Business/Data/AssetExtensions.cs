@@ -33,5 +33,11 @@ namespace Aston.Business.Data
             return Convert.ToString(lastNumber+1);
 
         }
+
+        public List<Asset> GetAssetByCategoryCode(int code)
+        {
+            var obj = context.Asset.Where(p => p.CategoryCD == code && p.DeletedDate != null && p.StatusCD == 1).ToList();
+            return obj;
+        }
     }
 }

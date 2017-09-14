@@ -31,6 +31,13 @@ namespace Aston.Web.Process
             result = REST(requestUri, RESTConstants.GET);
             return result;
         }
+        public HttpResponseMessage GetAssetByCategoryCode(int id)
+        {
+            HttpResponseMessage result = default(HttpResponseMessage);
+            string requestUri = "api/Asset/GetAssetByCategoryCode/" + id;
+            result = REST(requestUri, RESTConstants.GET);
+            return result;
+        }
         public HttpResponseMessage GetAsset()
         {
             HttpResponseMessage result = default(HttpResponseMessage);

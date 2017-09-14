@@ -231,6 +231,11 @@ namespace Aston.Business
             return result;
         }
 
+
+        public List<Asset> GetAssetByCategoryCode(int code)
+        {
+          return  _asset.GetAssetByCategoryCode(code);
+        }
        
 
     }
