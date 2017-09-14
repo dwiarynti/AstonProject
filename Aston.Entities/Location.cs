@@ -23,5 +23,6 @@ namespace Aston.Entities
         public string DeletedBy { get; set; }
         
         public ICollection<AssetLocation> AssetLocation { get; set; }
+        public ICollection<MovementRequest> MovementRequest { get; set; }
     }
 }

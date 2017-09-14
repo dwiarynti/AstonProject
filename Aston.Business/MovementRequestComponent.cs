@@ -32,6 +32,7 @@ namespace Aston.Business
                 model.Description = item.Description;
                 model.ApprovedDate = item.ApprovedDate;
                 model.LocationID = item.LocationID;
+                model.LocationName = item.Location != null ? item.Location.Name : null;
                 model.ApprovedBy = item.ApprovedBy;
                 model.Notes = item.Notes;
                 model.ApprovalStatus = item.ApprovalStatus;
@@ -79,6 +80,7 @@ namespace Aston.Business
                 model.Description = item.Description;
                 model.ApprovedDate = item.ApprovedDate;
                 model.LocationID = item.LocationID;
+                model.LocationName = item.Location != null ? item.Location.Name : null;
                 model.ApprovedBy = item.ApprovedBy;
                 model.Notes = item.Notes;
                 model.ApprovalStatus = item.ApprovalStatus;
@@ -119,7 +121,8 @@ namespace Aston.Business
             var approvalname = _pref.GetLookupByApprovalStatusCode(movement.ApprovalStatus);
             result.ID = movement.ID;
             result.MovementDate = movement.MovementDate;
-            result.LocationID = movement.LocationID; 
+            result.LocationID = movement.LocationID;
+            result.LocationName = movement.Location != null ? movement.Location.Name : null;
             result.Description = movement.Description;
             result.ApprovedDate = movement.ApprovedDate;
             result.ApprovedBy = movement.ApprovedBy;

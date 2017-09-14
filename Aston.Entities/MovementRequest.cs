@@ -26,5 +26,6 @@ namespace Aston.Entities
         public string DeletedDate { get; set; }
         public string DeletedBy { get; set; }
         public virtual ICollection<MovementRequestDetail> MovementRequestDetail { get; set; }
+        public virtual Location Location { get; set; }
     }
 }

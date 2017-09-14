@@ -14,7 +14,7 @@ namespace Aston.Business.Data
 
         public MovementRequest GetMovementRequestByID(int id)
         {
-            return _context.MovementRequest.Include(p => p.MovementRequestDetail).Where(p => p.ID == id).FirstOrDefault();
+            return _context.MovementRequest.Include(p => p.MovementRequestDetail).Include(p=>p.Location).Where(p => p.ID == id).FirstOrDefault();
         }
 
         public MovementRequestDetail GetMovementRequestDetailByID(int id)
@@ -23,11 +23,11 @@ namespace Aston.Business.Data
         }
         public List<MovementRequest> GetMovementRequest()
         {
-            return _context.MovementRequest.Include(p => p.MovementRequestDetail).Where(p => p.DeletedDate == null && p.DeletedBy == null).ToList();
+            return _context.MovementRequest.Include(p => p.MovementRequestDetail).Include(p=>p.Location).Where(p => p.DeletedDate == null && p.DeletedBy == null).ToList();
         }
         public List<MovementRequest> GetMovementRequestNeedApproval()
         {
-            return _context.MovementRequest.Include(p => p.MovementRequestDetail).Where(p => p.DeletedDate == null && p.DeletedBy == null && p.ApprovalStatus != 1).ToList();
+            return _context.MovementRequest.Include(p => p.MovementRequestDetail).Include(p=>p.Location).Where(p => p.DeletedDate == null && p.DeletedBy == null && p.ApprovalStatus != 1).ToList();
         }
     }
 }
