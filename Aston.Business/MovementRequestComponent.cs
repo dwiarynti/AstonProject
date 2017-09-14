@@ -162,6 +162,7 @@ namespace Aston.Business
                     MovementRequest movement = new MovementRequest();
                     movement.MovementDate = obj.MovementDate.Replace("/", string.Empty);
                     movement.Description = obj.Description;
+                    movement.LocationID = obj.LocationID;
                     movement.ApprovalStatus = obj.ApprovalStatus;
                     movement.CreatedDate = DateTime.Now.ToString("ddMMyyyy");
                     movement.CreatedBy = obj.CreatedBy;
@@ -242,6 +243,7 @@ namespace Aston.Business
 
                 var movement = _movementrequest.GetMovementRequestByID(obj.ID);
                 movement.Description = obj.Description;
+                movement.LocationID = obj.LocationID;
                 movement.MovementDate = obj.MovementDate.Replace("/",string.Empty);
                 movement.ApprovalStatus = obj.ApprovalStatus;
                 movement.UpdatedBy = obj.UpdatedBy;
