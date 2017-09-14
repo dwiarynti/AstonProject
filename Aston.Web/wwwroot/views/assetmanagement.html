@@ -101,7 +101,7 @@
                                 <div ng-class="(asset.CategoryCD == null || asset.CategoryCD == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
                                     <label class="col-sm-3 form-control-label">Category*</label>
                                     <div class="col-sm-9">
-                                        <select name="account" class="form-control" ng-model="asset.CategoryCD">
+                                        <select class="form-control" ng-model="asset.CategoryCD">
                                             <option ng-repeat="category in categorylist" ng-selected="isSelectedItem(category.Code,asset.CategoryCD)" value="{{category.Code}}">{{category.Value}}</option>
                                         </select>
                                         <small class="text-danger" ng-if="(asset.CategoryCD == null || asset.CategoryCD == '') && isValidate == false">Category Code is required</small>

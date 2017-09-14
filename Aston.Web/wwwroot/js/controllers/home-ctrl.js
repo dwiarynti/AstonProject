@@ -2,7 +2,7 @@
  * Asset Controller
  */
 
-app.controller('HomeCtrl', function ($scope, $rootScope, $window, movementrequestResource, commonService) {
+app.controller('HomeCtrl', function ($scope, $rootScope, $window, $state, movementrequestResource, commonService, transferobjectService) {
     var movementrequestResources = new movementrequestResource();
     $scope.movementrequestlist = [];
     $rootScope.PageName = "Home";
@@ -30,6 +30,11 @@ app.controller('HomeCtrl', function ($scope, $rootScope, $window, movementreques
                 $scope.init();
             }
         });
+    }
+
+    $scope.Details = function (obj) {
+        transferobjectService.addObj = { action: 'detail', data: obj };
+        $state.go('movementrequestdetailmanagement');
     }
 
 });

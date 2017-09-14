@@ -10,7 +10,8 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
 
     var assetResources = new assetResource();
     $scope.isValidate = true;
-    $scope.movementrequestobj = transferobjectService.addObj;
+    $scope.movementrequestobj = transferobjectService.addObj.data;
+    $scope.movementdetailaction = transferobjectService.addObj.action;
     $scope.movementrequest = {};
     $scope.movementrequestdetailList = [];
     $scope.categorylist = [];
@@ -54,7 +55,7 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
 
     $scope.GetDepartment();
 
-    if ($scope.movementrequestobj.ID == undefined) {
+    if ($scope.movementrequestobj == undefined) {
         $state.go('movementrequestmanagement');
     } else {
         $scope.init();
