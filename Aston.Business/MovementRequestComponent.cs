@@ -119,7 +119,7 @@ namespace Aston.Business
             var approvalname = _pref.GetLookupByApprovalStatusCode(movement.ApprovalStatus);
             result.ID = movement.ID;
             result.MovementDate = movement.MovementDate;
-            result.LocationID = movement.LocationID;
+            result.LocationID = movement.LocationID; 
             result.Description = movement.Description;
             result.ApprovedDate = movement.ApprovedDate;
             result.ApprovedBy = movement.ApprovedBy;

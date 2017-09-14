@@ -54,8 +54,41 @@ namespace Aston.WebApi.Controllers
         public HttpResponseMessage MoveAsset(HttpRequestMessage request, [FromBody] AssetViewModel obj)
         {
             var result = service.MoveAsset(obj);
+            var message = "";
             HttpResponseMessage response = new HttpResponseMessage();
-            response = request.CreateResponse(HttpStatusCode.OK, new { success = result });
+            if(result.statuscode == 1)
+            {
+                message = "The object is null";
+            }
+            else if(result.statuscode == 2)
+            {
+                message = result.message;
+            }
+            else if(result.statuscode == 3)
+            {
+                
+            }
+            else if(result.statuscode == 4)
+            {
+
+            }
+            else if(result.statuscode == 5)
+            {
+
+            }
+            else if(result.statuscode == 6)
+            {
+
+            }
+            else if (result.statuscode == 7)
+            {
+
+            }
+            else
+            {
+
+            }
+            response = request.CreateResponse(HttpStatusCode.OK, new { success = result , message = message });
             return response;
         }
         [HttpPost]

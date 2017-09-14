@@ -7,15 +7,15 @@ namespace Aston.Entities
 {
     public class ResultViewModel
     {
-        public bool resultstatus { get; set; }
-        public string  resultmessage { get; set; }
-        public MovementRequestViewModel movementrequest { get; set; }
+        public bool status { get; set; }
+        public int statuscode { get; set; }
+        public string  message { get; set; }
+        public MovementRequestViewModel movementRequest { get; set; }
+        public List<string> listAsset { get; set; }
+        public List<AssetLocation> assetlocation { get; set; }
+        public List<Asset> asset{ get; set; }
 
-        public List<AssetLocation> exceededasset { get; set; }
-        //public List<Asset> exceededasset { get; set; }
-
-        public List<Asset> wrongasset { get; set; }
-        public List<AssetLocation> AssetWrongLocation { get; set; }
+        
 
 
     }
