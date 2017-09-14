@@ -321,34 +321,34 @@ namespace Aston.Business
             IDbContextTransaction transaction = _context.Database.BeginTransaction();
             if (obj != null)
             {
-                var movementrequestdetail = _context.MovementRequestDetail.Where(p => p.ID == obj.MovementRequestDetailID).FirstOrDefault();
-                var movementrequest = _context.MovementRequest.Where(p => p.ID == movementrequestdetail.MovementRequestID).FirstOrDefault();
-
-                var checkassetlocation = _context.AssetLocation.Where(p => p.MovementRequestDetailID == obj.MovementRequestDetailID && p.DeletedDate != null).Count();
-
-                int totalmoved = 0;
-                totalmoved = (movementrequestdetail.Quantity - checkassetlocation) - obj.AssetLocation.Count();
-
-                if(totalmoved > 0)
+                try
                 {
+                    var movementrequestdetail = _context.MovementRequestDetail.Where(p => p.ID == obj.MovementRequestDetailID).FirstOrDefault();
+                    var movementrequest = _context.MovementRequest.Where(p => p.ID == movementrequestdetail.MovementRequestID).FirstOrDefault();
+
+                    var checkassetlocation = _context.AssetLocation.Where(p => p.MovementRequestDetailID == obj.MovementRequestDetailID && p.DeletedDate != null).Count();
+
+                    int totalmoved = 0;
+                    totalmoved = (movementrequestdetail.Quantity - checkassetlocation);
+
+
                     if (totalmoved == obj.AssetLocation.Count())
                     {
                         foreach (var item in obj.AssetLocation)
                         {
 
-                            if (_context.AssetLocation.Count() < totalmoved)
-                            {
-                                AssetLocation assetlocationobj = new AssetLocation();
 
-                                assetlocationobj.AssetID = item.AssetID;
-                                assetlocationobj.LocationID = movementrequest.LocationID;
-                                assetlocationobj.OnTransition = obj.OnTransition;
-                                assetlocationobj.CreatedDate = DateTime.Now.Date.ToString("ddMMyyyy");
-                                assetlocationobj.CreatedBy = item.CreatedBy;
-                                assetlocationobj.MovementRequestDetailID = item.MovementRequestDetailID;
-                                _context.AssetLocation.Add(assetlocationobj);
-                                obj.AssetLocation.Remove(item);
-                            }
+                            AssetLocation assetlocationobj = new AssetLocation();
+
+                            assetlocationobj.AssetID = item.AssetID;
+                            assetlocationobj.LocationID = movementrequest.LocationID;
+                            assetlocationobj.OnTransition = obj.OnTransition;
+                            assetlocationobj.CreatedDate = DateTime.Now.Date.ToString("ddMMyyyy");
+                            assetlocationobj.CreatedBy = obj.CreatedBy;
+                            assetlocationobj.MovementRequestDetailID = obj.MovementRequestDetailID;
+                            _context.AssetLocation.Add(assetlocationobj);
+
+
                         }
                         _context.SaveChanges();
                         transaction.Commit();
@@ -359,15 +359,18 @@ namespace Aston.Business
                         result.message = "the inputed asset exceed the requested asset";
                         result.status = false;
                     }
-                   
                 }
-                else
+                catch (Exception ex)
                 {
+                    transaction.Rollback();
+                    result.message = ex.Message;
                     result.status = false;
-                    result.message = "Total asset already same with the request asset";
                 }
-                
             }
+
+
+
+
             else
             {
                 result.status = false;

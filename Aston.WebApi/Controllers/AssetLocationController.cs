@@ -97,7 +97,7 @@ namespace Aston.WebApi.Controllers
         {
             var result = service.CreateAssetLocation(obj);
             HttpResponseMessage response = new HttpResponseMessage();
-            response = request.CreateResponse(HttpStatusCode.OK, new { success = result , obj = request});
+            response = request.CreateResponse(HttpStatusCode.OK, new { success = result.status});
             return response;
         }
 
