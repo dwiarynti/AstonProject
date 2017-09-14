@@ -80,6 +80,7 @@ namespace Aston.Business
             }
             return result;
         }
+
         public ResultViewModel MoveAsset(AssetViewModel obj)
         {
             ResultViewModel result = new ResultViewModel();
@@ -95,7 +96,71 @@ namespace Aston.Business
                     var checkassetlocation = _context.AssetLocation.Where(p => p.MovementRequestDetailID == obj.MovementRequestDetailID && p.DeletedDate != null).Count();
                     totalmoved = (movementrequestdetail.Quantity - checkassetlocation);
 
+                    if(obj.listAsset.Count() < totalmoved)
+                    {
+                        if(location.ID == movementrequest.LocationID)
+                        {
+                            var listAsset = _context.Asset.Where(p => p.Code.Any(o => obj.listAsset.Contains(p.Code))).ToList();
+                            if (listAsset != null)
+                            {
+                                if (listAsset.Count() == obj.listAsset.Count())
+                                {
+                                    foreach (var item in listAsset)
+                                    {
+                                        if(item.CategoryCD == movementrequestdetail.AssetCategoryCD)
+                                        {
+                                            AssetLocation assetlocationobj = new AssetLocation();
+                                            assetlocationobj.AssetID = item.ID;
+                                            assetlocationobj.LocationID = location.ID;
+                                            assetlocationobj.OnTransition = false;
+                                            assetlocationobj.CreatedDate = DateTime.Now.ToString("ddMMyyyy");
+                                            assetlocationobj.CreatedBy = obj.CreatedBy;
+                                            assetlocationobj.MovementRequestDetailID = obj.MovementRequestDetailID;
 
+                                            _context.AssetLocation.Add(assetlocationobj);
+                                            listAsset.Remove(item);
+                                        }
+                                    }
+                                    if(listAsset.Count() != 0)
+                                    {
+                                        result.status = false;
+                                      
+                                        result.asset = listAsset;
+
+                                    }
+                                    else
+                                    {
+                                        _context.SaveChanges();
+                                        transaction.Commit();
+                                        result.status = true;
+                                      
+                                    }
+                                }
+                                else
+                                {
+                                    result.status = false;
+
+                                    result.asset = listAsset;
+                                }
+                            }
+                            else
+                            {
+                                result.status = false;
+
+                                result.asset = listAsset;
+                            }
+                        }
+                        else
+                        {
+                            result.status = false;
+                            result.statuscode = 4;
+                        }
+                    }
+                    else
+                    {
+                        result.status = false;
+                        result.statuscode = 3;
+                    }
 
 
 
@@ -126,46 +191,25 @@ namespace Aston.Business
                 try
                 {
                     var location = _location.GetLocationByCode(obj.location);
-
                     var movementrequestdetail = _context.MovementRequestDetail.Where(p => p.ID == obj.MovementRequestDetailID).FirstOrDefault();
                     var movementrequest = _context.MovementRequest.Where(p => p.ID == movementrequestdetail.MovementRequestID).FirstOrDefault();
+                    int totalmoved = 0;
+                    var checkassetlocation = _context.AssetLocation.Where(p => p.MovementRequestDetailID == obj.MovementRequestDetailID && p.DeletedDate != null).Count();
+                    totalmoved = (movementrequestdetail.Quantity - checkassetlocation);
 
-                    if (location.ID == movementrequest.LocationID)
+                    if (obj.listAsset.Count() < totalmoved)
                     {
-                        int totalmoved = 0;
-                        var checkassetlocation = _context.AssetLocation.Where(p => p.MovementRequestDetailID == obj.MovementRequestDetailID && p.DeletedDate != null).Count();
-                        totalmoved = (movementrequestdetail.Quantity - checkassetlocation) - obj.listAsset.Count();
-                        if (totalmoved > 0)
+                        if (location.ID == movementrequest.LocationID)
                         {
-                            if (totalmoved > movementrequestdetail.Quantity)
+                            var listAsset = _context.Asset.Where(p => p.Code.Any(o => obj.listAsset.Contains(p.Code))).ToList();
+                            if (listAsset != null)
                             {
-                                var listAsset = _context.Asset.Where(p => p.Code.Any(o => obj.listAsset.Contains(p.Code))).ToList();
-                                if (listAsset.Count != obj.listAsset.Count())
-                                {
-                                    result.status = false;
-                                    result.statuscode = 5;
-                                    var list = (from p in obj.listAsset
-                                                where !(from q in listAsset
-                                                        select q.Code)
-                                                       .Contains(p)
-                                                select p).ToList();
-                                    result.listAsset = list;
-
-                                }
-                                else if (listAsset == null)
-                                {
-                                    result.status = false;
-                                    result.statuscode = 5;
-                                    result.listAsset = obj.listAsset;
-                                }
-                                else
+                                if (listAsset.Count() == obj.listAsset.Count())
                                 {
                                     foreach (var item in listAsset)
                                     {
-
                                         if (item.CategoryCD == movementrequestdetail.AssetCategoryCD)
                                         {
-
                                             AssetLocation assetlocationobj = new AssetLocation();
                                             assetlocationobj.AssetID = item.ID;
                                             assetlocationobj.LocationID = location.ID;
@@ -177,14 +221,11 @@ namespace Aston.Business
                                             _context.AssetLocation.Add(assetlocationobj);
                                             listAsset.Remove(item);
                                         }
-
-
-
                                     }
-                                    if (listAsset.Count != 0)
+                                    if (listAsset.Count() != 0)
                                     {
                                         result.status = false;
-                                        result.statuscode = 6;
+
                                         result.asset = listAsset;
 
                                     }
@@ -193,38 +234,45 @@ namespace Aston.Business
                                         _context.SaveChanges();
                                         transaction.Commit();
                                         result.status = true;
-                                        result.statuscode = 7;
 
                                     }
+                                }
+                                else
+                                {
+                                    result.status = false;
+
+                                    result.asset = listAsset;
                                 }
                             }
                             else
                             {
                                 result.status = false;
-                                result.statuscode = 5;
+
+                                result.asset = listAsset;
                             }
                         }
                         else
                         {
                             result.status = false;
                             result.statuscode = 4;
-
                         }
-
-
                     }
                     else
                     {
                         result.status = false;
                         result.statuscode = 3;
-
                     }
+
+
+
+
                 }
                 catch (Exception ex)
                 {
                     result.status = false;
-                    result.message = ex.Message;
                     result.statuscode = 2;
+                    result.message = ex.Message;
+
                 }
             }
             else
@@ -234,6 +282,7 @@ namespace Aston.Business
             }
             return result;
         }
+
         public ResultViewModel CreateAssetLocation(AssetLocationViewModel obj)
         {
             ResultViewModel result = new ResultViewModel();
@@ -251,7 +300,7 @@ namespace Aston.Business
                     totalmoved = (movementrequestdetail.Quantity - checkassetlocation);
 
 
-                    if (obj.AssetLocation.Count() < totalmoved)
+                    if (obj.AssetLocation.Count() <= totalmoved)
                     {
                         foreach (var item in obj.AssetLocation)
                         {
