@@ -331,34 +331,35 @@ namespace Aston.Business
 
                 if(totalmoved > 0)
                 {
-                    foreach(var item in obj.AssetLocation)
+                    if (totalmoved == obj.AssetLocation.Count())
                     {
-                       
-                        if(_context.AssetLocation.Count() < totalmoved)
+                        foreach (var item in obj.AssetLocation)
                         {
-                            AssetLocation assetlocationobj = new AssetLocation();
 
-                            assetlocationobj.AssetID = item.AssetID;
-                            assetlocationobj.LocationID = movementrequest.LocationID;
-                            assetlocationobj.OnTransition = obj.OnTransition;
-                            assetlocationobj.CreatedDate = DateTime.Now.Date.ToString("ddMMyyyy");
-                            assetlocationobj.CreatedBy = item.CreatedBy;
-                            assetlocationobj.MovementRequestDetailID = item.MovementRequestDetailID;
-                            _context.AssetLocation.Add(assetlocationobj);
-                            obj.AssetLocation.Remove(item);
+                            if (_context.AssetLocation.Count() < totalmoved)
+                            {
+                                AssetLocation assetlocationobj = new AssetLocation();
+
+                                assetlocationobj.AssetID = item.AssetID;
+                                assetlocationobj.LocationID = movementrequest.LocationID;
+                                assetlocationobj.OnTransition = obj.OnTransition;
+                                assetlocationobj.CreatedDate = DateTime.Now.Date.ToString("ddMMyyyy");
+                                assetlocationobj.CreatedBy = item.CreatedBy;
+                                assetlocationobj.MovementRequestDetailID = item.MovementRequestDetailID;
+                                _context.AssetLocation.Add(assetlocationobj);
+                                obj.AssetLocation.Remove(item);
+                            }
                         }
-                    }
-                    if (obj.AssetLocation.Count != 0)
-                    {
-                        result.message = "the inputed asset exceed the requested asset";
-                        result.status = false;
-                    }
-                    else
-                    {
                         _context.SaveChanges();
                         transaction.Commit();
                         result.status = true;
                     }
+                    else
+                    {
+                        result.message = "the inputed asset exceed the requested asset";
+                        result.status = false;
+                    }
+                   
                 }
                 else
                 {
