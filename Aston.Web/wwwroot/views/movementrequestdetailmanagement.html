@@ -11,11 +11,20 @@
                         <small class="text-danger" ng-if="(movementrequestobj.MovementDate == null || movementrequestobj.MovementDate == '') && isValidate == false">Movement Date is required</small>
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label class="col-sm-3 form-control-label">Description</label>
+                <div  ng-class="(movementrequestobj.LocationID == null || movementrequestobj.LocationID == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
+                    <label class="col-sm-3 form-control-label">Location*</label>
+                    <div class="col-sm-9">
+                        <select name="account" class="form-control" ng-model="movementrequestobj.LocationID">
+                            <option ng-repeat="location in locationlist" ng-selected="isSelectedItem(location.ID,movementrequestobj.LocationID)" value="{{location.ID}}">{{location.Name}}</option>
+                        </select>
+                        <small class="text-danger" ng-if="(movementrequestobj.LocationID == null || movementrequestobj.LocationID == '') && isValidate == false">Location is required</small>
+                    </div>
+                </div>
+                <div ng-class="(movementrequestobj.Description == null || movementrequestobj.Description == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
+                    <label class="col-sm-3 form-control-label">Description*</label>
                     <div class="col-sm-9">
                         <input type="text" class="form-control form-control-success" placeholder="Description" ng-model="movementrequestobj.Description">
-                        <!--<small class="text-danger" ng-if="(movementrequestobj.Description == null || movementrequestobj.Description == '') && isValidate == false">Movement Price is required</small>-->
+                        <small class="text-danger" ng-if="(movementrequestobj.Description == null || movementrequestobj.Description == '') && isValidate == false">Movement Price is required</small>
                     </div>
                 </div>
                 <div ng-hide="isLoading" class="form-group">
@@ -48,7 +57,7 @@
                         <td ng-if="movementrequestdetail.editmode == false">
                             <button ng-disabled="movementrequestobj.ApprovalStatus == 1" type="button" class="btn btn-default btn-width" ng-click="editMRD(movementrequestdetail)">Edit</button>
                             <button ng-disabled="movementrequestobj.ApprovalStatus == 1" type="button" class="btn btn-default btn-width" ng-click="deleteMRD(movementrequestdetail)">Delete</button>
-                            <button ng-if="movementrequestobj.ApprovalStatus == 1" type="button" class="btn btn-default btn-width" ng-click="selectasset()">Select Asset</button>
+                            <button ng-if="movementrequestobj.ApprovalStatus == 1" type="button" class="btn btn-default btn-width" ng-click="selectasset(movementrequestdetail)">Select Asset</button>
                         </td>
 
                         <!--manipulation mode-->
@@ -135,15 +144,15 @@
                             <!--if action is add / edit-->
                             <div class="modal-body">
                                 <div ng-class="(movementrequest.AssetCategoryCD == null || movementrequest.AssetCategoryCD == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
-                                    <label class="col-sm-3 form-control-label">Category Code*</label>
+                                    <label class="col-sm-3 form-control-label">Asset*</label>
                                     <div class="col-sm-7">
                                         <select name="account" class="form-control" ng-model="selectedasset">
-                                            <option ng-repeat="category in categorylist" value="{{category}}">{{category.Value}}</option>
+                                            <option ng-repeat="asset in assetlist" value="{{asset}}">{{asset.Code}}-{{asset.Name}}</option>
                                         </select>
-                                        <small class="text-danger" ng-if="(movementrequest.AssetCategoryCD == null || movementrequest.AssetCategoryCD == '') && isValidate == false">Category Code is required</small>
+                                        <small class="text-danger" ng-if="asseterrormessage != ''">{{asseterrormessage}}</small>
                                     </div>
                                     <div class="col-sm-2">
-                                        <button type="button" class="btn btn-default btn-width" ng-click="addassetlocation(selectedasset)">
+                                        <button type="button" ng-disable="selectedassetlist.length == movementrequestdetailBackup.Quantity" class="btn btn-default btn-width" ng-click="addassetlocation(selectedasset)">
                                             <span>Add</span>
                                         </button>
                                     </div>
@@ -156,16 +165,16 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="assetlocation in assetlocationlist">
-                                            <td>{{assetlocation.AssetID}}</td>
-                                            <td>{{assetlocation.LocationID}}</td>
+                                        <tr ng-repeat="selectedasset in selectedassetlist">
+                                            <td>{{selectedasset.AssetName}}</td>
+                                            <td>{{selectedasset.LocationID}}</td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
                             <div class="modal-footer">
                                 <a href="javascript:;" class="btn btn-default btn-width btn-margin" data-dismiss="modal">Cancel</a>
-                                <button ng-if="actionstatus == 'Create'" type="button" class="btn btn-default btn-width" ng-click="create()">
+                                <button type="button" class="btn btn-default btn-width" ng-click="CreateAssetLocation()">
                                     <span>Create</span>
                                 </button>
                                 <button ng-if="actionstatus == 'Update'" type="button" class="btn btn-default btn-width" ng-click="update()">
