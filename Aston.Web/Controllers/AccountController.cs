@@ -13,6 +13,7 @@ using Aston.Web.Models.AccountViewModels;
 using Aston.Web.Services;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Aston.Entities;
+using Aston.Entities.DataContext;
 
 namespace Aston.Web.Controllers
 {
@@ -41,7 +42,7 @@ namespace Aston.Web.Controllers
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<AccountController>();
         }
-
+        AstonContext _context = new AstonContext();
         public IActionResult Index()
         {
             List<UserViewModel> model = new List<UserViewModel>();
@@ -233,6 +234,8 @@ namespace Aston.Web.Controllers
         public IActionResult Register(string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
+            var department = _context.Department.Where(p => p.IsActive == true).ToList();
+            ViewBag.DepartmentID = new SelectList(department, "ID", "Name");
             return View();
         }
 
@@ -246,7 +249,7 @@ namespace Aston.Web.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Username, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.Username, Email = model.Email ,IsActive = true ,DepartmentID = model.DepartmentID};
                 var result = await _userManager.CreateAsync(user, model.Password);
 
                 if (result.Succeeded)
