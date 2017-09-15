@@ -169,7 +169,7 @@ namespace Aston.Business
                     movement.ApprovalStatus = obj.ApprovalStatus;
                     movement.CreatedDate = DateTime.Now.ToString("ddMMyyyy");
                     movement.CreatedBy = obj.CreatedBy;
-
+                    movement.Notes = obj.Notes;
                     foreach (var item in obj.MovementRequestDetail)
                     {
                         MovementRequestDetail detail = new MovementRequestDetail();
@@ -218,7 +218,7 @@ namespace Aston.Business
                     request.ApprovalStatus = obj.ApprovalStatus;
                     request.UpdatedBy = obj.UpdatedBy;
                     request.UpdatedDate = DateTime.Now.ToString("ddMMyyyy");
-
+                    request.Notes = obj.Notes;
                     _context.Entry(request).State = EntityState.Modified;
                     _context.SaveChanges();
                     transaction.Commit();
@@ -251,7 +251,7 @@ namespace Aston.Business
                 movement.ApprovalStatus = obj.ApprovalStatus;
                 movement.UpdatedBy = obj.UpdatedBy;
                 movement.UpdatedDate = DateTime.Now.ToString("ddMMyyyy");
-                
+                movement.Notes = obj.Notes;
                 foreach(var item in movement.MovementRequestDetail)
                 {
                     var data = obj.MovementRequestDetail.Where(p => p.ID == item.ID).FirstOrDefault();
