@@ -338,4 +338,37 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
         });
     }
 
+    $scope.Approve = function (obj) {
+        
+        var movementrequestResources = new movementrequestResource();
+        movementrequestResources.ID = obj.ID;
+        movementrequestResources.ApprovalStatus = 1;
+        movementrequestResources.Notes = obj.Notes;
+        movementrequestResources.$ApproveMovementRequest(function (data) {
+            if (data.success) {
+                $window.alert("Data approved successfully");
+                $scope.init();
+            }
+        });
+    }
+
+    $scope.Reject = function (obj) {
+        if (obj.Notes == '' || obj.Notes == null) {
+            $scope.isValidate = false;
+        } else {
+            var movementrequestResources = new movementrequestResource();
+            movementrequestResources.ID = obj.ID;
+            movementrequestResources.ApprovalStatus = 3;
+            movementrequestResources.Notes = obj.Notes;
+            movementrequestResources.$ApproveMovementRequest(function (data) {
+                if (data.success) {
+                    $scope.isValidate = true;
+                    $window.alert("Data rejected successfully");
+                    $scope.init();
+                }
+            });
+        }
+        
+    }
+
 });

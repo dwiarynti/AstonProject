@@ -1,41 +1,60 @@
 ﻿<div class="container-fluid">
     <div class="row bg-white has-shadow">
         <div id="main-content" style="width: 100%" ui-view>
-            <div  ng-if="openassetlocation == false" ng-controller="MovementRequestDetailCtrl">
-                <div ng-class="(movementrequestobj.MovementDate == null || movementrequestobj.MovementDate == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
-                    <label class="col-sm-3 form-control-label">Movement Date*</label>
-                    <div class="col-sm-9">
-                        <div ng-if="movementdetailaction == 'detail'">
-                            {{movementrequestobj.MovementDate}}
+            <div ng-if="openassetlocation == false" ng-controller="MovementRequestDetailCtrl">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div ng-class="(movementrequestobj.MovementDate == null || movementrequestobj.MovementDate == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
+                            <label class="col-sm-3 form-control-label">Movement Date*</label>
+                            <div class="col-sm-9">
+                                <div ng-if="movementdetailaction == 'detail'">
+                                    {{movementrequestobj.MovementDate}}
+                                </div>
+                                <div ng-if="movementdetailaction == 'edit'" class="datepicker_dis">
+                                    <input type="text" class="form-control" id="datepicker-movementdate" placeholder="Select Date" ng-model="movementrequestobj.MovementDate" ng-click="showDatePickerMovementDate()" />
+                                </div>
+                                <small class="text-danger" ng-if="(movementrequestobj.MovementDate == null || movementrequestobj.MovementDate == '') && isValidate == false">Movement Date is required</small>
+                            </div>
                         </div>
-                        <div ng-if="movementdetailaction == 'edit'" class="datepicker_dis">
-                            <input type="text" class="form-control" id="datepicker-movementdate" placeholder="Select Date" ng-model="movementrequestobj.MovementDate" ng-click="showDatePickerMovementDate()"/>
+                        <div ng-class="(movementrequestobj.LocationID == null || movementrequestobj.LocationID == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
+                            <label class="col-sm-3 form-control-label">Location*</label>
+                            <div class="col-sm-9">
+                                <div ng-if="movementdetailaction == 'detail'">
+                                    {{movementrequestobj.LocationName}}
+                                </div>
+                                <select ng-if="movementdetailaction == 'edit'" class="form-control" ng-model="movementrequestobj.LocationID">
+                                    <option ng-repeat="location in locationlist" ng-selected="isSelectedItem(movementrequestobj.LocationID, location.ID)" value="{{location.ID}}">{{location.Name}}</option>
+                                </select>
+                                <small class="text-danger" ng-if="(movementrequestobj.LocationID == null || movementrequestobj.LocationID == '') && isValidate == false">Location is required</small>
+                            </div>
                         </div>
-                        <small class="text-danger" ng-if="(movementrequestobj.MovementDate == null || movementrequestobj.MovementDate == '') && isValidate == false">Movement Date is required</small>
+                        <div ng-class="(movementrequestobj.Description == null || movementrequestobj.Description == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
+                            <label class="col-sm-3 form-control-label">Description*</label>
+                            <div class="col-sm-9">
+                                <div ng-if="movementdetailaction == 'detail'">
+                                    {{movementrequestobj.Description}}
+                                </div>
+                                <input ng-if="movementdetailaction == 'edit'" type="text" class="form-control form-control-success" placeholder="Description" ng-model="movementrequestobj.Description">
+                                <small class="text-danger" ng-if="(movementrequestobj.Description == null || movementrequestobj.Description == '') && isValidate == false">Movement Price is required</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div ng-class="(movementrequestobj.Notes == null || movementrequestobj.Notes == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
+                            <label class="col-sm-3 form-control-label">Notes*</label>
+                            <div class="col-sm-9">
+                                <div ng-if="movementdetailaction == 'edit'">
+                                    {{movementrequestobj.Notes}}
+                                </div>
+                                <div ng-if="movementdetailaction == 'detail'" class="datepicker_dis">
+                                    <textarea class="form-control" rows="5" id="comment" ng-model="movementrequestobj.Notes"></textarea>
+                                </div>
+                                <small class="text-danger" ng-if="(movementrequestobj.Notes == null || movementrequestobj.Notes == '') && isValidate == false">Notes is required</small>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div  ng-class="(movementrequestobj.LocationID == null || movementrequestobj.LocationID == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
-                    <label class="col-sm-3 form-control-label">Location*</label>
-                    <div class="col-sm-9">
-                        <div ng-if="movementdetailaction == 'detail'">
-                            {{movementrequestobj.LocationID}}
-                        </div>
-                        <select ng-if="movementdetailaction == 'edit'" class="form-control" ng-model="movementrequestobj.LocationID">
-                            <option ng-repeat="location in locationlist" ng-selected="isSelectedItem(movementrequestobj.LocationID, location.ID)" value="{{location.ID}}">{{location.Name}}</option>
-                        </select>
-                        <small class="text-danger" ng-if="(movementrequestobj.LocationID == null || movementrequestobj.LocationID == '') && isValidate == false">Location is required</small>
-                    </div>
-                </div>
-                <div ng-class="(movementrequestobj.Description == null || movementrequestobj.Description == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
-                    <label class="col-sm-3 form-control-label">Description*</label>
-                    <div class="col-sm-9">
-                        <div ng-if="movementdetailaction == 'detail'">
-                            {{movementrequestobj.Description}}
-                        </div>
-                        <input ng-if="movementdetailaction == 'edit'" type="text" class="form-control form-control-success" placeholder="Description" ng-model="movementrequestobj.Description">
-                        <small class="text-danger" ng-if="(movementrequestobj.Description == null || movementrequestobj.Description == '') && isValidate == false">Movement Price is required</small>
-                    </div>
-                </div>
+
                 <div ng-if="movementdetailaction == 'edit'" class="form-group">
                     <div class="col-sm-12">
                         <button type="button" class="btn btn-primary" ng-click="Add()">Add</button>
@@ -96,10 +115,13 @@
                     </tbody>
                 </table>
 
-                <div ng-if="movementdetailaction == 'edit'" ng-hide="isLoading" class="form-group m-b-50">
+                <div ng-hide="isLoading" class="form-group m-b-50">
                     <div class="col-md-12 text-right">
-                        <button ng-disabled="movementrequestobj.ApprovalStatus == 1" ng-if="movementrequestobj.ID == 'temp'" type="button" class="btn btn-primary" ng-click="SaveMovementRequest()">Save</button>
-                        <button ng-disabled="movementrequestobj.ApprovalStatus == 1" ng-if="movementrequestobj.ID != 'temp'" type="button" class="btn btn-primary" ng-click="UpdateMovementRequest()">Update</button>
+                        <button ng-disabled="movementrequestobj.ApprovalStatus == 1" ng-if="movementrequestobj.ID == 'temp' && movementdetailaction == 'edit'" type="button" class="btn btn-primary" ng-click="SaveMovementRequest()">Save</button>
+                        <button ng-disabled="movementrequestobj.ApprovalStatus == 1" ng-if="movementrequestobj.ID != 'temp' && movementdetailaction == 'edit'" type="button" class="btn btn-primary" ng-click="UpdateMovementRequest()">Update</button>
+                        <button ng-if="movementdetailaction == 'detail'" type="button" class="btn btn-primary" ng-click="Approve(movementrequestobj)">Approve</button>
+                        <button ng-if="movementdetailaction == 'detail'" type="button" class="btn btn-danger" ng-click="Reject(movementrequestobj)">Reject</button>
+
                     </div>
                 </div>
 
@@ -168,16 +190,16 @@
                                 </div>
                                 <table id="data-table" datatable="ng" dt-options="dtOptions" width="100%" class="table table-striped table-bordered">
                                     <thead>
-                                        <tr>
-                                            <th>Asset</th>
-                                            <th>Location</th>
-                                        </tr>
+                                    <tr>
+                                        <th>Asset</th>
+                                        <th>Location</th>
+                                    </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="selectedasset in selectedassetlist">
-                                            <td>{{selectedasset.AssetName}}</td>
-                                            <td>{{selectedasset.LocationName}}</td>
-                                        </tr>
+                                    <tr ng-repeat="selectedasset in selectedassetlist">
+                                        <td>{{selectedasset.AssetName}}</td>
+                                        <td>{{selectedasset.LocationName}}</td>
+                                    </tr>
                                     </tbody>
                                 </table>
                             </div>
