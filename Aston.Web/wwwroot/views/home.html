@@ -5,7 +5,8 @@
             <h3 class="h4">Movement Request</h3>
         </div>
         <div class="card-body no-padding" ng-controller="HomeCtrl">
-            <div class="item d-flex align-items-center" ng-repeat="movementrequest in movementrequestlist">
+            <div ng-if="movementrequestlist.length == 0" class="item d-flex align-items-center">No data available in here</div>
+            <div ng-if="movementrequestlist.length > 0" class="item d-flex align-items-center" ng-repeat="movementrequest in movementrequestlist">
                 <div class="text">
                     <a href="#">
                         <h3 class="h5">{{movementrequest.Description}}</h3>
