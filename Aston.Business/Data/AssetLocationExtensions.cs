@@ -30,9 +30,9 @@ namespace Aston.Business.Data
             return obj;
         }
 
-        public List<AssetLocation> GetAssetLocationByMovementDetailID(int id , int statuscategory)
+        public List<AssetLocation> GetAssetLocationByMovementDetailID(int id )
         {
-            var obj = context.AssetLocation.Include(p=>p.Asset).Include(p=>p.Location).Where(p => p.MovementRequestDetailID == id && p.DeletedDate == null && p.Asset.CategoryCD == id).ToList();
+            var obj = context.AssetLocation.Include(p=>p.Asset).Include(p=>p.Location).Where(p => p.MovementRequestDetailID == id && p.DeletedDate == null).ToList();
             return obj;
         }
     }

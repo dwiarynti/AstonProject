@@ -24,6 +24,13 @@ namespace Aston.Web.Process
             result = REST(requestUri, RESTConstants.GET);
             return result;
         }
+        public HttpResponseMessage GetAssetLocationByMovementDetailID(int id)
+        {
+            HttpResponseMessage result = default(HttpResponseMessage);
+            string requestUri = "api/AssetLocation/GetAssetLocationByMovementDetailID/" + id;
+            result = REST(requestUri, RESTConstants.GET);
+            return result;
+        }
         public HttpResponseMessage GetAssetLocationByID(int id)
         {
             HttpResponseMessage result = default(HttpResponseMessage);
