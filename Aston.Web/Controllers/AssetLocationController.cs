@@ -64,6 +64,14 @@ namespace Aston.Web.Controllers
             response = _assetLocationProcess.MoveAsset(obj);
             return response;
         }
+        [HttpPost]
+        [Route("TransactionAsset")]
+        public HttpResponseMessage TransactionAsset(HttpRequestMessage request, [FromBody] AssetViewModel obj)
+        {
+            HttpResponseMessage response = new HttpResponseMessage();
+            response = _assetLocationProcess.TransactionAsset(obj);
+            return response;
+        }
 
         [HttpPost]
         [Route("CreateAssetLocation")]

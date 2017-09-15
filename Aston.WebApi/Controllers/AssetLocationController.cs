@@ -87,7 +87,11 @@ namespace Aston.WebApi.Controllers
             }
             else if(result.statuscode == 6)
             {
-                message = "The category of the item ";
+                message = "The category of the item not correct ";
+            }
+            else if(result.statuscode == 7)
+            {
+                message = "success";
             }
            
             else
@@ -97,6 +101,50 @@ namespace Aston.WebApi.Controllers
             response = request.CreateResponse(HttpStatusCode.OK, new { success = result.status , message = message , obj= result.listAsset });
             return response;
         }
+        [HttpPost]
+        [Route("TransactionAsset")]
+        public HttpResponseMessage TransactionAsset(HttpRequestMessage request, [FromBody] AssetViewModel obj)
+        {
+            var result = service.TransactionAsset(obj);
+            var message = "";
+            HttpResponseMessage response = new HttpResponseMessage();
+            if (result.statuscode == 1)
+            {
+                message = "The object is null";
+            }
+            else if (result.statuscode == 2)
+            {
+                message = result.message;
+            }
+            else if (result.statuscode == 3)
+            {
+                message = "The Move asset more than request";
+            }
+            else if (result.statuscode == 4)
+            {
+                message = "The Location not same with the request";
+            }
+            else if (result.statuscode == 5)
+            {
+                message = "The barcode not found in system";
+            }
+            else if (result.statuscode == 6)
+            {
+                message = "The category of the item not correct ";
+            }
+            else if (result.statuscode == 7)
+            {
+                message = "success";
+            }
+
+            else
+            {
+                message = "System error ,please contact your admin";
+            }
+            response = request.CreateResponse(HttpStatusCode.OK, new { success = result.status, message = message, obj = result.listAsset });
+            return response;
+        }
+
         [HttpPost]
         [Route("CreateAssetLocation")]
         public HttpResponseMessage CreateAssetLocation(HttpRequestMessage request, [FromBody] AssetLocationViewModel obj)
