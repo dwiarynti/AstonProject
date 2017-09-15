@@ -84,6 +84,7 @@ namespace Aston.Business
         public ResultViewModel MoveAsset(AssetViewModel obj)
         {
             ResultViewModel result = new ResultViewModel();
+            List<AssetLocation> listassetlocation = new List<AssetLocation>();
             IDbContextTransaction transaction = _context.Database.BeginTransaction();
             if(obj != null)
             {
@@ -96,7 +97,7 @@ namespace Aston.Business
                     var checkassetlocation = _context.AssetLocation.Where(p => p.MovementRequestDetailID == obj.MovementRequestDetailID && p.DeletedDate != null).Count();
                     totalmoved = (movementrequestdetail.Quantity - checkassetlocation);
 
-                    if(obj.listAsset.Count() < totalmoved)
+                    if(obj.listAsset.Count() <= totalmoved)
                     {
                         if(location.ID == movementrequest.LocationID)
                         {
@@ -105,7 +106,7 @@ namespace Aston.Business
                             {
                                 if (listAsset.Count() == obj.listAsset.Count())
                                 {
-                                    foreach (var item in listAsset)
+                                    foreach (var item in listAsset.ToList())
                                     {
                                         if(item.CategoryCD == movementrequestdetail.AssetCategoryCD)
                                         {
@@ -117,19 +118,20 @@ namespace Aston.Business
                                             assetlocationobj.CreatedBy = obj.CreatedBy;
                                             assetlocationobj.MovementRequestDetailID = obj.MovementRequestDetailID;
 
-                                            _context.AssetLocation.Add(assetlocationobj);
+                                            listassetlocation.Add(assetlocationobj);
                                             listAsset.Remove(item);
                                         }
                                     }
-                                    if(listAsset.Count() != 0)
+                                    if(listAsset.Count() != listassetlocation.Count())
                                     {
                                         result.status = false;
-                                      
+                                        result.statuscode = 6;                                   
                                         result.asset = listAsset;
 
                                     }
                                     else
                                     {
+                                        _context.AssetLocation.AddRange(listassetlocation);
                                         _context.SaveChanges();
                                         transaction.Commit();
                                         result.status = true;
@@ -139,14 +141,14 @@ namespace Aston.Business
                                 else
                                 {
                                     result.status = false;
-
+                                    result.statuscode = 5;
                                     result.asset = listAsset;
                                 }
                             }
                             else
                             {
                                 result.status = false;
-
+                                result.statuscode = 5;
                                 result.asset = listAsset;
                             }
                         }

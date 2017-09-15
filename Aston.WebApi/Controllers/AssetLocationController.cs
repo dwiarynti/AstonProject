@@ -66,29 +66,26 @@ namespace Aston.WebApi.Controllers
             }
             else if(result.statuscode == 3)
             {
-                
+                message = "The Move asset more than request";
             }
             else if(result.statuscode == 4)
             {
-
+                message = "The Location not same with the request";
             }
             else if(result.statuscode == 5)
             {
-
+                message = "The barcode not found in system";
             }
             else if(result.statuscode == 6)
             {
-
+                message = "The category of the item ";
             }
-            else if (result.statuscode == 7)
-            {
-
-            }
+           
             else
             {
-
+                message = "System error ,please contact your admin";
             }
-            response = request.CreateResponse(HttpStatusCode.OK, new { success = result , message = message });
+            response = request.CreateResponse(HttpStatusCode.OK, new { success = result.status , message = message , obj= result.listAsset });
             return response;
         }
         [HttpPost]
