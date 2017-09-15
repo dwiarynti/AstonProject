@@ -94,7 +94,7 @@ namespace Aston.Business
                     var movementrequestdetail = _context.MovementRequestDetail.Where(p => p.ID == obj.MovementRequestDetailID).FirstOrDefault();
                     var movementrequest = _context.MovementRequest.Where(p => p.ID == movementrequestdetail.MovementRequestID).FirstOrDefault();
                     int totalmoved = 0;
-                    var checkassetlocation = _context.AssetLocation.Where(p => p.MovementRequestDetailID == obj.MovementRequestDetailID && p.DeletedDate != null).Count();
+                    var checkassetlocation = _context.AssetLocation.Where(p => p.MovementRequestDetailID == obj.MovementRequestDetailID && p.DeletedDate == null && p.LocationID != null ).Count();
                     totalmoved = (movementrequestdetail.Quantity - checkassetlocation);
 
                     if(obj.listAsset.Count() <= totalmoved)
@@ -187,6 +187,7 @@ namespace Aston.Business
         public ResultViewModel TransactionAsset(AssetViewModel obj)
         {
             ResultViewModel result = new ResultViewModel();
+            List<AssetLocation> listassetlocation = new List<AssetLocation>();
             IDbContextTransaction transaction = _context.Database.BeginTransaction();
             if (obj != null)
             {
@@ -196,10 +197,10 @@ namespace Aston.Business
                     var movementrequestdetail = _context.MovementRequestDetail.Where(p => p.ID == obj.MovementRequestDetailID).FirstOrDefault();
                     var movementrequest = _context.MovementRequest.Where(p => p.ID == movementrequestdetail.MovementRequestID).FirstOrDefault();
                     int totalmoved = 0;
-                    var checkassetlocation = _context.AssetLocation.Where(p => p.MovementRequestDetailID == obj.MovementRequestDetailID && p.DeletedDate != null).Count();
+                    var checkassetlocation = _context.AssetLocation.Where(p => p.MovementRequestDetailID == obj.MovementRequestDetailID && p.DeletedDate == null && p.LocationID == null).Count();
                     totalmoved = (movementrequestdetail.Quantity - checkassetlocation);
 
-                    if (obj.listAsset.Count() < totalmoved)
+                    if (obj.listAsset.Count() <= totalmoved)
                     {
                         if (location.ID == movementrequest.LocationID)
                         {
@@ -208,7 +209,7 @@ namespace Aston.Business
                             {
                                 if (listAsset.Count() == obj.listAsset.Count())
                                 {
-                                    foreach (var item in listAsset)
+                                    foreach (var item in listAsset.ToList())
                                     {
                                         if (item.CategoryCD == movementrequestdetail.AssetCategoryCD)
                                         {
@@ -220,19 +221,20 @@ namespace Aston.Business
                                             assetlocationobj.CreatedBy = obj.CreatedBy;
                                             assetlocationobj.MovementRequestDetailID = obj.MovementRequestDetailID;
 
-                                            _context.AssetLocation.Add(assetlocationobj);
+                                            listassetlocation.Add(assetlocationobj);
                                             listAsset.Remove(item);
                                         }
                                     }
-                                    if (listAsset.Count() != 0)
+                                    if (listAsset.Count() != listassetlocation.Count())
                                     {
                                         result.status = false;
-
+                                        result.statuscode = 6;
                                         result.asset = listAsset;
 
                                     }
                                     else
                                     {
+                                        _context.AssetLocation.AddRange(listassetlocation);
                                         _context.SaveChanges();
                                         transaction.Commit();
                                         result.status = true;
@@ -242,14 +244,14 @@ namespace Aston.Business
                                 else
                                 {
                                     result.status = false;
-
+                                    result.statuscode = 5;
                                     result.asset = listAsset;
                                 }
                             }
                             else
                             {
                                 result.status = false;
-
+                                result.statuscode = 5;
                                 result.asset = listAsset;
                             }
                         }
@@ -296,7 +298,7 @@ namespace Aston.Business
                     var movementrequestdetail = _context.MovementRequestDetail.Where(p => p.ID == obj.MovementRequestDetailID).FirstOrDefault();
                     var movementrequest = _context.MovementRequest.Where(p => p.ID == movementrequestdetail.MovementRequestID).FirstOrDefault();
 
-                    var checkassetlocation = _context.AssetLocation.Where(p => p.MovementRequestDetailID == obj.MovementRequestDetailID && p.DeletedDate != null).Count();
+                    var checkassetlocation = _context.AssetLocation.Where(p => p.MovementRequestDetailID == obj.MovementRequestDetailID && p.DeletedDate == null).Count();
 
                     int totalmoved = 0;
                     totalmoved = (movementrequestdetail.Quantity - checkassetlocation);
