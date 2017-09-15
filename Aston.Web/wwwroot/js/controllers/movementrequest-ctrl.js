@@ -43,12 +43,12 @@ app.controller('MovementRequestCtrl', function ($scope, $rootScope, $state, tran
     $scope.init();
 
     $scope.add = function () {
-        transferobjectService.addObj = movementrequesModel();
+        transferobjectService.addObj = { action: 'edit', data: movementrequesModel() };
         $state.go('movementrequestdetailmanagement');
     }
 
     $scope.edit = function (obj) {
-        transferobjectService.addObj = obj;
+        transferobjectService.addObj = { action: 'edit', data: obj };
         $state.go('movementrequestdetailmanagement');
     }
 

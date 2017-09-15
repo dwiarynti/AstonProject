@@ -10,7 +10,8 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
 
     var assetResources = new assetResource();
     $scope.isValidate = true;
-    $scope.movementrequestobj = transferobjectService.addObj;
+    $scope.movementrequestobj = transferobjectService.addObj.data;
+    $scope.movementdetailaction = transferobjectService.addObj.action;
     $scope.movementrequest = {};
     $scope.movementrequestdetailList = [];
     $scope.categorylist = [];
@@ -54,7 +55,7 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
 
     $scope.GetDepartment();
 
-    if ($scope.movementrequestobj.ID == undefined) {
+    if ($scope.movementrequestobj == undefined) {
         $state.go('movementrequestmanagement');
     } else {
         $scope.init();
@@ -335,6 +336,39 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
                 $scope.init();
             }
         });
+    }
+
+    $scope.Approve = function (obj) {
+        
+        var movementrequestResources = new movementrequestResource();
+        movementrequestResources.ID = obj.ID;
+        movementrequestResources.ApprovalStatus = 1;
+        movementrequestResources.Notes = obj.Notes;
+        movementrequestResources.$ApproveMovementRequest(function (data) {
+            if (data.success) {
+                $window.alert("Data approved successfully");
+                $scope.init();
+            }
+        });
+    }
+
+    $scope.Reject = function (obj) {
+        if (obj.Notes == '' || obj.Notes == null) {
+            $scope.isValidate = false;
+        } else {
+            var movementrequestResources = new movementrequestResource();
+            movementrequestResources.ID = obj.ID;
+            movementrequestResources.ApprovalStatus = 3;
+            movementrequestResources.Notes = obj.Notes;
+            movementrequestResources.$ApproveMovementRequest(function (data) {
+                if (data.success) {
+                    $scope.isValidate = true;
+                    $window.alert("Data rejected successfully");
+                    $scope.init();
+                }
+            });
+        }
+        
     }
 
 });
