@@ -5,8 +5,8 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div ng-class="(movementrequestobj.MovementDate == null || movementrequestobj.MovementDate == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
-                            <label class="col-sm-3 form-control-label">Movement Date*</label>
-                            <div class="col-sm-9">
+                            <label class="col-sm-4 form-control-label">Movement Date*</label>
+                            <div class="col-sm-8">
                                 <div ng-if="movementdetailaction == 'detail'">
                                     {{movementrequestobj.MovementDate}}
                                 </div>
@@ -17,20 +17,23 @@
                             </div>
                         </div>
                         <div ng-class="(movementrequestobj.LocationID == null || movementrequestobj.LocationID == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
-                            <label class="col-sm-3 form-control-label">Location*</label>
-                            <div class="col-sm-9">
+                            <label class="col-sm-4 form-control-label">Location*</label>
+                            <div class="col-sm-8">
                                 <div ng-if="movementdetailaction == 'detail'">
                                     {{movementrequestobj.LocationName}}
                                 </div>
-                                <select ng-if="movementdetailaction == 'edit'" class="form-control" ng-model="movementrequestobj.LocationID">
-                                    <option ng-repeat="location in locationlist" ng-selected="isSelectedItem(movementrequestobj.LocationID, location.ID)" value="{{location.ID}}">{{location.Name}}</option>
+                                <select class="form-control" ng-model="movementrequestobj.LocationID">
+                                    <option ng-repeat="location in locationlist" ng-selected="isSelectedItem(movementrequestobj.LocationID, location.ID)" ng-value="{{location.ID}}">{{location.Name}}</option>
                                 </select>
+                                <!--<select ng-if="movementdetailaction == 'edit'" class="form-control" ng-model="movementrequestobj.LocationID">
+                                    <option ng-repeat="location in locationlist" ng-selected="isSelectedItem(movementrequestobj.LocationID, location.ID)" value="{{location.ID}}">{{location.Name}}</option>
+                                </select>-->
                                 <small class="text-danger" ng-if="(movementrequestobj.LocationID == null || movementrequestobj.LocationID == '') && isValidate == false">Location is required</small>
                             </div>
                         </div>
                         <div ng-class="(movementrequestobj.Description == null || movementrequestobj.Description == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
-                            <label class="col-sm-3 form-control-label">Description*</label>
-                            <div class="col-sm-9">
+                            <label class="col-sm-4 form-control-label">Description*</label>
+                            <div class="col-sm-8">
                                 <div ng-if="movementdetailaction == 'detail'">
                                     {{movementrequestobj.Description}}
                                 </div>
@@ -42,7 +45,7 @@
                     <div class="col-sm-6">
                         <div ng-class="(movementrequestobj.Notes == null || movementrequestobj.Notes == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
                             <label class="col-sm-3 form-control-label">Notes*</label>
-                            <div class="col-sm-9">
+                            <div class="col-sm-8">
                                 <div ng-if="movementdetailaction == 'edit'">
                                     {{movementrequestobj.Notes}}
                                 </div>
@@ -85,7 +88,7 @@
                         <td ng-if="movementrequestdetail.editmode == false && movementdetailaction == 'edit'">
                             <button ng-if="movementdetailaction == 'edit'" ng-disabled="movementrequestobj.ApprovalStatus == 1" type="button" class="btn btn-default btn-width" ng-click="editMRD(movementrequestdetail)">Edit</button>
                             <button ng-if="movementdetailaction == 'edit'" ng-disabled="movementrequestobj.ApprovalStatus == 1" type="button" class="btn btn-default btn-width" ng-click="deleteMRD(movementrequestdetail)">Delete</button>
-                            <button ng-if="movementrequestobj.ApprovalStatus == 1" type="button" class="btn btn-default btn-width" ng-click="selectasset(movementrequestdetail)">Select Asset</button>
+                            <button ng-if="movementrequestobj.ApprovalStatus == 1" ng-disabled="movementrequestdetail.Quantity == movementrequestdetail.Transfered" type="button" class="btn btn-default btn-width" ng-click="selectasset(movementrequestdetail)">Select Asset</button>
                         </td>
 
                         <!--manipulation mode-->
@@ -119,8 +122,8 @@
                     <div class="col-md-12 text-right">
                         <button ng-disabled="movementrequestobj.ApprovalStatus == 1" ng-if="movementrequestobj.ID == 'temp' && movementdetailaction == 'edit'" type="button" class="btn btn-primary" ng-click="SaveMovementRequest()">Save</button>
                         <button ng-disabled="movementrequestobj.ApprovalStatus == 1" ng-if="movementrequestobj.ID != 'temp' && movementdetailaction == 'edit'" type="button" class="btn btn-primary" ng-click="UpdateMovementRequest()">Update</button>
-                        <button ng-if="movementdetailaction == 'detail'" type="button" class="btn btn-primary" ng-click="Approve(movementrequestobj)">Approve</button>
-                        <button ng-if="movementdetailaction == 'detail'" type="button" class="btn btn-danger" ng-click="Reject(movementrequestobj)">Reject</button>
+                        <button ng-disabled="movementrequestobj.ApprovalStatus == 3" ng-if="movementdetailaction == 'detail'" type="button" class="btn btn-primary" ng-click="Approve(movementrequestobj)">Approve</button>
+                        <button ng-disabled="movementrequestobj.ApprovalStatus == 1" ng-if="movementdetailaction == 'detail'" type="button" class="btn btn-danger" ng-click="Reject(movementrequestobj)">Reject</button>
 
                     </div>
                 </div>

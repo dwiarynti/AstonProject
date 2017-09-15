@@ -332,7 +332,9 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
 
         assetLocationResources.$CreateAssetLocation(function (data) {
             if (data.success) {
-                $("#modal-action").modal('hide');
+                console.log(data);
+                $window.alert("Data saves successfully");
+                $("#modal-CreateAssetLocation").modal('hide');
                 $scope.init();
             }
         });
@@ -347,6 +349,7 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
         movementrequestResources.$ApproveMovementRequest(function (data) {
             if (data.success) {
                 $window.alert("Data approved successfully");
+                obj.ApprovalStatus = 1;
                 $scope.init();
             }
         });
@@ -364,6 +367,7 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
                 if (data.success) {
                     $scope.isValidate = true;
                     $window.alert("Data rejected successfully");
+                    obj.ApprovalStatus = 3;
                     $scope.init();
                 }
             });
