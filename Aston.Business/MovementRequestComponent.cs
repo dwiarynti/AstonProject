@@ -46,7 +46,7 @@ namespace Aston.Business
                         MovementRequestDetailViewModel detail = new MovementRequestDetailViewModel();
                         var categoryname = _pref.GetLookupByCategoryCode(item2.AssetCategoryCD);
                         var deparment = _department.GetDepartmentByID(item2.RequestedTo);
-                        var moveasset = _assetlocation.GetAssetLocationByMovementDetailID(item2.ID, item2.AssetCategoryCD);
+                        var moveasset = _assetlocation.GetAssetLocationByMovementDetailID(item2.ID);
 
                         detail.ID = item2.ID;
                         detail.MovementRequestID = item2.MovementRequestID;
@@ -94,7 +94,7 @@ namespace Aston.Business
                         MovementRequestDetailViewModel detail = new MovementRequestDetailViewModel();
                         var categoryname = _pref.GetLookupByCategoryCode(item2.AssetCategoryCD);
                         var deparment = _department.GetDepartmentByID(item2.RequestedTo);
-                        var moveasset = _assetlocation.GetAssetLocationByMovementDetailID(item2.ID, item2.AssetCategoryCD);
+                        var moveasset = _assetlocation.GetAssetLocationByMovementDetailID(item2.ID);
 
                         detail.ID = item2.ID;
                         detail.MovementRequestID = item2.MovementRequestID;
@@ -137,7 +137,7 @@ namespace Aston.Business
                     MovementRequestDetailViewModel detail = new MovementRequestDetailViewModel();
                     var categoryname = _pref.GetLookupByCategoryCode(item.AssetCategoryCD);
                     var deparment = _department.GetDepartmentByID(item.RequestedTo);
-                    var moveasset = _assetlocation.GetAssetLocationByMovementDetailID(item.ID, item.AssetCategoryCD);
+                    var moveasset = _assetlocation.GetAssetLocationByMovementDetailID(item.ID);
                     detail.ID = item.ID;
                     detail.MovementRequestID = item.MovementRequestID;
                     detail.Description = item.Description;

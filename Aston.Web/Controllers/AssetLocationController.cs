@@ -29,6 +29,14 @@ namespace Aston.Web.Controllers
             response = _assetLocationProcess.GetAssetLocationByLocationID(id);
             return response;
         }
+        [Route("GetAssetLocationByMovementDetailID/{id}")]
+        [HttpGet]
+        public HttpResponseMessage GetAssetLocationByMovementDetailID(HttpRequestMessage request, int id)
+        {
+            HttpResponseMessage response = new HttpResponseMessage();
+            response = _assetLocationProcess.GetAssetLocationByMovementDetailID(id);
+            return response;
+        }
 
         [Route("GetAssetLocationByID/{id}")]
         [HttpGet]

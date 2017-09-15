@@ -122,7 +122,7 @@ namespace Aston.Business
                                             listAsset.Remove(item);
                                         }
                                     }
-                                    if(listAsset.Count() != listassetlocation.Count())
+                                    if(listAsset.Count() != 0)
                                     {
                                         result.status = false;
                                         result.statuscode = 6;                                   
@@ -416,11 +416,11 @@ namespace Aston.Business
             return result;
         }
 
-        public List<AssetLocationViewModel> GetAssetLocationByMovementDetailID(int id,int categorycdid)
+        public List<AssetLocationViewModel> GetAssetLocationByMovementDetailID(int id)
         {
             List<AssetLocationViewModel> result = new List<AssetLocationViewModel>();
 
-            var assetlocation = _assetlocation.GetAssetLocationByMovementDetailID(id,categorycdid);
+            var assetlocation = _assetlocation.GetAssetLocationByMovementDetailID(id);
             if (assetlocation != null)
             {
                 foreach (var item in assetlocation)

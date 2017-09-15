@@ -37,6 +37,15 @@ namespace Aston.WebApi.Controllers
             response = request.CreateResponse(HttpStatusCode.OK, new { success = true, obj = result });
             return response;
         }
+        [HttpGet]
+        [Route("GetAssetLocationByMovementDetailID/{id}")]
+        public HttpResponseMessage GetAssetLocationByMovementDetailID(HttpRequestMessage request, int id)
+        {
+            var result = service.GetAssetLocationByMovementDetailID(id);
+            HttpResponseMessage response = new HttpResponseMessage();
+            response = request.CreateResponse(HttpStatusCode.OK, new { success = true, obj = result });
+            return response;
+        }
 
         [HttpGet]
         [Route("GetAssetLocation")]
