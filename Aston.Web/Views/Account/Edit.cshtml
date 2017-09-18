@@ -1,0 +1,62 @@
+@model Aston.Entities.UserViewModel
+
+@{
+    ViewData["Title"] = "Add Role";
+}
+<form asp-action="Edit">
+    <div class="form-horizontal">
+        <h4>Edit</h4>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="form-group">
+            <label asp-for="Username" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Username" class="form-control" disabled />
+                <span asp-validation-for="Username" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Email" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="DepartmentID" class="col-md-2 control-label">Department</label>
+            <div class="col-md-10">
+
+                @Html.DropDownList("DepartmentID", null,"Please Select", htmlAttributes: new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="UserRole" class="col-md-2 control-label">Roles</label>
+            <div class="col-md-10">
+
+                @foreach (var item in Model.UserRole)
+                {
+                    <label class="form-control-static">@item</label>
+
+                    @Html.ActionLink("Delete Role", "DeleteRole", new { Id = Model.Id, Username = Model.Username, Role = item }) <br />
+                }
+
+            </div>
+        </div>
+      
+        @Html.HiddenFor(model=>model.Id)
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" onclick="window.location.href='@Url.Action("AddRole", new { Id = Model.Id })'" />
+                <input type="button" value="Back to List" class="btn btn-default" onclick="window.location.href='@Url.Action("Details", new { Id = Model.Id })'" />
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

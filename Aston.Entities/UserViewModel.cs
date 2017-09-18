@@ -14,6 +14,8 @@ namespace Aston.Entities
         public string Email { get; set; }
         public string Code { get; set; }
         public string Role { get; set; }
+        public string DepartmentName { get; set; }
+        public int DepartmentID { get; set; }
         public List<string> UserRole { get; set; }
         public List<IdentityRole> Roles { get; set; }
         [Required]

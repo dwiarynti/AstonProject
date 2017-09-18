@@ -78,6 +78,47 @@ namespace Aston.Web.Controllers
 
             return View(model);
         }
+        public async Task<IActionResult> Edit(string Id)
+        {
+            var model = new UserViewModel();
+            var user = await _userManager.FindByIdAsync(Id);
+          
+            var deparment = _context.Department.Where(p => p.ID == user.DepartmentID).FirstOrDefault();
+            model.Username = user.UserName;
+            model.Email = user.Email;
+            model.Id = user.Id;
+            if (deparment != null)
+            {
+                model.DepartmentID = deparment.ID;
+                model.DepartmentName = deparment.Name;
+            }
+            var roles = await _userManager.GetRolesAsync(user);
+            model.UserRole = roles.ToList();
+            var department = _context.Department.Where(p => p.IsActive == true).ToList();
+
+            ViewBag.DepartmentID = new SelectList(department, "ID", "Name",user.DepartmentID);
+
+            return View(model);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(UserViewModel model)
+        {
+            var user = await _userManager.FindByIdAsync(model.Id);
+            user.DepartmentID = model.DepartmentID;
+            user.Email = model.Email;
+            var result = await _userManager.UpdateAsync(user);
+            if (result.Succeeded)
+            {
+                return RedirectToAction("Details/" + model.Id);
+            }
+
+            var department = _context.Department.Where(p => p.IsActive == true).ToList();
+
+            ViewBag.DepartmentID = new SelectList(department, "ID", "Name", user.DepartmentID);
+            return View(model);
+
+        }
 
         public async Task<IActionResult> Delete(string Id)
         {
