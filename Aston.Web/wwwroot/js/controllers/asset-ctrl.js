@@ -136,6 +136,7 @@ app.controller('AssetCtrl', function ($scope, $rootScope, assetResource, lookupl
         assetResources.StatusCD = 1;
         assetResources.$UpdateAsset(function (data) {
             if (data.success) {
+                $scope.asset = AssetModel();
                 $("#modal-action").modal('hide');
                 $scope.init();
             }

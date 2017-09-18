@@ -105,8 +105,9 @@ app.controller('LocationCtrl', function ($scope, $rootScope, locationResource, l
         locationResources.StatusCD = $scope.location.StatusCD;
         locationResources.$UpdateLocation(function (data) {
             if (data.success) {
-                $scope.init();
+                $scope.location = LocationModel();
                 $("#modal-action").modal('hide');
+                $scope.init();
             }
         });
     }

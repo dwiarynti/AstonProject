@@ -105,6 +105,7 @@ app.controller('AssetLocationCtrl', function ($scope, $rootScope, assetResource,
         assetLocationResources.OnTransition = $scope.assetlocation.OnTransition;
         assetLocationResources.$UpdateAssetLocation(function (data) {
             if (data.success) {
+                $scope.assetlocation = AssetLocationModel();
                 $("#modal-action").modal('hide');
                 $scope.init();
             }
