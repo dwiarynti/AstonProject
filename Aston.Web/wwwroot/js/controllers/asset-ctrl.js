@@ -108,7 +108,7 @@ app.controller('AssetCtrl', function ($scope, $rootScope, assetResource, lookupl
         
         $scope.asset = angular.copy(obj);
         $scope.asset.PurchaseDate = $scope.asset.PurchaseDate != null || $scope.asset.PurchaseDate != "" ? commonService.convertdate($scope.asset.PurchaseDate) : "";
-        $scope.asset.ManufactureDate = $scope.asset.ManufactureDate != null || $scope.asset.ManufactureDate != "" ? commonService.convertdate($scope.asset.ManufactureDate) : "";
+        $scope.asset.ManufactureDate = $scope.asset.ManufactureDate != null && $scope.asset.ManufactureDate != "" ? commonService.convertdate($scope.asset.ManufactureDate) : "";
         $scope.isValidate = true;
         $scope.actionstatus = "Update";
         $("#modal-action").modal('show');
