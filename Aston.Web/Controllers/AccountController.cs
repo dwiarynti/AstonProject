@@ -235,6 +235,7 @@ namespace Aston.Web.Controllers
         {
             ViewData["ReturnUrl"] = returnUrl;
             var department = _context.Department.Where(p => p.IsActive == true).ToList();
+           
             ViewBag.DepartmentID = new SelectList(department, "ID", "Name");
             return View();
         }
@@ -247,6 +248,10 @@ namespace Aston.Web.Controllers
         public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
+            if(model.DepartmentID == 0 )
+            {
+                model.DepartmentID = null;
+            }
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.Username, Email = model.Email ,IsActive = true ,DepartmentID = model.DepartmentID};
@@ -270,6 +275,8 @@ namespace Aston.Web.Controllers
             }
 
             // If we got this far, something failed, redisplay form
+            var department = _context.Department.Where(p => p.IsActive == true).ToList();
+            ViewBag.DepartmentID = new SelectList(department, "ID", "Name");
             return View(model);
         }
 
