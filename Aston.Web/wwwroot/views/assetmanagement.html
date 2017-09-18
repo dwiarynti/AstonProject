@@ -1,4 +1,51 @@
 ﻿<div class="container-fluid">
+    <div class="articles card">
+        <div class="card-header d-flex align-items-center">
+            <h3 class="h4">Search</h3>
+        </div>
+        <div class="card-body" ng-controller="AssetCtrl">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div ng-class="(movementrequestobj.MovementDate == null || movementrequestobj.MovementDate == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
+                        <label class="col-sm-4 form-control-label">Asset Type:</label>
+                        <div class="col-sm-8">
+                            <select class="form-control" ng-model="movementrequestobj.LocationID">
+                                <option ng-repeat="category in categorylist" ng-selected="isSelectedItem(category.Code,asset.CategoryCD)" value="{{category.Code}}">{{category.Value}}</option>
+                            </select>
+                            <small class="text-danger" ng-if="(movementrequestobj.LocationID == null || movementrequestobj.LocationID == '') && isValidate == false">Location is required</small>
+                        </div>
+                    </div>
+                    <div ng-class="(movementrequestobj.LocationID == null || movementrequestobj.LocationID == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
+                        <label class="col-sm-4 form-control-label">Is Movable Asset:</label>
+                        <div class="col-sm-8">
+                            <input type="radio" name="IsMovable" ng-model="asset.IsMovable" data-ng-value="true" class="radio-template" /> True
+                            <input type="radio" name="IsMovable" ng-model="asset.IsMovable" data-ng-value="false" class="radio-template" /> False<br />
+                            <small class="text-danger" ng-if="(asset.IsMovable | getType) != 'boolean' && isValidate == false">Is Movable is required</small>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-sm-6">
+                    <div ng-class="(movementrequestobj.Description == null || movementrequestobj.Description == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
+                        <label class="col-sm-4 form-control-label">Owner:</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control form-control-success" placeholder="Owner" ng-model="movementrequestobj.Description">
+                            <small class="text-danger" ng-if="(movementrequestobj.Description == null || movementrequestobj.Description == '') && isValidate == false">Movement Price is required</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div ng-hide="isLoading" class="form-group m-b-50">
+                <div class="col-md-12 text-right">
+                    <button type="button" class="btn btn-primary" ng-click="SaveMovementRequest()">Search</button>
+                    <button type="button" class="btn btn-primary" ng-click="UpdateMovementRequest()">Export</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="container-fluid">
     <div class="row bg-white has-shadow">
         <div id="main-content" style="width: 100%">
             <div ng-controller="AssetCtrl">
@@ -63,8 +110,8 @@
                                 <div ng-class="(asset.IsMovable | getType)  != 'boolean' && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
                                     <label class="col-sm-3 form-control-label">Is Movable Asset*</label>
                                     <div class="col-sm-9">
-                                        <input type="radio" name="IsMovable" ng-model="asset.IsMovable" data-ng-value="true" class="radio-template"/> True
-                                        <input type="radio" name="IsMovable" ng-model="asset.IsMovable" data-ng-value="false" class="radio-template"/> False<br/>
+                                        <input type="radio" name="IsMovable" ng-model="asset.IsMovable" data-ng-value="true" class="radio-template" /> True
+                                        <input type="radio" name="IsMovable" ng-model="asset.IsMovable" data-ng-value="false" class="radio-template" /> False<br />
                                         <small class="text-danger" ng-if="(asset.IsMovable | getType) != 'boolean' && isValidate == false">Is Movable is required</small>
                                     </div>
                                 </div>

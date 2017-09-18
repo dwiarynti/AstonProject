@@ -22,7 +22,7 @@
                                 <div ng-if="movementdetailaction == 'detail'">
                                     {{movementrequestobj.LocationName}}
                                 </div>
-                                <select class="form-control" ng-model="movementrequestobj.LocationID">
+                                <select ng-if="movementdetailaction == 'edit'" class="form-control" ng-model="movementrequestobj.LocationID">
                                     <option ng-repeat="location in locationlist" ng-selected="isSelectedItem(movementrequestobj.LocationID, location.ID)" ng-value="{{location.ID}}">{{location.Name}}</option>
                                 </select>
                                 <small class="text-danger" ng-if="(movementrequestobj.LocationID == null || movementrequestobj.LocationID == '') && isValidate == false">Location is required</small>
@@ -57,7 +57,7 @@
 
                 <div ng-if="movementdetailaction == 'edit'" class="form-group">
                     <div class="col-sm-12">
-                        <button type="button" class="btn btn-primary" ng-click="Add()">Add</button>
+                        <button ng-disabled="movementrequestobj.ApprovalStatus == 1" type="button" class="btn btn-primary" ng-click="Add()">Add</button>
                     </div>
                 </div>
 
@@ -204,8 +204,8 @@
                                 </table>
                             </div>
                             <div class="modal-footer">
-                                <a ng-disabled="onprocess == true" href="javascript:;" class="btn btn-default btn-width btn-margin" data-dismiss="modal">Cancel</a>
-                                <button ng-disabled="onprocess == true || selectedassetlist.length == movementrequestdetailBackup.Quantity" type="button" class="btn btn-default btn-width" ng-click="CreateAssetLocation()">
+                                <a href="javascript:;" class="btn btn-default btn-width btn-margin" data-dismiss="modal">Cancel</a>
+                                <button type="button" class="btn btn-default btn-width" ng-click="CreateAssetLocation()">
                                     <span>Save</span>
                                 </button>
                             </div>

@@ -32,6 +32,8 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
     console.log($scope.movementrequestobj);
 
     $scope.init = function () {
+        $scope.movementrequestobj.Notes = $scope.movementrequestobj.Notes == '' && $scope.movementdetailaction == 'edit' || $scope.movementrequestobj.Notes == null && $scope.movementdetailaction == 'edit' ? '--' : $scope.movementrequestobj.Notes;
+
         if ($scope.movementrequestobj.ID != 'temp') {
             //$scope.movementrequestobj.MovementDate = commonService.convertdate($scope.movementrequestobj.MovementDate);
             angular.forEach($scope.movementrequestobj.MovementRequestDetail, function (data) {
@@ -43,8 +45,10 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
         $scope.GetLocation();
     }
 
-    $scope.GetLocation = function() {
+    $scope.GetLocation = function () {
+        $scope.locationlist = [];
         locationResources.$GetLocation(function (data) {
+            console.log(data);
             $scope.locationlist = data.obj;
         });
     }

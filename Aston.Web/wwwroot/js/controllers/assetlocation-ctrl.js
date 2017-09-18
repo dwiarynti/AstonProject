@@ -90,7 +90,7 @@ app.controller('AssetLocationCtrl', function ($scope, $rootScope, assetResource,
 
     $scope.update = function () {
 
-        $scope.assetlocation = $scope.OnTransitionStatus ? $scope.assetlocation : $scope.OnTransitionStatus;
+        $scope.assetlocation.OnTransition = $scope.OnTransitionStatus ? $scope.assetlocation.OnTransition : $scope.OnTransitionStatus;
         $scope.isValidate = commonService.validationform(AssetLocationModel(), $scope.assetlocation);
         if ($scope.isValidate) {
             $scope.UpdateAssetLocation();

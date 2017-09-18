@@ -30,6 +30,7 @@ app.controller('MovementRequestCtrl', function ($scope, $rootScope, $state, tran
             Description: null,
             ApprovedDate: null,
             ApprovedBy: null,
+            Notes: null,
             MovementRequestDetail:[]
             //CreatedDate: null,
             //CreatedBy: null,
