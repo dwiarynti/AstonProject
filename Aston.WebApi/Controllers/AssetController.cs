@@ -84,6 +84,16 @@ namespace Aston.WebApi.Controllers
         }
 
         [HttpPost]
+        [Route("SearchAsset")]
+        public HttpResponseMessage SearchAsset(HttpRequestMessage request, [FromBody] AssetViewModel obj)
+        {
+            var result = service.SearchAsset(obj);
+            HttpResponseMessage response = new HttpResponseMessage();
+            response = request.CreateResponse(HttpStatusCode.OK, new { success = result });
+            return response;
+        }
+
+        [HttpPost]
         [Route("DeleteAsset")]
         public HttpResponseMessage DeleteAsset(HttpRequestMessage request, [FromBody] Asset obj)
         {

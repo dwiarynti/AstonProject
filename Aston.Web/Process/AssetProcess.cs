@@ -45,6 +45,13 @@ namespace Aston.Web.Process
             result = REST(requestUri, RESTConstants.GET);
             return result;
         }
+        public HttpResponseMessage SearchAsset(AssetViewModel obj)
+        {
+            HttpResponseMessage result = default(HttpResponseMessage);
+            string requestUri = "api/Asset/SearchAsset";
+            result = REST(requestUri, RESTConstants.POST, JsonConvert.SerializeObject(obj));
+            return result;
+        }
         public HttpResponseMessage CreateAsset(AssetViewModel obj)
         {
             HttpResponseMessage result = default(HttpResponseMessage);
@@ -55,6 +62,7 @@ namespace Aston.Web.Process
             result = REST(requestUri, RESTConstants.POST, JsonConvert.SerializeObject(obj));
             return result;
         }
+
         public HttpResponseMessage UpdateAsset(AssetViewModel obj)
         {
             HttpResponseMessage result = default(HttpResponseMessage);

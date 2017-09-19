@@ -33,10 +33,44 @@ namespace Aston.Business.Data
             return Convert.ToString(lastNumber+1);
 
         }
-
+    
         public List<Asset> GetAssetByCategoryCode(int code)
         {
             var obj = context.Asset.Where(p => p.CategoryCD == code && p.DeletedDate == null && p.StatusCD == 1).ToList();
+            return obj;
+        }
+
+        public List<Asset> SearchAsset(int categorycode, bool ismovable, string owner)
+        {
+            List<Asset> obj = new List<Asset>();
+            if (categorycode != null)
+            {
+                obj =  context.Asset.Where(p => p.CategoryCD == categorycode && p.DeletedDate == null).ToList();
+            }
+            if(ismovable != null)
+            {
+                if(obj.Count != 0)
+                {
+                    obj = obj.Where(p => p.IsMovable == ismovable && p.DeletedDate == null).ToList();
+                }
+                else
+                {
+                    obj = context.Asset.Where(p => p.IsMovable == ismovable && p.DeletedDate == null).ToList();
+                }
+                
+            }
+            if(owner != null)
+            {
+                if (obj.Count != 0)
+                {
+                    obj = obj.Where(p => p.Owner == owner && p.DeletedDate == null).ToList();
+                }
+                else
+                {
+                    obj = context.Asset.Where(p => p.Owner == owner && p.DeletedDate == null).ToList();
+                }
+            }
+            
             return obj;
         }
     }

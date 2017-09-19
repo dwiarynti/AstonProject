@@ -78,6 +78,14 @@ namespace Aston.Web.Controllers
             response = _assetProcess.UpdateAsset(obj);
             return response;
         }
+        [HttpPost]
+        [Route("SearchAsset")]
+        public HttpResponseMessage SearchAsset(HttpRequestMessage request, [FromBody] AssetViewModel obj)
+        {
+            HttpResponseMessage response = new HttpResponseMessage();        
+            response = _assetProcess.SearchAsset(obj);
+            return response;
+        }
 
         [HttpPost]
         [Route("DeleteAsset")]

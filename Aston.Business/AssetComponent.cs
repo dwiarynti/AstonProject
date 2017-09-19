@@ -175,10 +175,10 @@ namespace Aston.Business
                     asset.Name = obj.Name;
                     asset.IsMovable = obj.IsMovable;
                     asset.Owner = obj.Owner;
-                    asset.PurchaseDate = Convert.ToDateTime(obj.PurchaseDate).ToString("ddMMyyyy");
+                    asset.PurchaseDate = obj.PurchaseDate.Replace("/", string.Empty); 
                     asset.PurchasePrice = obj.PurchasePrice;
                     asset.DepreciationDuration = obj.DepreciationDuration;
-                    asset.ManufactureDate = Convert.ToDateTime(obj.ManufactureDate).ToString("ddMMyyyy");
+                    asset.ManufactureDate = obj.ManufactureDate.Replace("/", string.Empty);
                     asset.CategoryCD = obj.CategoryCD;
                     asset.StatusCD = obj.StatusCD;
                     asset.UpdatedBy = obj.UpdatedBy;
@@ -237,6 +237,40 @@ namespace Aston.Business
           return  _asset.GetAssetByCategoryCode(code);
         }
        
+        public List<AssetViewModel> SearchAsset(AssetViewModel obj)
+        {
+            List<AssetViewModel> result = new List<AssetViewModel>();
+            if (obj != null)
+            {
+                var asset = _asset.SearchAsset(obj.CategoryCD, obj.IsMovable, obj.Owner);
+                foreach(var item in asset)
+                {
+                    AssetViewModel model = new AssetViewModel();
+                    var categoryCDName = _pref.GetLookupByCategoryCode(item.CategoryCD);
+                    var statusCDName = _pref.GetLookupByStatusCode(item.StatusCD);
+
+                    model.ID = item.ID;
+                    model.Code = item.Code;
+                    model.Description = item.Description;
+                    model.No = item.No;
+                    model.Name = item.Name;
+                    model.IsMovable = item.IsMovable;
+                    model.Owner = item.Owner;
+                    model.PurchaseDate = item.PurchaseDate;
+                    model.PurchasePrice = item.PurchasePrice;
+                    model.DepreciationDuration = item.DepreciationDuration;
+                    model.DisposedDate = item.DisposedDate;
+                    model.ManufactureDate = item.ManufactureDate;
+                    model.CategoryCD = item.CategoryCD;
+                    model.CategoryCDName = categoryCDName.Value;
+                    model.StatusCD = item.StatusCD;
+                    model.StatusCDName = statusCDName.Value;
+
+                    result.Add(model);
+                }
+            }
+            return result;
+        }
 
     }
 }
