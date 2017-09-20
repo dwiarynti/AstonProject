@@ -231,7 +231,6 @@ namespace Aston.Business
             return result;
         }
 
-
         public List<Asset> GetAssetByCategoryCode(int code)
         {
           return  _asset.GetAssetByCategoryCode(code);
@@ -242,7 +241,7 @@ namespace Aston.Business
             List<AssetViewModel> result = new List<AssetViewModel>();
             if (obj != null)
             {
-                var asset = _asset.SearchAsset(obj.CategoryCD, obj.IsMovable, obj.Owner);
+                var asset = _asset.SearchAsset(obj.CategoryCD, obj.Movable, obj.Owner);
                 foreach(var item in asset)
                 {
                     AssetViewModel model = new AssetViewModel();

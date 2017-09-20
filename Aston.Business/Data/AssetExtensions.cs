@@ -40,7 +40,7 @@ namespace Aston.Business.Data
             return obj;
         }
 
-        public List<Asset> SearchAsset(int categorycode, bool ismovable, string owner)
+        public List<Asset> SearchAsset(int categorycode, bool? ismovable, string owner)
         {
             List<Asset> obj = new List<Asset>();
             if (categorycode != null)
