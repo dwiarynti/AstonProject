@@ -12,7 +12,7 @@ namespace Aston.Entities
         public List<string> listAsset { get; set; }
         public int MovementRequestDetailID { get; set; }
         public string CreatedDate { get; set; }
-        public Nullable<bool> Movable { get; set; }
+        public Nullable<bool> Ismovable { get; set; }
 
         //Asset
         public int ID { get; set; }

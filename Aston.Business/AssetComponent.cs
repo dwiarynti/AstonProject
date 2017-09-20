@@ -241,7 +241,7 @@ namespace Aston.Business
             List<AssetViewModel> result = new List<AssetViewModel>();
             if (obj != null)
             {
-                var asset = _asset.SearchAsset(obj.CategoryCD, obj.Movable, obj.Owner);
+                var asset = _asset.SearchAsset(obj.CategoryCD, obj.Ismovable, obj.Owner);
                 foreach(var item in asset)
                 {
                     AssetViewModel model = new AssetViewModel();
