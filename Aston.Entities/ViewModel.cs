@@ -23,6 +23,7 @@ namespace Aston.Entities
         public string UpdatedBy { get; set; }
         public string DeletedBy { get; set; }
         public string RequestToName { get; set; }
+        public bool NeedMove { get; set; }
 
     }
 }

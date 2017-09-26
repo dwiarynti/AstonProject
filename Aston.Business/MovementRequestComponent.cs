@@ -368,5 +368,70 @@ namespace Aston.Business
             }
             return result;
         }
+
+        public List<MovementRequestViewModel> GetMovementRequestToMove()
+        {
+            List<MovementRequestViewModel> result = new List<MovementRequestViewModel>();
+            var movement = _movementrequest.GetMovementRequestToMove();
+
+         
+
+            foreach (var item in movement)
+            {
+                MovementRequestViewModel model = new MovementRequestViewModel();
+
+             
+                var approvalname = _pref.GetLookupByApprovalStatusCode(item.ApprovalStatus);
+
+                model.ID = item.ID;
+                model.MovementDate = item.MovementDate;
+                model.Description = item.Description;
+                model.ApprovedDate = item.ApprovedDate;
+                model.LocationID = item.LocationID;
+                model.LocationName = item.Location != null ? item.Location.Name : null;
+                model.ApprovedBy = item.ApprovedBy;
+                model.Notes = item.Notes;
+                model.ApprovalStatus = item.ApprovalStatus;
+                model.ApprovalStatusName = approvalname != null ? approvalname.Value : null;
+
+                model.MovementRequestDetail = new List<MovementRequestDetailViewModel>();
+                foreach (var item2 in item.MovementRequestDetail)
+                {
+                    if (item2.DeletedBy == null && item2.DeletedDate == null)
+                    { 
+                        MovementRequestDetailViewModel detail = new MovementRequestDetailViewModel();
+                        var moveasset = _assetlocation.GetAssetLocationByMovementDetailID(item2.ID);
+                        detail.Quantity = item2.Quantity;
+                        detail.Transfered = moveasset != null ? moveasset.Count : 0;
+                      
+                        if (detail.Quantity != detail.Transfered)
+                        {
+                            model.NeedMove = true;
+                            var categoryname = _pref.GetLookupByCategoryCode(item2.AssetCategoryCD);
+                            var deparment = _department.GetDepartmentByID(item2.RequestedTo);
+
+                            detail.ID = item2.ID;
+                            detail.MovementRequestID = item2.MovementRequestID;
+                            detail.Description = item2.Description;
+                            detail.AssetCategoryCD = item2.AssetCategoryCD;
+                            detail.CategoryCDName = categoryname != null ? categoryname.Value : null;
+                            detail.RequestTo = item2.RequestedTo;
+                            detail.RequestToName = deparment != null ? deparment.Name : null;
+
+                            model.MovementRequestDetail.Add(detail);
+                        }
+
+
+                       
+                    }
+                }
+                if (model.NeedMove == true)
+                {
+                    result.Add(model);
+                }
+            }
+            
+            return result;
+        }
     }
 }
