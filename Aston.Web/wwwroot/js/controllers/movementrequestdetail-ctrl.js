@@ -10,7 +10,7 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
 
     var assetResources = new assetResource();
     $scope.isValidate = true;
-    $scope.movementrequestobj = transferobjectService.addObj.data;
+    $scope.movementrequestobj = movementrequesModel();
     $scope.movementdetailaction = transferobjectService.addObj.action;
     $scope.movementrequest = {};
     $scope.movementrequestdetailList = [];
@@ -31,7 +31,16 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
 
     console.log($scope.movementrequestobj);
 
+    $scope.GetLocation = function () {
+        $scope.locationlist = [];
+        locationResources.$GetLocation(function (data) {
+            console.log(data);
+            $scope.locationlist = data.obj;
+        });
+    }
+
     $scope.init = function () {
+        $scope.movementrequestobj = transferobjectService.addObj.data;
         $scope.movementrequestobj.Notes = $scope.movementrequestobj.Notes == '' && $scope.movementdetailaction == 'edit' || $scope.movementrequestobj.Notes == null && $scope.movementdetailaction == 'edit' ? '--' : $scope.movementrequestobj.Notes;
 
         if ($scope.movementrequestobj.ID != 'temp') {
@@ -45,13 +54,9 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
         $scope.GetLocation();
     }
 
-    $scope.GetLocation = function () {
-        $scope.locationlist = [];
-        locationResources.$GetLocation(function (data) {
-            console.log(data);
-            $scope.locationlist = data.obj;
-        });
-    }
+    $scope.init();
+
+
 
     $scope.GetDepartment = function() {
         lookuplistResources.$GetDepartment(function(data) {
@@ -78,6 +83,25 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
     $scope.showDatePickerMovementDate = function () {
         $('#datepicker-movementdate').datepicker('show');
     };
+
+    function movementrequesModel() {
+        return {
+            ID: "temp",
+            MovementDate: null,
+            LocationID: null,
+            Description: null,
+            ApprovedDate: null,
+            ApprovedBy: null,
+            Notes: null,
+            MovementRequestDetail: []
+            //CreatedDate: null,
+            //CreatedBy: null,
+            //UpdatedDate: null,
+            //UpdatedBy: null,
+            //DeletedDate: null,
+            //DeletedBy: null
+        };
+    }
 
     function movementrequesModel() {
         return {

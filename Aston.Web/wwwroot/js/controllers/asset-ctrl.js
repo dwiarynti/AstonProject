@@ -11,6 +11,11 @@ app.controller('AssetCtrl', function ($scope, $rootScope, assetResource, lookupl
     $scope.actionstatus = "";
     $scope.categorylist = [];
     $rootScope.PageName = "Asset";
+    $scope.searchobj = SearchModel();
+
+    //pagination
+    $scope.NumberofAsset = 20;
+    $scope.bigCurrentPage = 1;
 
     $scope.dtOptions = { "aaSorting": [], "bPaginate": false, "bLengthChange": false, "bFilter": false, "bSort": false, "bInfo": false, "bAutoWidth": false };
 
@@ -53,11 +58,34 @@ app.controller('AssetCtrl', function ($scope, $rootScope, assetResource, lookupl
         };
     }
 
+    function SearchModel() {
+        return {
+            CategoryCD: null,
+            Owner: null,
+            IsMovable: null,
+        };
+    }
 
-    $scope.init = function() {
-        assetResources.$GetAsset(function (data) {
-            $scope.assetlist = data.obj;
+    $scope.Search = function (isSearch) {
+        var assetResources = new assetResource();
+        assetResources.isSearch = isSearch;
+        assetResources.CategoryCD = $scope.searchobj.CategoryCD == null? $scope.searchobj.CategoryCD : parseInt($scope.searchobj.CategoryCD);
+        assetResources.Ismovable = $scope.searchobj.IsMovable;
+        assetResources.Owner = $scope.searchobj.Owner == "" ? null : $scope.searchobj.Owner;
+        assetResources.$SearchAsset(function (data) {
+            if (data.success) {
+                $scope.assetlist = data.obj;
+            }
         });
+    }
+
+
+    $scope.init = function () {
+        $scope.Search(false);
+        //console.log($scope.bigCurrentPage);
+        //assetResources.$GetAsset(function (data) {
+        //    $scope.assetlist = data.obj;
+        //});
         $scope.GetCategory();
     }
 
@@ -169,6 +197,25 @@ app.controller('AssetCtrl', function ($scope, $rootScope, assetResource, lookupl
                 $scope.init();
             }
         });
+    }
+
+    //$scope.Search = function () {
+    //    var assetResources = new assetResource();
+    //    assetResources.isSearch = true;
+    //    assetResources.CategoryCD = parseInt($scope.searchobj.CategoryCD);
+    //    assetResources.IsMovable = $scope.searchobj.IsMovable;
+    //    assetResources.Owner = $scope.searchobj.Owner == "" ? null : $scope.searchobj.Owner;
+    //    assetResources.$SearchAsset(function (data) {
+    //        if (data.success) {
+    //            $scope.assetlist = data.obj;
+    //        }
+
+    //    });
+    //}
+
+    $scope.CancelSearch = function() {
+        $scope.Search(false);
+        $scope.searchobj = SearchModel();
     }
 
 });

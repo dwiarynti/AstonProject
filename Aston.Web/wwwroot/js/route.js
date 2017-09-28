@@ -8,6 +8,7 @@ angular.module('customfilter', []).filter('getType', function () {
 
 var app = angular.module("RDash",
 [
+    'ui.bootstrap',
     'ui.router',
     'datatables',
     'oc.lazyLoad',

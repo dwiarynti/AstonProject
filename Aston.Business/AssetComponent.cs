@@ -113,7 +113,7 @@ namespace Aston.Business
                 try
                 {
                     obj.No = _asset.GetLastNumberAsset();
-                    obj.SubCategory = _generatecode.SubCategoryAsset(obj.CategoryCD);
+                    obj.SubCategory = _generatecode.SubCategoryAsset(Convert.ToInt16(obj.CategoryCD));
                     obj.Number = _generatecode.Number(obj.No);
                     obj.Code = _generatecode.GenerateCode(obj.CompanyCode, obj.ApplicationCode, obj.MainCategory, obj.SubCategory, obj.Number);
 
@@ -131,7 +131,7 @@ namespace Aston.Business
                     asset.DepreciationDuration = obj.DepreciationDuration != null ? Convert.ToDateTime(obj.DepreciationDuration).ToString("ddMMyyyy") : null;
                     asset.DisposedDate = obj.DisposedDate != null ? Convert.ToDateTime(obj.DisposedDate).ToString("ddMMyyyy") : null;
                     asset.ManufactureDate = Convert.ToDateTime(obj.ManufactureDate).ToString("ddMMyyyy");
-                    asset.CategoryCD = obj.CategoryCD;
+                    asset.CategoryCD = Convert.ToInt16(obj.CategoryCD);
                     asset.StatusCD = obj.StatusCD;
                     asset.CreatedDate = DateTime.Now.Date.ToString("ddMMyyyy");
                     asset.CreatedBy = obj.CreatedBy;
@@ -164,7 +164,7 @@ namespace Aston.Business
                 try
                 {
                   
-                    obj.SubCategory = _generatecode.SubCategoryAsset(obj.CategoryCD);
+                    obj.SubCategory = _generatecode.SubCategoryAsset(Convert.ToInt16(obj.CategoryCD));
                     obj.Code = _generatecode.GenerateCode(obj.CompanyCode, obj.ApplicationCode, obj.MainCategory, obj.SubCategory, asset.No);
                     if (asset.Code != obj.Code)
                     {
@@ -179,7 +179,7 @@ namespace Aston.Business
                     asset.PurchasePrice = obj.PurchasePrice;
                     asset.DepreciationDuration = obj.DepreciationDuration;
                     asset.ManufactureDate = obj.ManufactureDate.Replace("/", string.Empty);
-                    asset.CategoryCD = obj.CategoryCD;
+                    asset.CategoryCD = Convert.ToInt16(obj.CategoryCD);
                     asset.StatusCD = obj.StatusCD;
                     asset.UpdatedBy = obj.UpdatedBy;
                     asset.UpdatedDate = DateTime.Now.Date.ToString("ddMMyyyy");
@@ -239,35 +239,44 @@ namespace Aston.Business
         public List<AssetViewModel> SearchAsset(AssetViewModel obj)
         {
             List<AssetViewModel> result = new List<AssetViewModel>();
-            if (obj != null)
-            {
-                var asset = _asset.SearchAsset(obj.CategoryCD, obj.Ismovable, obj.Owner);
-                foreach(var item in asset)
+
+            //if (Convert.ToBoolean(obj.isSearch))
+            //{
+                if (obj != null)
                 {
-                    AssetViewModel model = new AssetViewModel();
-                    var categoryCDName = _pref.GetLookupByCategoryCode(item.CategoryCD);
-                    var statusCDName = _pref.GetLookupByStatusCode(item.StatusCD);
+                    var asset = _asset.SearchAsset_SP(Convert.ToInt16(obj.CategoryCD), obj.Ismovable, obj.Owner);
+                    foreach (var item in asset)
+                    {
+                        AssetViewModel model = new AssetViewModel();
+                        var categoryCDName = _pref.GetLookupByCategoryCode(Convert.ToInt16(item.CategoryCD));
+                        var statusCDName = _pref.GetLookupByStatusCode(item.StatusCD);
 
-                    model.ID = item.ID;
-                    model.Code = item.Code;
-                    model.Description = item.Description;
-                    model.No = item.No;
-                    model.Name = item.Name;
-                    model.IsMovable = item.IsMovable;
-                    model.Owner = item.Owner;
-                    model.PurchaseDate = item.PurchaseDate;
-                    model.PurchasePrice = item.PurchasePrice;
-                    model.DepreciationDuration = item.DepreciationDuration;
-                    model.DisposedDate = item.DisposedDate;
-                    model.ManufactureDate = item.ManufactureDate;
-                    model.CategoryCD = item.CategoryCD;
-                    model.CategoryCDName = categoryCDName.Value;
-                    model.StatusCD = item.StatusCD;
-                    model.StatusCDName = statusCDName.Value;
+                        model.ID = item.ID;
+                        model.Code = item.Code;
+                        model.Description = item.Description;
+                        model.No = item.No;
+                        model.Name = item.Name;
+                        model.IsMovable = item.IsMovable;
+                        model.Owner = item.Owner;
+                        model.PurchaseDate = item.PurchaseDate;
+                        model.PurchasePrice = item.PurchasePrice;
+                        model.DepreciationDuration = item.DepreciationDuration;
+                        model.DisposedDate = item.DisposedDate;
+                        model.ManufactureDate = item.ManufactureDate;
+                        model.CategoryCD = item.CategoryCD;
+                        model.CategoryCDName = categoryCDName.Value;
+                        model.StatusCD = item.StatusCD;
+                        model.StatusCDName = statusCDName.Value;
 
-                    result.Add(model);
+                        result.Add(model);
+                    }
                 }
-            }
+            //}
+            //else
+            //{
+            //    result = GetAsset();
+            //}
+
             return result;
         }
 
