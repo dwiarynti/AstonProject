@@ -31,7 +31,6 @@ namespace Aston.Entities
         public Nullable<int> CategoryCD { get; set; }
         public int StatusCD { get; set; }
 
-        //Additional
 
 
     }

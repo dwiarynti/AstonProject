@@ -240,11 +240,11 @@ namespace Aston.Business
         {
             List<AssetViewModel> result = new List<AssetViewModel>();
 
-            //if (Convert.ToBoolean(obj.isSearch))
-            //{
+            if (Convert.ToBoolean(obj.isSearch))
+            {
                 if (obj != null)
                 {
-                    var asset = _asset.SearchAsset_SP(Convert.ToInt16(obj.CategoryCD), obj.Ismovable, obj.Owner);
+                    var asset = _asset.SearchAsset(Convert.ToInt16(obj.CategoryCD), obj.Ismovable, obj.Owner);
                     foreach (var item in asset)
                     {
                         AssetViewModel model = new AssetViewModel();
@@ -271,11 +271,11 @@ namespace Aston.Business
                         result.Add(model);
                     }
                 }
-            //}
-            //else
-            //{
-            //    result = GetAsset();
-            //}
+            }
+            else
+            {
+                result = GetAsset();
+            }
 
             return result;
         }

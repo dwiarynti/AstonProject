@@ -45,11 +45,11 @@ namespace Aston.Business.Data
             List<Asset> obj = new List<Asset>();
             if (categorycode != null)
             {
-                obj =  context.Asset.Where(p => p.CategoryCD == categorycode && p.DeletedDate == null).ToList();
+                obj = context.Asset.Where(p => p.CategoryCD == categorycode && p.DeletedDate == null).ToList();
             }
-            if(ismovable != null)
+            if (ismovable != null)
             {
-                if(obj.Count != 0)
+                if (obj.Count != 0)
                 {
                     obj = obj.Where(p => p.IsMovable == ismovable && p.DeletedDate == null).ToList();
                 }
@@ -57,9 +57,9 @@ namespace Aston.Business.Data
                 {
                     obj = context.Asset.Where(p => p.IsMovable == ismovable && p.DeletedDate == null).ToList();
                 }
-                
+
             }
-            if(owner != null)
+            if (owner != null)
             {
                 if (obj.Count != 0)
                 {
@@ -70,8 +70,28 @@ namespace Aston.Business.Data
                     obj = context.Asset.Where(p => p.Owner == owner && p.DeletedDate == null).ToList();
                 }
             }
-            
+
+
+
             return obj;
+        }
+
+        public List<AssetViewModel> SearchAsset_SP(int categorycode, bool? ismovable, string owner)
+        {
+            AstonContext dbContext = new AstonContext();
+
+            //var obj = dbContext.Set<AssetViewModel>().FromSql(
+            //"EXEC sp_SearchAsset " +
+            //    "@CategoryCD = {0}, " +
+            //    "@IsMovable = {1}, " +
+            //    "@Owner = {2}, " +
+            //    "@Skip = {3}, ",
+            //        categorycode,
+            //        ismovable,
+            //        owner,
+            //        1).ToList<AssetViewModel>();
+            var a = new List<AssetViewModel>();
+            return a;
         }
     }
 }
