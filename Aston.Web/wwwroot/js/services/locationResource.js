@@ -11,6 +11,7 @@
             CreateLocation: { method: 'POST', params: { action: 'CreateLocation' } },
             UpdateLocation: { method: 'POST', params: { action: 'UpdateLocation' } },
             DeleteLocation: { method: 'POST', params: { action: 'DeleteLocation' } },
+            SearchLocation: { method: 'POST', params: { action: 'SearchLocation' } },
 
         });
     }

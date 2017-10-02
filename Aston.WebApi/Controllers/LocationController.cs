@@ -75,5 +75,16 @@ namespace Aston.WebApi.Controllers
             response = request.CreateResponse(HttpStatusCode.OK, new { success = result });
             return response;
         }
+
+        [HttpPost]
+        [Route("SearchLocation")]
+        public HttpResponseMessage SearchLocation(HttpRequestMessage request, [FromBody] LocationViewModel obj)
+        {
+            var result = service.SearchLocation(obj);
+            HttpResponseMessage response = new HttpResponseMessage();
+            response = request.CreateResponse(HttpStatusCode.OK, new { success = true, obj = result });
+            return response;
+        }
+
     }
 }

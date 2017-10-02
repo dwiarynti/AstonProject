@@ -248,7 +248,7 @@ namespace Aston.Business
                     foreach (var item in asset)
                     {
                         AssetViewModel model = new AssetViewModel();
-                        model.Asset = new AseetSearchReturn();
+                        model.Asset = new AseetSearchResult();
                         var categoryCDName = _pref.GetLookupByCategoryCode(Convert.ToInt16(item.Asset.CategoryCD));
                         var statusCDName = _pref.GetLookupByStatusCode(item.Asset.StatusCD);
 

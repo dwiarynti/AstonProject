@@ -79,5 +79,13 @@ namespace Aston.Web.Controllers
             return response;
         }
 
+        [Route("SearchLocation")]
+        public HttpResponseMessage SearchLocation(HttpRequestMessage request, [FromBody] LocationViewModel obj)
+        {
+            HttpResponseMessage response = new HttpResponseMessage();
+            response = _locationProcess.SearchLocation(obj);
+            return response;
+        }
+
     }
 }

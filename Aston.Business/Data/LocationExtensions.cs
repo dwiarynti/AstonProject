@@ -2,8 +2,12 @@
 using Aston.Entities.DataContext;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace Aston.Business.Data
 {
@@ -34,6 +38,35 @@ namespace Aston.Business.Data
             return Convert.ToString(lastNumber+1);
 
         }
+
+        public List<LocationViewModel> SearchLocation_SP(int? LocationTypeCD, string Floor, int Skip)
+        {
+            AstonContext dbContext = new AstonContext();
+
+            var result = new List<LocationViewModel>();
+            dbContext.Database.OpenConnection();
+            using (var cmd = dbContext.Database.GetDbConnection().CreateCommand())
+            {
+                cmd.CommandText = "dbo.sp_SearchLocation";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.Add(new SqlParameter("@LocationTypeCD", SqlDbType.Int) { Value = LocationTypeCD });
+                cmd.Parameters.Add(new SqlParameter("@Floor", SqlDbType.NVarChar) { Value = Floor });
+                cmd.Parameters.Add(new SqlParameter("@Skip", SqlDbType.Int) { Value = Skip });
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    var locationlist = dbContext.DataReaderMapToList<LocationSearchResult>(reader);
+                    foreach (var location in locationlist)
+                    {
+                        result.Add(new LocationViewModel() { Location = location });
+                    }
+                    cmd.Connection.Close();
+                }
+            }
+            return result;
+        }
+        
 
     }
 }

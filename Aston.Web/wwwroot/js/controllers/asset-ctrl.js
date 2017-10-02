@@ -66,9 +66,8 @@ app.controller('AssetCtrl', function ($scope, $rootScope, assetResource, lookupl
         };
     }
 
-    $scope.Search = function (isSearch) {
+    $scope.Search = function () {
         var assetResources = new assetResource();
-        assetResources.isSearch = isSearch;
         assetResources.Asset = {
             CategoryCD: $scope.searchobj.CategoryCD == null ? $scope.searchobj.CategoryCD : parseInt($scope.searchobj.CategoryCD),
             Owner : $scope.searchobj.Owner == "" ? null : $scope.searchobj.Owner
@@ -219,7 +218,7 @@ app.controller('AssetCtrl', function ($scope, $rootScope, assetResource, lookupl
     //}
 
     $scope.CancelSearch = function() {
-        $scope.Search(false);
+        $scope.Search();
         $scope.searchobj = SearchModel();
     }
 

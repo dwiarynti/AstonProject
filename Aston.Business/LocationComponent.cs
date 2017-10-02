@@ -23,14 +23,14 @@ namespace Aston.Business
             var statuscdname = _pref.GetLookupByStatusCode(location.StatusCD);
             var locationtypename = _pref.GetLookupByLocationTypeCode(location.LocationTypeCD);
 
-            result.ID = location.ID;
-            result.Code = location.Code;
-            result.Description = location.Description;
-            result.No = location.No;
-            result.Name = location.Name;
-            result.Floor = location.Floor;
-            result.LocationTypeCD = location.LocationTypeCD;
-            result.StatusCD = location.StatusCD;
+            result.Location.ID = location.ID;
+            result.Location.Code = location.Code;
+            result.Location.Description = location.Description;
+            result.Location.No = location.No;
+            result.Location.Name = location.Name;
+            result.Location.Floor = location.Floor;
+            result.Location.LocationTypeCD = location.LocationTypeCD;
+            result.Location.StatusCD = location.StatusCD;
             result.StatusCDName = statuscdname.Value;
             result.LocationTypeCDName = locationtypename.Value;
             return result;
@@ -43,14 +43,14 @@ namespace Aston.Business
             var statuscdname = _pref.GetLookupByStatusCode(location.StatusCD);
             var locationtypename = _pref.GetLookupByLocationTypeCode(location.LocationTypeCD);
 
-            result.ID = location.ID;
-            result.Code = location.Code;
-            result.Name = location.Name;
-            result.Description = location.Description;
-            result.No = location.No;
-            result.Floor = location.Floor;
-            result.LocationTypeCD = location.LocationTypeCD;
-            result.StatusCD = location.StatusCD;
+            result.Location.ID = location.ID;
+            result.Location.Code = location.Code;
+            result.Location.Name = location.Name;
+            result.Location.Description = location.Description;
+            result.Location.No = location.No;
+            result.Location.Floor = location.Floor;
+            result.Location.LocationTypeCD = location.LocationTypeCD;
+            result.Location.StatusCD = location.StatusCD;
             result.StatusCDName = statuscdname.Value;
             result.LocationTypeCDName = locationtypename.Value;
 
@@ -67,14 +67,14 @@ namespace Aston.Business
                 var statuscdname = _pref.GetLookupByStatusCode(item.StatusCD);
                 var locationtypename = _pref.GetLookupByLocationTypeCode(item.LocationTypeCD);
 
-                model.ID = item.ID;
-                model.Code = item.Code;
-                model.Name = item.Name;
-                model.Description = item.Description;
-                model.No = item.No;
-                model.Floor = item.Floor;
-                model.LocationTypeCD = item.LocationTypeCD;
-                model.StatusCD = item.StatusCD;
+                model.Location.ID = item.ID;
+                model.Location.Code = item.Code;
+                model.Location.Name = item.Name;
+                model.Location.Description = item.Description;
+                model.Location.No = item.No;
+                model.Location.Floor = item.Floor;
+                model.Location.LocationTypeCD = item.LocationTypeCD;
+                model.Location.StatusCD = item.StatusCD;
                 model.StatusCDName = statuscdname.Value;
                 model.LocationTypeCDName = locationtypename.Value;
 
@@ -91,19 +91,19 @@ namespace Aston.Business
             {
                try
                 {
-                    obj.No = _location.GetLastNumberLocation();
-                    obj.SubCategory = _generatecode.SubCategoryLocation(obj.LocationTypeCD, obj.Floor);
-                    obj.Number = _generatecode.Number(obj.No);
-                    obj.Code = _generatecode.GenerateCode(obj.CompanyCode, obj.ApplicationCode, obj.MainCategory, obj.SubCategory, obj.Number);
+                    obj.Location.No = _location.GetLastNumberLocation();
+                    obj.SubCategory = _generatecode.SubCategoryLocation(Convert.ToInt16(obj.Location.LocationTypeCD), obj.Location.Floor);
+                    obj.Number = _generatecode.Number(obj.Location.No);
+                    obj.Location.Code = _generatecode.GenerateCode(obj.CompanyCode, obj.ApplicationCode, obj.MainCategory, obj.SubCategory, obj.Number);
 
                     Location location = new Location();
-                    location.Code = obj.Code;
-                    location.Description = obj.Description;
+                    location.Code = obj.Location.Code;
+                    location.Description = obj.Location.Description;
                     location.No = obj.Number;
-                    location.Name = obj.Name;
-                    location.Floor = obj.Floor;
-                    location.LocationTypeCD = obj.LocationTypeCD;
-                    location.StatusCD = obj.StatusCD;
+                    location.Name = obj.Location.Name;
+                    location.Floor = obj.Location.Floor;
+                    location.LocationTypeCD = Convert.ToInt16(obj.Location.LocationTypeCD);
+                    location.StatusCD = obj.Location.StatusCD;
                     location.CreatedBy = obj.CreatedBy;
                     location.CreatedDate = DateTime.Now.Date.ToString("ddMMyyyy");
                     _context.Location.Add(location);
@@ -129,25 +129,25 @@ namespace Aston.Business
         {
             bool result;
             IDbContextTransaction transaction = _context.Database.BeginTransaction();
-            var location = _location.GetLocationByID(obj.ID);
+            var location = _location.GetLocationByID(obj.Location.ID);
             if(location!= null)
             {
                 try
                 {
                    
                        
-                    obj.SubCategory = _generatecode.SubCategoryLocation(obj.LocationTypeCD, obj.Floor);
-                    obj.Code = _generatecode.GenerateCode(obj.CompanyCode, obj.ApplicationCode, obj.MainCategory, obj.SubCategory, location.No);
-                    if (location.Code != obj.Code)
+                    obj.SubCategory = _generatecode.SubCategoryLocation(Convert.ToInt16(obj.Location.LocationTypeCD), obj.Location.Floor);
+                    obj.Location.Code = _generatecode.GenerateCode(obj.CompanyCode, obj.ApplicationCode, obj.MainCategory, obj.SubCategory, location.No);
+                    if (location.Code != obj.Location.Code)
                     {
-                        location.Code = obj.Code;
+                        location.Code = obj.Location.Code;
                           
                     }
-                    location.Description = obj.Description;
-                    location.Name = obj.Name;
-                    location.Floor = obj.Floor;
-                    location.LocationTypeCD = obj.LocationTypeCD;
-                    location.StatusCD = obj.StatusCD;
+                    location.Description = obj.Location.Description;
+                    location.Name = obj.Location.Name;
+                    location.Floor = obj.Location.Floor;
+                    location.LocationTypeCD = Convert.ToInt16(obj.Location.LocationTypeCD);
+                    location.StatusCD = obj.Location.StatusCD;
                     location.UpdatedBy = obj.UpdatedBy;
                     location.UpdatedDate = DateTime.Now.Date.ToString("ddMMyyyy");
 
@@ -195,6 +195,32 @@ namespace Aston.Business
             {
                 result = false;
             }
+            return result;
+        }
+
+        public List<LocationViewModel> SearchLocation(LocationViewModel obj)
+        {
+            var result = _location.SearchLocation_SP(Convert.ToInt16(obj.Location.LocationTypeCD), obj.Location.Floor, obj.Skip);
+            foreach (var item in result)
+            {
+                var statuscdname = _pref.GetLookupByStatusCode(item.Location.StatusCD);
+                var locationtypename = _pref.GetLookupByLocationTypeCode(Convert.ToInt16(item.Location.LocationTypeCD));
+
+                //model.Location.ID = item.Location.ID;
+                //model.Location.Code = item.Location.Code;
+                //model.Location.Name = item.Location.Name;
+                //model.Location.Description = item.Location.Description;
+                //model.Location.No = item.Location.No;
+                //model.Location.Floor = item.Location.Floor;
+                //model.Location.LocationTypeCD = item.Location.LocationTypeCD;
+                //model.Location.StatusCD = item.Location.StatusCD;
+                item.StatusCDName = statuscdname.Value;
+                item.LocationTypeCDName = locationtypename.Value;
+
+                //result.Add(model);
+            }
+
+
             return result;
         }
     }

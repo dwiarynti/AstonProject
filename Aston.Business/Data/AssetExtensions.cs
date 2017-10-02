@@ -100,7 +100,7 @@ namespace Aston.Business.Data
                 {
 
                     //a = reader.<AssetViewModel>():
-                    var assetlist = dbContext.DataReaderMapToList<AseetSearchReturn>(reader);
+                    var assetlist = dbContext.DataReaderMapToList<AseetSearchResult>(reader);
                     foreach (var asset in assetlist)
                     {
                         result.Add(new AssetViewModel() {Asset = asset });

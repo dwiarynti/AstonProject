@@ -66,6 +66,14 @@ namespace Aston.Web.Process
             result = REST(requestUri, RESTConstants.POST, JsonConvert.SerializeObject(obj));
             return result;
         }
+
+        public HttpResponseMessage SearchLocation(LocationViewModel obj)
+        {
+            HttpResponseMessage result = default(HttpResponseMessage);
+            string requestUri = "api/location/SearchLocation";
+            result = REST(requestUri, RESTConstants.POST, JsonConvert.SerializeObject(obj));
+            return result;
+        }
     }
 
 
