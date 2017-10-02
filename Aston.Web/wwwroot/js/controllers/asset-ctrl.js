@@ -69,11 +69,16 @@ app.controller('AssetCtrl', function ($scope, $rootScope, assetResource, lookupl
     $scope.Search = function (isSearch) {
         var assetResources = new assetResource();
         assetResources.isSearch = isSearch;
-        assetResources.CategoryCD = $scope.searchobj.CategoryCD == null? $scope.searchobj.CategoryCD : parseInt($scope.searchobj.CategoryCD);
+        assetResources.Asset = {
+            CategoryCD: $scope.searchobj.CategoryCD == null ? $scope.searchobj.CategoryCD : parseInt($scope.searchobj.CategoryCD),
+            Owner : $scope.searchobj.Owner == "" ? null : $scope.searchobj.Owner
+        };
         assetResources.Ismovable = $scope.searchobj.IsMovable;
-        assetResources.Owner = $scope.searchobj.Owner == "" ? null : $scope.searchobj.Owner;
+        assetResources.Skip = $scope.bigCurrentPage;
         assetResources.$SearchAsset(function (data) {
             if (data.success) {
+                $scope.NumberofAsset = data.obj[0].Asset.TotalRow;
+                console.log(data);
                 $scope.assetlist = data.obj;
             }
         });

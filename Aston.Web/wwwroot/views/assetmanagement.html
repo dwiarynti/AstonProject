@@ -61,12 +61,12 @@
                     </thead>
                     <tbody>
                     <tr ng-repeat="asset in assetlist">
-                        <td>{{asset.Code}}</td>
-                        <td>{{asset.Name}}</td>
-                        <td>{{asset.Description}}</td>
+                        <td>{{asset.Asset.Code}}</td>
+                        <td>{{asset.Asset.Name}}</td>
+                        <td>{{asset.Asset.Description}}</td>
                         <td>{{asset.CategoryCDName}}</td>
-                        <td>{{asset.Owner}}</td>
-                        <td>{{asset.IsMovable}}</td>
+                        <td>{{asset.Asset.Owner}}</td>
+                        <td>{{asset.Asset.IsMovable}}</td>
                         <td>{{asset.StatusCDName}}</td>
                         <td>
                             <button type="button" class="btn btn-default btn-width" ng-click="edit(asset)">Edit</button>
@@ -76,9 +76,10 @@
                     </tbody>
                 </table>
 
-                <div class="row">
-                    <!--<ul style="float: right" uib-pagination total-items="TransactionListObj.NumberOfTransaction" ng-model="bigCurrentPage" max-size="5" class="pagination" boundary-link-numbers="true" rotate="false" ng-change="Init(pageNumberIsOpened+1)"></ul>-->
-                    <ul style="float: right" uib-pagination total-items="NumberofAsset" ng-model="bigCurrentPage" max-size="5" class="pagination" boundary-link-numbers="true" rotate="false" ng-change="init()"></ul>
+                <div ng-hide="isLoading" class="form-group m-b-50">
+                    <div class="col-md-12 text-right">
+                        <ul style="float: right" uib-pagination total-items="NumberofAsset" ng-model="bigCurrentPage" max-size="5" class="pagination" boundary-link-numbers="true" rotate="false" ng-change="init()"></ul>
+                    </div>
                 </div>
 
                 <div class="modal modal-message fade" id="modal-action" style="z-index: 10500">

@@ -3,7 +3,10 @@ using Aston.Entities.DataContext;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using System.Data;
+using System.Data.Common;
+using System.Data.SqlClient;
 
 namespace Aston.Business.Data
 {
@@ -76,22 +79,38 @@ namespace Aston.Business.Data
             return obj;
         }
 
-        public List<AssetViewModel> SearchAsset_SP(int categorycode, bool? ismovable, string owner)
+        public List<AssetViewModel> SearchAsset_SP(int categorycode, bool? ismovable, string owner, int Skip)
         {
-            AstonContext dbContext = new AstonContext();
+            var result = new List<AssetViewModel>();
+            var obj = new AssetViewModel();
 
-            //var obj = dbContext.Set<AssetViewModel>().FromSql(
-            //"EXEC sp_SearchAsset " +
-            //    "@CategoryCD = {0}, " +
-            //    "@IsMovable = {1}, " +
-            //    "@Owner = {2}, " +
-            //    "@Skip = {3}, ",
-            //        categorycode,
-            //        ismovable,
-            //        owner,
-            //        1).ToList<AssetViewModel>();
-            var a = new List<AssetViewModel>();
-            return a;
+            using (AstonContext dbContext = new AstonContext())
+            {
+                dbContext.Database.OpenConnection();
+                DbCommand cmd = dbContext.Database.GetDbConnection().CreateCommand();
+                cmd.CommandText = "dbo.sp_SearchAsset";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.Add(new SqlParameter("@CategoryCD", SqlDbType.Int) { Value = categorycode });
+                cmd.Parameters.Add(new SqlParameter("@IsMovable", SqlDbType.Bit) { Value = ismovable });
+                cmd.Parameters.Add(new SqlParameter("@Owner", SqlDbType.NVarChar) { Value = owner });
+                cmd.Parameters.Add(new SqlParameter("@Skip", SqlDbType.Int) { Value = Skip });
+
+                using (var reader = cmd.ExecuteReader())
+                {
+
+                    //a = reader.<AssetViewModel>():
+                    var assetlist = dbContext.DataReaderMapToList<AseetSearchReturn>(reader);
+                    foreach (var asset in assetlist)
+                    {
+                        result.Add(new AssetViewModel() {Asset = asset });
+                    }
+                    cmd.Connection.Close();
+
+                }
+            }
+            
+            return result;
         }
     }
 }

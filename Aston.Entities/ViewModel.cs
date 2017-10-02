@@ -24,7 +24,9 @@ namespace Aston.Entities
         public string DeletedBy { get; set; }
         public string RequestToName { get; set; }
         public bool NeedMove { get; set; }
-        public int TotalRow { get; set; }
+        //public int TotalRow { get; set; }
+
+
         
 
     }
