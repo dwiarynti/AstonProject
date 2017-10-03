@@ -13,7 +13,7 @@ app.controller('HomeCtrl', function ($scope, $rootScope, $window, $state, moveme
         $scope.movementrequestlist = [];
         movementrequestResources.$GetMovementRequestNeedApproval(function (data) {
             angular.forEach(data.obj, function (obj) {
-                obj.MovementDate = commonService.convertdate(obj.MovementDate);
+                obj.MovementRequest.MovementDate = commonService.convertdate(obj.MovementRequest.MovementDate);
                 $scope.movementrequestlist.push(obj);
 
             });
@@ -22,7 +22,7 @@ app.controller('HomeCtrl', function ($scope, $rootScope, $window, $state, moveme
     $scope.init();
 
     $scope.Approve = function (obj) {
-        movementrequestResources.ID = obj.ID;
+        movementrequestResources.ID = obj.MovementRequest.ID;
         movementrequestResources.ApprovalStatus = 1;
         movementrequestResources.$ApproveMovementRequest(function (data) {
             if (data.success) {

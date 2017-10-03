@@ -1,54 +1,46 @@
-﻿<div class="container-fluid">
-    <div class="articles card">
-        <div class="card-header d-flex align-items-center">
-            <h3 class="h4">Search</h3>
-        </div>
-        <div class="card-body" ng-controller="AssetCtrl">
-            <div class="row">
-                <div class="col-sm-6">
-                    <div ng-class="(movementrequestobj.MovementDate == null || movementrequestobj.MovementDate == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
-                        <label class="col-sm-4 form-control-label">Asset Type:</label>
-                        <div class="col-sm-8">
-                            <select class="form-control" ng-model="movementrequestobj.LocationID">
-                                <option ng-repeat="category in categorylist" ng-selected="isSelectedItem(category.Code,asset.CategoryCD)" value="{{category.Code}}">{{category.Value}}</option>
-                            </select>
-                            <small class="text-danger" ng-if="(movementrequestobj.LocationID == null || movementrequestobj.LocationID == '') && isValidate == false">Location is required</small>
-                        </div>
-                    </div>
-                    <div ng-class="(movementrequestobj.LocationID == null || movementrequestobj.LocationID == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
-                        <label class="col-sm-4 form-control-label">Is Movable Asset:</label>
-                        <div class="col-sm-8">
-                            <input type="radio" name="IsMovable" ng-model="asset.IsMovable" data-ng-value="true" class="radio-template" /> True
-                            <input type="radio" name="IsMovable" ng-model="asset.IsMovable" data-ng-value="false" class="radio-template" /> False<br />
-                            <small class="text-danger" ng-if="(asset.IsMovable | getType) != 'boolean' && isValidate == false">Is Movable is required</small>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="col-sm-6">
-                    <div ng-class="(movementrequestobj.Description == null || movementrequestobj.Description == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
-                        <label class="col-sm-4 form-control-label">Owner:</label>
-                        <div class="col-sm-8">
-                            <input type="text" class="form-control form-control-success" placeholder="Owner" ng-model="movementrequestobj.Description">
-                            <small class="text-danger" ng-if="(movementrequestobj.Description == null || movementrequestobj.Description == '') && isValidate == false">Movement Price is required</small>
-                        </div>
-                    </div>
-                </div>
+﻿<div ng-controller="AssetCtrl">
+    <div class="container-fluid">
+        <div class="articles card">
+            <div class="card-header d-flex align-items-center">
+                <h3 class="h4">Search</h3>
             </div>
-            <div ng-hide="isLoading" class="form-group m-b-50">
-                <div class="col-md-12 text-right">
-                    <button type="button" class="btn btn-primary" ng-click="SaveMovementRequest()">Search</button>
-                    <button type="button" class="btn btn-primary" ng-click="UpdateMovementRequest()">Export</button>
-                </div>
-            </div>
-        </div>
-    </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group row">
+                            <label class="col-sm-4 form-control-label">Asset Type:</label>
+                            <div class="col-sm-8">
+                                <select class="form-control" ng-model="searchobj.CategoryCD">
+                                    <option ng-repeat="category in categorylist" value="{{category.Code}}">{{category.Value}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-4 form-control-label">Is Movable Asset:</label>
+                            <div class="col-sm-8">
+                                <input type="radio" name="IsMovable" ng-model="searchobj.IsMovable" data-ng-value="true" class="radio-template" /> True
+                                <input type="radio" name="IsMovable" ng-model="searchobj.IsMovable" data-ng-value="false" class="radio-template" /> False<br />
+                            </div>
+                        </div>
 
-</div>
-<div class="container-fluid">
-    <div class="row bg-white has-shadow">
-        <div id="main-content" style="width: 100%">
-            <div ng-controller="AssetCtrl">
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group row">
+                            <label class="col-sm-4 form-control-label">Owner:</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control form-control-success" placeholder="Owner" ng-model="searchobj.Owner">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div ng-hide="isLoading" class="form-group m-b-50">
+                    <div class="col-md-12 text-right">
+                        <button type="button" class="btn btn-primary" ng-click="Search()">Search</button>
+                        <button type="button" class="btn btn-secondary" ng-click="CancelSearch()">Cancel</button>
+                        <button type="button" class="btn btn-info" ng-click="UpdateMovementRequest()">Export</button>
+                    </div>
+                </div>
+
                 <div ng-hide="isLoading" class="form-group">
                     <div class="col-sm-12">
                         <button type="button" class="btn btn-primary" ng-click="add()">Add</button>
@@ -56,33 +48,39 @@
                 </div>
                 <table id="data-table" datatable="ng" dt-options="dtOptions" width="100%" class="table table-striped table-bordered">
                     <thead>
-                        <tr>
-                            <th>Code</th>
-                            <th>Name</th>
-                            <th>Description </th>
-                            <th>Category</th>
-                            <th>Owner</th>
-                            <th>Is Movable Asset</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                        </tr>
+                    <tr>
+                        <th>Code</th>
+                        <th>Name</th>
+                        <th>Description </th>
+                        <th>Category</th>
+                        <th>Owner</th>
+                        <th>Is Movable Asset</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="asset in assetlist">
-                            <td>{{asset.Code}}</td>
-                            <td>{{asset.Name}}</td>
-                            <td>{{asset.Description}}</td>
-                            <td>{{asset.CategoryCDName}}</td>
-                            <td>{{asset.Owner}}</td>
-                            <td>{{asset.IsMovable}}</td>
-                            <td>{{asset.StatusCDName}}</td>
-                            <td>
-                                <button type="button" class="btn btn-default btn-width" ng-click="edit(asset)">Edit</button>
-                                <button type="button" class="btn btn-default btn-width" ng-click="deletemodal(asset)">Delete</button>
-                            </td>
-                        </tr>
+                    <tr ng-repeat="asset in assetlist">
+                        <td>{{asset.Asset.Code}}</td>
+                        <td>{{asset.Asset.Name}}</td>
+                        <td>{{asset.Asset.Description}}</td>
+                        <td>{{asset.Asset.CategoryCDName}}</td>
+                        <td>{{asset.Asset.Owner}}</td>
+                        <td>{{asset.Asset.IsMovable}}</td>
+                        <td>{{asset.Asset.StatusCDName}}</td>
+                        <td>
+                            <button type="button" class="btn btn-default btn-width" ng-click="edit(asset.Asset)">Edit</button>
+                            <button type="button" class="btn btn-default btn-width" ng-click="deletemodal(asset.Asset)">Delete</button>
+                        </td>
+                    </tr>
                     </tbody>
                 </table>
+
+                <div ng-hide="isLoading" class="form-group m-b-50">
+                    <div class="col-md-12 text-right">
+                        <ul style="float: right" uib-pagination total-items="NumberofAsset" ng-model="bigCurrentPage" max-size="5" class="pagination" boundary-link-numbers="true" rotate="false" ng-change="init()"></ul>
+                    </div>
+                </div>
 
                 <div class="modal modal-message fade" id="modal-action" style="z-index: 10500">
                     <div class="modal-dialog" style="width: 50%">
@@ -179,7 +177,6 @@
 
             </div>
         </div>
+
     </div>
 </div>
-
-

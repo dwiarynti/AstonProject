@@ -101,5 +101,15 @@ namespace Aston.Web.Controllers
             response = _assetLocationProcess.DeleteAssetLocation(obj);
             return response;
         }
+
+        [Route("AssetLocation_Pagination/{Skip}")]
+        [HttpGet]
+        public HttpResponseMessage AssetLocation_Pagination(HttpRequestMessage request, int Skip)
+        {
+            HttpResponseMessage response = new HttpResponseMessage();
+            response = _assetLocationProcess.AssetLocation_Pagination(Skip);
+            return response;
+        }
+
     }
 }

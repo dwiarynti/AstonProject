@@ -15,6 +15,10 @@ app.controller('AssetLocationCtrl', function ($scope, $rootScope, assetResource,
     $rootScope.PageName = "Asset Location";
     $scope.OnTransitionStatus = false;
 
+    //pagination
+    $scope.NumberofLocation = 0;
+    $scope.bigCurrentPage = 1;
+
     $scope.dtOptions = { "aaSorting": [], "bPaginate": false, "bLengthChange": false, "bFilter": false, "bSort": false, "bInfo": false, "bAutoWidth": false };
 
 
@@ -46,10 +50,17 @@ app.controller('AssetLocationCtrl', function ($scope, $rootScope, assetResource,
         });
     }
 
-    $scope.init = function() {
-        assetLocationResources.$GetAssetLocation(function (data) {
-            $scope.assetlocationlist = data.obj;
+    $scope.init = function () {
+        var assetLocationResources = new assetLocationResource();
+        assetLocationResources.$AssetLocation_Pagination({ Skip: $scope.bigCurrentPage }, function (data) {
+            if (data.success) {
+                $scope.NumberofAsset = data.obj[0].AssetLocation.TotalRow;
+                $scope.assetlocationlist = data.obj;
+            }
         });
+        //assetLocationResources.$GetAssetLocation(function (data) {
+        //    $scope.assetlocationlist = data.obj;
+        //});
         $scope.GetAsset();
         $scope.GetLocation();
     }

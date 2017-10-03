@@ -74,7 +74,12 @@ namespace Aston.Web.Process
             return result;
         }
 
-
-
+        public HttpResponseMessage SearchMovementRequest(MovementRequestViewModel obj)
+        {
+            HttpResponseMessage result = default(HttpResponseMessage);
+            string requestUri = "api/MovementRequest/SearchMovementRequest/";
+            result = REST(requestUri, RESTConstants.POST, JsonConvert.SerializeObject(obj));
+            return result;
+        }
     }
 }

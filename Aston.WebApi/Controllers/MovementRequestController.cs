@@ -101,5 +101,14 @@ namespace Aston.WebApi.Controllers
             response = request.CreateResponse(HttpStatusCode.OK, new { success = true, obj = result });
             return response;
         }
+        [HttpPost]
+        [Route("SearchMovementRequest")]
+        public HttpResponseMessage SearchMovementRequest(HttpRequestMessage request, [FromBody] MovementRequestViewModel obj)
+        {
+            var result = service.SearchMovementRequest(obj);
+            HttpResponseMessage response = new HttpResponseMessage();
+            response = request.CreateResponse(HttpStatusCode.OK, new { success = true, obj = result });
+            return response;
+        }
     }
 }

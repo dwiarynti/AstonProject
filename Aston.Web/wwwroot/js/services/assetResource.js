@@ -12,6 +12,7 @@
             UpdateAsset: { method: 'POST', params: { action: 'UpdateAsset' } },
             DeleteAsset: { method: 'POST', params: { action: 'DeleteAsset' } },
             GetAssetByCategoryCode: { method: 'GET', params: { action: 'GetAssetByCategoryCode' } },
+            SearchAsset: { method: 'POST', params: { action: 'SearchAsset' } },
 
         });
     }

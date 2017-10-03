@@ -11,6 +11,11 @@ app.controller('AssetCtrl', function ($scope, $rootScope, assetResource, lookupl
     $scope.actionstatus = "";
     $scope.categorylist = [];
     $rootScope.PageName = "Asset";
+    $scope.searchobj = SearchModel();
+
+    //pagination
+    $scope.NumberofAsset = 0;
+    $scope.bigCurrentPage = 1;
 
     $scope.dtOptions = { "aaSorting": [], "bPaginate": false, "bLengthChange": false, "bFilter": false, "bSort": false, "bInfo": false, "bAutoWidth": false };
 
@@ -53,11 +58,38 @@ app.controller('AssetCtrl', function ($scope, $rootScope, assetResource, lookupl
         };
     }
 
+    function SearchModel() {
+        return {
+            CategoryCD: null,
+            Owner: null,
+            IsMovable: null,
+        };
+    }
 
-    $scope.init = function() {
-        assetResources.$GetAsset(function (data) {
-            $scope.assetlist = data.obj;
+    $scope.Search = function () {
+        var assetResources = new assetResource();
+        assetResources.Asset = {
+            CategoryCD: $scope.searchobj.CategoryCD == null ? $scope.searchobj.CategoryCD : parseInt($scope.searchobj.CategoryCD),
+            Owner : $scope.searchobj.Owner == "" ? null : $scope.searchobj.Owner
+        };
+        assetResources.Ismovable = $scope.searchobj.IsMovable;
+        assetResources.Skip = $scope.bigCurrentPage;
+        assetResources.$SearchAsset(function (data) {
+            if (data.success) {
+                $scope.NumberofAsset = data.obj[0].Asset.TotalRow;
+                console.log(data);
+                $scope.assetlist = data.obj;
+            }
         });
+    }
+
+
+    $scope.init = function () {
+        $scope.Search(false);
+        //console.log($scope.bigCurrentPage);
+        //assetResources.$GetAsset(function (data) {
+        //    $scope.assetlist = data.obj;
+        //});
         $scope.GetCategory();
     }
 
@@ -169,6 +201,25 @@ app.controller('AssetCtrl', function ($scope, $rootScope, assetResource, lookupl
                 $scope.init();
             }
         });
+    }
+
+    //$scope.Search = function () {
+    //    var assetResources = new assetResource();
+    //    assetResources.isSearch = true;
+    //    assetResources.CategoryCD = parseInt($scope.searchobj.CategoryCD);
+    //    assetResources.IsMovable = $scope.searchobj.IsMovable;
+    //    assetResources.Owner = $scope.searchobj.Owner == "" ? null : $scope.searchobj.Owner;
+    //    assetResources.$SearchAsset(function (data) {
+    //        if (data.success) {
+    //            $scope.assetlist = data.obj;
+    //        }
+
+    //    });
+    //}
+
+    $scope.CancelSearch = function() {
+        $scope.Search();
+        $scope.searchobj = SearchModel();
     }
 
 });

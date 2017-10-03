@@ -3,7 +3,10 @@ using Aston.Entities.DataContext;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using System.Data;
+using System.Data.Common;
+using System.Data.SqlClient;
 
 namespace Aston.Business.Data
 {
@@ -45,11 +48,11 @@ namespace Aston.Business.Data
             List<Asset> obj = new List<Asset>();
             if (categorycode != null)
             {
-                obj =  context.Asset.Where(p => p.CategoryCD == categorycode && p.DeletedDate == null).ToList();
+                obj = context.Asset.Where(p => p.CategoryCD == categorycode && p.DeletedDate == null).ToList();
             }
-            if(ismovable != null)
+            if (ismovable != null)
             {
-                if(obj.Count != 0)
+                if (obj.Count != 0)
                 {
                     obj = obj.Where(p => p.IsMovable == ismovable && p.DeletedDate == null).ToList();
                 }
@@ -57,9 +60,9 @@ namespace Aston.Business.Data
                 {
                     obj = context.Asset.Where(p => p.IsMovable == ismovable && p.DeletedDate == null).ToList();
                 }
-                
+
             }
-            if(owner != null)
+            if (owner != null)
             {
                 if (obj.Count != 0)
                 {
@@ -70,8 +73,44 @@ namespace Aston.Business.Data
                     obj = context.Asset.Where(p => p.Owner == owner && p.DeletedDate == null).ToList();
                 }
             }
-            
+
+
+
             return obj;
+        }
+
+        public List<AssetViewModel> SearchAsset_SP(int categorycode, bool? ismovable, string owner, int Skip)
+        {
+            var result = new List<AssetViewModel>();
+            var obj = new AssetViewModel();
+
+            using (AstonContext dbContext = new AstonContext())
+            {
+                dbContext.Database.OpenConnection();
+                DbCommand cmd = dbContext.Database.GetDbConnection().CreateCommand();
+                cmd.CommandText = "dbo.sp_SearchAsset";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.Add(new SqlParameter("@CategoryCD", SqlDbType.Int) { Value = categorycode });
+                cmd.Parameters.Add(new SqlParameter("@IsMovable", SqlDbType.Bit) { Value = ismovable });
+                cmd.Parameters.Add(new SqlParameter("@Owner", SqlDbType.NVarChar) { Value = owner });
+                cmd.Parameters.Add(new SqlParameter("@Skip", SqlDbType.Int) { Value = Skip });
+
+                using (var reader = cmd.ExecuteReader())
+                {
+
+                    //a = reader.<AssetViewModel>():
+                    var assetlist = dbContext.DataReaderMapToList<AseetSearchResult>(reader);
+                    foreach (var asset in assetlist)
+                    {
+                        result.Add(new AssetViewModel() {Asset = asset });
+                    }
+                    cmd.Connection.Close();
+
+                }
+            }
+            
+            return result;
         }
     }
 }

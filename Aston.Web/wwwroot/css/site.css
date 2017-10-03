@@ -1,50 +1,74 @@
-﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
-}
-
-/* Wrapping element */
-/* Set some basic padding to keep content from hitting the edges */
-.body-content {
-    padding-left: 15px;
-    padding-right: 15px;
-}
-
-/* Set widths on the form inputs since otherwise they're 100% wide */
-input,
-select,
-textarea {
-    max-width: 280px;
-}
-
-/* Carousel */
-.carousel-caption p {
-    font-size: 20px;
-    line-height: 1.4;
-}
-
-/* buttons and links extension to use brackets: [ click me ] */
-.btn-bracketed::before {
+﻿/*bootstrap pagination*/
+.pagination {
     display:inline-block;
-    content: "[";
-    padding-right: 0.5em;
+    padding-left:0;
+    margin:20px 0;
+    border-radius:4px
 }
-.btn-bracketed::after {
-    display:inline-block;
-    content: "]";
-    padding-left: 0.5em;
+.pagination>li {
+     display:inline
 }
-
-/* Make .svg files in the carousel display properly in older browsers */
-.carousel-inner .item img[src$=".svg"]
-{
-    width: 100%;
+.pagination>li>a,.pagination>li>span {
+    position:relative;
+    float:left;
+    padding:6px 12px;
+    margin-left:-1px;
+    line-height:1.42857143;
+    color:#337ab7;
+    text-decoration:none;
+    background-color:#fff;
+    border:1px solid #ddd
+}.pagination>li:first-child>a,.pagination>li:first-child>span {
+     margin-left:0;
+     border-top-left-radius:4px;
+     border-bottom-left-radius:4px
+ }
+ .pagination>li:last-child>a,.pagination>li:last-child>span {
+     border-top-right-radius:4px;
+     border-bottom-right-radius:4px
+ }
+ .pagination>li>a:focus,.pagination>li>a:hover,.pagination>li>span:focus,.pagination>li>span:hover {
+     z-index:3;
+     color:#23527c;
+     background-color:#eee;
+     border-color:#ddd
+ }
+ .pagination>.active>a,.pagination>.active>a:focus,.pagination>.active>a:hover,.pagination>.active>span,.pagination>.active>span:focus,.pagination>.active>span:hover {
+      z-index:2;
+      color:#fff;
+      cursor:default;
+      background-color:#337ab7;
+      border-color:#337ab7
 }
-
-/* Hide/rearrange for smaller screens */
-@media screen and (max-width: 767px) {
-  /* Hide captions */
-  .carousel-caption {
-    display: none
-  }
+ .pagination>.disabled>a,.pagination>.disabled>a:focus,.pagination>.disabled>a:hover,.pagination>.disabled>span,.pagination>.disabled>span:focus,.pagination>.disabled>span:hover {
+       color:#777;
+       cursor:not-allowed;
+       background-color:#fff;
+       border-color:#ddd
+ }
+ .pagination-lg>li>a,.pagination-lg>li>span {
+        padding:10px 16px;
+        font-size:18px;
+        line-height:1.3333333
 }
+ .pagination-lg>li:first-child>a,.pagination-lg>li:first-child>span {
+         border-top-left-radius:6px;
+         border-bottom-left-radius:6px
+ }
+ .pagination-lg>li:last-child>a,.pagination-lg>li:last-child>span {
+          border-top-right-radius:6px;
+          border-bottom-right-radius:6px
+}
+ .pagination-sm>li>a,.pagination-sm>li>span {
+           padding:5px 10px;
+           font-size:12px;
+           line-height:1.5
+}
+ .pagination-sm>li:first-child>a,.pagination-sm>li:first-child>span {
+            border-top-left-radius:3px;
+            border-bottom-left-radius:3px
+}
+ .pagination-sm>li:last-child>a,.pagination-sm>li:last-child>span {
+             border-top-right-radius:3px;
+             border-bottom-right-radius:3px
+ }

@@ -13,8 +13,15 @@ namespace Aston.Entities
         public int MovementRequestDetailID { get; set; }
         public string CreatedDate { get; set; }
         public Nullable<bool> Ismovable { get; set; }
+        //public Nullable<bool> isSearch { get; set; }
+        public int Skip { get; set; }
 
-        //Asset
+        public AseetSearchResult Asset { get; set; }
+
+    }
+
+    public class AseetSearchResult
+    {
         public int ID { get; set; }
         public string Code { get; set; }
         public string Description { get; set; }
@@ -27,10 +34,11 @@ namespace Aston.Entities
         public string DepreciationDuration { get; set; }
         public string DisposedDate { get; set; }
         public string ManufactureDate { get; set; }
-        public int CategoryCD { get; set; }
+        public Nullable<int> CategoryCD { get; set; }
         public int StatusCD { get; set; }
-
-
+        public int TotalRow { get; set; }
+        public string CategoryCDName { get; set; }
+        public string StatusCDName { get; set; }
 
 
     }

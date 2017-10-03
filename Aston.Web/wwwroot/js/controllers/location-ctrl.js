@@ -12,6 +12,12 @@ app.controller('LocationCtrl', function ($scope, $rootScope, locationResource, l
     $scope.actionstatus = "";
     $scope.locationtypelist = [];
     $rootScope.PageName = "Location";
+    $scope.searchobj = SearchModel();
+
+
+    //pagination
+    $scope.NumberofLocation = 0;
+    $scope.bigCurrentPage = 1;
 
 
     $scope.dtOptions = { "aaSorting": [], "bPaginate": false, "bLengthChange": false, "bFilter": false, "bSort": false, "bInfo": false, "bAutoWidth": false };
@@ -36,10 +42,34 @@ app.controller('LocationCtrl', function ($scope, $rootScope, locationResource, l
         };
     }
 
-    $scope.init = function() {
-        locationResources.$GetLocation(function (data) {
-            $scope.locationlist = data.obj;
+    function SearchModel() {
+        return {
+            LocationTypeCD: null,
+            Floor: null,
+        };
+    }
+
+    $scope.Search = function () {
+        var locationResources = new locationResource();
+        locationResources.Location = {
+            LocationTypeCD: $scope.searchobj.LocationTypeCD == null ? $scope.searchobj.LocationTypeCD : parseInt($scope.searchobj.LocationTypeCD),
+            Floor: $scope.searchobj.Floor == "" ? null : $scope.searchobj.Floor
+        };
+        locationResources.Skip = $scope.bigCurrentPage;
+        locationResources.$SearchLocation(function (data) {
+            if (data.success) {
+                $scope.NumberofLocation = data.obj[0].Location.TotalRow;
+                console.log(data);
+                $scope.locationlist = data.obj;
+            }
         });
+    }
+
+    $scope.init = function() {
+        $scope.Search();
+        //locationResources.$GetLocation(function (data) {
+        //    $scope.locationlist = data.obj;
+        //});
         $scope.GetLocationType();
     }
 
@@ -135,6 +165,11 @@ app.controller('LocationCtrl', function ($scope, $rootScope, locationResource, l
                 $("#modal-action").modal('hide');
             }
         });
+    }
+
+    $scope.CancelSearch = function () {
+        $scope.Search();
+        $scope.searchobj = SearchModel();
     }
 
 });

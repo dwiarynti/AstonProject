@@ -91,5 +91,13 @@ namespace Aston.Web.Controllers
             response = _movementProcess.DeleteMovementRequestDetail(obj);
             return response;
         }
+        [HttpPost]
+        [Route("SearchMovementRequest")]
+        public HttpResponseMessage SearchMovementRequest(HttpRequestMessage request, [FromBody] MovementRequestViewModel obj)
+        {
+            HttpResponseMessage response = new HttpResponseMessage();
+            response = _movementProcess.SearchMovementRequest(obj);
+            return response;
+        }
     }
 }
