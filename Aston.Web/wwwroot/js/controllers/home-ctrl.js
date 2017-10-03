@@ -22,7 +22,7 @@ app.controller('HomeCtrl', function ($scope, $rootScope, $window, $state, moveme
     $scope.init();
 
     $scope.Approve = function (obj) {
-        movementrequestResources.ID = obj.ID;
+        movementrequestResources.ID = obj.MovementRequest.ID;
         movementrequestResources.ApprovalStatus = 1;
         movementrequestResources.$ApproveMovementRequest(function (data) {
             if (data.success) {

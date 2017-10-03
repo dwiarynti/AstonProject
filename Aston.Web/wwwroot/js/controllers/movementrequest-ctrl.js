@@ -112,12 +112,21 @@ app.controller('MovementRequestCtrl', function ($scope, $rootScope, $state, tran
     }
     $scope.DeleteMovementRequest = function () {
         var movementrequestResources = new movementrequestResource();
-        movementrequestResources.ID = $scope.movementrequest.ID;
-        movementrequestResources.MovementDate = $scope.movementrequest.MovementDate;
-        movementrequestResources.Description = $scope.movementrequest.Description;
-        movementrequestResources.ApprovedDate = $scope.movementrequest.ApprovedDate;
-        movementrequestResources.ApprovedBy = $scope.movementrequest.ApprovedBy;
-        movementrequestResources.MovementRequestDetail = $scope.movementrequest.MovementRequestDetail;
+        //movementrequestResources.MovementRequest = {
+        //    ID : $scope.movementrequest.MovementRequest.ID,
+        //    MovementDate: $scope.movementrequest.MovementRequest.MovementDate,
+        //    Description: $scope.movementrequest.MovementRequest.Description,
+        //    ApprovedDate: $scope.movementrequest.MovementRequest.ApprovedDate,
+        //    ApprovedBy: $scope.movementrequest.MovementRequest.ApprovedBy,
+        //};
+        //movementrequestResources.MovementRequestDetail = $scope.movementrequest.MovementRequestDetail;
+
+        movementrequestResources.ID = $scope.movementrequest.MovementRequest.ID;
+        movementrequestResources.MovementDate = $scope.movementrequest.MovementRequest.MovementDate;
+        movementrequestResources.Description = $scope.movementrequest.MovementRequest.Description;
+        movementrequestResources.ApprovedDate = $scope.movementrequest.MovementRequest.ApprovedDate;
+        movementrequestResources.ApprovedBy = $scope.movementrequest.MovementRequest.ApprovedBy;
+        //movementrequestResources.MovementRequestDetail = $scope.movementrequest.MovementRequestDetail;
         movementrequestResources.$DeleteMovementRequest(function (data) {
             if (data.success) {
                 $scope.init();

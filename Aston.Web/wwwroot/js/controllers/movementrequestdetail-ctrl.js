@@ -421,31 +421,31 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
     $scope.Approve = function (obj) {
         
         var movementrequestResources = new movementrequestResource();
-        movementrequestResources.ID = obj.ID;
+        movementrequestResources.ID = obj.MovementRequest.ID;
         movementrequestResources.ApprovalStatus = 1;
-        movementrequestResources.Notes = obj.Notes;
+        movementrequestResources.Notes = obj.MovementRequest.Notes;
         movementrequestResources.$ApproveMovementRequest(function (data) {
             if (data.success) {
                 $window.alert("Data approved successfully");
-                obj.ApprovalStatus = 1;
+                obj.MovementRequest.ApprovalStatus = 1;
                 $scope.init();
             }
         });
     }
 
     $scope.Reject = function (obj) {
-        if (obj.Notes == '' || obj.Notes == null) {
+        if (obj.MovementRequest.Notes == '' || obj.MovementRequest.Notes == null) {
             $scope.isValidate = false;
         } else {
             var movementrequestResources = new movementrequestResource();
-            movementrequestResources.ID = obj.ID;
+            movementrequestResources.ID = obj.MovementRequest.ID;
             movementrequestResources.ApprovalStatus = 3;
-            movementrequestResources.Notes = obj.Notes;
+            movementrequestResources.Notes = obj.MovementRequest.Notes;
             movementrequestResources.$ApproveMovementRequest(function (data) {
                 if (data.success) {
                     $scope.isValidate = true;
                     $window.alert("Data rejected successfully");
-                    obj.ApprovalStatus = 3;
+                    obj.MovementRequest.ApprovalStatus = 3;
                     $scope.init();
                 }
             });

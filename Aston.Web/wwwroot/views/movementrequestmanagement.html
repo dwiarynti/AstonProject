@@ -32,7 +32,7 @@
                         <td>{{movementrequest.MovementRequest.Notes}}</td>
                         <td>
                             <button type="button" class="btn btn-default btn-width" ng-click="edit(movementrequest)">Edit</button>
-                            <button ng-disabled="movementrequest.ApprovalStatus == 1" type="button" class="btn btn-default btn-width" ng-click="deletemodal(movementrequest)">Delete</button>
+                            <button ng-disabled="movementrequest.MovementRequest.ApprovalStatus == 1" type="button" class="btn btn-default btn-width" ng-click="deletemodal(movementrequest)">Delete</button>
                         </td>
                     </tr>
                     </tbody>
