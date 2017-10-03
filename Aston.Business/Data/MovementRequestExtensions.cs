@@ -3,6 +3,9 @@ using Aston.Entities.DataContext;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -34,6 +37,42 @@ namespace Aston.Business.Data
         {
             var obj = _context.MovementRequest.Include(p => p.MovementRequestDetail).Include(p => p.Location).Where(p => p.DeletedDate == null && p.DeletedBy == null && p.ApprovalStatus == 1).ToList();
             return obj;
+        }
+        public List<MovementRequestViewModel> SearchMovementRequests_SP(int LocationID, int ApprovalStatus, int Skip)
+        {
+            var result = new List<MovementRequestViewModel>();
+            var obj = new MovementRequestViewModel();
+
+            using (AstonContext dbContext = new AstonContext())
+            {
+                dbContext.Database.OpenConnection();
+                DbCommand cmd = dbContext.Database.GetDbConnection().CreateCommand();
+                cmd.CommandText = "dbo.sp_SearchMovementRequest";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.Add(new SqlParameter("@LocationID", SqlDbType.Int) { Value = LocationID });
+                cmd.Parameters.Add(new SqlParameter("@ApprovalStatus", SqlDbType.Bit) { Value = ApprovalStatus });
+                cmd.Parameters.Add(new SqlParameter("@Skip", SqlDbType.Int) { Value = Skip });
+
+                using (var reader = cmd.ExecuteReader())
+                {
+
+                    //a = reader.<AssetViewModel>():
+                    var assetlist = dbContext.DataReaderMapToList<MovementRequestSearchResult>(reader);
+                    foreach (var asset in assetlist)
+                    {
+                        result.Add(new MovementRequestViewModel() { MovementRequest = asset });
+                    }
+                    cmd.Connection.Close();
+
+                }
+            }
+
+            return result;
+        }
+        public int NumberofMovementRequest()
+        {
+            return _context.MovementRequest.Include(p => p.MovementRequestDetail).Include(p => p.Location).Where(p => p.DeletedDate == null && p.DeletedBy == null).ToList().Count;
         }
     }
 }

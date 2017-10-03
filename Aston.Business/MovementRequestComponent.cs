@@ -27,16 +27,16 @@ namespace Aston.Business
                 MovementRequestViewModel model = new MovementRequestViewModel();
                 var approvalname = _pref.GetLookupByApprovalStatusCode(item.ApprovalStatus);
              
-                model.ID = item.ID;
-                model.MovementDate = item.MovementDate;
-                model.Description = item.Description;
-                model.ApprovedDate = item.ApprovedDate;
-                model.LocationID = item.LocationID;
-                model.LocationName = item.Location != null ? item.Location.Name : null;
-                model.ApprovedBy = item.ApprovedBy;
-                model.Notes = item.Notes;
-                model.ApprovalStatus = item.ApprovalStatus;
-                model.ApprovalStatusName = approvalname != null ? approvalname.Value : null;
+                model.MovementRequest.ID = item.ID;
+                model.MovementRequest.MovementDate = item.MovementDate;
+                model.MovementRequest.Description = item.Description;
+                model.MovementRequest.ApprovedDate = item.ApprovedDate;
+                model.MovementRequest.LocationID = item.LocationID;
+                model.MovementRequest.LocationName = item.Location != null ? item.Location.Name : null;
+                model.MovementRequest.ApprovedBy = item.ApprovedBy;
+                model.MovementRequest.Notes = item.Notes;
+                model.MovementRequest.ApprovalStatus = item.ApprovalStatus;
+                model.MovementRequest.ApprovalStatusName = approvalname != null ? approvalname.Value : null;
                 
                 model.MovementRequestDetail = new List<MovementRequestDetailViewModel>();
                 foreach (var item2 in item.MovementRequestDetail)
@@ -74,17 +74,17 @@ namespace Aston.Business
             {
                 MovementRequestViewModel model = new MovementRequestViewModel();
                 var approvalname = _pref.GetLookupByApprovalStatusCode(item.ApprovalStatus);
-
-                model.ID = item.ID;
-                model.MovementDate = item.MovementDate;
-                model.Description = item.Description;
-                model.ApprovedDate = item.ApprovedDate;
-                model.LocationID = item.LocationID;
-                model.LocationName = item.Location != null ? item.Location.Name : null;
-                model.ApprovedBy = item.ApprovedBy;
-                model.Notes = item.Notes;
-                model.ApprovalStatus = item.ApprovalStatus;
-                model.ApprovalStatusName = approvalname != null ? approvalname.Value : null;
+                model.MovementRequest = new MovementRequestSearchResult();
+                model.MovementRequest.ID = item.ID;
+                model.MovementRequest.MovementDate = item.MovementDate;
+                model.MovementRequest.Description = item.Description;
+                model.MovementRequest.ApprovedDate = item.ApprovedDate;
+                model.MovementRequest.LocationID = item.LocationID;
+                model.MovementRequest.LocationName = item.Location != null ? item.Location.Name : null;
+                model.MovementRequest.ApprovedBy = item.ApprovedBy;
+                model.MovementRequest.Notes = item.Notes;
+                model.MovementRequest.ApprovalStatus = item.ApprovalStatus;
+                model.MovementRequest.ApprovalStatusName = approvalname != null ? approvalname.Value : null;
 
                 model.MovementRequestDetail = new List<MovementRequestDetailViewModel>();
                 foreach (var item2 in item.MovementRequestDetail)
@@ -118,17 +118,18 @@ namespace Aston.Business
             var movement = _movementrequest.GetMovementRequestByID(id);
 
             MovementRequestViewModel result = new MovementRequestViewModel();
+            result.MovementRequest = new MovementRequestSearchResult();
             var approvalname = _pref.GetLookupByApprovalStatusCode(movement.ApprovalStatus);
-            result.ID = movement.ID;
-            result.MovementDate = movement.MovementDate;
-            result.LocationID = movement.LocationID;
-            result.LocationName = movement.Location != null ? movement.Location.Name : null;
-            result.Description = movement.Description;
-            result.ApprovedDate = movement.ApprovedDate;
-            result.ApprovedBy = movement.ApprovedBy;
-            result.Notes = movement.Notes;
-            result.ApprovalStatus = movement.ApprovalStatus;
-            result.ApprovalStatusName = approvalname != null ? approvalname.Value : null;
+            result.MovementRequest.ID = movement.ID;
+            result.MovementRequest.MovementDate = movement.MovementDate;
+            result.MovementRequest.LocationID = movement.LocationID;
+            result.MovementRequest.LocationName = movement.Location != null ? movement.Location.Name : null;
+            result.MovementRequest.Description = movement.Description;
+            result.MovementRequest.ApprovedDate = movement.ApprovedDate;
+            result.MovementRequest.ApprovedBy = movement.ApprovedBy;
+            result.MovementRequest.Notes = movement.Notes;
+            result.MovementRequest.ApprovalStatus = movement.ApprovalStatus;
+            result.MovementRequest.ApprovalStatusName = approvalname != null ? approvalname.Value : null;
             result.MovementRequestDetail = new List<MovementRequestDetailViewModel>();
             foreach (var item in movement.MovementRequestDetail)
             {
@@ -163,13 +164,13 @@ namespace Aston.Business
                 try
                 {
                     MovementRequest movement = new MovementRequest();
-                    movement.MovementDate = obj.MovementDate.Replace("/", string.Empty);
-                    movement.Description = obj.Description;
-                    movement.LocationID = obj.LocationID;
-                    movement.ApprovalStatus = obj.ApprovalStatus;
+                    movement.MovementDate = obj.MovementRequest.MovementDate.Replace("/", string.Empty);
+                    movement.Description = obj.MovementRequest.Description;
+                    movement.LocationID = obj.MovementRequest.LocationID;
+                    movement.ApprovalStatus = Convert.ToInt16(obj.MovementRequest.ApprovalStatus);
                     movement.CreatedDate = DateTime.Now.ToString("ddMMyyyy");
                     movement.CreatedBy = obj.CreatedBy;
-                    movement.Notes = obj.Notes;
+                    movement.Notes = obj.MovementRequest.Notes;
                     foreach (var item in obj.MovementRequestDetail)
                     {
                         MovementRequestDetail detail = new MovementRequestDetail();
@@ -244,14 +245,14 @@ namespace Aston.Business
             try
             {
 
-                var movement = _movementrequest.GetMovementRequestByID(obj.ID);
-                movement.Description = obj.Description;
-                movement.LocationID = obj.LocationID;
-                movement.MovementDate = obj.MovementDate.Replace("/",string.Empty);
-                movement.ApprovalStatus = obj.ApprovalStatus;
+                var movement = _movementrequest.GetMovementRequestByID(obj.MovementRequest.ID);
+                movement.Description = obj.MovementRequest.Description;
+                movement.LocationID = obj.MovementRequest.LocationID;
+                movement.MovementDate = obj.MovementRequest.MovementDate.Replace("/",string.Empty);
+                movement.ApprovalStatus = Convert.ToInt16(obj.MovementRequest.ApprovalStatus);
                 movement.UpdatedBy = obj.UpdatedBy;
                 movement.UpdatedDate = DateTime.Now.ToString("ddMMyyyy");
-                movement.Notes = obj.Notes;
+                movement.Notes = obj.MovementRequest.Notes;
                 foreach(var item in movement.MovementRequestDetail)
                 {
                     var data = obj.MovementRequestDetail.Where(p => p.ID == item.ID).FirstOrDefault();
@@ -383,16 +384,16 @@ namespace Aston.Business
              
                 var approvalname = _pref.GetLookupByApprovalStatusCode(item.ApprovalStatus);
 
-                model.ID = item.ID;
-                model.MovementDate = item.MovementDate;
-                model.Description = item.Description;
-                model.ApprovedDate = item.ApprovedDate;
-                model.LocationID = item.LocationID;
-                model.LocationName = item.Location != null ? item.Location.Name : null;
-                model.ApprovedBy = item.ApprovedBy;
-                model.Notes = item.Notes;
-                model.ApprovalStatus = item.ApprovalStatus;
-                model.ApprovalStatusName = approvalname != null ? approvalname.Value : null;
+                model.MovementRequest.ID = item.ID;
+                model.MovementRequest.MovementDate = item.MovementDate;
+                model.MovementRequest.Description = item.Description;
+                model.MovementRequest.ApprovedDate = item.ApprovedDate;
+                model.MovementRequest.LocationID = item.LocationID;
+                model.MovementRequest.LocationName = item.Location != null ? item.Location.Name : null;
+                model.MovementRequest.ApprovedBy = item.ApprovedBy;
+                model.MovementRequest.Notes = item.Notes;
+                model.MovementRequest.ApprovalStatus = item.ApprovalStatus;
+                model.MovementRequest.ApprovalStatusName = approvalname != null ? approvalname.Value : null;
 
                 model.MovementRequestDetail = new List<MovementRequestDetailViewModel>();
                 foreach (var item2 in item.MovementRequestDetail)
@@ -431,6 +432,16 @@ namespace Aston.Business
                 }
             }
             
+            return result;
+        }
+
+        public List<MovementRequestViewModel> SearchMovementRequest(MovementRequestViewModel obj)
+        {
+            List<MovementRequestViewModel> result = new List<MovementRequestViewModel>();
+            if (obj != null)
+            {
+                result = _movementrequest.SearchMovementRequests_SP(Convert.ToInt16(obj.MovementRequest.LocationID), Convert.ToInt16(obj.MovementRequest.ApprovalStatus), obj.Skip);
+            }
             return result;
         }
     }

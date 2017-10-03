@@ -64,13 +64,13 @@
                         <td>{{asset.Asset.Code}}</td>
                         <td>{{asset.Asset.Name}}</td>
                         <td>{{asset.Asset.Description}}</td>
-                        <td>{{asset.CategoryCDName}}</td>
+                        <td>{{asset.Asset.CategoryCDName}}</td>
                         <td>{{asset.Asset.Owner}}</td>
                         <td>{{asset.Asset.IsMovable}}</td>
-                        <td>{{asset.StatusCDName}}</td>
+                        <td>{{asset.Asset.StatusCDName}}</td>
                         <td>
-                            <button type="button" class="btn btn-default btn-width" ng-click="edit(asset)">Edit</button>
-                            <button type="button" class="btn btn-default btn-width" ng-click="deletemodal(asset)">Delete</button>
+                            <button type="button" class="btn btn-default btn-width" ng-click="edit(asset.Asset)">Edit</button>
+                            <button type="button" class="btn btn-default btn-width" ng-click="deletemodal(asset.Asset)">Delete</button>
                         </td>
                     </tr>
                     </tbody>

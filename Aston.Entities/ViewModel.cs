@@ -13,12 +13,12 @@ namespace Aston.Entities
         public string MainCategory { get; set; }
         public string SubCategory { get; set; }
         public string Number { get; set; }
-        public string AssetName { get; set; }
-        public string LocationName { get; set; }
-        public string CategoryCDName { get; set; }
-        public string ApprovalStatusName { get; set; }
-        public string StatusCDName { get; set; }
-        public string LocationTypeCDName { get; set; }
+        //public string AssetName { get; set; }//
+        //public string LocationName { get; set; }//
+        public string CategoryCDName { get; set; }//
+        //public string ApprovalStatusName { get; set; }//
+        //public string StatusCDName { get; set; }//
+        //public string LocationTypeCDName { get; set; }//
         public string CreatedBy { get; set; }
         public string UpdatedBy { get; set; }
         public string DeletedBy { get; set; }

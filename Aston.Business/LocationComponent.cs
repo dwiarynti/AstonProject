@@ -31,8 +31,8 @@ namespace Aston.Business
             result.Location.Floor = location.Floor;
             result.Location.LocationTypeCD = location.LocationTypeCD;
             result.Location.StatusCD = location.StatusCD;
-            result.StatusCDName = statuscdname.Value;
-            result.LocationTypeCDName = locationtypename.Value;
+            result.Location.StatusCDName = statuscdname.Value;
+            result.Location.LocationTypeCDName = locationtypename.Value;
             return result;
         }
 
@@ -51,8 +51,8 @@ namespace Aston.Business
             result.Location.Floor = location.Floor;
             result.Location.LocationTypeCD = location.LocationTypeCD;
             result.Location.StatusCD = location.StatusCD;
-            result.StatusCDName = statuscdname.Value;
-            result.LocationTypeCDName = locationtypename.Value;
+            result.Location.StatusCDName = statuscdname.Value;
+            result.Location.LocationTypeCDName = locationtypename.Value;
 
             return result;
         }
@@ -64,6 +64,7 @@ namespace Aston.Business
             foreach(var item in location)
             {
                 LocationViewModel model = new LocationViewModel();
+                model.Location = new LocationSearchResult();
                 var statuscdname = _pref.GetLookupByStatusCode(item.StatusCD);
                 var locationtypename = _pref.GetLookupByLocationTypeCode(item.LocationTypeCD);
 
@@ -75,8 +76,8 @@ namespace Aston.Business
                 model.Location.Floor = item.Floor;
                 model.Location.LocationTypeCD = item.LocationTypeCD;
                 model.Location.StatusCD = item.StatusCD;
-                model.StatusCDName = statuscdname.Value;
-                model.LocationTypeCDName = locationtypename.Value;
+                model.Location.StatusCDName = statuscdname.Value;
+                model.Location.LocationTypeCDName = locationtypename.Value;
 
                 result.Add(model);
             }
@@ -206,21 +207,9 @@ namespace Aston.Business
                 var statuscdname = _pref.GetLookupByStatusCode(item.Location.StatusCD);
                 var locationtypename = _pref.GetLookupByLocationTypeCode(Convert.ToInt16(item.Location.LocationTypeCD));
 
-                //model.Location.ID = item.Location.ID;
-                //model.Location.Code = item.Location.Code;
-                //model.Location.Name = item.Location.Name;
-                //model.Location.Description = item.Location.Description;
-                //model.Location.No = item.Location.No;
-                //model.Location.Floor = item.Location.Floor;
-                //model.Location.LocationTypeCD = item.Location.LocationTypeCD;
-                //model.Location.StatusCD = item.Location.StatusCD;
-                item.StatusCDName = statuscdname.Value;
-                item.LocationTypeCDName = locationtypename.Value;
-
-                //result.Add(model);
+                item.Location.StatusCDName = statuscdname.Value;
+                item.Location.LocationTypeCDName = locationtypename.Value;
             }
-
-
             return result;
         }
     }

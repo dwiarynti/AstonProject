@@ -173,5 +173,15 @@ namespace Aston.WebApi.Controllers
             response = request.CreateResponse(HttpStatusCode.OK, new { success = result });
             return response;
         }
+
+        [HttpGet]
+        [Route("AssetLocation_Pagination/{Skip}")]
+        public HttpResponseMessage AssetLocation_Pagination(HttpRequestMessage request, int Skip)
+        {
+            var result = service.AssetLocation_Pagination(Skip);
+            HttpResponseMessage response = new HttpResponseMessage();
+            response = request.CreateResponse(HttpStatusCode.OK, new { success = true, obj = result });
+            return response;
+        }
     }
 }

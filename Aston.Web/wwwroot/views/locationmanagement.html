@@ -51,10 +51,10 @@
                         <td>{{location.Location.Name}}</td>
                         <td>{{location.Location.Description}}</td>
                         <td>{{location.Location.Floor}}</td>
-                        <td>{{location.LocationTypeCDName}}</td>
+                        <td>{{location.Location.LocationTypeCDName}}</td>
                         <td>
-                            <button type="button" class="btn btn-default btn-width" ng-click="edit(location)">Edit</button>
-                            <button type="button" class="btn btn-default btn-width" ng-click="deletemodal(location)">Delete</button>
+                            <button type="button" class="btn btn-default btn-width" ng-click="edit(location.Location)">Edit</button>
+                            <button type="button" class="btn btn-default btn-width" ng-click="deletemodal(location.Location)">Delete</button>
                         </td>
                     </tr>
                     </tbody>

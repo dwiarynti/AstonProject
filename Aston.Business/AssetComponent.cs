@@ -37,9 +37,9 @@ namespace Aston.Business
             result.Asset.DisposedDate = asset.DisposedDate;
             result.Asset.ManufactureDate = asset.ManufactureDate;
             result.Asset.CategoryCD = asset.CategoryCD;
-            result.CategoryCDName = categoryCDName.Value;
+            result.Asset.CategoryCDName = categoryCDName.Value;
             result.Asset.StatusCD = asset.StatusCD;
-            result.StatusCDName = statusCDName.Value;
+            result.Asset.StatusCDName = statusCDName.Value;
             return result;
         }
 
@@ -50,6 +50,7 @@ namespace Aston.Business
             foreach(var item in asset)
             {
                 AssetViewModel model = new AssetViewModel();
+                model.Asset = new AseetSearchResult();
                 var categoryCDName = _pref.GetLookupByCategoryCode(item.CategoryCD);
                 var statusCDName = _pref.GetLookupByStatusCode(item.StatusCD);
 
@@ -66,9 +67,9 @@ namespace Aston.Business
                 model.Asset.DisposedDate = item.DisposedDate;
                 model.Asset.ManufactureDate = item.ManufactureDate;
                 model.Asset.CategoryCD = item.CategoryCD;              
-                model.CategoryCDName = categoryCDName.Value;             
+                model.Asset.CategoryCDName = categoryCDName.Value;             
                 model.Asset.StatusCD = item.StatusCD;
-                model.StatusCDName = statusCDName.Value;
+                model.Asset.StatusCDName = statusCDName.Value;
 
                 result.Add(model);
 
@@ -97,9 +98,9 @@ namespace Aston.Business
             result.Asset.DisposedDate = asset.DisposedDate;
             result.Asset.ManufactureDate = asset.ManufactureDate;
             result.Asset.CategoryCD = asset.CategoryCD;
-            result.CategoryCDName = categoryCDName.Value;
+            result.Asset.CategoryCDName = categoryCDName.Value;
             result.Asset.StatusCD = asset.StatusCD;
-            result.StatusCDName = statusCDName.Value;
+            result.Asset.StatusCDName = statusCDName.Value;
 
             return result;
         }
@@ -239,46 +240,12 @@ namespace Aston.Business
         public List<AssetViewModel> SearchAsset(AssetViewModel obj)
         {
             List<AssetViewModel> result = new List<AssetViewModel>();
-
-            //if (Convert.ToBoolean(obj.isSearch))
-            //{
                 if (obj != null)
                 {
-                    var asset = _asset.SearchAsset_SP(Convert.ToInt16(obj.Asset.CategoryCD), obj.Ismovable, obj.Asset.Owner, obj.Skip);
-                    foreach (var item in asset)
-                    {
-                        AssetViewModel model = new AssetViewModel();
-                        model.Asset = new AseetSearchResult();
-                        var categoryCDName = _pref.GetLookupByCategoryCode(Convert.ToInt16(item.Asset.CategoryCD));
-                        var statusCDName = _pref.GetLookupByStatusCode(item.Asset.StatusCD);
+                    result = _asset.SearchAsset_SP(Convert.ToInt16(obj.Asset.CategoryCD), obj.Ismovable, obj.Asset.Owner, obj.Skip);
 
-                        model.Asset.ID = item.Asset.ID;
-                        model.Asset.Code = item.Asset.Code;
-                        model.Asset.Description = item.Asset.Description;
-                        model.Asset.No = item.Asset.No;
-                        model.Asset.Name = item.Asset.Name;
-                        model.Asset.IsMovable = item.Asset.IsMovable;
-                        model.Asset.Owner = item.Asset.Owner;
-                        model.Asset.PurchaseDate = item.Asset.PurchaseDate;
-                        model.Asset.PurchasePrice = item.Asset.PurchasePrice;
-                        model.Asset.DepreciationDuration = item.Asset.DepreciationDuration;
-                        model.Asset.DisposedDate = item.Asset.DisposedDate;
-                        model.Asset.ManufactureDate = item.Asset.ManufactureDate;
-                        model.Asset.CategoryCD = item.Asset.CategoryCD;
-                        model.CategoryCDName = categoryCDName.Value;
-                        model.Asset.StatusCD = item.Asset.StatusCD;
-                        model.StatusCDName = statusCDName.Value;
-                        model.Asset.TotalRow = item.Asset.TotalRow;
-
-                    result.Add(model);
-                    }
                 }
-            //}
-            //else
-            //{
-            //    result = GetAsset();
-            //}
-
+                
             return result;
         }
 

@@ -24,13 +24,13 @@ namespace Aston.Business
             var assetlocation =  _assetlocation.GetAssetLocationByID(id);
             if(assetlocation != null)
             {
-                result.ID = assetlocation.ID;
-                result.AssetID = assetlocation.AssetID;
-                result.AssetName = assetlocation.Asset.Name;
-                result.LocationID = assetlocation.LocationID;
-                result.LocationName = assetlocation.Location.Name;
-                result.OnTransition = assetlocation.OnTransition;
-                result.MovementRequestDetailID = assetlocation.MovementRequestDetailID;
+                result.AssetLocation.ID = assetlocation.ID;
+                result.AssetLocation.AssetID = assetlocation.AssetID;
+                result.AssetLocation.AssetName = assetlocation.Asset.Name;
+                result.AssetLocation.LocationID = assetlocation.LocationID;
+                result.AssetLocation.LocationName = assetlocation.Location.Name;
+                result.AssetLocation.OnTransition = assetlocation.OnTransition;
+                result.AssetLocation.MovementRequestDetailID = assetlocation.MovementRequestDetailID;
             }
             return result;
 
@@ -45,13 +45,13 @@ namespace Aston.Business
                 foreach (var item in assetlocation)
                 {
                     AssetLocationViewModel model = new AssetLocationViewModel();
-                    model.ID = item.ID;
-                    model.AssetID = item.AssetID;
-                    model.AssetName = item.Asset.Name;
-                    model.LocationID = item.LocationID;
-                    model.LocationName = item.Location.Name;
-                    model.OnTransition = item.OnTransition;
-                    model.MovementRequestDetailID = item.MovementRequestDetailID;
+                    model.AssetLocation.ID = item.ID;
+                    model.AssetLocation.AssetID = item.AssetID;
+                    model.AssetLocation.AssetName = item.Asset.Name;
+                    model.AssetLocation.LocationID = item.LocationID;
+                    model.AssetLocation.LocationName = item.Location.Name;
+                    model.AssetLocation.OnTransition = item.OnTransition;
+                    model.AssetLocation.MovementRequestDetailID = item.MovementRequestDetailID;
                     result.Add(model);
                 }
             }
@@ -68,13 +68,13 @@ namespace Aston.Business
                 foreach (var item in assetlocation)
                 {
                     AssetLocationViewModel model = new AssetLocationViewModel();
-                    model.ID = item.ID;
-                    model.AssetID = item.AssetID;
-                    model.AssetName = item.Asset.Name;
-                    model.LocationID = item.LocationID;
-                    model.LocationName = item.Location.Name;
-                    model.OnTransition = item.OnTransition;
-                    model.MovementRequestDetailID = item.MovementRequestDetailID;
+                    model.AssetLocation.ID = item.ID;
+                    model.AssetLocation.AssetID = item.AssetID;
+                    model.AssetLocation.AssetName = item.Asset.Name;
+                    model.AssetLocation.LocationID = item.LocationID;
+                    model.AssetLocation.LocationName = item.Location.Name;
+                    model.AssetLocation.OnTransition = item.OnTransition;
+                    model.AssetLocation.MovementRequestDetailID = item.MovementRequestDetailID;
                     result.Add(model);
                 }
             }
@@ -309,18 +309,18 @@ namespace Aston.Business
             {
                 try
                 {
-                    var movementrequestdetail = _context.MovementRequestDetail.Where(p => p.ID == obj.MovementRequestDetailID).FirstOrDefault();
+                    var movementrequestdetail = _context.MovementRequestDetail.Where(p => p.ID == obj.AssetLocation.MovementRequestDetailID).FirstOrDefault();
                     var movementrequest = _context.MovementRequest.Where(p => p.ID == movementrequestdetail.MovementRequestID).FirstOrDefault();
 
-                    var checkassetlocation = _context.AssetLocation.Where(p => p.MovementRequestDetailID == obj.MovementRequestDetailID && p.DeletedDate == null).Count();
+                    var checkassetlocation = _context.AssetLocation.Where(p => p.MovementRequestDetailID == obj.AssetLocation.MovementRequestDetailID && p.DeletedDate == null).Count();
 
                     int totalmoved = 0;
                     totalmoved = (movementrequestdetail.Quantity - checkassetlocation);
 
 
-                    if (obj.AssetLocation.Count() <= totalmoved)
+                    if (obj.AssetLocationList.Count() <= totalmoved)
                     {
-                        foreach (var item in obj.AssetLocation)
+                        foreach (var item in obj.AssetLocationList)
                         {
 
 
@@ -328,10 +328,10 @@ namespace Aston.Business
 
                             assetlocationobj.AssetID = item.AssetID;
                             assetlocationobj.LocationID = movementrequest.LocationID;
-                            assetlocationobj.OnTransition = obj.OnTransition;
+                            assetlocationobj.OnTransition = obj.AssetLocation.OnTransition;
                             assetlocationobj.CreatedDate = DateTime.Now.Date.ToString("ddMMyyyy");
                             assetlocationobj.CreatedBy = obj.CreatedBy;
-                            assetlocationobj.MovementRequestDetailID = obj.MovementRequestDetailID;
+                            assetlocationobj.MovementRequestDetailID = obj.AssetLocation.MovementRequestDetailID;
                             _context.AssetLocation.Add(assetlocationobj);
 
 
@@ -440,16 +440,23 @@ namespace Aston.Business
                 foreach (var item in assetlocation)
                 {
                     AssetLocationViewModel model = new AssetLocationViewModel();
-                    model.ID = item.ID;
-                    model.AssetID = item.AssetID;
-                    model.AssetName = item.Asset.Name;
-                    model.LocationID = item.LocationID;
-                    model.LocationName = item.Location.Name;
-                    model.OnTransition = item.OnTransition;
-                    model.MovementRequestDetailID = item.MovementRequestDetailID;
+                    model.AssetLocation = new AssetLocationPagination();
+                    model.AssetLocation.ID = item.ID;
+                    model.AssetLocation.AssetID = item.AssetID;
+                    model.AssetLocation.AssetName = item.Asset.Name;
+                    model.AssetLocation.LocationID = item.LocationID;
+                    model.AssetLocation.LocationName = item.Location.Name;
+                    model.AssetLocation.OnTransition = item.OnTransition;
+                    model.AssetLocation.MovementRequestDetailID = item.MovementRequestDetailID;
                     result.Add(model);
                 }
             }
+            return result;
+        }
+
+        public List<AssetLocationViewModel> AssetLocation_Pagination(int Skip)
+        {
+            var result = _assetlocation.Pagination_AssetLocation_SP(Skip);
             return result;
         }
     }

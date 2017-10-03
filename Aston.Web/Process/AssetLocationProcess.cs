@@ -82,5 +82,12 @@ namespace Aston.Web.Process
             result = REST(requestUri, RESTConstants.POST, JsonConvert.SerializeObject(obj));
             return result;
         }
+        public HttpResponseMessage AssetLocation_Pagination(int Skip)
+        {
+            HttpResponseMessage result = default(HttpResponseMessage);
+            string requestUri = "api/AssetLocation/AssetLocation_Pagination/" + Skip;
+            result = REST(requestUri, RESTConstants.GET);
+            return result;
+        }
     }
 }

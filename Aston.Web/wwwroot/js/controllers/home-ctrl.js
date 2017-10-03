@@ -13,7 +13,7 @@ app.controller('HomeCtrl', function ($scope, $rootScope, $window, $state, moveme
         $scope.movementrequestlist = [];
         movementrequestResources.$GetMovementRequestNeedApproval(function (data) {
             angular.forEach(data.obj, function (obj) {
-                obj.MovementDate = commonService.convertdate(obj.MovementDate);
+                obj.MovementRequest.MovementDate = commonService.convertdate(obj.MovementRequest.MovementDate);
                 $scope.movementrequestlist.push(obj);
 
             });

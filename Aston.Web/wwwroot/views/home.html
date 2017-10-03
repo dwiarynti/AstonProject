@@ -9,9 +9,9 @@
             <div ng-if="movementrequestlist.length > 0" class="item d-flex align-items-center" ng-repeat="movementrequest in movementrequestlist">
                 <div class="text">
                     <a href="#">
-                        <h3 class="h5">{{movementrequest.Description}}</h3>
+                        <h3 class="h5">{{movementrequest.MovementRequest.Description}}</h3>
                     </a>
-                    <small>{{movementrequest.MovementDate}}</small>
+                    <small>{{movementrequest.MovementRequest.MovementDate}}</small>
                 </div>
                 <div style="width: 100%;">
                     <div class="col-md-12 text-right">

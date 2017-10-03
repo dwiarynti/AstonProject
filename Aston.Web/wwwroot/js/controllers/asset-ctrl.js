@@ -14,7 +14,7 @@ app.controller('AssetCtrl', function ($scope, $rootScope, assetResource, lookupl
     $scope.searchobj = SearchModel();
 
     //pagination
-    $scope.NumberofAsset = 20;
+    $scope.NumberofAsset = 0;
     $scope.bigCurrentPage = 1;
 
     $scope.dtOptions = { "aaSorting": [], "bPaginate": false, "bLengthChange": false, "bFilter": false, "bSort": false, "bInfo": false, "bAutoWidth": false };

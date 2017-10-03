@@ -16,7 +16,7 @@ app.controller('LocationCtrl', function ($scope, $rootScope, locationResource, l
 
 
     //pagination
-    $scope.NumberofLocation = 20;
+    $scope.NumberofLocation = 0;
     $scope.bigCurrentPage = 1;
 
 

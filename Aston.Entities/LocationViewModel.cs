@@ -25,6 +25,8 @@ namespace Aston.Entities
         public Nullable<int> LocationTypeCD { get; set; }
         public int StatusCD { get; set; }
         public int TotalRow { get; set; }
+        public string LocationTypeCDName { get; set; }
+        public string StatusCDName { get; set; }
 
     }
 }
