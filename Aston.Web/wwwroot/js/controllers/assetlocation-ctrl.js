@@ -52,9 +52,11 @@ app.controller('AssetLocationCtrl', function ($scope, $rootScope, assetResource,
 
     $scope.init = function () {
         var assetLocationResources = new assetLocationResource();
-        assetLocationResources.$AssetLocation_Pagination({ Skip: $scope.bigCurrentPage }, function (data) {
+        assetLocationResources.$AssetLocation_Pagination({ Skip: $scope.bigCurrentPage-1 }, function (data) {
             if (data.success) {
-                $scope.NumberofAsset = data.obj[0].AssetLocation.TotalRow;
+                $scope.NumberofAsset = data.obj.length != 0 ? data.obj[0].AssetLocation.TotalRow : 0;
+
+                //$scope.NumberofAsset = data.obj[0].AssetLocation.TotalRow;
                 $scope.assetlocationlist = data.obj;
             }
         });

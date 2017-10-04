@@ -12,6 +12,7 @@
             GetStatus: { method: 'GET', params: { action: 'GetStatus' } },
             GetDepartment: { method: 'GET', params: { action: 'GetDepartment' } },
             GetDepartmentByID: { method: 'GET', params: { action: 'GetDepartmentByID' } },
+            GetApprovalStatus: { method: 'GET', params: { action: 'GetApprovalStatus' } },
 
         });
     }

@@ -297,13 +297,13 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
             $scope.onprocess = true;
             var movementrequestResources = new movementrequestResource();
             movementrequestResources.MovementRequest = {
-                ID : $scope.movementrequestobj.ID,
+                ID : $scope.movementrequestobj.MovementRequest.ID,
                 MovementDate: $scope.movementrequestobj.MovementRequest.MovementDate,
                 Description: $scope.movementrequestobj.MovementRequest.Description,
                 ApprovalStatus: 2,
                 LocationID: parseInt($scope.movementrequestobj.MovementRequest.LocationID),
             };
-            movementrequestResources.MovementRequest = $scope.movementrequestobj.MovementRequest;
+            //movementrequestResources.MovementRequest = $scope.movementrequestobj.MovementRequest;
             movementrequestResources.MovementRequestDetail = $scope.movementrequestobj.MovementRequestDetail;
             //movementrequestResources.ID = $scope.movementrequestobj.ID;
             //movementrequestResources.MovementDate = $scope.movementrequestobj.MovementDate;
@@ -382,8 +382,8 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
             $scope.selectedassetlist.push({
                 AssetID: data.ID,
                 AssetName: data.Name,
-                LocationID: $scope.movementrequestobj.LocationID,
-                LocationName: $scope.movementrequestobj.LocationName,
+                LocationID: $scope.movementrequestobj.MovementRequest.LocationID,
+                LocationName: $scope.movementrequestobj.MovementRequest.LocationName,
                 OnTransition: $scope.OnTransitionStatus,
                 MovementRequestDetailID: data.ID,
             });
@@ -398,14 +398,15 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
     $scope.CreateAssetLocation = function () {
         $scope.onprocess = true;
         var assetLocationResources = new assetLocationResource();
-        //assetLocationResources.AssetID = parseInt($scope.assetlocation.AssetID);
-        assetLocationResources.LocationID = parseInt($scope.movementrequestobj.LocationID);
-        assetLocationResources.OnTransition = $scope.OnTransitionStatus;
-        assetLocationResources.MovementRequestDetailID = $scope.movementrequestdetailBackup.ID;
+        assetLocationResources.AssetLocation = {
+            LocationID: parseInt($scope.movementrequestobj.MovementRequest.LocationID),
+            OnTransition: $scope.OnTransitionStatus,
+            MovementRequestDetailID: $scope.movementrequestdetailBackup.ID,
+        };
 
         var validationresult = $filter('filter')($scope.selectedassetlist, function (selectedasset) { return selectedasset.ID == undefined });
         console.log(validationresult);
-        assetLocationResources.AssetLocation = validationresult;
+        assetLocationResources.AssetLocationList = validationresult;
 
         assetLocationResources.$CreateAssetLocation(function (data) {
             if (data.success) {

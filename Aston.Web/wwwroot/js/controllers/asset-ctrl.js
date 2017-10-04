@@ -73,7 +73,7 @@ app.controller('AssetCtrl', function ($scope, $rootScope, assetResource, lookupl
             Owner : $scope.searchobj.Owner == "" ? null : $scope.searchobj.Owner
         };
         assetResources.Ismovable = $scope.searchobj.IsMovable;
-        assetResources.Skip = $scope.bigCurrentPage;
+        assetResources.Skip = $scope.bigCurrentPage - 1;
         assetResources.$SearchAsset(function (data) {
             if (data.success) {
                 $scope.NumberofAsset = data.obj[0].Asset.TotalRow;
@@ -118,16 +118,29 @@ app.controller('AssetCtrl', function ($scope, $rootScope, assetResource, lookupl
 
     $scope.CreateAsset = function() {
         var assetResources = new assetResource();
-        assetResources.Name = $scope.asset.Name;
-        assetResources.Description = $scope.asset.Description;
-        assetResources.IsMovable = $scope.asset.IsMovable;
-        assetResources.Owner = $scope.asset.Owner;
-        assetResources.PurchaseDate = $scope.asset.PurchaseDate;
-        assetResources.PurchasePrice = parseFloat($scope.asset.PurchasePrice);
-        assetResources.ManufactureDate = $scope.asset.ManufactureDate;
-        assetResources.CategoryCD = $scope.asset.CategoryCD;
-        assetResources.CreatedBy = "test";
-        assetResources.StatusCD = 1;
+        assetResources.Asset = {
+            Name: $scope.asset.Name,
+            Description: $scope.asset.Description,
+            IsMovable: $scope.asset.IsMovable,
+            Owner: $scope.asset.Owner,
+            PurchaseDate: $scope.asset.PurchaseDate,
+            PurchasePrice: parseFloat($scope.asset.PurchasePrice),
+            ManufactureDate: $scope.asset.ManufactureDate,
+            CategoryCD: $scope.asset.CategoryCD,
+            CreatedBy: "test",
+            StatusCD: 1,
+        };
+
+        //assetResources.Name = $scope.asset.Name;
+        //assetResources.Description = $scope.asset.Description;
+        //assetResources.IsMovable = $scope.asset.IsMovable;
+        //assetResources.Owner = $scope.asset.Owner;
+        //assetResources.PurchaseDate = $scope.asset.PurchaseDate;
+        //assetResources.PurchasePrice = parseFloat($scope.asset.PurchasePrice);
+        //assetResources.ManufactureDate = $scope.asset.ManufactureDate;
+        //assetResources.CategoryCD = $scope.asset.CategoryCD;
+        //assetResources.CreatedBy = "test";
+        //assetResources.StatusCD = 1;
         assetResources.$CreateAsset(function (data) {
             if (data.success) {
                 $("#modal-action").modal('hide');
@@ -155,17 +168,19 @@ app.controller('AssetCtrl', function ($scope, $rootScope, assetResource, lookupl
 
     $scope.UpdateAsset = function() {
         var assetResources = new assetResource();
-        assetResources.ID = $scope.asset.ID;
-        assetResources.Name = $scope.asset.Name;
-        assetResources.Description = $scope.asset.Description;
-        assetResources.IsMovable = $scope.asset.IsMovable;
-        assetResources.Owner = $scope.asset.Owner;
-        assetResources.PurchaseDate = $scope.asset.PurchaseDate;
-        assetResources.PurchasePrice = parseFloat($scope.asset.PurchasePrice);
-        assetResources.ManufactureDate = $scope.asset.ManufactureDate;
-        assetResources.CategoryCD = $scope.asset.CategoryCD;
-        assetResources.UpdatedBy = "test";
-        assetResources.StatusCD = 1;
+        assetResources.Asset = {
+            ID: $scope.asset.ID,
+            Name: $scope.asset.Name,
+            Description: $scope.asset.Description,
+            IsMovable: $scope.asset.IsMovable,
+            Owner: $scope.asset.Owner,
+            PurchaseDate: $scope.asset.PurchaseDate,
+            PurchasePrice: parseFloat($scope.asset.PurchasePrice),
+            ManufactureDate: $scope.asset.ManufactureDate,
+            CategoryCD: $scope.asset.CategoryCD,
+            UpdatedBy: "test",
+            StatusCD: 1,
+        };
         assetResources.$UpdateAsset(function (data) {
             if (data.success) {
                 $scope.asset = AssetModel();

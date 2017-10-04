@@ -2,6 +2,36 @@
     <div class="row bg-white has-shadow">
         <div id="main-content" style="width: 100%" ui-view>
             <div ng-controller="MovementRequestCtrl">
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group row">
+                            <label class="col-sm-4 form-control-label">Location:</label>
+                            <div class="col-sm-8">
+                                <select class="form-control" ng-model="searchobj.LocationID">
+                                    <option ng-repeat="location in locationlist"ng-value="{{location.Location.ID}}">{{location.Location.Name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group row">
+                            <label class="col-sm-4 form-control-label">Approval Status:</label>
+                            <div class="col-sm-8">
+                                <select class="form-control" ng-model="searchobj.ApprovalStatus">
+                                    <option ng-repeat="approvalstatus in approvalstatuslist" value="{{approvalstatus.Code}}">{{approvalstatus.Value}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div ng-hide="isLoading" class="form-group m-b-50">
+                    <div class="col-md-12 text-right">
+                        <button type="button" class="btn btn-primary" ng-click="Search()">Search</button>
+                        <button type="button" class="btn btn-secondary" ng-click="CancelSearch()">Cancel</button>
+                        <button type="button" class="btn btn-info" ng-click="UpdateMovementRequest()">Export</button>
+                    </div>
+                </div>
                 <div ng-hide="isLoading" class="form-group">
                     <div class="col-sm-12">
                         <button type="button" class="btn btn-primary" ng-click="add()">Add</button>
@@ -40,7 +70,7 @@
 
                 <div ng-hide="isLoading" class="form-group m-b-50">
                     <div class="col-md-12 text-right">
-                        <ul style="float: right" uib-pagination total-items="NumberofLocation" ng-model="bigCurrentPage" max-size="5" class="pagination" boundary-link-numbers="true" rotate="false" ng-change="init()"></ul>
+                        <ul style="float: right" uib-pagination total-items="NumberofMovementRequest" ng-model="bigCurrentPage" max-size="5" class="pagination" boundary-link-numbers="true" rotate="false" ng-change="init()"></ul>
                     </div>
                 </div>
 

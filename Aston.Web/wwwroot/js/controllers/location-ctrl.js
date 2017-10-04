@@ -55,7 +55,7 @@ app.controller('LocationCtrl', function ($scope, $rootScope, locationResource, l
             LocationTypeCD: $scope.searchobj.LocationTypeCD == null ? $scope.searchobj.LocationTypeCD : parseInt($scope.searchobj.LocationTypeCD),
             Floor: $scope.searchobj.Floor == "" ? null : $scope.searchobj.Floor
         };
-        locationResources.Skip = $scope.bigCurrentPage;
+        locationResources.Skip = $scope.bigCurrentPage-1;
         locationResources.$SearchLocation(function (data) {
             if (data.success) {
                 $scope.NumberofLocation = data.obj[0].Location.TotalRow;

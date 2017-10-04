@@ -2,16 +2,21 @@
  * movementrequest Controller
  */
 
-app.controller('MovementRequestCtrl', function ($scope, $rootScope, $state, transferobjectService, movementrequestResource, commonService) {
+app.controller('MovementRequestCtrl', function ($scope, $rootScope, $state, transferobjectService, movementrequestResource, commonService, locationResource, lookuplistResource) {
     var movementrequestResources = new movementrequestResource();
+    var locationResources = new locationResource();
+    var lookuplistResources = new lookuplistResource();
+
     $scope.movementrequestlist = [];
     $scope.movementrequest = {};
     $rootScope.PageName = "Movement Request";
     $scope.searchobj = SearchModel();
+    $scope.approvalstatuslist = [];
 
         //pagination
-    $scope.NumberofAsset = 0;
+    $scope.NumberofMovementRequest = 0;
     $scope.bigCurrentPage = 1;
+    $scope.locationlist = [];
 
     $scope.dtOptions = { "aaSorting": [], "bPaginate": false, "bLengthChange": false, "bFilter": false, "bSort": false, "bInfo": false, "bAutoWidth": false };
 
@@ -22,16 +27,30 @@ app.controller('MovementRequestCtrl', function ($scope, $rootScope, $state, tran
         };
     }
 
+    $scope.GetLocation = function () {
+        $scope.locationlist = [];
+        locationResources.$GetLocation(function (data) {
+            //console.log(data);
+            $scope.locationlist = data.obj;
+        });
+    }
+
+    $scope.GetApprovalStatus = function () {
+        lookuplistResources.$GetApprovalStatus(function (data) {
+            $scope.approvalstatuslist = data.obj;
+        });
+    }
+
     $scope.Search = function () {
         var movementrequestResources = new movementrequestResource();
         movementrequestResources.MovementRequest = {
             LocationID: $scope.searchobj.LocationID == null ? $scope.searchobj.LocationID : parseInt($scope.searchobj.LocationID),
-            ApprovalStatus: $scope.searchobj.ApprovalStatus == "" ? null : $scope.searchobj.ApprovalStatus
+            ApprovalStatus: $scope.searchobj.ApprovalStatus == null ? $scope.searchobj.ApprovalStatus : parseInt($scope.searchobj.ApprovalStatus)
         };
-        movementrequestResources.Skip = $scope.bigCurrentPage;
+        movementrequestResources.Skip = $scope.bigCurrentPage-1;
         movementrequestResources.$SearchMovementRequest(function (data) {
             if (data.success) {
-                $scope.NumberofAsset = data.obj[0].MovementRequest.TotalRow;
+                $scope.NumberofMovementRequest = data.obj.length != 0 ? data.obj[0].MovementRequest.TotalRow : 0;
                 console.log(data);
                 $scope.movementrequestlist = data.obj;
             }
@@ -40,6 +59,8 @@ app.controller('MovementRequestCtrl', function ($scope, $rootScope, $state, tran
 
     $scope.init = function () {
         $scope.Search();
+        $scope.GetLocation();
+        $scope.GetApprovalStatus();
         //movementrequestResources.$GetMovementRequest(function (data) {
         //    angular.forEach(data.obj, function(obj) {
         //        obj.MovementDate = commonService.convertdate(obj.MovementDate);
