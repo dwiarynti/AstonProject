@@ -50,3 +50,5 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+/Aston.Web/bin
+/Aston.Web/Data/Migrations
