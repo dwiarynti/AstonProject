@@ -232,9 +232,9 @@ app.controller('AssetCtrl', function ($scope, $rootScope, assetResource, lookupl
     //    });
     //}
 
-    $scope.CancelSearch = function() {
-        $scope.Search();
+    $scope.CancelSearch = function () {
         $scope.searchobj = SearchModel();
+        $scope.Search();
     }
 
 });

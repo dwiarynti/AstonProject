@@ -168,8 +168,8 @@ app.controller('LocationCtrl', function ($scope, $rootScope, locationResource, l
     }
 
     $scope.CancelSearch = function () {
-        $scope.Search();
         $scope.searchobj = SearchModel();
+        $scope.Search();
     }
 
 });

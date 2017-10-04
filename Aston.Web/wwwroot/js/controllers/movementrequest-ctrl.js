@@ -156,4 +156,9 @@ app.controller('MovementRequestCtrl', function ($scope, $rootScope, $state, tran
         });
     }
 
+    $scope.CancelSearch = function () {
+        $scope.searchobj = SearchModel();
+        $scope.Search();
+    }
+
 });
