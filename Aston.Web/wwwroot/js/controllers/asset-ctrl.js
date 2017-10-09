@@ -76,7 +76,7 @@ app.controller('AssetCtrl', function ($scope, $rootScope, assetResource, lookupl
         assetResources.Skip = $scope.bigCurrentPage - 1;
         assetResources.$SearchAsset(function (data) {
             if (data.success) {
-                $scope.NumberofAsset = data.obj[0].Asset.TotalRow;
+                $scope.NumberofAsset = data.obj.length != 0 ? data.obj[0].Asset.TotalRow:0;
                 console.log(data);
                 $scope.assetlist = data.obj;
             }

@@ -58,7 +58,7 @@ app.controller('LocationCtrl', function ($scope, $rootScope, locationResource, l
         locationResources.Skip = $scope.bigCurrentPage-1;
         locationResources.$SearchLocation(function (data) {
             if (data.success) {
-                $scope.NumberofLocation = data.obj[0].Location.TotalRow;
+                $scope.NumberofLocation = data.obj.length != 0 ? data.obj[0].Location.TotalRow:0;
                 console.log(data);
                 $scope.locationlist = data.obj;
             }
