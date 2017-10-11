@@ -97,5 +97,14 @@ namespace Aston.Web.Controllers
             return response;
         }
 
+        [HttpPost]
+        [Route("download")]
+        public HttpResponseMessage download(HttpRequestMessage request, [FromBody] AssetViewModel obj)
+        {
+            HttpResponseMessage response = new HttpResponseMessage();
+            response = _assetProcess.download(obj);
+            return response;
+        }
+
     }
 }

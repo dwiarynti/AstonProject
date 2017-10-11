@@ -20,7 +20,7 @@ namespace Aston.Entities
         public string Owner { get; set; }
         public string PurchaseDate { get; set; }
         public decimal PurchasePrice { get; set; }
-        public string DepreciationDuration { get; set; }
+        public int DepreciationDuration { get; set; }
         public string DisposedDate { get; set; }
         public string ManufactureDate { get; set; }
         public int CategoryCD { get; set; }

@@ -237,4 +237,18 @@ app.controller('AssetCtrl', function ($scope, $rootScope, assetResource, lookupl
         $scope.Search();
     }
 
+    $scope.export = function () {
+        var assetResources = new assetResource();
+        assetResources.Asset = {
+            CategoryCD: $scope.searchobj.CategoryCD == null ? $scope.searchobj.CategoryCD : parseInt($scope.searchobj.CategoryCD),
+            Owner: $scope.searchobj.Owner == "" ? null : $scope.searchobj.Owner
+        };
+        assetResources.Ismovable = $scope.searchobj.IsMovable;
+        //assetResources.Skip = $scope.bigCurrentPage - 1;
+        assetResources.$download(function(data) {
+            var blob = data.response.blob;
+            saveAs(blob, data.response.fileName);
+        });
+    }
+
 });

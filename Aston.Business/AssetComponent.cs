@@ -3,10 +3,13 @@ using Aston.Entities;
 using Aston.Entities.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
+using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using OfficeOpenXml.Utils;
 
 namespace Aston.Business
 {
@@ -129,7 +132,7 @@ namespace Aston.Business
                     asset.Owner = obj.Asset.Owner;
                     asset.PurchaseDate =Convert.ToDateTime(obj.Asset.PurchaseDate).ToString("ddMMyyyy");
                     asset.PurchasePrice = obj.Asset.PurchasePrice;
-                    asset.DepreciationDuration = obj.Asset.DepreciationDuration != null ? Convert.ToDateTime(obj.Asset.DepreciationDuration).ToString("ddMMyyyy") : null;
+                    asset.DepreciationDuration = obj.Asset.DepreciationDuration;
                     asset.DisposedDate = obj.Asset.DisposedDate != null ? Convert.ToDateTime(obj.Asset.DisposedDate).ToString("ddMMyyyy") : null;
                     asset.ManufactureDate = Convert.ToDateTime(obj.Asset.ManufactureDate).ToString("ddMMyyyy");
                     asset.CategoryCD = Convert.ToInt16(obj.Asset.CategoryCD);
@@ -247,6 +250,71 @@ namespace Aston.Business
                 }
                 
             return result;
+        }
+
+        public byte[] Download(AssetViewModel obj)
+        {
+            byte[] bytes;
+            MemoryStream stream = new MemoryStream();
+            var listdata = _asset.ReportAsset_SP(Convert.ToInt16(obj.Asset.CategoryCD), obj.Ismovable, obj.Asset.Owner);
+            using (ExcelPackage package = new ExcelPackage(stream))
+            {
+                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Asset");
+                //First add the headers
+                InsertColumnHeaders(worksheet);
+                var lastrow = 1;
+                //Add values
+                foreach (var data in listdata)
+                {
+                    lastrow = lastrow + 1;
+                    InsertRowData(worksheet, data.Asset, lastrow);
+                }
+                //worksheet.Cells["A2"].Value = 1000;
+                //worksheet.Cells["B2"].Value = "Jon";
+                //worksheet.Cells["C2"].Value = "M";
+                //worksheet.Cells["D2"].Value = 5000;
+
+                //worksheet.Cells["A3"].Value = 1001;
+                //worksheet.Cells["B3"].Value = "Graham";
+                //worksheet.Cells["C3"].Value = "M";
+                //worksheet.Cells["D3"].Value = 10000;
+
+                //worksheet.Cells["A4"].Value = 1002;
+                //worksheet.Cells["B4"].Value = "Jenny";
+                //worksheet.Cells["C4"].Value = "F";
+                //worksheet.Cells["D4"].Value = 5000;
+
+                bytes = package.GetAsByteArray();
+            }
+            return bytes;
+
+        }
+
+        public void InsertColumnHeaders(ExcelWorksheet worksheet)
+        {
+            worksheet.Cells["A1"].Value = "Code";
+            worksheet.Cells["B1"].Value = "Name";
+            worksheet.Cells["C1"].Value = "Description";
+            worksheet.Cells["D1"].Value = "Owner";
+            worksheet.Cells["E1"].Value = "Status";
+            worksheet.Cells["F1"].Value = "Purchase Date";
+            worksheet.Cells["G1"].Value = "Purchase Price";
+            worksheet.Cells["H1"].Value = "Depreciation Duration";
+            worksheet.Cells["I1"].Value = "Current Value";
+        }
+
+        public void InsertRowData(ExcelWorksheet worksheet, AseetSearchResult Asset, int lastrow)
+        {
+            //var row = worksheet
+            worksheet.Cells["A"+ lastrow].Value = Asset.Code;
+            worksheet.Cells["B"+ lastrow].Value = Asset.Name;
+            worksheet.Cells["C" + lastrow].Value = Asset.Description;
+            worksheet.Cells["D" + lastrow].Value = Asset.Owner;
+            worksheet.Cells["E" + lastrow].Value = Asset.StatusCDName;
+            worksheet.Cells["F" + lastrow].Value = Asset.PurchaseDate;
+            worksheet.Cells["G" + lastrow].Value = Asset.PurchasePrice;
+            worksheet.Cells["H" + lastrow].Value = Asset.DepreciationDuration;
+            worksheet.Cells["I" + lastrow].Value = Asset.CurrentValue;
         }
 
     }

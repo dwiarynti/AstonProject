@@ -73,10 +73,19 @@ namespace Aston.Web.Process
             result = REST(requestUri, RESTConstants.POST, JsonConvert.SerializeObject(obj));
             return result;
         }
+
         public HttpResponseMessage DeleteAsset(Asset obj)
         {
             HttpResponseMessage result = default(HttpResponseMessage);
             string requestUri = "api/Asset/DeleteAsset";
+            result = REST(requestUri, RESTConstants.POST, JsonConvert.SerializeObject(obj));
+            return result;
+        }
+
+        public HttpResponseMessage download(AssetViewModel obj)
+        {
+            HttpResponseMessage result = default(HttpResponseMessage);
+            string requestUri = "api/Asset/download";
             result = REST(requestUri, RESTConstants.POST, JsonConvert.SerializeObject(obj));
             return result;
         }

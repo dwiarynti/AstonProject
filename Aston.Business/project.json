@@ -3,7 +3,9 @@
 
   "dependencies": {
     "Aston.Entities": "1.0.0-*",
-    "NETStandard.Library": "1.6.0"
+    "DocumentFormat.OpenXml": "2.7.2",
+    "EPPlus.Core": "1.5.2",
+    "NETStandard.Library": "2.0.1"
   },
 
   "frameworks": {

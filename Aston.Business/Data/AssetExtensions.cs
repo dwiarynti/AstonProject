@@ -112,5 +112,38 @@ namespace Aston.Business.Data
             
             return result;
         }
+
+        public List<AssetViewModel> ReportAsset_SP(int categorycode, bool? ismovable, string owner)
+        {
+            var result = new List<AssetViewModel>();
+            var obj = new AssetViewModel();
+
+            using (AstonContext dbContext = new AstonContext())
+            {
+                dbContext.Database.OpenConnection();
+                DbCommand cmd = dbContext.Database.GetDbConnection().CreateCommand();
+                cmd.CommandText = "dbo.sp_ReportAsset";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.Add(new SqlParameter("@CategoryCD", SqlDbType.Int) { Value = categorycode });
+                cmd.Parameters.Add(new SqlParameter("@IsMovable", SqlDbType.Bit) { Value = ismovable });
+                cmd.Parameters.Add(new SqlParameter("@Owner", SqlDbType.NVarChar) { Value = owner });
+
+                using (var reader = cmd.ExecuteReader())
+                {
+
+                    //a = reader.<AssetViewModel>():
+                    var assetlist = dbContext.DataReaderMapToList<AseetSearchResult>(reader);
+                    foreach (var asset in assetlist)
+                    {
+                        result.Add(new AssetViewModel() { Asset = asset });
+                    }
+                    cmd.Connection.Close();
+
+                }
+            }
+
+            return result;
+        }
     }
 }

@@ -8,6 +8,7 @@ using System.Net.Http;
 using Aston.Entities;
 using Aston.Entities.DataContext;
 using System.Net;
+using System.Net.Http.Headers;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -103,7 +104,22 @@ namespace Aston.WebApi.Controllers
             return response;
         }
 
+        [HttpPost]
+        [Route("download")]
+        public HttpResponseMessage download(HttpRequestMessage request, [FromBody] AssetViewModel obj)
+        {
+            var result = service.Download(obj);
+            byte[] fileData = result;
+            var fileContent = new ByteArrayContent(fileData);
 
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK) {Content = fileContent};
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+            response.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
+            {
+                FileName = "Asset Report.xlsx"
+            };
+            return response;
+        }
 
     }
 }
