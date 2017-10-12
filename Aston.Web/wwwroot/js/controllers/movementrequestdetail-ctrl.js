@@ -80,7 +80,7 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
 
     $scope.GetDepartment();
 
-    if ($scope.movementrequestobj == undefined) {
+    if (transferobjectService.addObj.data == undefined) {
         $state.go('movementrequestmanagement');
     } else {
         $scope.init();
@@ -98,24 +98,24 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
         $('#datepicker-movementdate').datepicker('show');
     };
 
-    function movementrequesModel() {
-        return {
-            ID: "temp",
-            MovementDate: null,
-            LocationID: null,
-            Description: null,
-            ApprovedDate: null,
-            ApprovedBy: null,
-            Notes: null,
-            MovementRequestDetail: []
-            //CreatedDate: null,
-            //CreatedBy: null,
-            //UpdatedDate: null,
-            //UpdatedBy: null,
-            //DeletedDate: null,
-            //DeletedBy: null
-        };
-    }
+    //function movementrequesModel() {
+    //    return {
+    //        ID: "temp",
+    //        MovementDate: null,
+    //        LocationID: null,
+    //        Description: null,
+    //        ApprovedDate: null,
+    //        ApprovedBy: null,
+    //        Notes: null,
+    //        MovementRequestDetail: []
+    //        //CreatedDate: null,
+    //        //CreatedBy: null,
+    //        //UpdatedDate: null,
+    //        //UpdatedBy: null,
+    //        //DeletedDate: null,
+    //        //DeletedBy: null
+    //    };
+    //}
 
     function movementrequesModel() {
         return {
@@ -350,20 +350,25 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
 
     $scope.GetAssetLocationByMovementDetailID = function (obj) {
         var assetLocationResources = new assetLocationResource();
-
+        $scope.selectedassetlist = [];
         assetLocationResources.$GetAssetLocationByMovementDetailID({ id: obj.ID }, function (data) {
             if (data.success) {
                 console.log(data);
-                $scope.selectedassetlist = data.obj;
+                angular.forEach(data.obj, function(obj) {
+                    $scope.selectedassetlist.push(obj.AssetLocation);
+                });
+                $scope.GetAsset(obj.AssetCategoryCD); // get asset list
+
             }
         });
     }
 
     $scope.selectasset = function (obj) {
         $scope.onprocess = false;
-        $scope.GetAssetLocationByMovementDetailID(obj);
+        $scope.GetAssetLocationByMovementDetailID(obj); // get selested asset by movementdetail
         $("#modal-addasset").modal('show');
-        $scope.GetAsset(obj.AssetCategoryCD);
+
+
         $scope.movementrequestdetailBackup = angular.copy(obj);
         $scope.movementrequestdetail = obj;
     }
@@ -372,6 +377,12 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
         assetResources.$GetAssetByCategoryCode({ id: parseInt(AssetCategoryCD) }, function (data) {
             console.log(data);
             $scope.assetlist = data.obj;
+            angular.forEach($scope.selectedassetlist, function (obj) {
+                var getexistedasset = $filter('filter')($scope.assetlist, function (asset) { return asset.ID == obj.AssetID })[0];
+                console.log(getexistedasset);
+                $scope.assetlist.splice(getexistedasset, 1);
+            });
+
         });
     }
 
@@ -414,6 +425,7 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
                 $scope.movementrequestdetail.Transfered = $scope.selectedassetlist.length;
                 $window.alert("Data saves successfully");
                 $("#modal-addasset").modal('hide');
+                $scope.selectedassetlist = [];
                 $scope.init();
             }
         });

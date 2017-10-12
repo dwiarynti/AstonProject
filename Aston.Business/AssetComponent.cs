@@ -295,12 +295,14 @@ namespace Aston.Business
             worksheet.Cells["A1"].Value = "Code";
             worksheet.Cells["B1"].Value = "Name";
             worksheet.Cells["C1"].Value = "Description";
-            worksheet.Cells["D1"].Value = "Owner";
-            worksheet.Cells["E1"].Value = "Status";
-            worksheet.Cells["F1"].Value = "Purchase Date";
-            worksheet.Cells["G1"].Value = "Purchase Price";
-            worksheet.Cells["H1"].Value = "Depreciation Duration";
-            worksheet.Cells["I1"].Value = "Current Value";
+            worksheet.Cells["D1"].Value = "Category";
+            worksheet.Cells["E1"].Value = "Owner";
+            worksheet.Cells["F1"].Value = "Is Movable Asset";
+            worksheet.Cells["G1"].Value = "Status";
+            worksheet.Cells["H1"].Value = "Purchase Date";
+            worksheet.Cells["I1"].Value = "Purchase Price";
+            worksheet.Cells["J1"].Value = "Depreciation Duration";
+            worksheet.Cells["K1"].Value = "Current Value";
         }
 
         public void InsertRowData(ExcelWorksheet worksheet, AseetSearchResult Asset, int lastrow)
@@ -309,12 +311,14 @@ namespace Aston.Business
             worksheet.Cells["A"+ lastrow].Value = Asset.Code;
             worksheet.Cells["B"+ lastrow].Value = Asset.Name;
             worksheet.Cells["C" + lastrow].Value = Asset.Description;
-            worksheet.Cells["D" + lastrow].Value = Asset.Owner;
-            worksheet.Cells["E" + lastrow].Value = Asset.StatusCDName;
-            worksheet.Cells["F" + lastrow].Value = Asset.PurchaseDate;
-            worksheet.Cells["G" + lastrow].Value = Asset.PurchasePrice;
-            worksheet.Cells["H" + lastrow].Value = Asset.DepreciationDuration;
-            worksheet.Cells["I" + lastrow].Value = Asset.CurrentValue;
+            worksheet.Cells["D" + lastrow].Value = Asset.CategoryCDName;
+            worksheet.Cells["E" + lastrow].Value = Asset.Owner;
+            worksheet.Cells["F" + lastrow].Value = Asset.IsMovable;
+            worksheet.Cells["G" + lastrow].Value = Asset.StatusCDName;
+            worksheet.Cells["H" + lastrow].Value = Asset.PurchaseDate;
+            worksheet.Cells["I" + lastrow].Value = Asset.PurchasePrice;
+            worksheet.Cells["J" + lastrow].Value = Asset.DepreciationDuration;
+            worksheet.Cells["K" + lastrow].Value = Asset.CurrentValue;
         }
 
     }
