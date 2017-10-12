@@ -454,4 +454,8 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
         
     }
 
+    $scope.setToNumberPatern = function (obj) {
+        obj.Quantity = obj.Quantity != null ? obj.Quantity.toString().replace(/[^\d]/g, '') : obj.Quantity;
+    }
+
 });

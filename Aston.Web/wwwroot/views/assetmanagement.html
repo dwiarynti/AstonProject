@@ -134,8 +134,15 @@
                                 <div ng-class="(asset.PurchasePrice == null || asset.PurchasePrice == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
                                     <label class="col-sm-3 form-control-label">Purchase Price*</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control form-control-success" placeholder="Purchase Price" ng-model="asset.PurchasePrice">
+                                        <input type="text" class="form-control form-control-success" placeholder="Purchase Price" ng-model="asset.PurchasePrice" ng-change="setToNumberPatern(asset)">
                                         <small class="text-danger" ng-if="(asset.PurchasePrice == null || asset.PurchasePrice == '') && isValidate == false">Purchase Price is required</small>
+                                    </div>
+                                </div>
+                                <div ng-class="(asset.DepreciationDuration == null || asset.DepreciationDuration == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
+                                    <label class="col-sm-3 form-control-label">Depreciation Duration*</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control form-control-success" placeholder="Depreciation Duration" ng-model="asset.DepreciationDuration" ng-change="setToNumberPatern(asset)">
+                                        <small class="text-danger" ng-if="(asset.DepreciationDuration == null || asset.DepreciationDuration == '') && isValidate == false">Depreciation Durationis required</small>
                                     </div>
                                 </div>
                                 <div ng-class="(asset.ManufactureDate == null || asset.ManufactureDate == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">

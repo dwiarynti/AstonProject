@@ -44,7 +44,7 @@ app.controller('AssetCtrl', function ($scope, $rootScope, assetResource, lookupl
             Owner: null,
             PurchaseDate: null,
             PurchasePrice: null,
-            //DepreciationDuration: null,
+            DepreciationDuration: null,
             //DisposedDate: null,
             ManufactureDate: null,
             CategoryCD: null,
@@ -249,6 +249,11 @@ app.controller('AssetCtrl', function ($scope, $rootScope, assetResource, lookupl
             var blob = data.response.blob;
             saveAs(blob, data.response.fileName);
         });
+    }
+
+    $scope.setToNumberPatern = function (obj) {
+        obj.PurchasePrice = obj.PurchasePrice != null ? obj.PurchasePrice.toString().replace(/[^\d]/g, '') : obj.PurchasePrice;
+        obj.DepreciationDuration = obj.DepreciationDuration != null ? obj.DepreciationDuration.toString().replace(/[^\d]/g, '') : obj.DepreciationDuration;
     }
 
 });
