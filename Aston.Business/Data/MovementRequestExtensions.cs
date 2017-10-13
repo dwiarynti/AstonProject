@@ -38,6 +38,15 @@ namespace Aston.Business.Data
             var obj = _context.MovementRequest.Include(p => p.MovementRequestDetail).Include(p => p.Location).Where(p => p.DeletedDate == null && p.DeletedBy == null && p.ApprovalStatus == 1).ToList();
             return obj;
         }
+        public List<MovementRequestDetail> GetMovementRequestToMoveByDepartment(int depatmentid)
+        {
+            
+
+            var mv = _context.MovementRequestDetail.Where(p => p.DeletedDate == null && p.RequestedTo == depatmentid).Include(p=>p.MovementRequest).Where(j=>j.MovementRequest.ApprovalStatus== 1 && j.MovementRequest.DeletedDate == null).ToList();
+
+                
+            return mv;
+        }
         public List<MovementRequestViewModel> SearchMovementRequests_SP(int LocationID, int ApprovalStatus, int Skip)
         {
             var result = new List<MovementRequestViewModel>();

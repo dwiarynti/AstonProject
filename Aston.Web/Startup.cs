@@ -18,6 +18,7 @@ using Aston.Web.Process;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
 using Microsoft.AspNetCore.Http;
+using Aston.Business;
 
 namespace Aston.Web
 {
@@ -82,6 +83,7 @@ namespace Aston.Web
             services.AddTransient<LocationProcess>();
             services.AddTransient<LookupListProcess>();
             services.AddTransient<MovementRequestProcces>();
+         
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
