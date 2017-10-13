@@ -172,4 +172,8 @@ app.controller('LocationCtrl', function ($scope, $rootScope, locationResource, l
         $scope.Search();
     }
 
+    $scope.setToNumberPatern = function (obj) {
+        obj.Floor = obj.Floor != null ? obj.Floor.toString().replace(/[^\d]/g, '') : obj.Floor;
+    }
+
 });

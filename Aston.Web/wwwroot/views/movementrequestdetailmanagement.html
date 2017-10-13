@@ -95,7 +95,7 @@
                             </select>
                         </td>
                         <td ng-if="movementrequestdetail.editmode == true"><input type="text" class="form-control form-control-success" placeholder="Description" ng-model="movementrequestdetail.Description"></td>
-                        <td ng-if="movementrequestdetail.editmode == true"><input type="text" class="form-control form-control-success" placeholder="Description" ng-model="movementrequestdetail.Quantity"></td>
+                        <td ng-if="movementrequestdetail.editmode == true"><input type="text" class="form-control form-control-success" placeholder="Description" ng-model="movementrequestdetail.Quantity" ng-change="setToNumberPatern(movementrequestdetail)"></td>
                         <td ng-if="movementrequestdetail.editmode == true">
                             <select class="form-control" ng-model="movementrequestdetail.RequestTo" ng-change="getDepartmentName(movementrequestdetail)">
                                 <option ng-repeat="department in departmentlist" ng-selected="isSelectedItem(department.ID, movementrequestdetail.RequestTo)" value="{{department.ID}}">{{department.Name}}</option>

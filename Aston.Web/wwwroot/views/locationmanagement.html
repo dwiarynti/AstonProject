@@ -90,7 +90,7 @@
                                 <div ng-class="(location.Floor == null || location.Floor == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
                                     <label class="col-sm-3 form-control-label">Floor*</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control form-control-success" placeholder="Description" ng-model="location.Floor">
+                                        <input type="text" class="form-control form-control-success" placeholder="Description" ng-model="location.Floor" ng-change="setToNumberPatern(location)">
                                         <small class="text-danger" ng-if="(location.Floor == null || location.Floor == '') && isValidate == false">Floor is required</small>
                                     </div>
                                 </div>
