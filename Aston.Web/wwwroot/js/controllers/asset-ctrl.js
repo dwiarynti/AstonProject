@@ -2,7 +2,7 @@
  * Asset Controller
  */
 
-app.controller('AssetCtrl', function ($scope, $rootScope, assetResource, lookuplistResource, commonService) {
+app.controller('AssetCtrl', function ($scope, $rootScope, $window, assetResource, lookuplistResource, commonService) {
     var assetResources = new assetResource();
     var lookuplistResources = new lookuplistResource();
     $scope.isValidate = true;
@@ -12,6 +12,7 @@ app.controller('AssetCtrl', function ($scope, $rootScope, assetResource, lookupl
     $scope.categorylist = [];
     $rootScope.PageName = "Asset";
     $scope.searchobj = SearchModel();
+    $scope.SelectedReport = "";
 
     //pagination
     $scope.NumberofAsset = 0;
@@ -238,14 +239,22 @@ app.controller('AssetCtrl', function ($scope, $rootScope, assetResource, lookupl
     }
 
     $scope.export = function () {
+        if ($scope.SelectedReport != "") {
+            $scope.AssetReport();
+        } else {
+            $window.alert("Plear select the report");
+        }
+    }
+
+    $scope.AssetReport = function() {
         var assetResources = new assetResource();
+        assetResources.ReportName = $scope.SelectedReport;
         assetResources.Asset = {
             CategoryCD: $scope.searchobj.CategoryCD == null ? $scope.searchobj.CategoryCD : parseInt($scope.searchobj.CategoryCD),
             Owner: $scope.searchobj.Owner == "" ? null : $scope.searchobj.Owner
         };
         assetResources.Ismovable = $scope.searchobj.IsMovable;
-        //assetResources.Skip = $scope.bigCurrentPage - 1;
-        assetResources.$download(function(data) {
+        assetResources.$download(function (data) {
             var blob = data.response.blob;
             saveAs(blob, data.response.fileName);
         });

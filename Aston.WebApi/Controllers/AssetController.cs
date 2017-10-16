@@ -116,7 +116,7 @@ namespace Aston.WebApi.Controllers
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
             response.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
             {
-                FileName = "Asset Report.xlsx"
+                FileName = "Asset Report-"+obj.ReportName+".xlsx"
             };
             return response;
         }

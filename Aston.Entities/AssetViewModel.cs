@@ -15,6 +15,7 @@ namespace Aston.Entities
         public Nullable<bool> Ismovable { get; set; }
         //public Nullable<bool> isSearch { get; set; }
         public int Skip { get; set; }
+        public string ReportName { get; set; }
 
         public AseetSearchResult Asset { get; set; }
 
