@@ -95,14 +95,14 @@
                             </select>
                         </td>
                         <td ng-if="movementrequestdetail.editmode == true"><input type="text" class="form-control form-control-success" placeholder="Description" ng-model="movementrequestdetail.Description"></td>
-                        <td ng-if="movementrequestdetail.editmode == true"><input type="text" class="form-control form-control-success" placeholder="Description" ng-model="movementrequestdetail.Quantity" ng-change="setToNumberPatern(movementrequestdetail)"></td>
+                        <td ng-if="movementrequestdetail.editmode == true"><input type="text" class="form-control form-control-success" placeholder="Quantity" ng-model="movementrequestdetail.Quantity" ng-change="setToNumberPatern(movementrequestdetail)"></td>
                         <td ng-if="movementrequestdetail.editmode == true">
                             <select class="form-control" ng-model="movementrequestdetail.RequestTo" ng-change="getDepartmentName(movementrequestdetail)">
                                 <option ng-repeat="department in departmentlist" ng-selected="isSelectedItem(department.ID, movementrequestdetail.RequestTo)" value="{{department.ID}}">{{department.Name}}</option>
                             </select>
                             <!--<input type="text" class="form-control form-control-success" placeholder="Description" ng-model="movementrequestdetail.RequestTo">-->
                         </td>
-                        <td ng-if="movementrequestdetail.editmode == true"><input type="text" disabled="true" class="form-control form-control-success" placeholder="Description" ng-model="movementrequestdetail.Transfered"></td>
+                        <td ng-if="movementrequestdetail.editmode == true"><input type="text" disabled="true" class="form-control form-control-success" placeholder="Transfered" ng-model="movementrequestdetail.Transfered"></td>
                         <td ng-if="movementrequestdetail.editmode == true && movementrequestdetail.ID == 'temp'">
                             <button type="button" class="btn btn-default btn-width" ng-click="addMRD(movementrequestdetail)">Add</button>
                             <button type="button" class="btn btn-default btn-width" ng-click="turnoffaddmode($index)">Cancel</button>
