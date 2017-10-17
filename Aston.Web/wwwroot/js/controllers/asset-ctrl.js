@@ -2,7 +2,7 @@
  * Asset Controller
  */
 
-app.controller('AssetCtrl', function ($scope, $rootScope, $window, assetResource, lookuplistResource, commonService) {
+app.controller('AssetCtrl', function ($scope, $rootScope, $window, $state, assetResource, lookuplistResource, commonService) {
     var assetResources = new assetResource();
     var lookuplistResources = new lookuplistResource();
     $scope.isValidate = true;
@@ -263,6 +263,12 @@ app.controller('AssetCtrl', function ($scope, $rootScope, $window, assetResource
     $scope.setToNumberPatern = function (obj) {
         obj.PurchasePrice = obj.PurchasePrice != null ? obj.PurchasePrice.toString().replace(/[^\d]/g, '') : obj.PurchasePrice;
         obj.DepreciationDuration = obj.DepreciationDuration != null ? obj.DepreciationDuration.toString().replace(/[^\d]/g, '') : obj.DepreciationDuration;
+    }
+
+    $scope.OpenHistory = function(obj) {
+        window.open($state.href("assethistory", {
+            ID: obj.ID
+        }));
     }
 
 });

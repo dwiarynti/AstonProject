@@ -83,5 +83,36 @@ namespace Aston.Business.Data
         {
             return _context.MovementRequest.Include(p => p.MovementRequestDetail).Include(p => p.Location).Where(p => p.DeletedDate == null && p.DeletedBy == null).ToList().Count;
         }
+
+        public List<HistoryViewModel> AssetHistory_SP(int AssetID, int Skip)
+        {
+            var result = new List<HistoryViewModel>();
+
+            using (AstonContext dbContext = new AstonContext())
+            {
+                dbContext.Database.OpenConnection();
+                DbCommand cmd = dbContext.Database.GetDbConnection().CreateCommand();
+                cmd.CommandText = "dbo.sp_AssetHistory_Pagination";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.Add(new SqlParameter("@AssetID", SqlDbType.Int) { Value = AssetID });
+                cmd.Parameters.Add(new SqlParameter("@Skip", SqlDbType.Int) { Value = Skip });
+
+                using (var reader = cmd.ExecuteReader())
+                {
+
+                    //a = reader.<AssetViewModel>():
+                    var historyList = dbContext.DataReaderMapToList<HistoryViewModel>(reader);
+                    foreach (var history in historyList)
+                    {
+                        result.Add(history);
+                    }
+                    cmd.Connection.Close();
+
+                }
+            }
+
+            return result;
+        }
     }
 }

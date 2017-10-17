@@ -560,6 +560,7 @@
 /// <reference path="js/ccsasset/select2/vendor/jquery.mousewheel.js" />
 /// <reference path="js/ccsasset/select2/vendor/jquery-2.1.0.js" />
 /// <reference path="js/controllers/asset-ctrl.js" />
+/// <reference path="js/controllers/assethistory-ctrl.js" />
 /// <reference path="js/controllers/assetlocation-ctrl.js" />
 /// <reference path="js/controllers/home-ctrl.js" />
 /// <reference path="js/controllers/location-ctrl.js" />

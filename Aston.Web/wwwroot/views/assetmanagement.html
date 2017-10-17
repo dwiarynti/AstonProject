@@ -106,6 +106,7 @@
                             <td>
                                 <button type="button" class="btn btn-default btn-width" ng-click="edit(asset.Asset)">Edit</button>
                                 <button type="button" class="btn btn-default btn-width" ng-click="deletemodal(asset.Asset)">Delete</button>
+                                <button type="button" class="btn btn-default btn-width" ng-click="OpenHistory(asset.Asset)">History</button>
                             </td>
                         </tr>
                     </tbody>
@@ -113,7 +114,7 @@
 
                 <div ng-hide="isLoading" class="form-group m-b-50">
                     <div class="col-md-12 text-right">
-                        <ul style="float: right" uib-pagination total-items="NumberofAsset" ng-model="bigCurrentPage" max-size="5" class="pagination" boundary-link-numbers="true" rotate="false" ng-change="init()"></ul>
+                        <ul style="float: right" uib-pagination total-items="NumberofAssetHistory" ng-model="bigCurrentPage" max-size="5" class="pagination" boundary-link-numbers="true" rotate="false" ng-change="init()"></ul>
                     </div>
                 </div>
 

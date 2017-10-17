@@ -20,6 +20,7 @@ namespace Aston.Business
         AstonContext _context = new AstonContext();
         AssetExtensions _asset = new AssetExtensions();
         LocationExtensions _location = new LocationExtensions();
+        MovementRequestExtensions _movementRequest = new MovementRequestExtensions();
         GenerateCodeComponent _generatecode = new GenerateCodeComponent();
         LookupListComponent _pref = new LookupListComponent();
         public AssetViewModel GetAssetByCode (string barcode)
@@ -404,6 +405,14 @@ namespace Aston.Business
         {
             var dt = DateTime.ParseExact(date, "ddMMyyyy", CultureInfo.InvariantCulture);
             return dt.ToString("yyyy,MM,dd", CultureInfo.InvariantCulture);
+        }
+
+        public AssetHistoryViewModel AssetMovementHistory(AssetViewModel obj)
+        {
+            var result = new AssetHistoryViewModel();
+            result.Asset = _asset.GetAssetInfoByID(obj.Asset.ID);
+            result.History = _movementRequest.AssetHistory_SP(obj.Asset.ID, obj.Skip);
+            return result;
         }
 
     }

@@ -90,5 +90,13 @@ namespace Aston.Web.Process
             return result;
         }
 
+        public HttpResponseMessage AssetMovementHistory(AssetViewModel obj)
+        {
+            HttpResponseMessage result = default(HttpResponseMessage);
+            string requestUri = "api/Asset/AssetMovementHistory";
+            result = REST(requestUri, RESTConstants.POST, JsonConvert.SerializeObject(obj));
+            return result;
+        }
+
     }
 }
