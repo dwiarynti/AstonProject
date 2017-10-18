@@ -83,9 +83,9 @@
                         <td ng-if="movementrequestdetail.editmode == false">{{movementrequestdetail.RequestToName}}</td>
                         <td ng-if="movementrequestdetail.editmode == false">{{movementrequestdetail.Transfered}}</td>
                         <td ng-if="movementrequestdetail.editmode == false && movementdetailaction == 'edit'">
-                            <button ng-if="movementdetailaction == 'edit'" ng-disabled="movementrequestobj.MovementRequest.ApprovalStatus == 1" type="button" class="btn btn-default btn-width" ng-click="editMRD(movementrequestdetail)">Edit</button>
-                            <button ng-if="movementdetailaction == 'edit'" ng-disabled="movementrequestobj.MovementRequest.ApprovalStatus == 1" type="button" class="btn btn-default btn-width" ng-click="deleteMRD(movementrequestdetail)">Delete</button>
-                            <button ng-if="movementrequestobj.MovementRequest.ApprovalStatus == 1" ng-disabled="movementrequestdetail.Quantity == movementrequestdetail.Transfered" type="button" class="btn btn-default btn-width" ng-click="selectasset(movementrequestdetail)">Select Asset</button>
+                            <button ng-if="movementdetailaction == 'edit'" ng-disabled="movementrequestobj.MovementRequest.ApprovalStatus == 1" type="button" class="btn btn-warning btn-sm" ng-click="editMRD(movementrequestdetail)">Edit</button>
+                            <button ng-if="movementdetailaction == 'edit'" ng-disabled="movementrequestobj.MovementRequest.ApprovalStatus == 1" type="button" class="btn btn-danger btn-sm" ng-click="deleteMRD(movementrequestdetail)">Delete</button>
+                            <button ng-if="movementrequestobj.MovementRequest.ApprovalStatus == 1" ng-disabled="movementrequestdetail.Quantity == movementrequestdetail.Transfered" type="button" class="btn btn-default btn-sm" ng-click="selectasset(movementrequestdetail)">Select Asset</button>
                         </td>
 
                         <!--manipulation mode-->
@@ -104,12 +104,12 @@
                         </td>
                         <td ng-if="movementrequestdetail.editmode == true"><input type="text" disabled="true" class="form-control form-control-success" placeholder="Transfered" ng-model="movementrequestdetail.Transfered"></td>
                         <td ng-if="movementrequestdetail.editmode == true && movementrequestdetail.ID == 'temp'">
-                            <button type="button" class="btn btn-default btn-width" ng-click="addMRD(movementrequestdetail)">Add</button>
-                            <button type="button" class="btn btn-default btn-width" ng-click="turnoffaddmode($index)">Cancel</button>
+                            <button type="button" class="btn btn-default btn-sm" ng-click="addMRD(movementrequestdetail)">Add</button>
+                            <button type="button" class="btn btn-default btn-sm" ng-click="turnoffaddmode($index)">Cancel</button>
                         </td>
                         <td ng-if="movementrequestdetail.editmode == true && movementrequestdetail.ID != 'temp'">
-                            <button type="button" class="btn btn-default btn-width" ng-click="addMRD(movementrequestdetail)">Add</button>
-                            <button type="button" class="btn btn-default btn-width" ng-click="turnoffeditmode(movementrequestdetail)">Cancel</button>
+                            <button type="button" class="btn btn-default btn-sm" ng-click="addMRD(movementrequestdetail)">Add</button>
+                            <button type="button" class="btn btn-default btn-sm" ng-click="turnoffeditmode(movementrequestdetail)">Cancel</button>
                         </td>
                     </tr>
                     </tbody>

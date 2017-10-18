@@ -60,7 +60,7 @@ namespace Aston.Business.Data
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 cmd.Parameters.Add(new SqlParameter("@LocationID", SqlDbType.Int) { Value = LocationID });
-                cmd.Parameters.Add(new SqlParameter("@ApprovalStatus", SqlDbType.Bit) { Value = ApprovalStatus });
+                cmd.Parameters.Add(new SqlParameter("@ApprovalStatus", SqlDbType.Int) { Value = ApprovalStatus });
                 cmd.Parameters.Add(new SqlParameter("@Skip", SqlDbType.Int) { Value = Skip });
 
                 using (var reader = cmd.ExecuteReader())
