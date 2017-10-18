@@ -104,11 +104,11 @@
                         </td>
                         <td ng-if="movementrequestdetail.editmode == true"><input type="text" disabled="true" class="form-control form-control-success" placeholder="Transfered" ng-model="movementrequestdetail.Transfered"></td>
                         <td ng-if="movementrequestdetail.editmode == true && movementrequestdetail.ID == 'temp'">
-                            <button type="button" class="btn btn-default btn-sm" ng-click="addMRD(movementrequestdetail)">Add</button>
+                            <button type="button" class="btn btn-primary btn-sm" ng-click="addMRD(movementrequestdetail)">Add</button>
                             <button type="button" class="btn btn-default btn-sm" ng-click="turnoffaddmode($index)">Cancel</button>
                         </td>
                         <td ng-if="movementrequestdetail.editmode == true && movementrequestdetail.ID != 'temp'">
-                            <button type="button" class="btn btn-default btn-sm" ng-click="addMRD(movementrequestdetail)">Add</button>
+                            <button type="button" class="btn btn-primary btn-sm" ng-click="addMRD(movementrequestdetail)">Add</button>
                             <button type="button" class="btn btn-default btn-sm" ng-click="turnoffeditmode(movementrequestdetail)">Cancel</button>
                         </td>
                     </tr>
@@ -118,7 +118,7 @@
                 <div ng-hide="isLoading" class="form-group m-b-50">
                     <div class="col-md-12 text-right">
                         <button ng-disabled="movementrequestobj.MovementRequest.ApprovalStatus == 1 || onprocess == true" ng-if="movementrequestobj.MovementRequest.ID == 'temp' && movementdetailaction == 'edit'" type="button" class="btn btn-primary" ng-click="SaveMovementRequest()">Save</button>
-                        <button ng-disabled="movementrequestobj.MovementRequest.ApprovalStatus == 1 || onprocess == true" ng-if="movementrequestobj.MovementRequest.ID != 'temp' && movementdetailaction == 'edit'" type="button" class="btn btn-primary" ng-click="UpdateMovementRequest()">Update</button>
+                        <button ng-disabled="movementrequestobj.MovementRequest.ApprovalStatus == 1 || onprocess == true" ng-if="movementrequestobj.MovementRequest.ID != 'temp' && movementdetailaction == 'edit'" type="button" class="btn btn-warning" ng-click="UpdateMovementRequest()">Update</button>
                         <button ng-disabled="movementrequestobj.MovementRequest.ApprovalStatus == 3" ng-if="movementdetailaction == 'detail'" type="button" class="btn btn-primary" ng-click="Approve(movementrequestobj)">Approve</button>
                         <button ng-disabled="movementrequestobj.MovementRequest.ApprovalStatus == 1" ng-if="movementdetailaction == 'detail'" type="button" class="btn btn-danger" ng-click="Reject(movementrequestobj)">Reject</button>
 
