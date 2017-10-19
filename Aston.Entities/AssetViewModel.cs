@@ -57,6 +57,9 @@ namespace Aston.Entities
         public string MovementDate { get; set; }
         public string Description { get; set; }
         public string LocationName { get; set; }
+        public string RequestBy { get; set; }
+        public string ApprovedBy { get; set; }
+        public string MovedBy { get; set; }
         public int TotalRow { get; set; }
     }
 }
