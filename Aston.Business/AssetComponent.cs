@@ -279,21 +279,21 @@ namespace Aston.Business
             {
                 ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Asset - Total Asset Value");
                 //First add the headers
-                InsertColumnHeaders(worksheet);
+                InsertColumnHeaders(worksheet, obj.ReportName);
                 var lastrow = 1;
                 double TotalCurrentValue = 0;
                 //Add values
                 foreach (var data in listdata)
                 {
                     lastrow = lastrow + 1;
-                    InsertRowData(worksheet, data.Asset, lastrow);
+                    InsertRowData(worksheet, data.Asset, lastrow, obj.ReportName);
                     TotalCurrentValue = TotalCurrentValue + data.Asset.CurrentValue;
                 }
 
                 lastrow = lastrow + 1;
                 InsertColumnFooters(worksheet, lastrow, TotalCurrentValue);
 
-                var cellrange = worksheet.Cells["A1:K" + lastrow];
+                var cellrange = worksheet.Cells["A1:L" + lastrow];
                 SetBorder(cellrange);
 
                 bytes = package.GetAsByteArray();
@@ -311,13 +311,13 @@ namespace Aston.Business
             {
                 ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Asset - Zero Value");
                 //First add the headers
-                InsertColumnHeaders(worksheet);
+                InsertColumnHeaders(worksheet, obj.ReportName);
                 var lastrow = 1;
                 //Add values
                 foreach (var data in listdata)
                 {
                     lastrow = lastrow + 1;
-                    InsertRowData(worksheet, data.Asset, lastrow);
+                    InsertRowData(worksheet, data.Asset, lastrow, obj.ReportName);
                 }
 
                 var cellrange = worksheet.Cells["A1:K" + lastrow];
@@ -329,19 +329,23 @@ namespace Aston.Business
 
         }
 
-        public void InsertColumnHeaders(ExcelWorksheet worksheet)
+        public void InsertColumnHeaders(ExcelWorksheet worksheet, string reportName)
         {
-            worksheet.Cells["A1"].Value = "Code";
-            worksheet.Cells["B1"].Value = "Name";
-            worksheet.Cells["C1"].Value = "Description";
-            worksheet.Cells["D1"].Value = "Category";
-            worksheet.Cells["E1"].Value = "Owner";
-            worksheet.Cells["F1"].Value = "Is Movable Asset";
-            worksheet.Cells["G1"].Value = "Status";
-            worksheet.Cells["H1"].Value = "Purchase Date";
-            worksheet.Cells["I1"].Value = "Purchase Price";
-            worksheet.Cells["J1"].Value = "Depreciation Duration";
-            worksheet.Cells["K1"].Value = "Current Value";
+            worksheet.Cells["A1"].Value = "No";
+            worksheet.Cells["B1"].Value = "Code";
+            worksheet.Cells["C1"].Value = "Name";
+            worksheet.Cells["D1"].Value = "Description";
+            worksheet.Cells["E1"].Value = "Category";
+            worksheet.Cells["F1"].Value = "Owner";
+            worksheet.Cells["G1"].Value = "Is Movable Asset";
+            worksheet.Cells["H1"].Value = "Status";
+            worksheet.Cells["I1"].Value = "Purchase Date";
+            worksheet.Cells["J1"].Value = "Purchase Price";
+            worksheet.Cells["K1"].Value = "Depreciation Duration";
+            if (reportName == "Total Asset Value")
+            {
+                worksheet.Cells["L1"].Value = "Current Value";
+            }
 
             worksheet.Column(2).Width = 30;
             worksheet.Column(3).Width = 50;
@@ -353,32 +357,36 @@ namespace Aston.Business
             worksheet.Column(9).Width = 17;
             worksheet.Column(10).Width = 20;
             worksheet.Column(11).Width = 20;
+            worksheet.Column(12).Width = 20;
 
-            worksheet.Cells["A1:K1"].Style.Font.Bold = true;
-
-
+            worksheet.Cells["A1:L1"].Style.Font.Bold = true;
         }
 
-        public void InsertRowData(ExcelWorksheet worksheet, AseetSearchResult Asset, int lastrow)
+        public void InsertRowData(ExcelWorksheet worksheet, AseetSearchResult Asset, int lastrow, string reportName)
         {
             //var row = worksheet
-            worksheet.Cells["A"+ lastrow].Value = Asset.Code;
-            worksheet.Cells["A" + lastrow].AutoFitColumns();
+            worksheet.Cells["A"+ lastrow].Value = lastrow-1;
 
-            worksheet.Cells["B"+ lastrow].Value = Asset.Name;
-            worksheet.Cells["C"+ lastrow].Value = Asset.Description;
-            worksheet.Cells["D"+ lastrow].Value = Asset.CategoryCDName;
-            worksheet.Cells["E"+ lastrow].Value = Asset.Owner;
-            worksheet.Cells["F" + lastrow].Value = Asset.IsMovable;
-            worksheet.Cells["G" + lastrow].Value = Asset.StatusCDName;
+            worksheet.Cells["B"+ lastrow].Value = Asset.Code;
+            worksheet.Cells["B" + lastrow].AutoFitColumns();
+
+            worksheet.Cells["C"+ lastrow].Value = Asset.Name;
+            worksheet.Cells["D"+ lastrow].Value = Asset.Description;
+            worksheet.Cells["E"+ lastrow].Value = Asset.CategoryCDName;
+            worksheet.Cells["F"+ lastrow].Value = Asset.Owner;
+            worksheet.Cells["G" + lastrow].Value = Asset.IsMovable;
+            worksheet.Cells["H" + lastrow].Value = Asset.StatusCDName;
 
             var FormatedDate = GetFormatedDate(Asset.PurchaseDate);
-            worksheet.Cells["H" + lastrow].Style.Numberformat.Format = "dd/mm/yyyy";
-            worksheet.Cells["H" + lastrow].Formula = "=DATE("+ FormatedDate + ")";
+            worksheet.Cells["I" + lastrow].Style.Numberformat.Format = "dd/mm/yyyy";
+            worksheet.Cells["I" + lastrow].Formula = "=DATE("+ FormatedDate + ")";
 
-            worksheet.Cells["I" + lastrow].Value = Asset.PurchasePrice;
-            worksheet.Cells["J" + lastrow].Value = Asset.DepreciationDuration;
-            worksheet.Cells["K" + lastrow].Value = Asset.CurrentValue;
+            worksheet.Cells["J" + lastrow].Value = Asset.PurchasePrice;
+            worksheet.Cells["K" + lastrow].Value = Asset.DepreciationDuration;
+            if (reportName == "Total Asset Value")
+            {
+                worksheet.Cells["L" + lastrow].Value = Asset.CurrentValue;
+            }
 
         }
 
@@ -386,11 +394,11 @@ namespace Aston.Business
         {
             worksheet.Cells["A" + lastrow].Value = "Total";
             worksheet.Cells["A" + lastrow].Style.Font.Bold = true;
-            worksheet.Cells["A" + lastrow + ":J" + lastrow].Merge = true;
-            worksheet.Cells["A" + lastrow + ":J" + lastrow].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            worksheet.Cells["A" + lastrow + ":K" + lastrow].Merge = true;
+            worksheet.Cells["A" + lastrow + ":K" + lastrow].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
 
-            worksheet.Cells["K" + lastrow].Value = TotalCurrentValue;
-            worksheet.Cells["K" + lastrow].Style.Font.Bold = true;
+            worksheet.Cells["L" + lastrow].Value = TotalCurrentValue;
+            worksheet.Cells["L" + lastrow].Style.Font.Bold = true;
         }
 
         public void SetBorder(ExcelRange cellrange)
