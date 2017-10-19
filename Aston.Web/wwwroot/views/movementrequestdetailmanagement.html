@@ -22,9 +22,7 @@
                                 <div ng-if="movementdetailaction == 'detail'">
                                     {{movementrequestobj.MovementRequest.LocationName}}
                                 </div>
-                                <select ng-if="movementdetailaction == 'edit'" class="form-control" ng-model="movementrequestobj.MovementRequest.LocationID">
-                                    <option ng-repeat="location in locationlist" ng-selected="isSelectedItem(movementrequestobj.MovementRequest.LocationID, location.Location.ID)" ng-value="{{location.Location.ID}}">{{location.Location.Name}}</option>
-                                </select>
+                                <select ng-if="movementdetailaction == 'edit'" class="form-control" ng-model="movementrequestobj.MovementRequest.LocationID" ng-options="location.Location.ID as location.Location.Name for location in locationlist"></select>
                                 <small class="text-danger" ng-if="(movementrequestobj.MovementRequest.LocationID == null || movementrequestobj.MovementRequest.LocationID == '') && isValidate == false">Location is required</small>
                             </div>
                         </div>
@@ -97,10 +95,7 @@
                         <td ng-if="movementrequestdetail.editmode == true"><input type="text" class="form-control form-control-success" placeholder="Description" ng-model="movementrequestdetail.Description"></td>
                         <td ng-if="movementrequestdetail.editmode == true"><input type="text" class="form-control form-control-success" placeholder="Quantity" ng-model="movementrequestdetail.Quantity" ng-change="setToNumberPatern(movementrequestdetail)"></td>
                         <td ng-if="movementrequestdetail.editmode == true">
-                            <select class="form-control" ng-model="movementrequestdetail.RequestTo" ng-change="getDepartmentName(movementrequestdetail)">
-                                <option ng-repeat="department in departmentlist" ng-selected="isSelectedItem(department.ID, movementrequestdetail.RequestTo)" value="{{department.ID}}">{{department.Name}}</option>
-                            </select>
-                            <!--<input type="text" class="form-control form-control-success" placeholder="Description" ng-model="movementrequestdetail.RequestTo">-->
+                            <select class="form-control" ng-model="movementrequestdetail.RequestTo" ng-options="department.ID as department.Name for department in departmentlist"></select>
                         </td>
                         <td ng-if="movementrequestdetail.editmode == true"><input type="text" disabled="true" class="form-control form-control-success" placeholder="Transfered" ng-model="movementrequestdetail.Transfered"></td>
                         <td ng-if="movementrequestdetail.editmode == true && movementrequestdetail.ID == 'temp'">
