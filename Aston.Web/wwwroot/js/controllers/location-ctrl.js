@@ -99,11 +99,18 @@ app.controller('LocationCtrl', function ($scope, $rootScope, locationResource, l
 
     $scope.CreateLocation = function() {
         var locationResources = new locationResource();
-        locationResources.Name = $scope.location.Name;
-        locationResources.Description = $scope.location.Description;
-        locationResources.Floor = $scope.location.Floor;
-        locationResources.LocationTypeCD = $scope.location.LocationTypeCD;
-        locationResources.StatusCD = 1;
+        locationResources.Location = {
+            Name: $scope.location.Name,
+            Description: $scope.location.Description,
+            Floor: $scope.location.Floor,
+            LocationTypeCD: $scope.location.LocationTypeCD,
+            StatusCD: 1
+        }
+        //locationResources.Name = $scope.location.Name;
+        //locationResources.Description = $scope.location.Description;
+        //locationResources.Floor = $scope.location.Floor;
+        //locationResources.LocationTypeCD = $scope.location.LocationTypeCD;
+        //locationResources.StatusCD = 1;
         locationResources.$CreateLocation(function (data) {
             if (data.success) {
                 $scope.init();
@@ -127,12 +134,20 @@ app.controller('LocationCtrl', function ($scope, $rootScope, locationResource, l
 
     $scope.UpdateLocation = function() {
         var locationResources = new locationResource();
-        locationResources.ID = $scope.location.ID;
-        locationResources.Name = $scope.location.Name;
-        locationResources.Description = $scope.location.Description;
-        locationResources.Floor = $scope.location.Floor;
-        locationResources.LocationTypeCD = $scope.location.LocationTypeCD;
-        locationResources.StatusCD = $scope.location.StatusCD;
+        locationResources.Location = {
+            ID: $scope.location.ID,
+            Name: $scope.location.Name,
+            Description: $scope.location.Description,
+            Floor: $scope.location.Floor,
+            LocationTypeCD: $scope.location.LocationTypeCD,
+            StatusCD: $scope.location.StatusCD
+        }
+        //locationResources.ID = $scope.location.ID;
+        //locationResources.Name = $scope.location.Name;
+        //locationResources.Description = $scope.location.Description;
+        //locationResources.Floor = $scope.location.Floor;
+        //locationResources.LocationTypeCD = $scope.location.LocationTypeCD;
+        //locationResources.StatusCD = $scope.location.StatusCD;
         locationResources.$UpdateLocation(function (data) {
             if (data.success) {
                 $scope.location = LocationModel();
