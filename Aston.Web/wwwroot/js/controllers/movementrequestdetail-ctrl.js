@@ -28,13 +28,9 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
     $scope.OnTransitionStatus = false;
     $scope.onprocess = false;
 
-
-    //console.log($scope.movementrequestobj);
-
     $scope.GetLocation = function () {
         $scope.locationlist = [];
         locationResources.$GetLocation(function (data) {
-            //console.log(data);
             $scope.locationlist = data.obj;
         });
     }
@@ -43,7 +39,6 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
         $scope.movementrequestobj = transferobjectService.addObj.data;
         $scope.addvalidationobj($scope.movementrequestobj.MovementRequestDetail);
         $scope.movementrequestobj.MovementRequest.Notes = $scope.movementrequestobj.MovementRequest.Notes == '' && $scope.movementdetailaction == 'edit' || $scope.movementrequestobj.MovementRequest.Notes == null && $scope.movementdetailaction == 'edit' ? '--' : $scope.movementrequestobj.MovementRequest.Notes;
-        console.log($scope.movementrequestobj.MovementRequestDetail);
         if ($scope.movementrequestobj.MovementRequest.ID != 'temp' && $scope.movementdetailaction != "detail") {
             $scope.GetMovementRequest($scope.movementrequestobj.MovementRequest.ID);
         } else if ($scope.movementdetailaction != "detail") {
@@ -58,8 +53,6 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
             $scope.movementrequestobj = data.obj;
             $scope.addvalidationobj($scope.movementrequestobj.MovementRequestDetail);
             $scope.GetLocation();
-
-            console.log(data);
         });
     }
 
@@ -222,7 +215,6 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
                 validationtableresultlist.push(result);
             }
             var validationresult = $filter('filter')(validationtableresultlist, function (obj) { return obj === false });
-            //console.log(validationresult);
             validationstatus = validationresult.length != 0 ? false : true;
         }
 
@@ -353,7 +345,6 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
         $scope.selectedassetlist = [];
         assetLocationResources.$GetAssetLocationByMovementDetailID({ id: obj.ID }, function (data) {
             if (data.success) {
-                console.log(data);
                 angular.forEach(data.obj, function(obj) {
                     $scope.selectedassetlist.push(obj.AssetLocation);
                 });
@@ -375,34 +366,50 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
 
     $scope.GetAsset = function (AssetCategoryCD) {
         assetResources.$GetAssetByCategoryCode({ id: parseInt(AssetCategoryCD) }, function (data) {
-            console.log(data);
             $scope.assetlist = data.obj;
             angular.forEach($scope.selectedassetlist, function (obj) {
-                var getexistedasset = $filter('filter')($scope.assetlist, function (asset) { return asset.ID == obj.AssetID })[0];
-                console.log(getexistedasset);
-                $scope.assetlist.splice(getexistedasset, 1);
+                angular.forEach($scope.assetlist, function (asset, index) {
+                    if (asset.ID == obj.AssetID) {
+                        $scope.assetlist.splice(index, 1);
+                    }
+                });
             });
-
         });
     }
 
     $scope.addassetlocation = function (obj) {
         var data = JSON.parse(obj);
-        var getasset = $filter('filter')($scope.assetlist, function (asset) { return asset.ID == data.ID });
-        if (getasset.length > 0) {
-            $scope.selectedassetlist.push({
-                AssetID: data.ID,
-                AssetName: data.Name,
-                LocationID: $scope.movementrequestobj.MovementRequest.LocationID,
-                LocationName: $scope.movementrequestobj.MovementRequest.LocationName,
-                OnTransition: $scope.OnTransitionStatus,
-                MovementRequestDetailID: data.ID,
-            });
-            $scope.assetlist.splice(data, 1);
-            $scope.asseterrormessage = '';
-        } else {
-            $scope.asseterrormessage = 'Please select asset';
-        }
+        angular.forEach($scope.assetlist, function (asset, index) {
+            if (asset.ID == data.ID) {
+                $scope.selectedassetlist.push({
+                    AssetID: data.ID,
+                    AssetName: data.Name,
+                    LocationID: $scope.movementrequestobj.MovementRequest.LocationID,
+                    LocationName: $scope.movementrequestobj.MovementRequest.LocationName,
+                    OnTransition: $scope.OnTransitionStatus,
+                    MovementRequestDetailID: data.ID,
+                });
+                $scope.assetlist.splice(index, 1);
+                $scope.asseterrormessage = '';
+            } else {
+                $scope.asseterrormessage = 'Please select asset';
+            }
+        });
+        //var getasset = $filter('filter')($scope.assetlist, function (asset) { return asset.ID == data.ID });
+        //if (getasset.length > 0) {
+        //    $scope.selectedassetlist.push({
+        //        AssetID: data.ID,
+        //        AssetName: data.Name,
+        //        LocationID: $scope.movementrequestobj.MovementRequest.LocationID,
+        //        LocationName: $scope.movementrequestobj.MovementRequest.LocationName,
+        //        OnTransition: $scope.OnTransitionStatus,
+        //        MovementRequestDetailID: data.ID,
+        //    });
+        //    $scope.assetlist.splice(getasset[0], 1);
+        //    $scope.asseterrormessage = '';
+        //} else {
+        //    $scope.asseterrormessage = 'Please select asset';
+        //}
 
     }
 
@@ -416,12 +423,10 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
         };
 
         var validationresult = $filter('filter')($scope.selectedassetlist, function (selectedasset) { return selectedasset.ID == undefined });
-        console.log(validationresult);
         assetLocationResources.AssetLocationList = validationresult;
 
         assetLocationResources.$CreateAssetLocation(function (data) {
             if (data.success) {
-                console.log(data);
                 $scope.movementrequestdetail.Transfered = $scope.selectedassetlist.length;
                 $window.alert("Data saves successfully");
                 $("#modal-addasset").modal('hide');
