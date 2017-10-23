@@ -45,6 +45,13 @@ app.config([
                 url: '/movementrequestdetailmanagement',
                 templateUrl: 'views/movementrequestdetailmanagement.html',
             })
+            .state('assethistory', {
+                url: '/assethistory/:ID',
+                templateUrl: 'views/assethistory.html',
+                controller: function ($stateParams) {
+                    $stateParams.ID
+                }
+            })
         ;
     }
 ]);

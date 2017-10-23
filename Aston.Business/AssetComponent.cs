@@ -10,6 +10,8 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using OfficeOpenXml.Utils;
+using System.Globalization;
+using OfficeOpenXml.Style;
 
 namespace Aston.Business
 {
@@ -18,6 +20,7 @@ namespace Aston.Business
         AstonContext _context = new AstonContext();
         AssetExtensions _asset = new AssetExtensions();
         LocationExtensions _location = new LocationExtensions();
+        MovementRequestExtensions _movementRequest = new MovementRequestExtensions();
         GenerateCodeComponent _generatecode = new GenerateCodeComponent();
         LookupListComponent _pref = new LookupListComponent();
         public AssetViewModel GetAssetByCode (string barcode)
@@ -254,35 +257,44 @@ namespace Aston.Business
 
         public byte[] Download(AssetViewModel obj)
         {
+            byte[] bytes = new byte[0];
+            if (obj.ReportName == "Total Asset Value")
+            {
+                bytes = ReportTotalAssetValue(obj);
+            }else if (obj.ReportName == "Zero Value")
+            {
+                bytes = ReportAssetZeroValue(obj);
+
+            }
+            return bytes;
+
+        }
+
+        public byte[] ReportTotalAssetValue(AssetViewModel obj)
+        {
             byte[] bytes;
             MemoryStream stream = new MemoryStream();
             var listdata = _asset.ReportAsset_SP(Convert.ToInt16(obj.Asset.CategoryCD), obj.Ismovable, obj.Asset.Owner);
             using (ExcelPackage package = new ExcelPackage(stream))
             {
-                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Asset");
+                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Asset - Total Asset Value");
                 //First add the headers
-                InsertColumnHeaders(worksheet);
+                InsertColumnHeaders(worksheet, obj.ReportName);
                 var lastrow = 1;
+                double TotalCurrentValue = 0;
                 //Add values
                 foreach (var data in listdata)
                 {
                     lastrow = lastrow + 1;
-                    InsertRowData(worksheet, data.Asset, lastrow);
+                    InsertRowData(worksheet, data.Asset, lastrow, obj.ReportName);
+                    TotalCurrentValue = TotalCurrentValue + data.Asset.CurrentValue;
                 }
-                //worksheet.Cells["A2"].Value = 1000;
-                //worksheet.Cells["B2"].Value = "Jon";
-                //worksheet.Cells["C2"].Value = "M";
-                //worksheet.Cells["D2"].Value = 5000;
 
-                //worksheet.Cells["A3"].Value = 1001;
-                //worksheet.Cells["B3"].Value = "Graham";
-                //worksheet.Cells["C3"].Value = "M";
-                //worksheet.Cells["D3"].Value = 10000;
+                lastrow = lastrow + 1;
+                InsertColumnFooters(worksheet, lastrow, TotalCurrentValue);
 
-                //worksheet.Cells["A4"].Value = 1002;
-                //worksheet.Cells["B4"].Value = "Jenny";
-                //worksheet.Cells["C4"].Value = "F";
-                //worksheet.Cells["D4"].Value = 5000;
+                var cellrange = worksheet.Cells["A1:L" + lastrow];
+                SetBorder(cellrange);
 
                 bytes = package.GetAsByteArray();
             }
@@ -290,35 +302,125 @@ namespace Aston.Business
 
         }
 
-        public void InsertColumnHeaders(ExcelWorksheet worksheet)
+        public byte[] ReportAssetZeroValue(AssetViewModel obj)
         {
-            worksheet.Cells["A1"].Value = "Code";
-            worksheet.Cells["B1"].Value = "Name";
-            worksheet.Cells["C1"].Value = "Description";
-            worksheet.Cells["D1"].Value = "Category";
-            worksheet.Cells["E1"].Value = "Owner";
-            worksheet.Cells["F1"].Value = "Is Movable Asset";
-            worksheet.Cells["G1"].Value = "Status";
-            worksheet.Cells["H1"].Value = "Purchase Date";
-            worksheet.Cells["I1"].Value = "Purchase Price";
-            worksheet.Cells["J1"].Value = "Depreciation Duration";
-            worksheet.Cells["K1"].Value = "Current Value";
+            byte[] bytes;
+            MemoryStream stream = new MemoryStream();
+            var listdata = _asset.ReportAssetZeroValue_SP(Convert.ToInt16(obj.Asset.CategoryCD), obj.Ismovable, obj.Asset.Owner);
+            using (ExcelPackage package = new ExcelPackage(stream))
+            {
+                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Asset - Zero Value");
+                //First add the headers
+                InsertColumnHeaders(worksheet, obj.ReportName);
+                var lastrow = 1;
+                //Add values
+                foreach (var data in listdata)
+                {
+                    lastrow = lastrow + 1;
+                    InsertRowData(worksheet, data.Asset, lastrow, obj.ReportName);
+                }
+
+                var cellrange = worksheet.Cells["A1:K" + lastrow];
+                SetBorder(cellrange);
+
+                bytes = package.GetAsByteArray();
+            }
+            return bytes;
+
         }
 
-        public void InsertRowData(ExcelWorksheet worksheet, AseetSearchResult Asset, int lastrow)
+        public void InsertColumnHeaders(ExcelWorksheet worksheet, string reportName)
+        {
+            worksheet.Cells["A1"].Value = "No";
+            worksheet.Cells["B1"].Value = "Code";
+            worksheet.Cells["C1"].Value = "Name";
+            worksheet.Cells["D1"].Value = "Description";
+            worksheet.Cells["E1"].Value = "Category";
+            worksheet.Cells["F1"].Value = "Owner";
+            worksheet.Cells["G1"].Value = "Is Movable Asset";
+            worksheet.Cells["H1"].Value = "Status";
+            worksheet.Cells["I1"].Value = "Purchase Date";
+            worksheet.Cells["J1"].Value = "Purchase Price";
+            worksheet.Cells["K1"].Value = "Depreciation Duration";
+            if (reportName == "Total Asset Value")
+            {
+                worksheet.Cells["L1"].Value = "Current Value";
+            }
+
+            worksheet.Column(2).Width = 30;
+            worksheet.Column(3).Width = 50;
+            worksheet.Column(4).Width = 10;
+            worksheet.Column(5).Width = 10;
+            worksheet.Column(6).Width = 15;
+            worksheet.Column(7).Width = 10;
+            worksheet.Column(8).Width = 20;
+            worksheet.Column(9).Width = 17;
+            worksheet.Column(10).Width = 20;
+            worksheet.Column(11).Width = 20;
+            worksheet.Column(12).Width = 20;
+
+            worksheet.Cells["A1:L1"].Style.Font.Bold = true;
+        }
+
+        public void InsertRowData(ExcelWorksheet worksheet, AseetSearchResult Asset, int lastrow, string reportName)
         {
             //var row = worksheet
-            worksheet.Cells["A"+ lastrow].Value = Asset.Code;
-            worksheet.Cells["B"+ lastrow].Value = Asset.Name;
-            worksheet.Cells["C" + lastrow].Value = Asset.Description;
-            worksheet.Cells["D" + lastrow].Value = Asset.CategoryCDName;
-            worksheet.Cells["E" + lastrow].Value = Asset.Owner;
-            worksheet.Cells["F" + lastrow].Value = Asset.IsMovable;
-            worksheet.Cells["G" + lastrow].Value = Asset.StatusCDName;
-            worksheet.Cells["H" + lastrow].Value = Asset.PurchaseDate;
-            worksheet.Cells["I" + lastrow].Value = Asset.PurchasePrice;
-            worksheet.Cells["J" + lastrow].Value = Asset.DepreciationDuration;
-            worksheet.Cells["K" + lastrow].Value = Asset.CurrentValue;
+            worksheet.Cells["A"+ lastrow].Value = lastrow-1;
+
+            worksheet.Cells["B"+ lastrow].Value = Asset.Code;
+            worksheet.Cells["B" + lastrow].AutoFitColumns();
+
+            worksheet.Cells["C"+ lastrow].Value = Asset.Name;
+            worksheet.Cells["D"+ lastrow].Value = Asset.Description;
+            worksheet.Cells["E"+ lastrow].Value = Asset.CategoryCDName;
+            worksheet.Cells["F"+ lastrow].Value = Asset.Owner;
+            worksheet.Cells["G" + lastrow].Value = Asset.IsMovable;
+            worksheet.Cells["H" + lastrow].Value = Asset.StatusCDName;
+
+            var FormatedDate = GetFormatedDate(Asset.PurchaseDate);
+            worksheet.Cells["I" + lastrow].Style.Numberformat.Format = "dd/mm/yyyy";
+            worksheet.Cells["I" + lastrow].Formula = "=DATE("+ FormatedDate + ")";
+
+            worksheet.Cells["J" + lastrow].Value = Asset.PurchasePrice;
+            worksheet.Cells["K" + lastrow].Value = Asset.DepreciationDuration;
+            if (reportName == "Total Asset Value")
+            {
+                worksheet.Cells["L" + lastrow].Value = Asset.CurrentValue;
+            }
+
+        }
+
+        public void InsertColumnFooters(ExcelWorksheet worksheet, int lastrow, double TotalCurrentValue)
+        {
+            worksheet.Cells["A" + lastrow].Value = "Total";
+            worksheet.Cells["A" + lastrow].Style.Font.Bold = true;
+            worksheet.Cells["A" + lastrow + ":K" + lastrow].Merge = true;
+            worksheet.Cells["A" + lastrow + ":K" + lastrow].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+
+            worksheet.Cells["L" + lastrow].Value = TotalCurrentValue;
+            worksheet.Cells["L" + lastrow].Style.Font.Bold = true;
+        }
+
+        public void SetBorder(ExcelRange cellrange)
+        {
+            cellrange.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+            cellrange.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+            cellrange.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+            cellrange.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+        }
+
+        public string GetFormatedDate(string date)
+        {
+            var dt = DateTime.ParseExact(date, "ddMMyyyy", CultureInfo.InvariantCulture);
+            return dt.ToString("yyyy,MM,dd", CultureInfo.InvariantCulture);
+        }
+
+        public AssetHistoryViewModel AssetMovementHistory(AssetViewModel obj)
+        {
+            var result = new AssetHistoryViewModel();
+            result.Asset = _asset.GetAssetInfoByID(obj.Asset.ID);
+            result.History = _movementRequest.AssetHistory_SP(obj.Asset.ID, obj.Skip);
+            return result;
         }
 
     }

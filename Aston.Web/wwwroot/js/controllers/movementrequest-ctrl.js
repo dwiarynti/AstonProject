@@ -53,6 +53,9 @@ app.controller('MovementRequestCtrl', function ($scope, $rootScope, $state, tran
                 $scope.NumberofMovementRequest = data.obj.length != 0 ? data.obj[0].MovementRequest.TotalRow : 0;
                 console.log(data);
                 $scope.movementrequestlist = data.obj;
+                angular.forEach($scope.movementrequestlist, function(data) {
+                    data.MovementRequest.MovementDate = commonService.convertdate(data.MovementRequest.MovementDate);
+                });
             }
         });
     }

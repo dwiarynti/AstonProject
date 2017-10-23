@@ -862,7 +862,7 @@ section.dashboard-counts .number strong {
 }
 
 section.dashboard-counts .row {
-  padding: 15px 15px;
+  padding: 10px 10px;
   margin: 0;
 }
 
@@ -2360,7 +2360,7 @@ fieldset[disabled] a.btn {
 
 .btn-sm {
   padding: 0.25rem 0.5rem;
-  font-size: 0.875rem;
+  font-size: 0.94rem;
   border-radius: 0.2rem;
 }
 

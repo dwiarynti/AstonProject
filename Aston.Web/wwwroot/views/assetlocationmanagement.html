@@ -22,8 +22,8 @@
                         <td>{{assetlocation.AssetLocation.LocationName}}</td>
                         <td>{{assetlocation.AssetLocation.OnTransition}}</td>
                         <td>
-                            <button type="button" class="btn btn-default btn-width" ng-click="edit(assetlocation.AssetLocation)">Edit</button>
-                            <button type="button" class="btn btn-default btn-width" ng-click="deletemodal(assetlocation.AssetLocation)">Delete</button>
+                            <button type="button" class="btn btn-warning btn-sm" ng-click="edit(assetlocation.AssetLocation)">Edit</button>
+                            <button type="button" class="btn btn-danger btn-sm" ng-click="deletemodal(assetlocation.AssetLocation)">Delete</button>
                         </td>
                     </tr>
                     </tbody>
@@ -76,13 +76,13 @@
                             </div>
                             <div class="modal-footer">
                                 <a href="javascript:;" class="btn btn-default btn-width btn-margin" data-dismiss="modal">Cancel</a>
-                                <button ng-if="actionstatus == 'Create'" type="button" class="btn btn-default btn-width" ng-click="create()">
+                                <button ng-if="actionstatus == 'Create'" type="button" class="btn btn-primary btn-width" ng-click="create()">
                                     <span>Create</span>
                                 </button>
-                                <button ng-if="actionstatus == 'Update'" type="button" class="btn btn-default btn-width" ng-click="update()">
+                                <button ng-if="actionstatus == 'Update'" type="button" class="btn btn-warning btn-width" ng-click="update()">
                                     <span>Update</span>
                                 </button>
-                                <button ng-if="actionstatus == 'Delete'" type="button" class="btn btn-default btn-width" ng-click="delete()">
+                                <button ng-if="actionstatus == 'Delete'" type="button" class="btn btn-danger btn-width" ng-click="delete()">
                                     <span>Delete</span>
                                 </button>
                             </div>

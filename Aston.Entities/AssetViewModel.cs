@@ -15,6 +15,7 @@ namespace Aston.Entities
         public Nullable<bool> Ismovable { get; set; }
         //public Nullable<bool> isSearch { get; set; }
         public int Skip { get; set; }
+        public string ReportName { get; set; }
 
         public AseetSearchResult Asset { get; set; }
 
@@ -44,9 +45,21 @@ namespace Aston.Entities
 
     }
 
-    public class test
+
+    public class AssetHistoryViewModel
     {
-        public string prop1 { get; set; }
-        public string prop2 { get; set; }
+        public Asset Asset { get; set; }
+        public List<HistoryViewModel> History { get; set; }
+    }
+
+    public class HistoryViewModel
+    {
+        public string MovementDate { get; set; }
+        public string Description { get; set; }
+        public string LocationName { get; set; }
+        public string RequestBy { get; set; }
+        public string ApprovedBy { get; set; }
+        public string MovedBy { get; set; }
+        public int TotalRow { get; set; }
     }
 }

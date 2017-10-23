@@ -52,8 +52,8 @@
                         <td>{{location.Location.Floor}}</td>
                         <td>{{location.Location.LocationTypeCDName}}</td>
                         <td>
-                            <button type="button" class="btn btn-default btn-width" ng-click="edit(location.Location)">Edit</button>
-                            <button type="button" class="btn btn-default btn-width" ng-click="deletemodal(location.Location)">Delete</button>
+                            <button type="button" class="btn btn-warning btn-sm" ng-click="edit(location.Location)">Edit</button>
+                            <button type="button" class="btn btn-danger btn-sm" ng-click="deletemodal(location.Location)">Delete</button>
                         </td>
                     </tr>
                     </tbody>
@@ -90,7 +90,7 @@
                                 <div ng-class="(location.Floor == null || location.Floor == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
                                     <label class="col-sm-3 form-control-label">Floor*</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control form-control-success" placeholder="Description" ng-model="location.Floor" ng-change="setToNumberPatern(location)">
+                                        <input type="text" class="form-control form-control-success" placeholder="Floor" ng-model="location.Floor" ng-change="setToNumberPatern(location)">
                                         <small class="text-danger" ng-if="(location.Floor == null || location.Floor == '') && isValidate == false">Floor is required</small>
                                     </div>
                                 </div>
@@ -111,13 +111,13 @@
                             </div>
                             <div class="modal-footer">
                                 <a href="javascript:;" class="btn btn-default btn-width btn-margin" data-dismiss="modal">Cancel</a>
-                                <button ng-if="actionstatus == 'Create'" type="button" class="btn btn-default btn-width" ng-click="create()">
+                                <button ng-if="actionstatus == 'Create'" type="button" class="btn btn-primary btn-width" ng-click="create()">
                                     <span>Create</span>
                                 </button>
-                                <button ng-if="actionstatus == 'Update'" type="button" class="btn btn-default btn-width" ng-click="update()">
+                                <button ng-if="actionstatus == 'Update'" type="button" class="btn btn-warning btn-width" ng-click="update()">
                                     <span>Update</span>
                                 </button>
-                                <button ng-if="actionstatus == 'Delete'" type="button" class="btn btn-default btn-width" ng-click="delete()">
+                                <button ng-if="actionstatus == 'Delete'" type="button" class="btn btn-danger btn-width" ng-click="delete()">
                                     <span>Delete</span>
                                 </button>
                             </div>

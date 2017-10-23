@@ -14,8 +14,8 @@ using System.Net.Http.Headers;
 
 namespace Aston.WebApi.Controllers
 {
-   
-  
+
+
     [Route("api/Asset")]
     public class AssetController : Controller
     {
@@ -24,30 +24,31 @@ namespace Aston.WebApi.Controllers
 
         [HttpGet]
         [Route("GetAssetByCode/{barcode}")]
-        public HttpResponseMessage GetAssetByCode(HttpRequestMessage request ,string barcode)
+        public HttpResponseMessage GetAssetByCode(HttpRequestMessage request, string barcode)
         {
             var result = service.GetAssetByCode(barcode);
             HttpResponseMessage response = new HttpResponseMessage();
-            response = request.CreateResponse(HttpStatusCode.OK, new { success = true, obj = result });
+            response = request.CreateResponse(HttpStatusCode.OK, new {success = true, obj = result});
             return response;
         }
 
         [HttpGet]
         [Route("GetAssetByID/{id}")]
-        public HttpResponseMessage GetAssetByID(HttpRequestMessage request, int id  )
+        public HttpResponseMessage GetAssetByID(HttpRequestMessage request, int id)
         {
             var result = service.GetAssetByID(id);
             HttpResponseMessage response = new HttpResponseMessage();
-            response = request.CreateResponse(HttpStatusCode.OK, new { success = true, obj = result });
+            response = request.CreateResponse(HttpStatusCode.OK, new {success = true, obj = result});
             return response;
         }
+
         [HttpGet]
         [Route("GetAssetByCategoryCode/{id}")]
         public HttpResponseMessage GetAssetByCategoryCode(HttpRequestMessage request, int id)
         {
             var result = service.GetAssetByCategoryCode(id);
             HttpResponseMessage response = new HttpResponseMessage();
-            response = request.CreateResponse(HttpStatusCode.OK, new { success = true, obj = result });
+            response = request.CreateResponse(HttpStatusCode.OK, new {success = true, obj = result});
             return response;
         }
 
@@ -58,7 +59,7 @@ namespace Aston.WebApi.Controllers
 
             var result = service.GetAsset();
             HttpResponseMessage response = new HttpResponseMessage();
-            response = request.CreateResponse(HttpStatusCode.OK, new { success = true, obj = result });
+            response = request.CreateResponse(HttpStatusCode.OK, new {success = true, obj = result});
             return response;
         }
 
@@ -70,7 +71,7 @@ namespace Aston.WebApi.Controllers
         {
             var result = service.CreateAsset(obj);
             HttpResponseMessage response = new HttpResponseMessage();
-            response = request.CreateResponse(HttpStatusCode.OK, new { success = result });
+            response = request.CreateResponse(HttpStatusCode.OK, new {success = result});
             return response;
         }
 
@@ -80,7 +81,7 @@ namespace Aston.WebApi.Controllers
         {
             var result = service.UpdateAsset(obj);
             HttpResponseMessage response = new HttpResponseMessage();
-            response = request.CreateResponse(HttpStatusCode.OK, new { success = result });
+            response = request.CreateResponse(HttpStatusCode.OK, new {success = result});
             return response;
         }
 
@@ -90,7 +91,7 @@ namespace Aston.WebApi.Controllers
         {
             var result = service.SearchAsset(obj);
             HttpResponseMessage response = new HttpResponseMessage();
-            response = request.CreateResponse(HttpStatusCode.OK, new { success = true, obj = result });
+            response = request.CreateResponse(HttpStatusCode.OK, new {success = true, obj = result});
             return response;
         }
 
@@ -100,7 +101,7 @@ namespace Aston.WebApi.Controllers
         {
             var result = service.DeleteAsset(obj);
             HttpResponseMessage response = new HttpResponseMessage();
-            response = request.CreateResponse(HttpStatusCode.OK, new { success = result });
+            response = request.CreateResponse(HttpStatusCode.OK, new {success = result});
             return response;
         }
 
@@ -116,10 +117,19 @@ namespace Aston.WebApi.Controllers
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
             response.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
             {
-                FileName = "Asset Report.xlsx"
+                FileName = "Asset Report-" + obj.ReportName + ".xlsx"
             };
             return response;
         }
 
+        [HttpPost]
+        [Route("AssetMovementHistory")]
+        public HttpResponseMessage AssetMovementHistory(HttpRequestMessage request, [FromBody] AssetViewModel obj)
+        {
+            var result = service.AssetMovementHistory(obj);
+            HttpResponseMessage response = new HttpResponseMessage();
+            response = request.CreateResponse(HttpStatusCode.OK, new {success = true, obj = result});
+            return response;
+        }
     }
 }

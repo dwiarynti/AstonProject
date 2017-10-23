@@ -106,5 +106,13 @@ namespace Aston.Web.Controllers
             return response;
         }
 
+        [HttpPost]
+        [Route("AssetMovementHistory")]
+        public HttpResponseMessage AssetMovementHistory(HttpRequestMessage request, [FromBody] AssetViewModel obj)
+        {
+            HttpResponseMessage response = new HttpResponseMessage();
+            response = _assetProcess.AssetMovementHistory(obj);
+            return response;
+        }
     }
 }

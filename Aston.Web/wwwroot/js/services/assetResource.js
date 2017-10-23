@@ -13,6 +13,7 @@
             DeleteAsset: { method: 'POST', params: { action: 'DeleteAsset' } },
             GetAssetByCategoryCode: { method: 'GET', params: { action: 'GetAssetByCategoryCode' } },
             SearchAsset: { method: 'POST', params: { action: 'SearchAsset' } },
+            AssetMovementHistory: { method: 'POST', params: { action: 'AssetMovementHistory' } },
             download: {
                 method: 'POST', params: { action: 'download' },
                 headers: {
