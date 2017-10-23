@@ -133,11 +133,11 @@ namespace Aston.Business
                     asset.Name = obj.Asset.Name;
                     asset.IsMovable = obj.Asset.IsMovable;
                     asset.Owner = obj.Asset.Owner;
-                    asset.PurchaseDate =Convert.ToDateTime(obj.Asset.PurchaseDate).ToString("ddMMyyyy");
+                    asset.PurchaseDate =    obj.Asset.PurchaseDate.Replace("/", string.Empty);
                     asset.PurchasePrice = obj.Asset.PurchasePrice;
                     asset.DepreciationDuration = obj.Asset.DepreciationDuration;
-                    asset.DisposedDate = obj.Asset.DisposedDate != null ? Convert.ToDateTime(obj.Asset.DisposedDate).ToString("ddMMyyyy") : null;
-                    asset.ManufactureDate = Convert.ToDateTime(obj.Asset.ManufactureDate).ToString("ddMMyyyy");
+                    asset.DisposedDate = obj.Asset.DisposedDate != null ? obj.Asset.DisposedDate.Replace("/", string.Empty) : null;
+                    asset.ManufactureDate = obj.Asset.ManufactureDate.Replace("/", string.Empty);
                     asset.CategoryCD = Convert.ToInt16(obj.Asset.CategoryCD);
                     asset.StatusCD = obj.Asset.StatusCD;
                     asset.CreatedDate = DateTime.Now.Date.ToString("ddMMyyyy");

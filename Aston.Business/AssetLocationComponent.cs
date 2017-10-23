@@ -86,101 +86,146 @@ namespace Aston.Business
             ResultViewModel result = new ResultViewModel();
             List<AssetLocation> listassetlocation = new List<AssetLocation>();
             IDbContextTransaction transaction = _context.Database.BeginTransaction();
-            if(obj != null)
+            List<string> Asset = new List<string>();
+            List<string> Location = new List<string>();
+            List<string> NotAssetLocation = new List<string>();
+
+            if (obj != null)
             {
                 try
                 {
-                    var location = _location.GetLocationByCode(obj.location);
-                    var movementrequestdetail = _context.MovementRequestDetail.Where(p => p.ID == obj.MovementRequestDetailID).FirstOrDefault();
-                    var movementrequest = _context.MovementRequest.Where(p => p.ID == movementrequestdetail.MovementRequestID).FirstOrDefault();
-                    int totalmoved = 0;
-                    var checkassetlocation = _context.AssetLocation.Where(p => p.MovementRequestDetailID == obj.MovementRequestDetailID && p.DeletedDate == null && p.LocationID != null ).Count();
-                    totalmoved = (movementrequestdetail.Quantity - checkassetlocation);
-
-                    if(obj.listAsset.Count() <= totalmoved)
+                    foreach (var item in obj.listAsset)
                     {
-                        if(location.ID == movementrequest.LocationID)
+                        char[] array = item.ToCharArray();
+                        string data = "";
+                        int i = 0;
+                        foreach (var item2 in array)
                         {
-                            var listAsset = _context.Asset.Where(p => p.Code.Any(o => obj.listAsset.Contains(p.Code))).ToList();
-                            if (listAsset != null)
+                            i += 1;
+                            if (i >= 5 && i <= 8)
                             {
-                                if (listAsset.Count() == obj.listAsset.Count())
+                                data += item2;
+                            }
+                        }
+                        if (data == "0101")
+                        {
+                            Asset.Add(item);
+                            data = "";
+                        }
+                        else if (data == "0202")
+                        {
+                            Location.Add(item);
+                            data = "";
+                        }
+                        else
+                        {
+                            NotAssetLocation.Add(item);
+                            data = "";
+                        }
+
+                        if (NotAssetLocation.Count == 0)
+                        {
+                            if (Location.Count > 0 && Location.Count <= 1)
+                            {
+                                var location = _location.GetLocationByCode(Location[0]);
+                                if (location.ID == obj.locationID)
                                 {
-                                    foreach (var item in listAsset.ToList())
+                                    var movementrequestdetail = _context.MovementRequestDetail.Where(p => p.ID == obj.MovementRequestDetailID).FirstOrDefault();
+                                    var movementrequest = _context.MovementRequest.Where(p => p.ID == movementrequestdetail.MovementRequestID).FirstOrDefault();
+                                    int totalmoved = 0;
+                                    var checkassetlocation = _context.AssetLocation.Where(p => p.MovementRequestDetailID == obj.MovementRequestDetailID && p.DeletedDate == null && p.LocationID != null).Count();
+                                    totalmoved = (movementrequestdetail.Quantity - checkassetlocation);
+                                    if (Asset.Count() <= totalmoved)
                                     {
-                                        if(item.CategoryCD == movementrequestdetail.AssetCategoryCD)
+                                        var listAsset = _context.Asset.Where(p => p.Code.Any(o => obj.listAsset.Contains(p.Code))).ToList();
+                                        if (listAsset != null)
                                         {
-                                            AssetLocation assetlocationobj = new AssetLocation();
-                                            assetlocationobj.AssetID = item.ID;
-                                            assetlocationobj.LocationID = location.ID;
-                                            assetlocationobj.OnTransition = false;
-                                            assetlocationobj.CreatedDate = DateTime.Now.ToString("ddMMyyyy");
-                                            assetlocationobj.CreatedBy = obj.CreatedBy;
-                                            assetlocationobj.MovementRequestDetailID = obj.MovementRequestDetailID;
+                                            if (listAsset.Count() == Asset.Count())
+                                            {
+                                                foreach (var asset in listAsset.ToList())
+                                                {
+                                                    if (asset.CategoryCD == movementrequestdetail.AssetCategoryCD)
+                                                    {
+                                                        AssetLocation assetlocationobj = new AssetLocation();
+                                                        assetlocationobj.AssetID = asset.ID;
+                                                        assetlocationobj.LocationID = location.ID;
+                                                        assetlocationobj.OnTransition = false;
+                                                        assetlocationobj.CreatedDate = DateTime.Now.ToString("ddMMyyyy");
+                                                        assetlocationobj.CreatedBy = obj.CreatedBy;
+                                                        assetlocationobj.MovementRequestDetailID = obj.MovementRequestDetailID;
 
-                                            listassetlocation.Add(assetlocationobj);
-                                            listAsset.Remove(item);
+                                                        listassetlocation.Add(assetlocationobj);
+                                                        listAsset.Remove(asset);
+                                                    }
+                                                }
+                                                if (listAsset.Count() != 0)
+                                                {
+                                                    result.status = false;
+                                                    result.statuscode = 6;
+                                                    result.asset = listAsset;
+                                                }
+                                                else
+                                                {
+
+                                                    foreach (var items in listassetlocation)
+                                                    {
+                                                        _context.AssetLocation.Add(items);
+                                                        _context.SaveChanges();
+
+                                                    }
+
+                                                    transaction.Commit();
+                                                    result.status = true;
+                                                    result.statuscode = 7;
+
+                                                }
+
+
+                                            }
+                                            else
+                                            {
+                                                result.status = false;
+                                                result.statuscode = 3;
+                                            }
                                         }
-                                    }
-                                    if(listAsset.Count() != 0)
-                                    {
-                                        result.status = false;
-                                        result.statuscode = 6;                                   
-                                        result.asset = listAsset;
-
+                                        else
+                                        {
+                                            result.status = false;
+                                            result.statuscode = 3;
+                                        }
                                     }
                                     else
                                     {
-                                       
-                                        foreach(var item in listassetlocation)
-                                        {
-                                            _context.AssetLocation.Add(item);
-                                            _context.SaveChanges();
-
-                                        }
-                                       
-                                        transaction.Commit();
-                                        result.status = true;
-                                        result.statuscode = 7;
-                                      
+                                        result.status = false;
+                                        result.statuscode = 3;
                                     }
                                 }
                                 else
                                 {
                                     result.status = false;
-                                    result.statuscode = 5;
-                                    result.asset = listAsset;
+                                    result.statuscode = 4;
                                 }
                             }
                             else
                             {
                                 result.status = false;
-                                result.statuscode = 5;
-                                result.asset = listAsset;
+                                result.statuscode =8;
                             }
                         }
                         else
                         {
                             result.status = false;
-                            result.statuscode = 4;
+                            result.statuscode = 5;
                         }
                     }
-                    else
-                    {
-                        result.status = false;
-                        result.statuscode = 3;
-                    }
-
-
 
 
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     result.status = false;
                     result.statuscode = 2;
                     result.message = ex.Message;
-
                 }
             }
             else

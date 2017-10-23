@@ -291,7 +291,7 @@ namespace Aston.Business
                         
                 }
 
-                _context.Update(movement);
+                _context.Entry(movement).State = EntityState.Modified;
                 _context.SaveChanges();
                 transaction.Commit();
                 result.movementRequest = GetMovementRequestByID(movement.ID);
