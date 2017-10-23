@@ -7,6 +7,8 @@ namespace Aston.Entities
 {
     public class AssetViewModel : ViewModel
     {
+        public int locationID;
+
         // Move Asset
         public string location { get; set; }
         public List<string> listAsset { get; set; }
