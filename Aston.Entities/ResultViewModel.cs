@@ -14,7 +14,7 @@ namespace Aston.Entities
         public List<string> listAsset { get; set; }
         public List<AssetLocation> assetlocation { get; set; }
         public List<Asset> asset{ get; set; }
-
+        public List<AssetOpnameTransactionViewModel> assetOpname { get; set; }
         
 
 

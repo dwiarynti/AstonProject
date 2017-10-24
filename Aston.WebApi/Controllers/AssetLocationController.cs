@@ -17,6 +17,7 @@ namespace Aston.WebApi.Controllers
     public class AssetLocationController : Controller
     {
         public AssetLocationComponent service = new AssetLocationComponent();
+        public AssetOpnameTransactionComponent opnameservice = new AssetOpnameTransactionComponent();
 
         [HttpGet]
         [Route("GetAssetLocationByLocationID/{id}")]
@@ -185,6 +186,16 @@ namespace Aston.WebApi.Controllers
             var result = service.AssetLocation_Pagination(Skip);
             HttpResponseMessage response = new HttpResponseMessage();
             response = request.CreateResponse(HttpStatusCode.OK, new { success = true, obj = result });
+            return response;
+        }
+
+        [HttpPost]
+        [Route("GetAssetStockOpname")]
+        public HttpResponseMessage GetAssetStockOpname(HttpRequestMessage request, [FromBody] AssetOpnameTransactionViewModel obj)
+        {
+            var result = opnameservice.GetAssetStockOpname(obj);
+            HttpResponseMessage response = new HttpResponseMessage();
+            response = request.CreateResponse(HttpStatusCode.OK, new { success = result });
             return response;
         }
     }

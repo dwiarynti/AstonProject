@@ -33,5 +33,6 @@ namespace Aston.Entities
         public string DeletedBy { get; set; }
 
         public virtual ICollection<AssetLocation> AssetLocation { get; set; }
+        public virtual ICollection<AssetOpnameTransaction> AssetOpnameTransaction { get; set; }
     }
 }
