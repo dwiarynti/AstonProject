@@ -46,6 +46,16 @@ namespace Aston.Entities.DataContext
                 .WithMany(p => p.MovementRequest)
                 .HasForeignKey(m => m.LocationID);
 
+            modelBuilder.Entity<AssetOpnameTransaction>()
+                .HasOne(m => m.Asset)
+                .WithMany(m => m.AssetOpnameTransaction)
+                .HasForeignKey(m => m.AssetID);
+            modelBuilder.Entity<AssetOpnameTransaction>()
+               .HasOne(m => m.Location)
+               .WithMany(m => m.AssetOpnameTransaction)
+               .HasForeignKey(m => m.LocationID);
+
+
             base.OnModelCreating(modelBuilder);
         }
         public DbSet<Asset> Asset { get; set; }
@@ -55,6 +65,7 @@ namespace Aston.Entities.DataContext
         public DbSet<MovementRequestDetail> MovementRequestDetail { get; set; }
         public DbSet<LookupList> LookupList { get; set; }
         public DbSet<Department> Department { get; set; }
+        public DbSet<AssetOpnameTransaction> AssetOpnameTransaction { get; set; }
 
         public List<T> DataReaderMapToList<T>(IDataReader dr)
         {

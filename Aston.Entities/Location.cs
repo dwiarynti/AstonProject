@@ -24,5 +24,6 @@ namespace Aston.Entities
         
         public ICollection<AssetLocation> AssetLocation { get; set; }
         public ICollection<MovementRequest> MovementRequest { get; set; }
+        public ICollection<AssetOpnameTransaction> AssetOpnameTransaction { get; set; }
     }
 }

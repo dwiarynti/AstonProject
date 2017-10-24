@@ -29,6 +29,14 @@ namespace Aston.Web.Controllers
             response = _movementProcess.GetMovementRequestByID(id);
             return response;
         }
+        [Route("GetMovementRequestToMoveByID/{id}")]
+        [HttpGet]
+        public HttpResponseMessage GetMovementRequestToMoveByID(HttpRequestMessage request, int id)
+        {
+            HttpResponseMessage response = new HttpResponseMessage();
+            response = _movementProcess.GetMovementRequestToMoveByID(id);
+            return response;
+        }
 
         [Route("GetMovementRequest")]
         [HttpGet]

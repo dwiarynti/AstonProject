@@ -38,6 +38,13 @@ namespace Aston.Web.Process
             result = REST(requestUri, RESTConstants.GET);
             return result;
         }
+        public HttpResponseMessage GetMovementRequestToMoveByID(int id)
+        {
+            HttpResponseMessage result = default(HttpResponseMessage);
+            string requestUri = "api/MovementRequest/GetMovementRequestToMoveByID/" + id;
+            result = REST(requestUri, RESTConstants.GET);
+            return result;
+        }
         public HttpResponseMessage CreateMovementRequest(MovementRequestViewModel obj)
         {
             HttpResponseMessage result = default(HttpResponseMessage);
