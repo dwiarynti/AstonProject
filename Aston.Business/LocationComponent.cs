@@ -19,6 +19,7 @@ namespace Aston.Business
         public LocationViewModel GetLocationByCode(string code)
         {
             LocationViewModel result = new LocationViewModel();
+            result.Location = new LocationSearchResult();
             var location = _location.GetLocationByCode(code);
             var statuscdname = _pref.GetLookupByStatusCode(location.StatusCD);
             var locationtypename = _pref.GetLookupByLocationTypeCode(location.LocationTypeCD);
@@ -39,6 +40,7 @@ namespace Aston.Business
         public LocationViewModel GetLocationByID(int id)
         {
             LocationViewModel result = new LocationViewModel();
+            result.Location = new LocationSearchResult();
             var location = _location.GetLocationByID(id);
             var statuscdname = _pref.GetLookupByStatusCode(location.StatusCD);
             var locationtypename = _pref.GetLookupByLocationTypeCode(location.LocationTypeCD);

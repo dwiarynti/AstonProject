@@ -439,66 +439,112 @@ namespace Aston.Business
         public List<MovementRequestViewModel> GetMovementRequestToMoveByDepartment(int Departmentid)
         {
             List<MovementRequestViewModel> result = new List<MovementRequestViewModel>();
-            
-            var movement = _movementrequest.GetMovementRequestToMoveByDepartment(Departmentid);
+
+            var movement = _movementrequest.GetMovementRequestToMove();
             List<MovementRequestSearchResult> movementrequestlist = new List<MovementRequestSearchResult>();
-
-
 
             foreach (var item in movement)
             {
-                var check = movementrequestlist.Where(p => p.ID == item.MovementRequest.ID).Count();
-                if (check == 0)
+                MovementRequestViewModel model = new MovementRequestViewModel();
+                model.MovementRequest = new MovementRequestSearchResult();
+                var approvalname = _pref.GetLookupByApprovalStatusCode(item.ApprovalStatus);
+                model.MovementRequest.ID = item.ID;
+                model.MovementRequest.MovementDate = item.MovementDate;
+                model.MovementRequest.Description = item.Description;
+                model.MovementRequest.ApprovedDate = item.ApprovedDate;
+                model.MovementRequest.LocationID = item.LocationID;
+                model.MovementRequest.LocationName = item.Location != null ? item.Location.Name : null;
+                model.MovementRequest.ApprovedBy = item.ApprovedBy;
+                model.MovementRequest.Notes = item.Notes;
+                model.MovementRequest.ApprovalStatus = item.ApprovalStatus;
+                model.MovementRequest.ApprovalStatusName = approvalname != null ? approvalname.Value : null;
+                model.MovementRequestDetail = new List<MovementRequestDetailViewModel>();
+                movementrequestlist.Add(model.MovementRequest);
+                
+
+                foreach (var detail in item.MovementRequestDetail)
                 {
-                    MovementRequestViewModel model = new MovementRequestViewModel();
-                    model.MovementRequest = new MovementRequestSearchResult();
-                    var approvalname = _pref.GetLookupByApprovalStatusCode(item.MovementRequest.ApprovalStatus);
-                 
-                    model.MovementRequest.ID = item.ID;
-                    model.MovementRequest.MovementDate = item.MovementRequest.MovementDate;
-                    model.MovementRequest.Description = item.Description;
-                    model.MovementRequest.ApprovedDate = item.MovementRequest.ApprovedDate;
-                    model.MovementRequest.LocationID = item.MovementRequest.LocationID;
-                    model.MovementRequest.LocationName = item.MovementRequest.Location != null ? item.MovementRequest.Location.Name : null;
-                    model.MovementRequest.ApprovedBy = item.MovementRequest.ApprovedBy;
-                    model.MovementRequest.Notes = item.MovementRequest.Notes;
-                    model.MovementRequest.ApprovalStatus = item.MovementRequest.ApprovalStatus;
-                    model.MovementRequest.ApprovalStatusName = approvalname != null ? approvalname.Value : null;
-                    model.MovementRequestDetail = new List<MovementRequestDetailViewModel>();
-                    movementrequestlist.Add(model.MovementRequest);
+                    if (detail.DeletedDate == null)
+                    {
+                        if (detail.RequestedTo == Departmentid)
+                        {
+                            MovementRequestDetailViewModel mvdetail = new MovementRequestDetailViewModel();
+                            var moveasset = _assetlocation.GetAssetLocationByMovementDetailID(detail.ID);
+                            mvdetail.Quantity = detail.Quantity;
+                            mvdetail.Transfered = moveasset != null ? moveasset.Count : 0;
+                            if (mvdetail.Quantity != mvdetail.Transfered)
+                            {
+
+                                var categoryname = _pref.GetLookupByCategoryCode(detail.AssetCategoryCD);
+                                var department = _department.GetDepartmentByID(detail.RequestedTo);
+
+                                mvdetail.ID = detail.ID;
+                                mvdetail.MovementRequestID = detail.MovementRequestID;
+                                mvdetail.Description = detail.Description;
+                                mvdetail.AssetCategoryCD = detail.AssetCategoryCD;
+                                mvdetail.CategoryCDName = categoryname != null ? categoryname.Value : null;
+                                mvdetail.RequestTo = detail.RequestedTo;
+                                mvdetail.RequestToName = department != null ? department.Name : null;
+                                model.MovementRequestDetail.Add(mvdetail);
+                            }
+
+                        }
+                    }
+                }
+                if (model.MovementRequestDetail.Count != 0)
+                {
                     result.Add(model);
-                }  
+                }
             }
-            foreach (var item2 in result)
+      
+            return result;
+        }
+
+        public MovementRequestViewModel GetMovementRequestToMoveByID(int id)
+        {
+
+            var movement = _movementrequest.GetMovementRequestByID(id);
+
+            MovementRequestViewModel result = new MovementRequestViewModel();
+            result.MovementRequest = new MovementRequestSearchResult();
+            var approvalname = _pref.GetLookupByApprovalStatusCode(movement.ApprovalStatus);
+            result.MovementRequest.ID = movement.ID;
+            result.MovementRequest.MovementDate = movement.MovementDate;
+            result.MovementRequest.LocationID = movement.LocationID;
+            result.MovementRequest.LocationName = movement.Location != null ? movement.Location.Name : null;
+            result.MovementRequest.Description = movement.Description;
+            result.MovementRequest.ApprovedDate = movement.ApprovedDate;
+            result.MovementRequest.ApprovedBy = movement.ApprovedBy;
+            result.MovementRequest.Notes = movement.Notes;
+            result.MovementRequest.ApprovalStatus = movement.ApprovalStatus;
+            result.MovementRequest.ApprovalStatusName = approvalname != null ? approvalname.Value : null;
+            result.MovementRequestDetail = new List<MovementRequestDetailViewModel>();
+            foreach (var item in movement.MovementRequestDetail)
             {
-                var movementrequest = movement.Where(p => p.MovementRequestID == item2.MovementRequest.ID).ToList();
-                foreach(var item3 in movementrequest)
+                if (item.DeletedDate == null && item.DeletedBy == null)
                 {
                     MovementRequestDetailViewModel detail = new MovementRequestDetailViewModel();
-                    var moveasset = _assetlocation.GetAssetLocationByMovementDetailID(item3.ID);
-                    detail.Quantity = item3.Quantity;
+                    var categoryname = _pref.GetLookupByCategoryCode(item.AssetCategoryCD);
+                    var deparment = _department.GetDepartmentByID(item.RequestedTo);
+                    var moveasset = _assetlocation.GetAssetLocationByMovementDetailID(item.ID);
+                    detail.Quantity = item.Quantity;
                     detail.Transfered = moveasset != null ? moveasset.Count : 0;
+
                     if (detail.Quantity != detail.Transfered)
                     {
-                        
-                        var categoryname = _pref.GetLookupByCategoryCode(item3.AssetCategoryCD);
-                        var deparment = _department.GetDepartmentByID(item3.RequestedTo);
-
-                        detail.ID = item3.ID;
-                        detail.MovementRequestID = item3.MovementRequestID;
-                        detail.Description = item3.Description;
-                        detail.AssetCategoryCD = item3.AssetCategoryCD;
+                        detail.ID = item.ID;
+                        detail.MovementRequestID = item.MovementRequestID;
+                        detail.Description = item.Description;
+                        detail.AssetCategoryCD = item.AssetCategoryCD;
                         detail.CategoryCDName = categoryname != null ? categoryname.Value : null;
-                        detail.RequestTo = item3.RequestedTo;
+                        detail.RequestTo = item.RequestedTo;
                         detail.RequestToName = deparment != null ? deparment.Name : null;
-
-                        item2.MovementRequestDetail.Add(detail);
+                        result.MovementRequestDetail.Add(detail);
                     }
                 }
             }
-
-
             return result;
+
         }
 
         public List<MovementRequestViewModel> SearchMovementRequest(MovementRequestViewModel obj)
