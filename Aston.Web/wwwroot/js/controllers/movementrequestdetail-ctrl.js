@@ -166,6 +166,8 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
         obj.editmode = false;
         obj.IsUpdate = true;
         $scope.onprocess = false;
+        $scope.getCategoryName(obj);
+        $scope.getDepartmentName(obj);
     }
 
     $scope.editMRD = function (obj) {
