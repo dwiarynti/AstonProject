@@ -64,4 +64,20 @@ namespace Aston.Entities
         public string MovedBy { get; set; }
         public int TotalRow { get; set; }
     }
+
+    public class MismatchReportViewModel
+    {
+        public int AssetID { get; set; }
+        public string AssetCode { get; set; }
+        public string AssetName { get; set; }
+        public string Category { get; set; }
+        public int LocationID { get; set; }
+        public string LocationName { get; set; }
+        public int CurrentLocationID { get; set; }
+        public string CurrentLocationName { get; set; }
+        public string Status { get; set; }
+        public string RecordDate { get; set; }
+
+
+    }
 }
