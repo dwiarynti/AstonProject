@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Net;
 using Aston.Business;
 using Aston.Entities;
+using Aston.WebApi.Helpers;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -16,6 +17,12 @@ namespace Aston.WebApi.Controllers
     public class MovementRequestController : Controller
     {
         MovementRequestComponent service = new MovementRequestComponent();
+        private DateExtension _dateExtension;
+
+        public MovementRequestController(DateExtension dateExtension)
+        {
+            _dateExtension = dateExtension;
+        }
 
         [HttpGet]
         [Route("GetMovementRequest")]
@@ -77,6 +84,8 @@ namespace Aston.WebApi.Controllers
         [Route("CreateMovementRequest")]
         public HttpResponseMessage CreateMovementRequest(HttpRequestMessage request, [FromBody] MovementRequestViewModel obj)
         {
+            obj.CreatedDate = _dateExtension.GetDateTime();
+
             var result = service.CreateMovementRequest(obj);
             HttpResponseMessage response = new HttpResponseMessage();
             response = request.CreateResponse(HttpStatusCode.OK, new { success = result.status, obj = result.movementRequest });
@@ -86,6 +95,9 @@ namespace Aston.WebApi.Controllers
         [Route("ApproveMovementRequest")]
         public HttpResponseMessage ApproveMovementRequest(HttpRequestMessage request, [FromBody] MovementRequest obj)
         {
+            obj.ApprovedDate = _dateExtension.GetDateTime("ddMMyyyy");
+            obj.UpdatedDate = _dateExtension.GetDateTime();
+
             var result = service.ApproveMovementRequest(obj);
             HttpResponseMessage response = new HttpResponseMessage();
             response = request.CreateResponse(HttpStatusCode.OK, new { success = true, obj = result });
@@ -95,6 +107,8 @@ namespace Aston.WebApi.Controllers
         [Route("UpdateMovementRequest")]
         public HttpResponseMessage UpdateMovementRequest(HttpRequestMessage request, [FromBody] MovementRequestViewModel obj)
         {
+            obj.UpdatedDate = _dateExtension.GetDateTime();
+
             var result = service.UpdateMovementRequest(obj);
            
             HttpResponseMessage response = new HttpResponseMessage();
@@ -105,6 +119,8 @@ namespace Aston.WebApi.Controllers
         [Route("DeleteMovementRequest")]
         public HttpResponseMessage DeleteMovementRequest(HttpRequestMessage request, [FromBody] MovementRequest obj)
         {
+            obj.DeletedDate = _dateExtension.GetDateTime();
+
             var result = service.DeleteMovementRequest(obj);
             HttpResponseMessage response = new HttpResponseMessage();
             response = request.CreateResponse(HttpStatusCode.OK, new { success = true, obj = result });
@@ -114,6 +130,8 @@ namespace Aston.WebApi.Controllers
         [Route("DeleteMovementRequestDetail")]
         public HttpResponseMessage DeleteMovementRequestDetail(HttpRequestMessage request, [FromBody] MovementRequestDetail obj)
         {
+            obj.DeletedDate = _dateExtension.GetDateTime();
+
             var result = service.DeleteMovementRequestDetail(obj);
             HttpResponseMessage response = new HttpResponseMessage();
             response = request.CreateResponse(HttpStatusCode.OK, new { success = true, obj = result });

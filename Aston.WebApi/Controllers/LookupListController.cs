@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Aston.Business;
 using System.Net.Http;
 using System.Net;
+using Aston.WebApi.Helpers;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -15,6 +16,12 @@ namespace Aston.WebApi.Controllers
     public class LookupListController : Controller
     {
         LookupListComponent service = new LookupListComponent();
+        private DateExtension _dateExtension;
+
+        public LookupListController(DateExtension dateExtension)
+        {
+            _dateExtension = dateExtension;
+        }
 
         [HttpGet]
         [Route("GetCategory")]

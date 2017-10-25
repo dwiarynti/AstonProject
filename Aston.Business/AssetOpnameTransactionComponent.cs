@@ -21,20 +21,24 @@ namespace Aston.Business
             result.assetOpname = new List<AssetOpnameTransactionViewModel>();
             if (obj != null)
             {
-                var stockopname = service.GetAssetStockOpname(obj.LocationID, obj.RecordDate);
-                foreach (var item in stockopname)
+                var stockopname = assetlocationcomponent.GetAssetLocationOpnameLatestByLocationID(obj.LocationID, obj.CreatedDate);
+                var assetlocation = assetlocationcomponent.GetAssetLatestLocationByLocationID(obj.LocationID, obj.CreatedDate);
+                if(stockopname != null)
                 {
-                    AssetOpnameTransactionViewModel model = new AssetOpnameTransactionViewModel();
-                    model.ID = item.ID;
-                    model.LocationID = item.LocationID;
-                    model.LocationName = item.Location != null ? item.Location.Name : "";
-                    model.AssetID = item.AssetID;
-                    model.AssetName = item.Asset != null ? item.Asset.Name : "";
-
-                    result.assetOpname.Add(model);
-
+                    foreach(var item in assetlocation)
+                    {
+                        int count = stockopname.Where(p => p.AssetLatest.AssetID == item.AssetLatest.AssetID).Count();
+                        if(count > 0)
+                        {
+                            item.isOpname = true;
+                        }
+                        else
+                        {
+                            item.isOpname = false;
+                        }
+                    }
                 }
-                var assetlocation = assetlocationcomponent.GetAssetLatestLocationByLocationID(obj.LocationID,obj.RecordDate);
+                
                 result.assetlocation = assetlocation;
             }
             return result;
