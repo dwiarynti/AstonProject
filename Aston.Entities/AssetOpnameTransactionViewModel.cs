@@ -14,6 +14,14 @@ namespace Aston.Entities
         public string LocationName { get; set; }
         public string RecordDate { get; set; }
         public DateTime CreatedDate { get; set; }
+
+        public AssetTransactionViewModel AssetLatest { get; set; }
+        public bool isOpname { get; set; }
         
+    }
+    public class AssetTransactionViewModel
+    {
+        public int AssetID { get; set; }
+        public DateTime CreatedDate { get; set; }
     }
 }

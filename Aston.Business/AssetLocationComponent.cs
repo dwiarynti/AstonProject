@@ -505,10 +505,21 @@ namespace Aston.Business
             var result = _assetlocation.Pagination_AssetLocation_SP(Skip);
             return result;
         }
-        public List<AssetOpnameTransactionViewModel> GetAssetLatestLocationByLocationID(int id,string opnamedate)
+        public List<AssetOpnameTransactionViewModel> GetAssetLatestLocationByLocationID(int id,DateTime opnamedate)
         {
             List<AssetOpnameTransactionViewModel> result = new List<AssetOpnameTransactionViewModel>();
             var assetlocation = _assetlocation.GetAssetLatestLocationByLocationID(id,opnamedate);
+            if (assetlocation != null)
+            {
+                result = assetlocation;
+            }
+            return result;
+        }
+
+        public List<AssetOpnameTransactionViewModel> GetAssetLocationOpnameLatestByLocationID(int id, DateTime opnamedate)
+        {
+            List<AssetOpnameTransactionViewModel> result = new List<AssetOpnameTransactionViewModel>();
+            var assetlocation = _assetlocation.GetAssetLocationOpnameLatestByLocationID(id, opnamedate);
             if (assetlocation != null)
             {
                 result = assetlocation;

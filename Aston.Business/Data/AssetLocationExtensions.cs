@@ -67,7 +67,7 @@ namespace Aston.Business.Data
             return result;
         }
 
-        public List<AssetOpnameTransactionViewModel> GetAssetLatestLocationByLocationID(int LocationID,string Opnamedate)
+        public List<AssetOpnameTransactionViewModel> GetAssetLatestLocationByLocationID(int LocationID,DateTime Opnamedate)
         {
             List<AssetOpnameTransactionViewModel> result = new List<AssetOpnameTransactionViewModel>();
 
@@ -75,16 +75,41 @@ namespace Aston.Business.Data
             {
                 dbContext.Database.OpenConnection();
                 DbCommand cmd = dbContext.Database.GetDbConnection().CreateCommand();
-                cmd.CommandText = "dbo.sp_GetLatestLocationByAssetID";
+                cmd.CommandText = "dbo.sp_AssetLocationLatest";
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Add(new SqlParameter("@LocationID", SqlDbType.Int) { Value = LocationID });
-                cmd.Parameters.Add(new SqlParameter("@OpnameDate", SqlDbType.VarChar) { Value = Opnamedate });
+                cmd.Parameters.Add(new SqlParameter("@OpnameDate", SqlDbType.DateTime) { Value = Opnamedate });
                 using (var reader = cmd.ExecuteReader())
                 {
-                    var assetlocationlist = dbContext.DataReaderMapToList<AssetOpnameTransactionViewModel>(reader);
+                    var assetlocationlist = dbContext.DataReaderMapToList<AssetTransactionViewModel>(reader);
                     foreach (var assetlocation in assetlocationlist)
                     {
-                        result.Add(assetlocation);
+                        result.Add(new AssetOpnameTransactionViewModel() { AssetLatest = assetlocation });
+                    }
+                    cmd.Connection.Close();
+                }
+            }
+            return result;
+        }
+
+        public List<AssetOpnameTransactionViewModel> GetAssetLocationOpnameLatestByLocationID(int LocationID, DateTime Opnamedate)
+        {
+            List<AssetOpnameTransactionViewModel> result = new List<AssetOpnameTransactionViewModel>();
+
+            using (AstonContext dbContext = new AstonContext())
+            {
+                dbContext.Database.OpenConnection();
+                DbCommand cmd = dbContext.Database.GetDbConnection().CreateCommand();
+                cmd.CommandText = "dbo.sp_AssetLocationOpnameLatest";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add(new SqlParameter("@LocationID", SqlDbType.Int) { Value = LocationID });
+                cmd.Parameters.Add(new SqlParameter("@OpnameDate", SqlDbType.DateTime) { Value = Opnamedate });
+                using (var reader = cmd.ExecuteReader())
+                {
+                    var assetlocationlist = dbContext.DataReaderMapToList<AssetTransactionViewModel>(reader);
+                    foreach (var assetlocation in assetlocationlist)
+                    {
+                        result.Add(new AssetOpnameTransactionViewModel() { AssetLatest = assetlocation });
                     }
                     cmd.Connection.Close();
                 }
