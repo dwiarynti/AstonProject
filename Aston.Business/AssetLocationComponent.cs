@@ -151,7 +151,7 @@ namespace Aston.Business
                                                         assetlocationobj.AssetID = asset.ID;
                                                         assetlocationobj.LocationID = location.ID;
                                                         assetlocationobj.OnTransition = false;
-                                                        assetlocationobj.CreatedDate = DateTime.Now;
+                                                        assetlocationobj.CreatedDate = obj.CreatedDate;//DateTime.Now;
                                                         assetlocationobj.CreatedBy = obj.CreatedBy;
                                                         assetlocationobj.MovementRequestDetailID = obj.MovementRequestDetailID;
 
@@ -270,7 +270,7 @@ namespace Aston.Business
                                             assetlocationobj.AssetID = item.ID;
                                             assetlocationobj.LocationID = movementrequest.LocationID != null ? movementrequest.LocationID : null;
                                             assetlocationobj.OnTransition = true;
-                                            assetlocationobj.CreatedDate = DateTime.Now;
+                                            assetlocationobj.CreatedDate = obj.CreatedDate;//DateTime.Now;
                                             assetlocationobj.CreatedBy = obj.CreatedBy;
                                             assetlocationobj.MovementRequestDetailID = obj.MovementRequestDetailID;
 
@@ -375,7 +375,7 @@ namespace Aston.Business
                             assetlocationobj.AssetID = item.AssetID;
                             assetlocationobj.LocationID = movementrequest.LocationID;
                             assetlocationobj.OnTransition = obj.AssetLocation.OnTransition;
-                            assetlocationobj.CreatedDate = DateTime.Now;
+                            assetlocationobj.CreatedDate = obj.CreatedDate;//DateTime.Now;
                             assetlocationobj.CreatedBy = obj.CreatedBy;
                             assetlocationobj.MovementRequestDetailID = obj.AssetLocation.MovementRequestDetailID;
                             _context.AssetLocation.Add(assetlocationobj);
@@ -427,7 +427,7 @@ namespace Aston.Business
                     assetlocation.OnTransition = obj.OnTransition;
                     assetlocation.MovementRequestDetailID = obj.MovementRequestDetailID;
                     assetlocation.UpdatedBy = obj.UpdatedBy;
-                    assetlocation.UpdatedDate = DateTime.Now;
+                    assetlocation.UpdatedDate = obj.UpdatedDate;//DateTime.Now;
                     _context.Entry(assetlocation).State = EntityState.Modified;
                     _context.SaveChanges();
                     transaction.Commit();
@@ -457,7 +457,7 @@ namespace Aston.Business
                 {
                   
                     assetlocation.DeletedBy = obj.DeletedBy;
-                    assetlocation.DeletedDate = DateTime.Now;
+                    assetlocation.DeletedDate = obj.DeletedDate;//DateTime.Now;
                     _context.Entry(assetlocation).State = EntityState.Modified;
                     _context.SaveChanges();
                     transaction.Commit();

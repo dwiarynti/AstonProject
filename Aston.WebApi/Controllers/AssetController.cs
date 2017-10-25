@@ -9,6 +9,7 @@ using Aston.Entities;
 using Aston.Entities.DataContext;
 using System.Net;
 using System.Net.Http.Headers;
+using Aston.WebApi.Helpers;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -20,6 +21,12 @@ namespace Aston.WebApi.Controllers
     public class AssetController : Controller
     {
         public AssetComponent service = new AssetComponent();
+        private DateExtension _dateExtension;
+
+        public AssetController(DateExtension dateExtension)
+        {
+            _dateExtension = dateExtension;
+        }
 
 
         [HttpGet]
@@ -56,7 +63,6 @@ namespace Aston.WebApi.Controllers
         [Route("GetAsset")]
         public HttpResponseMessage GetAsset(HttpRequestMessage request)
         {
-
             var result = service.GetAsset();
             HttpResponseMessage response = new HttpResponseMessage();
             response = request.CreateResponse(HttpStatusCode.OK, new {success = true, obj = result});
@@ -69,6 +75,8 @@ namespace Aston.WebApi.Controllers
         [Route("CreateAsset")]
         public HttpResponseMessage CreateAsset(HttpRequestMessage request, [FromBody] AssetViewModel obj)
         {
+            obj.CreatedDate = _dateExtension.GetDateTime();
+
             var result = service.CreateAsset(obj);
             HttpResponseMessage response = new HttpResponseMessage();
             response = request.CreateResponse(HttpStatusCode.OK, new {success = result});
@@ -79,6 +87,8 @@ namespace Aston.WebApi.Controllers
         [Route("UpdateAsset")]
         public HttpResponseMessage UpdateAsset(HttpRequestMessage request, [FromBody] AssetViewModel obj)
         {
+            obj.UpdatedDate = _dateExtension.GetDateTime();
+
             var result = service.UpdateAsset(obj);
             HttpResponseMessage response = new HttpResponseMessage();
             response = request.CreateResponse(HttpStatusCode.OK, new {success = result});
@@ -99,6 +109,8 @@ namespace Aston.WebApi.Controllers
         [Route("DeleteAsset")]
         public HttpResponseMessage DeleteAsset(HttpRequestMessage request, [FromBody] Asset obj)
         {
+            obj.DeletedDate = _dateExtension.GetDateTime();
+
             var result = service.DeleteAsset(obj);
             HttpResponseMessage response = new HttpResponseMessage();
             response = request.CreateResponse(HttpStatusCode.OK, new {success = result});
