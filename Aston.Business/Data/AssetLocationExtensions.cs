@@ -66,5 +66,30 @@ namespace Aston.Business.Data
 
             return result;
         }
+
+        public List<AssetOpnameTransactionViewModel> GetAssetLatestLocationByLocationID(int LocationID,string Opnamedate)
+        {
+            List<AssetOpnameTransactionViewModel> result = new List<AssetOpnameTransactionViewModel>();
+
+            using (AstonContext dbContext = new AstonContext())
+            {
+                dbContext.Database.OpenConnection();
+                DbCommand cmd = dbContext.Database.GetDbConnection().CreateCommand();
+                cmd.CommandText = "dbo.sp_GetLatestLocationByAssetID";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add(new SqlParameter("@LocationID", SqlDbType.Int) { Value = LocationID });
+                cmd.Parameters.Add(new SqlParameter("@OpnameDate", SqlDbType.VarChar) { Value = Opnamedate });
+                using (var reader = cmd.ExecuteReader())
+                {
+                    var assetlocationlist = dbContext.DataReaderMapToList<AssetOpnameTransactionViewModel>(reader);
+                    foreach (var assetlocation in assetlocationlist)
+                    {
+                        result.Add(assetlocation);
+                    }
+                    cmd.Connection.Close();
+                }
+            }
+            return result;
+        }
     }
 }

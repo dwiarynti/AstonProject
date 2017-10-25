@@ -25,11 +25,11 @@ namespace Aston.Entities
         public string ManufactureDate { get; set; }
         public int CategoryCD { get; set; }
         public int StatusCD { get; set; }
-        public string CreatedDate { get; set; }
+        public DateTime CreatedDate { get; set; }
         public string CreatedBy { get; set; }
-        public string UpdatedDate { get; set; }
+        public DateTime UpdatedDate { get; set; }
         public string UpdatedBy { get; set; }
-        public string DeletedDate { get; set; }
+        public DateTime DeletedDate { get; set; }
         public string DeletedBy { get; set; }
 
         public virtual ICollection<AssetLocation> AssetLocation { get; set; }

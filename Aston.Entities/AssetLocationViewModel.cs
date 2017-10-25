@@ -8,6 +8,7 @@ namespace Aston.Entities
     public class AssetLocationViewModel : ViewModel
     {
         public int Skip { get; set; }
+        
         public AssetLocationPagination AssetLocation { get; set; }
         public List<AssetLocation> AssetLocationList { get; set; }
     }

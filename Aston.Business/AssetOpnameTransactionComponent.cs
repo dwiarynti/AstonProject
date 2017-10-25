@@ -12,6 +12,7 @@ namespace Aston.Business
     {
         AstonContext _context = new AstonContext();
         AssetOpnameTransactionExtensions service = new AssetOpnameTransactionExtensions();
+        AssetLocationComponent assetlocationcomponent = new AssetLocationComponent();
 
 
         public ResultViewModel GetAssetStockOpname(AssetOpnameTransactionViewModel obj)
@@ -33,6 +34,8 @@ namespace Aston.Business
                     result.assetOpname.Add(model);
 
                 }
+                var assetlocation = assetlocationcomponent.GetAssetLatestLocationByLocationID(obj.LocationID,obj.RecordDate);
+                result.assetlocation = assetlocation;
             }
             return result;
         }

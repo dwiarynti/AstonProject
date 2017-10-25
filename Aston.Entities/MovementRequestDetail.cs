@@ -13,11 +13,11 @@ namespace Aston.Entities
         public int AssetCategoryCD { get; set; }
         public int Quantity { get; set; }
         public int RequestedTo { get; set; }
-        public string CreatedDate { get; set; }
+        public DateTime CreatedDate { get; set; }
         public string CreatedBy { get; set; }
-        public string UpdatedDate { get; set; }
+        public DateTime UpdatedDate { get; set; }
         public string UpdatedBy { get; set; }
-        public string DeletedDate { get; set; }
+        public DateTime DeletedDate { get; set; }
         public string DeletedBy { get; set; }
         public virtual MovementRequest MovementRequest { get; set; }
     }

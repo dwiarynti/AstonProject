@@ -13,5 +13,7 @@ namespace Aston.Entities
         public int LocationID { get; set; }
         public string LocationName { get; set; }
         public string RecordDate { get; set; }
+        public DateTime CreatedDate { get; set; }
+        
     }
 }

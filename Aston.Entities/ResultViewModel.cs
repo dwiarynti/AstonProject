@@ -12,7 +12,7 @@ namespace Aston.Entities
         public string  message { get; set; }
         public MovementRequestViewModel movementRequest { get; set; }
         public List<string> listAsset { get; set; }
-        public List<AssetLocation> assetlocation { get; set; }
+        public List<AssetOpnameTransactionViewModel> assetlocation { get; set; }
         public List<Asset> asset{ get; set; }
         public List<AssetOpnameTransactionViewModel> assetOpname { get; set; }
         

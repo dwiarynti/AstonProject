@@ -52,6 +52,7 @@ namespace Aston.Business
                     model.AssetLocation.LocationName = item.Location.Name;
                     model.AssetLocation.OnTransition = item.OnTransition;
                     model.AssetLocation.MovementRequestDetailID = item.MovementRequestDetailID;
+                    model.CreatedDate = item.CreatedDate;
                     result.Add(model);
                 }
             }
@@ -150,7 +151,7 @@ namespace Aston.Business
                                                         assetlocationobj.AssetID = asset.ID;
                                                         assetlocationobj.LocationID = location.ID;
                                                         assetlocationobj.OnTransition = false;
-                                                        assetlocationobj.CreatedDate = DateTime.Now.ToString("ddMMyyyy");
+                                                        assetlocationobj.CreatedDate = DateTime.Now;
                                                         assetlocationobj.CreatedBy = obj.CreatedBy;
                                                         assetlocationobj.MovementRequestDetailID = obj.MovementRequestDetailID;
 
@@ -269,7 +270,7 @@ namespace Aston.Business
                                             assetlocationobj.AssetID = item.ID;
                                             assetlocationobj.LocationID = movementrequest.LocationID != null ? movementrequest.LocationID : null;
                                             assetlocationobj.OnTransition = true;
-                                            assetlocationobj.CreatedDate = DateTime.Now.ToString("ddMMyyyy");
+                                            assetlocationobj.CreatedDate = DateTime.Now;
                                             assetlocationobj.CreatedBy = obj.CreatedBy;
                                             assetlocationobj.MovementRequestDetailID = obj.MovementRequestDetailID;
 
@@ -374,7 +375,7 @@ namespace Aston.Business
                             assetlocationobj.AssetID = item.AssetID;
                             assetlocationobj.LocationID = movementrequest.LocationID;
                             assetlocationobj.OnTransition = obj.AssetLocation.OnTransition;
-                            assetlocationobj.CreatedDate = DateTime.Now.Date.ToString("ddMMyyyy");
+                            assetlocationobj.CreatedDate = DateTime.Now;
                             assetlocationobj.CreatedBy = obj.CreatedBy;
                             assetlocationobj.MovementRequestDetailID = obj.AssetLocation.MovementRequestDetailID;
                             _context.AssetLocation.Add(assetlocationobj);
@@ -426,7 +427,7 @@ namespace Aston.Business
                     assetlocation.OnTransition = obj.OnTransition;
                     assetlocation.MovementRequestDetailID = obj.MovementRequestDetailID;
                     assetlocation.UpdatedBy = obj.UpdatedBy;
-                    assetlocation.UpdatedDate = DateTime.Now.Date.ToString("ddMMyyyy");
+                    assetlocation.UpdatedDate = DateTime.Now;
                     _context.Entry(assetlocation).State = EntityState.Modified;
                     _context.SaveChanges();
                     transaction.Commit();
@@ -456,7 +457,7 @@ namespace Aston.Business
                 {
                   
                     assetlocation.DeletedBy = obj.DeletedBy;
-                    assetlocation.DeletedDate = DateTime.Now.Date.ToString("ddMMyyyy");
+                    assetlocation.DeletedDate = DateTime.Now;
                     _context.Entry(assetlocation).State = EntityState.Modified;
                     _context.SaveChanges();
                     transaction.Commit();
@@ -502,6 +503,16 @@ namespace Aston.Business
         public List<AssetLocationViewModel> AssetLocation_Pagination(int Skip)
         {
             var result = _assetlocation.Pagination_AssetLocation_SP(Skip);
+            return result;
+        }
+        public List<AssetOpnameTransactionViewModel> GetAssetLatestLocationByLocationID(int id,string opnamedate)
+        {
+            List<AssetOpnameTransactionViewModel> result = new List<AssetOpnameTransactionViewModel>();
+            var assetlocation = _assetlocation.GetAssetLatestLocationByLocationID(id,opnamedate);
+            if (assetlocation != null)
+            {
+                result = assetlocation;
+            }
             return result;
         }
     }

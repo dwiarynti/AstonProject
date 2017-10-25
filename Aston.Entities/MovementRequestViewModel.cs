@@ -18,12 +18,11 @@ namespace Aston.Entities
         //public string Notes { get; set; }
         public MovementRequestSearchResult MovementRequest { get; set; }
         public int Skip { get; set; }
-        public string CreatedDate { get; set; }
+      
         public string CreatedBy { get; set; }
-        public string UpdatedDate { get; set; }
+      
         public string UpdatedBy { get; set; }
-        public string DeletedDate { get; set; }
-        public string DeletedBy { get; set; }
+      
         public List<MovementRequestDetailViewModel> MovementRequestDetail { get; set; }
         //public int TotalRow { get; set; }
 
