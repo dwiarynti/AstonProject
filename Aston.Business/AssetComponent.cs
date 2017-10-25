@@ -270,6 +270,10 @@ namespace Aston.Business
             {
                 bytes = MismatchReport(obj);
             }
+            else if (obj.ReportName == "LostAsset")
+            {
+                bytes = LostAssetReport(obj);
+            }
             return bytes;
 
         }
@@ -352,6 +356,32 @@ namespace Aston.Business
                 }
 
                 var cellrange = worksheet.Cells["A1:H" + lastrow];
+                SetBorder(cellrange);
+
+                bytes = package.GetAsByteArray();
+            }
+            return bytes;
+
+        }
+
+        public byte[] LostAssetReport(AssetViewModel obj)
+        {
+            byte[] bytes;
+            MemoryStream stream = new MemoryStream();
+            var listdata = _asset.LostAssetReport_SP(Convert.ToInt16(obj.Asset.CategoryCD), obj.Ismovable, obj.Asset.Owner);
+            using (ExcelPackage package = new ExcelPackage(stream))
+            {
+                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Asset - Lost");
+                //First add the headers
+                InsertColumnHeadersLostAsset(worksheet);
+                var lastrow = 1;
+                //Add values
+                foreach (var data in listdata)
+                {
+                    lastrow = lastrow + 1;
+                    InsertRowDataLostAsset(worksheet, data, lastrow);
+                }
+                var cellrange = worksheet.Cells["A1:G" + lastrow];
                 SetBorder(cellrange);
 
                 bytes = package.GetAsByteArray();
@@ -502,7 +532,53 @@ namespace Aston.Business
             {
                 worksheet.Cells["H" + lastrow].Value = MismatchData.RecordDate;
             }
+        }
 
+        public void InsertColumnHeadersLostAsset(ExcelWorksheet worksheet)
+        {
+            worksheet.Cells["A1"].Value = "No";
+            worksheet.Cells["B1"].Value = "Code";
+            worksheet.Cells["C1"].Value = "Asset Name";
+            worksheet.Cells["D1"].Value = "Category";
+            worksheet.Cells["E1"].Value = "Latest Date";
+            worksheet.Cells["F1"].Value = "Latest Location";
+            worksheet.Cells["G1"].Value = "Status";
+            
+            worksheet.Column(3).Width = 35;
+            worksheet.Column(4).Width = 15;
+            worksheet.Column(5).Width = 20;
+            worksheet.Column(6).Width = 20;
+            worksheet.Column(7).Width = 15;
+            worksheet.Column(8).Width = 17;
+
+            worksheet.Cells["A1:G1"].Style.Font.Bold = true;
+        }
+
+        public void InsertRowDataLostAsset(ExcelWorksheet worksheet, MismatchReportViewModel MismatchData, int lastrow)
+        {
+            //var row = worksheet
+            worksheet.Cells["A" + lastrow].Value = lastrow - 1;
+            worksheet.Cells["A" + lastrow].AutoFitColumns();
+
+            worksheet.Cells["B" + lastrow].Value = MismatchData.AssetCode;
+            worksheet.Cells["B" + lastrow].AutoFitColumns();
+
+            worksheet.Cells["C" + lastrow].Value = MismatchData.AssetName;
+            worksheet.Cells["D" + lastrow].Value = MismatchData.Category;
+
+            if (MismatchData.RecordDate != null)
+            {
+                var FormatedDate = GetFormatedDate(MismatchData.RecordDate);
+                worksheet.Cells["E" + lastrow].Style.Numberformat.Format = "dd/mm/yyyy";
+                worksheet.Cells["E" + lastrow].Formula = "=DATE(" + FormatedDate + ")";
+            }
+            else
+            {
+                worksheet.Cells["E" + lastrow].Value = MismatchData.RecordDate;
+            }
+
+            worksheet.Cells["F" + lastrow].Value = MismatchData.LocationName;
+            worksheet.Cells["G" + lastrow].Value = MismatchData.Status;
 
 
         }

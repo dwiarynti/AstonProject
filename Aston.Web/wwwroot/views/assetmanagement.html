@@ -51,7 +51,7 @@
                                                 <input type="radio" name="report" ng-model="SelectedReport" value="Total Asset Value" class="radio-template" /> Total Asset Value <br />
                                                 <input type="radio" name="report" ng-model="SelectedReport" value="Zero Value" class="radio-template" /> Zero Value <br />
                                                 <input type="radio" name="report" ng-model="SelectedReport" value="Mismatch" class="radio-template" /> Mismatch <br />
-                                                <!--<input type="radio" name="report" ng-model="searchobj.IsMovable" data-ng-value="true" class="radio-template"/> True <br/>-->
+                                                <input type="radio" name="report" ng-model="SelectedReport" value="LostAsset" class="radio-template"/> Lost Asset <br/>
                                             </td>
                                             <td class="col-sm-2  bg-white m-b-1">
                                                 <button type="button" class="btn btn-info" ng-click="export()">Export</button>
@@ -177,12 +177,12 @@
                                     <label class="col-sm-3 form-control-label">Depreciation Duration*</label>
                                     <div class="col-sm-9">
                                         <div class="input-group">
-                                            <input type="text" class="form-control form-control-success" placeholder="Depreciation Duration" ng-model="asset.DepreciationDuration" ng-change="setToNumberPatern(asset)">
+                                            <input ng-disabled="asset.CurrentValue == 0" type="text" class="form-control form-control-success" placeholder="Depreciation Duration" ng-model="asset.DepreciationDuration" ng-change="setToNumberPatern(asset)">
                                             <span ng-if="asset.DepreciationDuration <=1" class="input-group-addon">Year</span>
                                             <span ng-if="asset.DepreciationDuration > 1" class="input-group-addon">Years</span>
                                         </div>
                                         <!--<input type="text" class="form-control form-control-success" placeholder="Depreciation Duration" ng-model="asset.DepreciationDuration" ng-change="setToNumberPatern(asset)">-->
-                                        <small class="text-danger" ng-if="(asset.DepreciationDuration == null || asset.DepreciationDuration == '') && isValidate == false">Depreciation Durationis required</small>
+                                        <small class="text-danger" ng-if="(asset.DepreciationDuration == null || asset.DepreciationDuration == '') && isValidate == false">Depreciation Duration is required</small>
                                     </div>
                                 </div>
                                 <div ng-class="(asset.ManufactureDate == null || asset.ManufactureDate == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
