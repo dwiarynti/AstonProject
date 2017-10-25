@@ -108,7 +108,7 @@ namespace Aston.Business
                     location.LocationTypeCD = Convert.ToInt16(obj.Location.LocationTypeCD);
                     location.StatusCD = obj.Location.StatusCD;
                     location.CreatedBy = obj.CreatedBy;
-                    location.CreatedDate = DateTime.Now;
+                    location.CreatedDate = obj.CreatedDate;//DateTime.Now;
                     _context.Location.Add(location);
                     _context.SaveChanges();
                     transaction.Commit();
@@ -152,7 +152,7 @@ namespace Aston.Business
                     location.LocationTypeCD = Convert.ToInt16(obj.Location.LocationTypeCD);
                     location.StatusCD = obj.Location.StatusCD;
                     location.UpdatedBy = obj.UpdatedBy;
-                    location.UpdatedDate = DateTime.Now;
+                    location.UpdatedDate = obj.UpdatedDate;//DateTime.Now;
 
                     _context.Entry(location).State = EntityState.Modified;
                     _context.SaveChanges();
@@ -182,7 +182,7 @@ namespace Aston.Business
                 try
                 {
                     location.DeletedBy = obj.DeletedBy;
-                    location.DeletedDate = DateTime.Now;
+                    location.DeletedDate = obj.DeletedDate;//DateTime.Now;
                     _context.Entry(location).State = EntityState.Modified;
                     _context.SaveChanges();
                     transaction.Commit();

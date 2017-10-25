@@ -169,7 +169,7 @@ namespace Aston.Business
                     movement.Description = obj.MovementRequest.Description;
                     movement.LocationID = obj.MovementRequest.LocationID;
                     movement.ApprovalStatus = Convert.ToInt16(obj.MovementRequest.ApprovalStatus);
-                    movement.CreatedDate = DateTime.Now;
+                    movement.CreatedDate = obj.CreatedDate;//DateTime.Now;
                     movement.CreatedBy = obj.CreatedBy;
                     movement.Notes = obj.MovementRequest.Notes;
                     foreach (var item in obj.MovementRequestDetail)
@@ -216,10 +216,10 @@ namespace Aston.Business
                 try
                 {
                     request.ApprovedBy = obj.UpdatedBy;
-                    request.ApprovedDate = DateTime.Now.ToString("ddMMyyyy");
+                    request.ApprovedDate = obj.ApprovedDate;//DateTime.Now.ToString("ddMMyyyy");
                     request.ApprovalStatus = obj.ApprovalStatus;
                     request.UpdatedBy = obj.UpdatedBy;
-                    request.UpdatedDate = DateTime.Now;
+                    request.UpdatedDate = obj.UpdatedDate;//DateTime.Now;
                     request.Notes = obj.Notes;
                     _context.Entry(request).State = EntityState.Modified;
                     _context.SaveChanges();
@@ -252,7 +252,7 @@ namespace Aston.Business
                 movement.MovementDate = obj.MovementRequest.MovementDate.Replace("/",string.Empty);
                 movement.ApprovalStatus = Convert.ToInt16(obj.MovementRequest.ApprovalStatus);
                 movement.UpdatedBy = obj.UpdatedBy;
-                movement.UpdatedDate = DateTime.Now;
+                movement.UpdatedDate = obj.UpdatedDate;//DateTime.Now;
                 movement.Notes = obj.MovementRequest.Notes;
                 foreach(var item in movement.MovementRequestDetail)
                 {
@@ -266,11 +266,11 @@ namespace Aston.Business
                             item.Quantity = data.Quantity;
                             item.RequestedTo = data.RequestTo;
                             item.UpdatedBy = obj.UpdatedBy;
-                            item.UpdatedDate = DateTime.Now;
+                            item.UpdatedDate = obj.UpdatedDate;//DateTime.Now;
                         }
                         else if (data.IsDelete == true)
                         {
-                            item.DeletedDate = DateTime.Now;
+                            item.DeletedDate = obj.DeletedDate;//DateTime.Now;
                             item.DeletedBy = obj.UpdatedBy;
                         }
                         obj.MovementRequestDetail.Remove(data);
@@ -285,7 +285,7 @@ namespace Aston.Business
                     detail.Quantity = item.Quantity;
                     detail.RequestedTo = item.RequestTo;
                     detail.CreatedBy = obj.UpdatedBy;
-                    detail.CreatedDate = DateTime.Now;
+                    detail.CreatedDate = obj.CreatedDate;//DateTime.Now;
                        
                     movement.MovementRequestDetail.Add(detail);
                         
@@ -317,12 +317,12 @@ namespace Aston.Business
                 try
                 {
                     movement.DeletedBy = obj.DeletedBy;
-                    movement.DeletedDate = DateTime.Now;
+                    movement.DeletedDate = obj.DeletedDate;//DateTime.Now;
 
                     foreach (var item in movement.MovementRequestDetail)
                     {
                         item.DeletedBy = obj.DeletedBy;
-                        item.DeletedDate = DateTime.Now;
+                        item.DeletedDate = obj.DeletedDate;//DateTime.Now;
                     }
                     _context.Update(movement);
                     _context.SaveChanges();
@@ -351,7 +351,7 @@ namespace Aston.Business
                 try
                 {
                     detail.DeletedBy = obj.DeletedBy;
-                    detail.DeletedDate = DateTime.Now.Date;
+                    detail.DeletedDate = obj.DeletedDate;//DateTime.Now.Date;
 
                     _context.Entry(detail).State = EntityState.Modified;
                     _context.SaveChanges();

@@ -7,6 +7,7 @@ using Aston.Business;
 using System.Net.Http;
 using Aston.Entities;
 using System.Net;
+using Aston.WebApi.Helpers;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -18,6 +19,12 @@ namespace Aston.WebApi.Controllers
     {
         public AssetLocationComponent service = new AssetLocationComponent();
         public AssetOpnameTransactionComponent opnameservice = new AssetOpnameTransactionComponent();
+        private DateExtension _dateExtension;
+
+        public AssetLocationController(DateExtension dateExtension)
+        {
+            _dateExtension = dateExtension;
+        }
 
         [HttpGet]
         [Route("GetAssetLocationByLocationID/{id}")]
@@ -63,6 +70,8 @@ namespace Aston.WebApi.Controllers
         [Route("MoveAsset")]
         public HttpResponseMessage MoveAsset(HttpRequestMessage request, [FromBody] AssetViewModel obj)
         {
+            obj.CreatedDate = _dateExtension.GetDateTime();
+
             var result = service.MoveAsset(obj);
             var message = "";
             HttpResponseMessage response = new HttpResponseMessage();
@@ -110,6 +119,8 @@ namespace Aston.WebApi.Controllers
         [Route("TransactionAsset")]
         public HttpResponseMessage TransactionAsset(HttpRequestMessage request, [FromBody] AssetViewModel obj)
         {
+            obj.UpdatedDate = _dateExtension.GetDateTime();
+
             var result = service.TransactionAsset(obj);
             var message = "";
             HttpResponseMessage response = new HttpResponseMessage();
@@ -154,6 +165,8 @@ namespace Aston.WebApi.Controllers
         [Route("CreateAssetLocation")]
         public HttpResponseMessage CreateAssetLocation(HttpRequestMessage request, [FromBody] AssetLocationViewModel obj)
         {
+            obj.CreatedDate = _dateExtension.GetDateTime();
+
             var result = service.CreateAssetLocation(obj);
             HttpResponseMessage response = new HttpResponseMessage();
             response = request.CreateResponse(HttpStatusCode.OK, new { success = result.status});
@@ -164,6 +177,8 @@ namespace Aston.WebApi.Controllers
         [Route("UpdateAssetLocation")]
         public HttpResponseMessage UpdateAssetLocation(HttpRequestMessage request, [FromBody] AssetLocation obj)
         {
+            obj.UpdatedDate = _dateExtension.GetDateTime();
+
             var result = service.UpdateAssetLocation(obj);
             HttpResponseMessage response = new HttpResponseMessage();
             response = request.CreateResponse(HttpStatusCode.OK, new { success = result });
@@ -173,6 +188,8 @@ namespace Aston.WebApi.Controllers
         [Route("DeleteAssetLocation")]
         public HttpResponseMessage DeleteAssetLocation(HttpRequestMessage request, [FromBody] AssetLocation obj)
         {
+            obj.DeletedDate = _dateExtension.GetDateTime();
+
             var result = service.DeleteAssetLocation(obj);
             HttpResponseMessage response = new HttpResponseMessage();
             response = request.CreateResponse(HttpStatusCode.OK, new { success = result });

@@ -140,7 +140,7 @@ namespace Aston.Business
                     asset.ManufactureDate = obj.Asset.ManufactureDate.Replace("/", string.Empty);
                     asset.CategoryCD = Convert.ToInt16(obj.Asset.CategoryCD);
                     asset.StatusCD = obj.Asset.StatusCD;
-                    asset.CreatedDate = DateTime.Now;
+                    asset.CreatedDate = obj.CreatedDate;//DateTime.Now;
                     asset.CreatedBy = obj.CreatedBy;
 
                     _context.Asset.Add(asset);
@@ -189,7 +189,7 @@ namespace Aston.Business
                     asset.CategoryCD = Convert.ToInt16(obj.Asset.CategoryCD);
                     asset.StatusCD = obj.Asset.StatusCD;
                     asset.UpdatedBy = obj.UpdatedBy;
-                    asset.UpdatedDate = DateTime.Now;
+                    asset.UpdatedDate = obj.UpdatedDate;//DateTime.Now;
 
                     _context.Entry(asset).State = EntityState.Modified;
                     _context.SaveChanges();
@@ -219,7 +219,7 @@ namespace Aston.Business
                 try
                 {
                     asset.DeletedBy = obj.DeletedBy;
-                    asset.DeletedDate = DateTime.Now;
+                    asset.DeletedDate = obj.DeletedDate;//DateTime.Now;
                     _context.Entry(asset).State = EntityState.Modified;
                     _context.SaveChanges();
                     transaction.Commit();

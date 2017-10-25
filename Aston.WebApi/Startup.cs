@@ -9,6 +9,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Aston.Business;
 using Aston.Entities.DataContext;
+using Aston.Entities;
+using Aston.WebApi.Helpers;
 
 namespace Aston.WebApi
 {
@@ -47,6 +49,11 @@ namespace Aston.WebApi
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             }).AddWebApiConventions();
             services.AddTransient<AssetComponent>();
+
+            //Custom
+            services.Configure<AppSetting>(Configuration.GetSection("AppSettings"));
+            services.AddTransient<AppSettingExtension>();
+            services.AddTransient<DateExtension>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline

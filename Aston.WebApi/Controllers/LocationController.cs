@@ -7,6 +7,7 @@ using Aston.Business;
 using System.Net.Http;
 using System.Net;
 using Aston.Entities;
+using Aston.WebApi.Helpers;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -16,6 +17,12 @@ namespace Aston.WebApi.Controllers
     public class LocationController : Controller
     {
         public LocationComponent service = new LocationComponent();
+        private DateExtension _dateExtension;
+
+        public LocationController(DateExtension dateExtension)
+        {
+            _dateExtension = dateExtension;
+        }
 
         [HttpGet]
         [Route("GetLocationByCode/{barcode}")]
@@ -51,6 +58,8 @@ namespace Aston.WebApi.Controllers
         [Route("CreateLocation")]
         public HttpResponseMessage CreateLocation(HttpRequestMessage request, [FromBody] LocationViewModel obj)
         {
+            obj.CreatedDate = _dateExtension.GetDateTime();
+
             var result = service.CreateLocation(obj);
             HttpResponseMessage response = new HttpResponseMessage();
             response = request.CreateResponse(HttpStatusCode.OK, new { success = result });
@@ -61,6 +70,8 @@ namespace Aston.WebApi.Controllers
         [Route("UpdateLocation")]
         public HttpResponseMessage UpdateLocation(HttpRequestMessage request, [FromBody] LocationViewModel obj)
         {
+            obj.UpdatedDate = _dateExtension.GetDateTime();
+
             var result = service.UpdateLocation(obj);
             HttpResponseMessage response = new HttpResponseMessage();
             response = request.CreateResponse(HttpStatusCode.OK, new { success = result });
@@ -70,6 +81,8 @@ namespace Aston.WebApi.Controllers
         [Route("DeleteLocation")]
         public HttpResponseMessage DeleteLocation(HttpRequestMessage request, [FromBody] Location obj)
         {
+            obj.DeletedDate = _dateExtension.GetDateTime();
+
             var result = service.DeleteLocation(obj);
             HttpResponseMessage response = new HttpResponseMessage();
             response = request.CreateResponse(HttpStatusCode.OK, new { success = result });
