@@ -88,9 +88,11 @@
 
                         <!--manipulation mode-->
                         <td ng-if="movementrequestdetail.editmode == true">
-                            <select class="form-control" ng-model="movementrequestdetail.AssetCategoryCD" ng-change="getCategoryName(movementrequestdetail)">
+                            <select class="form-control" ng-model="movementrequestdetail.AssetCategoryCD" ng-options="category.Code as category.Value for category in categorylist"></select>
+                            
+                            <!--<select class="form-control" ng-model="movementrequestdetail.AssetCategoryCD" ng-change="getCategoryName(movementrequestdetail)">
                                 <option ng-repeat="category in categorylist" ng-selected="isSelectedItem(category.Code,movementrequestdetail.AssetCategoryCD)" value="{{category.Code}}">{{category.Value}}</option>
-                            </select>
+                            </select>-->
                         </td>
                         <td ng-if="movementrequestdetail.editmode == true"><input type="text" class="form-control form-control-success" placeholder="Description" ng-model="movementrequestdetail.Description"></td>
                         <td ng-if="movementrequestdetail.editmode == true"><input type="text" class="form-control form-control-success" placeholder="Quantity" ng-model="movementrequestdetail.Quantity" ng-change="setToNumberPatern(movementrequestdetail)"></td>
