@@ -212,7 +212,18 @@ namespace Aston.WebApi.Controllers
         {
             var result = opnameservice.GetAssetStockOpname(obj);
             HttpResponseMessage response = new HttpResponseMessage();
-            response = request.CreateResponse(HttpStatusCode.OK, new { success = result });
+            response = request.CreateResponse(HttpStatusCode.OK, new { success = true , obj = result });
+            return response;
+        }
+
+        [HttpPost]
+        [Route("OpnameAsset")]
+        public HttpResponseMessage OpnameAsset(HttpRequestMessage request, [FromBody] AssetOpnameTransactionViewModel obj)
+        {
+            var result = opnameservice.OpnameAsset(obj);
+            HttpResponseMessage response = new HttpResponseMessage();
+            obj.CreatedDate = _dateExtension.GetDateTime();
+            response = request.CreateResponse(HttpStatusCode.OK, new { success = true, obj = result });
             return response;
         }
     }
