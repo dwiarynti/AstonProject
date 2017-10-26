@@ -52,6 +52,10 @@ app.config([
                     $stateParams.ID
                 }
             })
+            .state('user', {
+                url: '/user',
+                templateUrl: 'views/usermanagement.html'
+            })
         ;
     }
 ]);

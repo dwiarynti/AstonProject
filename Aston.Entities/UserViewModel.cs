@@ -29,4 +29,36 @@ namespace Aston.Entities
         public string ConfirmPassword { get; set; }
 
     }
+
+    public class UserPaginationViewModel
+    {
+        public string ID { get; set; }
+        public string Email { get; set; }
+        public string UserName { get; set; }
+        public int DepartmentID { get; set; }
+        public string DepartmentName { get; set; }
+    }
+
+    public class RegisterUserViewModel
+    {
+        //[Required]
+        //[EmailAddress]
+        //[Display(Name = "Email")]
+        public string Email { get; set; }
+
+        //[Display(Name = "Username")]
+        public string Username { get; set; }
+
+        //[Required]
+        //[StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 3)]
+        //[DataType(DataType.Password)]
+        //[Display(Name = "Password")]
+        public string Password { get; set; }
+
+        //[DataType(DataType.Password)]
+        //[Display(Name = "Confirm password")]
+        //[Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        public string ConfirmPassword { get; set; }
+        public Nullable<int> DepartmentID { get; set; }
+    }
 }

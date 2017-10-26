@@ -10,6 +10,8 @@ using Aston.Entities;
 using System.Net;
 using Microsoft.AspNetCore.Identity;
 using Aston.Web.Models;
+using Aston.Web.Models.AccountViewModels;
+using Aston.Web.Process;
 
 namespace Aston.Web.Controllers
 {
@@ -19,12 +21,16 @@ namespace Aston.Web.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserProcess _userProcess;
+
         public UserController(
               UserManager<ApplicationUser> userManager,
-              SignInManager<ApplicationUser> signInManager)
+              SignInManager<ApplicationUser> signInManager,
+              UserProcess userProcess)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _userProcess = userProcess;
         }
 
 
@@ -55,14 +61,31 @@ namespace Aston.Web.Controllers
             {
                 result.result = false;
             } 
-
-           
-
-
             HttpResponseMessage response = new HttpResponseMessage();
             response = request.CreateResponse(HttpStatusCode.OK, new { success = result.result, obj = result });
             return response;
         }
-       
+
+
+        [HttpPost]
+        [Route("GetUserPagination")]
+        public HttpResponseMessage GetUserPagination(HttpRequestMessage request, [FromBody] int Skip)
+        {
+            HttpResponseMessage response = new HttpResponseMessage();
+            response = _userProcess.GetUserPagination(Skip);
+            return response;
+        }
+
+        [HttpPost]
+        [Route("UserRegister")]
+        public HttpResponseMessage UserRegister(HttpRequestMessage request, [FromBody] RegisterViewModel obj)
+        {
+            var user = new ApplicationUser { UserName = obj.Username, Email = obj.Email ,IsActive = true ,DepartmentID = obj.DepartmentID};
+            var result = _userManager.CreateAsync(user, obj.Password);
+
+            HttpResponseMessage response = new HttpResponseMessage();
+            response = request.CreateResponse(HttpStatusCode.OK, new { success = result.Result.Succeeded, obj = user });
+            return response;
+        }
     }
 }

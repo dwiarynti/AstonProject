@@ -83,7 +83,8 @@ namespace Aston.Web
             services.AddTransient<LocationProcess>();
             services.AddTransient<LookupListProcess>();
             services.AddTransient<MovementRequestProcces>();
-         
+            services.AddTransient<UserProcess>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
