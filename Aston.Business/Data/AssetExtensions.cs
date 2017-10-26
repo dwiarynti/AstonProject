@@ -210,5 +210,37 @@ namespace Aston.Business.Data
 
             return result;
         }
+
+        public List<MismatchReportViewModel> LostAssetReport_SP(int categorycode, bool? ismovable, string owner)
+        {
+            var result = new List<MismatchReportViewModel>();
+
+            using (AstonContext dbContext = new AstonContext())
+            {
+                dbContext.Database.OpenConnection();
+                DbCommand cmd = dbContext.Database.GetDbConnection().CreateCommand();
+                cmd.CommandText = "dbo.sp_LostAssetReport";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.Add(new SqlParameter("@CategoryCD", SqlDbType.Int) { Value = categorycode });
+                cmd.Parameters.Add(new SqlParameter("@IsMovable", SqlDbType.Bit) { Value = ismovable });
+                cmd.Parameters.Add(new SqlParameter("@Owner", SqlDbType.NVarChar) { Value = owner });
+
+                using (var reader = cmd.ExecuteReader())
+                {
+
+                    //a = reader.<AssetViewModel>():
+                    var datalist = dbContext.DataReaderMapToList<MismatchReportViewModel>(reader);
+                    foreach (var data in datalist)
+                    {
+                        result.Add(data);
+                    }
+                    cmd.Connection.Close();
+
+                }
+            }
+
+            return result;
+        }
     }
 }

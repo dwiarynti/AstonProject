@@ -127,6 +127,7 @@ app.controller('AssetCtrl', function ($scope, $rootScope, $window, $state, asset
             PurchaseDate: $scope.asset.PurchaseDate,
             PurchasePrice: parseFloat($scope.asset.PurchasePrice),
             ManufactureDate: $scope.asset.ManufactureDate,
+            DepreciationDuration: $scope.asset.DepreciationDuration,
             CategoryCD: $scope.asset.CategoryCD,
             CreatedBy: "test",
             StatusCD: 1,
@@ -178,6 +179,7 @@ app.controller('AssetCtrl', function ($scope, $rootScope, $window, $state, asset
             PurchaseDate: $scope.asset.PurchaseDate,
             PurchasePrice: parseFloat($scope.asset.PurchasePrice),
             ManufactureDate: $scope.asset.ManufactureDate,
+            DepreciationDuration: $scope.asset.DepreciationDuration,
             CategoryCD: $scope.asset.CategoryCD,
             UpdatedBy: "test",
             StatusCD: 1,
@@ -210,6 +212,8 @@ app.controller('AssetCtrl', function ($scope, $rootScope, $window, $state, asset
         assetResources.PurchaseDate = $scope.asset.PurchaseDate;
         assetResources.PurchasePrice = parseFloat($scope.asset.PurchasePrice);
         assetResources.ManufactureDate = $scope.asset.ManufactureDate;
+        assetResources.DepreciationDuration = $scope.asset.DepreciationDuration;
+
         assetResources.CategoryCD = $scope.asset.CategoryCD;
         assetResources.$DeleteAsset(function (data) {
             if (data.success) {
