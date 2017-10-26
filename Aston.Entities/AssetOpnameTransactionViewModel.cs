@@ -25,4 +25,6 @@ namespace Aston.Entities
         public int AssetID { get; set; }
         public DateTime CreatedDate { get; set; }
     }
+
+   
 }

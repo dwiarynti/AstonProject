@@ -1,6 +1,7 @@
 ﻿using Aston.Business.Data;
 using Aston.Entities;
 using Aston.Entities.DataContext;
+using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,6 +44,42 @@ namespace Aston.Business
                 }
                 
                 result.assetlocation = assetlocation;
+            }
+            return result;
+        }
+
+        public ResultViewModel OpnameAsset(AssetOpnameTransactionViewModel obj)
+        {
+            ResultViewModel result = new ResultViewModel();
+            IDbContextTransaction transaction = _context.Database.BeginTransaction();
+            if (obj != null)
+            {
+                var asset = assetcomponent.GetAssetByCode(obj.AssetBarcode);
+                if(asset != null)
+                {
+                    if (asset.Asset.ID == obj.AssetID)
+                    {
+                        try
+                        {
+                            AssetOpnameTransaction model = new AssetOpnameTransaction();
+                            model.AssetID = obj.AssetID;
+                            model.LocationID = obj.LocationID;
+                            model.CreatedDate = obj.CreatedDate;
+                            model.RecordDate = obj.CreatedDate.Date.ToString("ddmmyyyy");
+
+                            _context.AssetOpnameTransaction.Add(model);
+                            _context.SaveChanges();
+                            transaction.Commit();
+                            result.status = true;
+                        }
+                        catch (Exception e)
+                        {
+                            result.status = false;
+                            result.message = e.Message;
+                            transaction.Rollback();
+                        }
+                    }
+                }
             }
             return result;
         }
