@@ -87,6 +87,7 @@ namespace Aston.Business
         public AssetViewModel GetAssetByID(int id)
         {
             AssetViewModel result = new AssetViewModel();
+            result.Asset = new AseetSearchResult();
 
             var asset = _asset.GetAssetInfoByID(id);
             var categoryCDName = _pref.GetLookupByCategoryCode(asset.CategoryCD);

@@ -13,7 +13,7 @@ namespace Aston.Business
         AstonContext _context = new AstonContext();
         AssetOpnameTransactionExtensions service = new AssetOpnameTransactionExtensions();
         AssetLocationComponent assetlocationcomponent = new AssetLocationComponent();
-
+        AssetComponent assetcomponent = new AssetComponent();
 
         public ResultViewModel GetAssetStockOpname(AssetOpnameTransactionViewModel obj)
         {
@@ -27,6 +27,9 @@ namespace Aston.Business
                 {
                     foreach(var item in assetlocation)
                     {
+                        var asset = assetcomponent.GetAssetByID(item.AssetLatest.AssetID);
+                        item.AssetName = asset.Asset.Name;
+                        item.AssetBarcode = asset.Asset.Code;
                         int count = stockopname.Where(p => p.AssetLatest.AssetID == item.AssetLatest.AssetID).Count();
                         if(count > 0)
                         {

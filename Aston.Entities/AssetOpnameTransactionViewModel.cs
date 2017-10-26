@@ -9,6 +9,7 @@ namespace Aston.Entities
     {
         public int ID { get; set; }
         public int AssetID { get; set; }
+        public string AssetBarcode { get; set; }
         public string AssetName { get; set; }
         public int LocationID { get; set; }
         public string LocationName { get; set; }

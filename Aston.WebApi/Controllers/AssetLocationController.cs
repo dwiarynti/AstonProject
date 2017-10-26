@@ -212,7 +212,7 @@ namespace Aston.WebApi.Controllers
         {
             var result = opnameservice.GetAssetStockOpname(obj);
             HttpResponseMessage response = new HttpResponseMessage();
-            response = request.CreateResponse(HttpStatusCode.OK, new { success = result });
+            response = request.CreateResponse(HttpStatusCode.OK, new { success = true , obj = result });
             return response;
         }
     }
