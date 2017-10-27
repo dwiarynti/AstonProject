@@ -11,7 +11,6 @@
 
     <environment names="Development">
 
-        @*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />*@
         <link rel="stylesheet" href="~/css/site.css" />
         <!-- Bootstrap CSS-->
         <link rel="stylesheet" href="~/css/bootstrap.min.css">
@@ -27,7 +26,7 @@
         <!-- you can replace it by local Font Awesome-->
         <!--<script src="https://use.fontawesome.com/99347ac47f.js"></script>-->
         <!-- Font Icons CSS-->
-        <link href="~/css/icons.css" rel="stylesheet"/>
+        <link href="~/css/icons.css" rel="stylesheet" />
         <link href="~/js/ccsasset/bootstrap-datepicker/css/datepicker.css" rel="stylesheet" />
         <link href="~/js/ccsasset/bootstrap-datepicker/css/datepicker3.css" rel="stylesheet" />
     </environment>
@@ -36,7 +35,27 @@
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />*@
+        <link rel="stylesheet" href="~/css/site.css" />
+        <!-- Bootstrap CSS-->
+        <link rel="stylesheet" href="~/css/bootstrap.min.css">
+        <!-- Google fonts - Roboto -->
+        <link href="~/css/fonts-googleapis.css" rel="stylesheet" />
+        <!-- theme stylesheet-->
+        <link rel="stylesheet" href="~/css/style.default.css" id="theme-stylesheet">
+        <!-- Custom stylesheet - for your changes-->
+        <link href="~/css/custom.css" rel="stylesheet" />
+        <!-- Favicon-->
+        <link rel="shortcut icon" href="~/favicon.ico">
+        <!-- Font Awesome CDN-->
+        <!-- you can replace it by local Font Awesome-->
+        <!--<script src="https://use.fontawesome.com/99347ac47f.js"></script>-->
+        <!-- Font Icons CSS-->
+        <link href="~/css/icons.css" rel="stylesheet" />
+        <link href="~/js/ccsasset/bootstrap-datepicker/css/datepicker.css" rel="stylesheet" />
+        <link href="~/js/ccsasset/bootstrap-datepicker/css/datepicker3.css" rel="stylesheet" />
     </environment>
+    @*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />*@
+   
     @Html.ApplicationInsightsJavaScript(TelemetryConfiguration)
 </head>
 <body  ng-controller="MasterCtrl">
@@ -155,7 +174,6 @@
         <script src="~/lib/jquery.cookie.js"> </script>
         <script src="~/lib/jquery.validate.min.js"></script>
         <script src="~/lib/front.js"></script>
-
         <!-- Angular JS -->
         <script type="text/javascript" src="~/js/ccsasset/angular/angular.js"></script>
         <script src="~/js/ccsasset/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
@@ -202,7 +220,49 @@
                 asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal">
         </script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        @*<script src="~/js/site.js" asp-append-version="true"></script>*@
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/js/ccsasset/DataTables/media/js/jquery.dataTables.min.js"></script>
+        <script src="~/lib/tether.min.js"></script>
+        <script src="~/lib/bootstrap.min.js"></script>
+        <script src="~/lib/jquery.cookie.js"> </script>
+        <script src="~/lib/jquery.validate.min.js"></script>
+        <script src="~/lib/front.js"></script>
+        <!-- Angular JS -->
+        <script type="text/javascript" src="~/js/ccsasset/angular/angular.js"></script>
+        <script src="~/js/ccsasset/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+        <script type="text/javascript" src="~/js/ccsasset/angular-ui-router/release/angular-ui-router.min.js"></script>
+        <script type="text/javascript" src="~/js/ccsasset/angular/ocLazyLoad.min.js"></script>
+        <script src="~/js/ccsasset/angular/angular-resource.js"></script>
+        <script type="text/javascript" src="~/js/ccsasset/Angular-datatables/src/angular-datatables.util.js"></script>
+        <script type="text/javascript" src="~/js/ccsasset/Angular-datatables/src/angular-datatables.renderer.js"></script>
+        <script type="text/javascript" src="~/js/ccsasset/Angular-datatables/src/angular-datatables.options.js"></script>
+        <script type="text/javascript" src="~/js/ccsasset/Angular-datatables/src/angular-datatables.js"></script>
+        <script type="text/javascript" src="~/js/ccsasset/Angular-datatables/src/angular-datatables.instances.js"></script>
+        <script type="text/javascript" src="~/js/ccsasset/Angular-datatables/src/angular-datatables.factory.js"></script>
+        <script type="text/javascript" src="~/js/ccsasset/Angular-datatables/src/angular-datatables.directive.js"></script>
+        <script src="~/js/ccsasset/FileSaver/FileSaver.min.js"></script>
+        <script src="~/js/ccsasset/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+        <script src="~/js/route.js"></script>
+        <script src="~/js/services/transferobject.service.js"></script>
+        <script src="~/js/services/commonService.js"></script>
+        <script src="~/js/services/assetResource.js"></script>
+        <script src="~/js/services/locationResource.js"></script>
+        <script src="~/js/services/assetlocationResource.js"></script>
+        <script src="~/js/services/lookuplistResource.js"></script>
+        <script src="~/js/services/movementrequestResource.js"></script>
+        <script src="~/js/controllers/master-ctrl.js"></script>
+        <script src="~/js/controllers/asset-ctrl.js"></script>
+        <script src="~/js/controllers/location-ctrl.js"></script>
+        <script src="~/js/controllers/assetlocation-ctrl.js"></script>
+        <script src="~/js/controllers/movementrequest-ctrl.js"></script>
+        <script src="~/js/controllers/movementrequestdetail-ctrl.js"></script>
+        <script src="~/js/controllers/home-ctrl.js"></script>
+        <script src="~/js/controllers/assethistory-ctrl.js"></script>
     </environment>
+
 
     @RenderSection("scripts", required: false)
 </body>
