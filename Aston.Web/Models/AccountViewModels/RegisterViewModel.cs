@@ -27,5 +27,7 @@ namespace Aston.Web.Models.AccountViewModels
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
         public Nullable<int> DepartmentID { get; set; }
+        public string Role { get; set; }
+
     }
 }

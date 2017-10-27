@@ -78,7 +78,6 @@ app.controller('AssetCtrl', function ($scope, $rootScope, $window, $state, asset
         assetResources.$SearchAsset(function (data) {
             if (data.success) {
                 $scope.NumberofAsset = data.obj.length != 0 ? data.obj[0].Asset.TotalRow:0;
-                console.log(data);
                 $scope.assetlist = data.obj;
             }
         });
@@ -87,7 +86,6 @@ app.controller('AssetCtrl', function ($scope, $rootScope, $window, $state, asset
 
     $scope.init = function () {
         $scope.Search(false);
-        //console.log($scope.bigCurrentPage);
         //assetResources.$GetAsset(function (data) {
         //    $scope.assetlist = data.obj;
         //});

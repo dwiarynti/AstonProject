@@ -19,7 +19,6 @@ app.controller('AssetHistoryCtrl', function ($scope, $rootScope, $stateParams, a
         };
         assetResources.Skip = $scope.bigCurrentPage - 1;
         assetResources.$AssetMovementHistory(function (data) {
-            console.log(data);
             if (data.success) {
                 $scope.NumberofAssetHistory = data.obj.History.length != 0 ? data.obj.History[0].TotalRow : 0;
                 $scope.AssetMovementHistory = data.obj;
@@ -32,5 +31,4 @@ app.controller('AssetHistoryCtrl', function ($scope, $rootScope, $stateParams, a
 
     $scope.init();
 
-    console.log($stateParams.ID);
 });

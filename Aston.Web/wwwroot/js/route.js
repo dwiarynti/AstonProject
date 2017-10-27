@@ -52,6 +52,14 @@ app.config([
                     $stateParams.ID
                 }
             })
+            .state('user', {
+                url: '/user',
+                templateUrl: 'views/usermanagement.html'
+            })
+            .state('approval', {
+                url: '/approval',
+                templateUrl: 'views/approval.html'
+            })
         ;
     }
 ]);

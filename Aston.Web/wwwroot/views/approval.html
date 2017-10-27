@@ -1,0 +1,26 @@
+﻿
+<div class="container-fluid">
+    <div class="articles card">
+        <!--<div class="card-header d-flex align-items-center">
+            <h3 class="h4">Movement Request </h3>
+        </div>-->
+        <div class="card-body no-padding" ng-controller="ApprovalCtrl">
+            <div ng-if="movementrequestlist.length == 0" class="item d-flex align-items-center">No data available in here</div>
+            <div ng-if="movementrequestlist.length > 0" class="item d-flex align-items-center" ng-repeat="movementrequest in movementrequestlist">
+                <div class="text">
+                    <a href="#">
+                        <h3 class="h4">{{movementrequest.MovementRequest.Description}}</h3>
+                    </a>
+                    <small>{{movementrequest.MovementRequest.MovementDate}}</small>
+                </div>
+                <div style="width: 100%;">
+                    <div class="col-md-12 text-right">
+                        <button type="button" class="btn btn-primary btn-sm" ng-click="Approve(movementrequest)">Approve</button>
+                        <button type="button" class="btn btn-secondary btn-sm" ng-click="Details(movementrequest)">Details</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

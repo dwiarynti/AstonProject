@@ -1,0 +1,124 @@
+﻿<div class="container-fluid">
+    <div class="row bg-white has-shadow">
+        <div id="main-content" style="width: 100%" ui-view>
+            <div ng-controller="UserCtrl">
+                <div ng-hide="isLoading" class="form-group">
+                    <div class="col-sm-12">
+                        <button type="button" class="btn btn-primary" ng-click="add()">Add</button>
+                    </div>
+                </div>
+                <table id="data-table" datatable="ng" dt-options="dtOptions" width="100%" class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Department </th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="user in UserList">
+                            <td>{{user.Username}}</td>
+                            <td>{{user.Email}}</td>
+                            <td>{{user.DepartmentIDName}}</td>
+                            <td>
+                                <button type="button" class="btn btn-warning btn-sm" ng-click="edit(user)">Edit</button>
+                                <button type="button" class="btn btn-danger btn-sm" ng-click="deletemodal(user)">Delete</button>
+                                <button type="button" class="btn btn-danger btn-sm" ng-click="resetpassword(user)">Reset Password</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div ng-hide="isLoading" class="form-group m-b-50">
+                    <div class="col-md-12 text-right">
+                        <ul style="float: right" uib-pagination total-items="NumberofUser" ng-model="bigCurrentPage" max-size="5" class="pagination" boundary-link-numbers="true" rotate="false" ng-change="init()"></ul>
+                    </div>
+                </div>
+
+                <div class="modal modal-message fade" id="modal-action" style="z-index: 10500">
+                    <div class="modal-dialog" style="width: 50%">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">{{actionstatus}} User</h4>
+                                <a href="javascript:;" class="close" data-dismiss="modal">x</a>
+                            </div>
+                            <!--if action is add / edit-->
+                            <div ng-if="actionstatus != 'Delete'" class="modal-body">
+                                <div ng-if="actionstatus == 'Create' || actionstatus == 'Update'" ng-class="(User.Username == null || User.Username == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
+                                    <label class="col-sm-3 form-control-label">Username*</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control form-control-success" placeholder="Username" ng-model="User.Username">
+                                        <small class="text-danger" ng-if="(User.Username == null || User.Username == '') && isValidate == false">Username is required</small>
+                                    </div>
+                                </div>
+                                <div ng-if="actionstatus == 'Create' || actionstatus == 'Update'" ng-class="(User.Email == null || User.Email == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
+                                    <label class="col-sm-3 form-control-label">Email*</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control form-control-success" placeholder="Email" ng-model="User.Email">
+                                        <small class="text-danger" ng-if="(User.Email == null || User.Email == '') && isValidate == false">Email is required</small>
+                                    </div>
+                                </div>
+                                <div ng-if="actionstatus == 'Create' || actionstatus == 'Reset Password'" ng-class="(User.Password == null || User.Password == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
+                                    <label class="col-sm-3 form-control-label">Password*</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control form-control-success" placeholder="Password" ng-model="User.Password">
+                                        <small class="text-danger" ng-if="(User.Password == null || User.Password == '') && isValidate == false">Password is required</small>
+                                    </div>
+                                </div>
+                                <div ng-if="actionstatus == 'Create' || actionstatus == 'Reset Password'" ng-class="(User.ConfirmPassword == null || User.ConfirmPassword == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
+                                    <label class="col-sm-3 form-control-label">Confirm Password*</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control form-control-success" placeholder="Confirm Password" ng-model="User.ConfirmPassword">
+                                        <small class="text-danger" ng-if="(User.ConfirmPassword == null || User.ConfirmPassword == '') && isValidate == false">Confirm Password is required</small>
+                                    </div>
+                                </div>
+                                <div ng-if="actionstatus == 'Create' || actionstatus == 'Update'" ng-class="(User.DepartmentID == null || User.DepartmentID == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
+                                    <label class="col-sm-3 form-control-label">Department*</label>
+                                    <div class="col-sm-9">
+                                        <select class="form-control" ng-model="User.DepartmentID">
+                                            <option ng-repeat="department in departmentlist" ng-selected="department.ID==User.DepartmentID" value="{{department.ID}}">{{department.Name}}</option>
+                                        </select>
+                                        <small class="text-danger" ng-if="(User.DepartmentID == null || User.DepartmentID == '') && isValidate == false">Department is required</small>
+                                    </div>
+                                </div>
+                                <div ng-if="actionstatus == 'Create' || actionstatus == 'Update'" ng-class="(User.Role == null || User.Role == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
+                                    <label class="col-sm-3 form-control-label">Role*</label>
+                                    <div class="col-sm-9">
+                                        <select class="form-control" ng-model="User.Role">
+                                            <option ng-repeat="role in Roles" ng-selected="role.Id==User.Role" value="{{role.Id}}">{{role.Name}}</option>
+                                        </select>
+                                        <small class="text-danger" ng-if="(User.Role == null || User.Role == '') && isValidate == false">Role is required</small>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <!--if action is delete-->
+                            <div ng-if="actionstatus == 'Delete'" class="modal-body">
+                                Are you sure you want to delete this User ?
+                            </div>
+                            <div class="modal-footer">
+                                <a href="javascript:;" class="btn btn-default btn-width btn-margin" data-dismiss="modal">Cancel</a>
+                                <button ng-if="actionstatus == 'Create'" type="button" class="btn btn-primary btn-width" ng-click="CreateUser()">
+                                    <span>Create</span>
+                                </button>
+                                <button ng-if="actionstatus == 'Update'" type="button" class="btn btn-warning btn-width" ng-click="EditUser()">
+                                    <span>Update</span>
+                                </button>
+                                <button ng-if="actionstatus == 'Delete'" type="button" class="btn btn-danger btn-width" ng-click="delete()">
+                                    <span>Delete</span>
+                                </button>
+                                <button ng-if="actionstatus == 'Reset Password'" type="button" class="btn btn-danger btn-width" ng-click="ResetUserPassword()">
+                                    <span>Reset Password</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
