@@ -559,6 +559,7 @@
 /// <reference path="js/ccsasset/select2/vendor/almond-0.2.9.js" />
 /// <reference path="js/ccsasset/select2/vendor/jquery.mousewheel.js" />
 /// <reference path="js/ccsasset/select2/vendor/jquery-2.1.0.js" />
+/// <reference path="js/controllers/approval-ctrl.js" />
 /// <reference path="js/controllers/asset-ctrl.js" />
 /// <reference path="js/controllers/assethistory-ctrl.js" />
 /// <reference path="js/controllers/assetlocation-ctrl.js" />

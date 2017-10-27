@@ -242,6 +242,13 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
         return result;
     }
 
+    $scope.GetApprovalNumber = function () {
+        $scope.movementrequestlist = [];
+        movementrequestResources.$GetMovementRequestNeedApproval(function (data) {
+            $rootScope.ApprovalNumber = data.obj.length;
+        });
+    }
+
     $scope.SaveMovementRequest = function () {
 
         $scope.isValidate = $scope.validationform();
@@ -276,7 +283,7 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
                     $scope.onprocess = false;
                     $scope.movementrequestobj = data.obj;
                     $scope.addvalidationobj($scope.movementrequestobj.MovementRequestDetail);
-
+                    $scope.GetApprovalNumber();
                 }
             });
         }
@@ -323,6 +330,7 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
                     $scope.onprocess = false;
                     $scope.movementrequestobj = data.obj;
                     $scope.addvalidationobj($scope.movementrequestobj.MovementRequestDetail);
+                    $scope.GetApprovalNumber();
                 }
             });
         }
@@ -449,6 +457,7 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
                 $window.alert("Data approved successfully");
                 obj.MovementRequest.ApprovalStatus = 1;
                 $scope.init();
+                $scope.GetApprovalNumber();
             }
         });
     }
@@ -467,6 +476,7 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
                     $window.alert("Data rejected successfully");
                     obj.MovementRequest.ApprovalStatus = 3;
                     $scope.init();
+                    $scope.GetApprovalNumber();
                 }
             });
         }

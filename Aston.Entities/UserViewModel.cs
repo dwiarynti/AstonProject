@@ -34,7 +34,7 @@ namespace Aston.Entities
     {
         public string ID { get; set; }
         public string Email { get; set; }
-        public string UserName { get; set; }
+        public string Username { get; set; }
         public int DepartmentID { get; set; }
         public string DepartmentName { get; set; }
     }

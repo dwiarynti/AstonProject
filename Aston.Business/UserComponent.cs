@@ -25,10 +25,10 @@ namespace Aston.Business
             return _user.GetUser_Pagination(Skip);
         }
 
-        public RegisterUserViewModel CreateUser(RegisterUserViewModel obj)
-        {
-            _
-        }
+        //public RegisterUserViewModel CreateUser(RegisterUserViewModel obj)
+        //{
+        //    _
+        //}
 
     }
 }

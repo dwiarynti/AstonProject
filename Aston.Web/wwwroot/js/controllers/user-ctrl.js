@@ -14,6 +14,8 @@ app.controller('UserCtrl', function ($scope, $rootScope, $window, $state, lookup
     $scope.UserList = [];
     $scope.User = {};
     $rootScope.PageName = "User Management";
+    $scope.usercode = "";
+    $scope.Roles = [];
     //$scope.searchobj = SearchModel();
     $scope.SelectedReport = "";
 
@@ -29,21 +31,28 @@ app.controller('UserCtrl', function ($scope, $rootScope, $window, $state, lookup
         format: "ddMMyyyy"
     });
 
-    $scope.init = function () {
-        userResources.Skip = 0;
-        userResources.$GetUserPagination(function (data) {
-            $scope.UserList = data.obj;
-            console.log(data);
-        });
-    }
-    $scope.init();
+
     $scope.GetDepartment = function () {
         lookuplistResources.$GetDepartment(function (data) {
             $scope.departmentlist = data.obj;
         });
     }
 
-    $scope.GetDepartment();
+    $scope.GetRoles = function () {
+        userResources.$GetRoles(function (data) {
+            $scope.Roles = data.obj;
+        });
+    }
+
+    $scope.init = function () {
+        userResources.Skip = 0;
+        userResources.$GetUserPagination(function (data) {
+            $scope.UserList = data.obj;
+        });
+        $scope.GetDepartment();
+        $scope.GetRoles();
+    }
+    $scope.init();
 
     $scope.add = function () {
         $scope.User = {};
@@ -57,7 +66,61 @@ app.controller('UserCtrl', function ($scope, $rootScope, $window, $state, lookup
         userResources.Password = $scope.User.Password;
         userResources.ConfirmPassword = $scope.User.ConfirmPassword;
         userResources.DepartmentID = $scope.User.DepartmentID;
+        userResources.Role = $scope.User.Role;
         userResources.$UserRegister(function (data) {
+            if (data.success) {
+                $("#modal-action").modal('hide');
+                $scope.init();
+            }
+        });
+    }
+
+    $scope.edit = function (obj) {
+        $scope.User = obj;
+        $scope.actionstatus = "Update";
+        $("#modal-action").modal('show');
+    }
+
+    $scope.GenerateUserCode = function (obj) {
+        userResources.Id = obj.ID;
+        userResources.$GenerateUserCode(function (data) {
+            if (data.success) {
+                obj.Code = data.obj;
+            }
+        });
+    }
+
+    $scope.EditUser = function () {
+        userResources.Id = $scope.User.ID;
+        userResources.Username = $scope.User.Username;
+        userResources.Email = $scope.User.Email;
+        userResources.Password = $scope.User.Password;
+        userResources.ConfirmPassword = $scope.User.ConfirmPassword;
+        userResources.Code = $scope.User.Code;
+        userResources.Role = $scope.User.Role;
+        userResources.$UserEdit(function (data) {
+            if (data.success) {
+                $("#modal-action").modal('hide');
+                $scope.init();
+            }
+        });
+    }
+
+    $scope.resetpassword = function (obj) {
+        $scope.User = obj;
+        $scope.GenerateUserCode(obj);
+        $scope.actionstatus = "Reset Password";
+        $("#modal-action").modal('show');
+    }
+
+    $scope.ResetUserPassword = function () {
+        userResources.Id = $scope.User.ID;
+        userResources.Username = $scope.User.Username;
+        userResources.Email = $scope.User.Email;
+        userResources.Password = $scope.User.Password;
+        userResources.ConfirmPassword = $scope.User.ConfirmPassword;
+        userResources.Code = $scope.User.Code;
+        userResources.$ResetUserPassword(function (data) {
             if (data.success) {
                 $("#modal-action").modal('hide');
                 $scope.init();

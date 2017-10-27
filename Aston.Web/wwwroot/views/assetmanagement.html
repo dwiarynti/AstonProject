@@ -44,21 +44,23 @@
                                 <h4 class="panel-title">Report</h4>
                             </div>
                             <div class="panel-body m-b-1">
-                                <table class="table table-bordered m-b-1 m-t-1">
-                                    <tbody>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered m-b-1 m-t-1">
+                                        <tbody>
                                         <tr>
                                             <td class="col-sm-10 bg-white m-b-1">
-                                                <input type="radio" name="report" ng-model="SelectedReport" value="Total Asset Value" class="radio-template" /> Total Asset Value <br />
-                                                <input type="radio" name="report" ng-model="SelectedReport" value="Zero Value" class="radio-template" /> Zero Value <br />
-                                                <input type="radio" name="report" ng-model="SelectedReport" value="Mismatch" class="radio-template" /> Mismatch <br />
+                                                <input type="radio" name="report" ng-model="SelectedReport" value="Total Asset Value" class="radio-template"/> Total Asset Value <br/>
+                                                <input type="radio" name="report" ng-model="SelectedReport" value="Zero Value" class="radio-template"/> Zero Value <br/>
+                                                <input type="radio" name="report" ng-model="SelectedReport" value="Mismatch" class="radio-template"/> Mismatch <br/>
                                                 <input type="radio" name="report" ng-model="SelectedReport" value="LostAsset" class="radio-template"/> Lost Asset <br/>
                                             </td>
                                             <td class="col-sm-2  bg-white m-b-1">
                                                 <button type="button" class="btn btn-info" ng-click="export()">Export</button>
                                             </td>
                                         </tr>
-                                    </tbody>
-                                </table>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
 
@@ -77,159 +79,160 @@
 
             </div>
 
-                <div ng-hide="isLoading" class="form-group">
-                    <div class="col-sm-12">
-                        <button type="button" class="btn btn-primary" ng-click="add()">Add</button>
-                    </div>
+            <div ng-hide="isLoading" class="form-group">
+                <div class="col-sm-12">
+                    <button type="button" class="btn btn-primary" ng-click="add()">Add</button>
                 </div>
-                <table id="data-table" datatable="ng" dt-options="dtOptions" width="100%" class="table table-striped table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Code</th>
-                            <th>Name</th>
-                            <th>Description </th>
-                            <th>Category</th>
-                            <th>Owner</th>
-                            <th>Is Movable Asset</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="asset in assetlist">
-                            <td>{{asset.Asset.Code}}</td>
-                            <td>{{asset.Asset.Name}}</td>
-                            <td>{{asset.Asset.Description}}</td>
-                            <td>{{asset.Asset.CategoryCDName}}</td>
-                            <td>{{asset.Asset.Owner}}</td>
-                            <td>{{asset.Asset.IsMovable}}</td>
-                            <td>{{asset.Asset.StatusCDName}}</td>
-                            <td>
-                                <button type="button" class="btn btn-warning btn-sm" ng-click="edit(asset.Asset)">Edit</button>
-                                <button type="button" class="btn btn-danger btn-sm" ng-click="deletemodal(asset.Asset)">Delete</button>
-                                <button type="button" class="btn btn-info btn-sm" ng-click="OpenHistory(asset.Asset)">History</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <div ng-hide="isLoading" class="form-group m-b-50">
-                    <div class="col-md-12 text-right">
-                        <ul style="float: right" uib-pagination total-items="NumberofAsset" ng-model="bigCurrentPage" max-size="5" class="pagination" boundary-link-numbers="true" rotate="false" ng-change="init()"></ul>
-                    </div>
+            </div>
+                <div class="table-responsive">
+                    <table id="data-table" datatable="ng" dt-options="dtOptions" width="100%" class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Code</th>
+                                <th>Name</th>
+                                <th>Description </th>
+                                <th>Category</th>
+                                <th>Owner</th>
+                                <th>Is Movable Asset</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="asset in assetlist">
+                                <td>{{asset.Asset.Code}}</td>
+                                <td>{{asset.Asset.Name}}</td>
+                                <td>{{asset.Asset.Description}}</td>
+                                <td>{{asset.Asset.CategoryCDName}}</td>
+                                <td>{{asset.Asset.Owner}}</td>
+                                <td>{{asset.Asset.IsMovable}}</td>
+                                <td>{{asset.Asset.StatusCDName}}</td>
+                                <td>
+                                    <button type="button" class="btn btn-warning btn-sm" ng-click="edit(asset.Asset)">Edit</button>
+                                    <button type="button" class="btn btn-danger btn-sm" ng-click="deletemodal(asset.Asset)">Delete</button>
+                                    <button type="button" class="btn btn-info btn-sm" ng-click="OpenHistory(asset.Asset)">History</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
+                    <div ng-hide="isLoading" class="form-group m-b-50">
+                        <div class="col-md-12 text-right">
+                            <ul style="float: right" uib-pagination total-items="NumberofAsset" ng-model="bigCurrentPage" max-size="5" class="pagination" boundary-link-numbers="true" rotate="false" ng-change="init()"></ul>
+                        </div>
+                    </div>
 
-                <div class="modal modal-message fade" id="modal-action" style="z-index: 10500">
-                    <div class="modal-dialog" style="width: 50%">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h4 class="modal-title">{{actionstatus}} Asset</h4>
-                                <a href="javascript:;" class="close" data-dismiss="modal">x</a>
-                            </div>
-                            <!--if action is add / edit-->
-                            <div ng-if="actionstatus != 'Delete'" class="modal-body">
-                                <div ng-class="(asset.Name == null || asset.Name == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
-                                    <label class="col-sm-3 form-control-label">Name*</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control form-control-success" placeholder="Name" ng-model="asset.Name">
-                                        <small class="text-danger" ng-if="(asset.Name == null || asset.Name == '') && isValidate == false">Name is required</small>
-                                    </div>
+                    <div class="modal modal-message fade" id="modal-action" style="z-index: 10500">
+                        <div class="modal-dialog" style="width: 50%">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">{{actionstatus}} Asset</h4>
+                                    <a href="javascript:;" class="close" data-dismiss="modal">x</a>
                                 </div>
-                                <div ng-class="(asset.Description == null || asset.Description == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
-                                    <label class="col-sm-3 form-control-label">Description*</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control form-control-success" placeholder="Description" ng-model="asset.Description">
-                                        <small class="text-danger" ng-if="(asset.Description == null || asset.Description == '') && isValidate == false">Description is required</small>
-                                    </div>
-                                </div>
-                                <div ng-class="(asset.IsMovable | getType)  != 'boolean' && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
-                                    <label class="col-sm-3 form-control-label">Is Movable Asset*</label>
-                                    <div class="col-sm-9">
-                                        <input type="radio" name="IsMovable" ng-model="asset.IsMovable" data-ng-value="true" class="radio-template" /> True
-                                        <input type="radio" name="IsMovable" ng-model="asset.IsMovable" data-ng-value="false" class="radio-template" /> False<br />
-                                        <small class="text-danger" ng-if="(asset.IsMovable | getType) != 'boolean' && isValidate == false">Is Movable is required</small>
-                                    </div>
-                                </div>
-                                <div ng-class="(asset.Owner == null || asset.Owner == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
-                                    <label class="col-sm-3 form-control-label">Owner*</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control form-control-success" placeholder="Owner" ng-model="asset.Owner">
-                                        <small class="text-danger" ng-if="(asset.Owner == null || asset.Owner == '') && isValidate == false">Owner is required</small>
-                                    </div>
-                                </div>
-                                <div ng-class="(asset.PurchaseDate == null || asset.PurchaseDate == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
-                                    <label class="col-sm-3 form-control-label">Purchase Date*</label>
-                                    <div class="col-sm-9">
-                                        <div class="datepicker_dis">
-                                            <input type="text" class="form-control" id="datepicker-purchasedate" placeholder="Select Purchase Date" ng-model="asset.PurchaseDate" ng-click="showDatePickerPurchaseDate()" />
+                                <!--if action is add / edit-->
+                                <div ng-if="actionstatus != 'Delete'" class="modal-body">
+                                    <div ng-class="(asset.Name == null || asset.Name == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
+                                        <label class="col-sm-3 form-control-label">Name*</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control form-control-success" placeholder="Name" ng-model="asset.Name">
+                                            <small class="text-danger" ng-if="(asset.Name == null || asset.Name == '') && isValidate == false">Name is required</small>
                                         </div>
-                                        <small class="text-danger" ng-if="(asset.PurchaseDate == null || asset.PurchaseDate == '') && isValidate == false">Purchase Date is required</small>
                                     </div>
-                                </div>
-                                <div ng-class="(asset.PurchasePrice == null || asset.PurchasePrice == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
-                                    <label class="col-sm-3 form-control-label">Purchase Price*</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control form-control-success" placeholder="Purchase Price" ng-model="asset.PurchasePrice" ng-change="setToNumberPatern(asset)">
-                                        <small class="text-danger" ng-if="(asset.PurchasePrice == null || asset.PurchasePrice == '') && isValidate == false">Purchase Price is required</small>
-                                    </div>
-                                </div>
-                                <div ng-class="(asset.DepreciationDuration == null || asset.DepreciationDuration == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
-                                    <label class="col-sm-3 form-control-label">Depreciation Duration*</label>
-                                    <div class="col-sm-9">
-                                        <div class="input-group">
-                                            <input ng-disabled="asset.CurrentValue == 0" type="text" class="form-control form-control-success" placeholder="Depreciation Duration" ng-model="asset.DepreciationDuration" ng-change="setToNumberPatern(asset)">
-                                            <span ng-if="asset.DepreciationDuration <=1" class="input-group-addon">Year</span>
-                                            <span ng-if="asset.DepreciationDuration > 1" class="input-group-addon">Years</span>
+                                    <div ng-class="(asset.Description == null || asset.Description == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
+                                        <label class="col-sm-3 form-control-label">Description*</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control form-control-success" placeholder="Description" ng-model="asset.Description">
+                                            <small class="text-danger" ng-if="(asset.Description == null || asset.Description == '') && isValidate == false">Description is required</small>
                                         </div>
-                                        <!--<input type="text" class="form-control form-control-success" placeholder="Depreciation Duration" ng-model="asset.DepreciationDuration" ng-change="setToNumberPatern(asset)">-->
-                                        <small class="text-danger" ng-if="(asset.DepreciationDuration == null || asset.DepreciationDuration == '') && isValidate == false">Depreciation Duration is required</small>
                                     </div>
-                                </div>
-                                <div ng-class="(asset.ManufactureDate == null || asset.ManufactureDate == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
-                                    <label class="col-sm-3 form-control-label">Manufacture Date*</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="datepicker-manufacturedate" placeholder="Select Manufacture Date" ng-model="asset.ManufactureDate" ng-click="showDatePickerManufactureDate()" />
-                                        <small class="text-danger" ng-if="(asset.ManufactureDate == null || asset.ManufactureDate == '') && isValidate == false">Manufacture Date is required</small>
+                                    <div ng-class="(asset.IsMovable | getType)  != 'boolean' && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
+                                        <label class="col-sm-3 form-control-label">Is Movable Asset*</label>
+                                        <div class="col-sm-9">
+                                            <input type="radio" name="IsMovable" ng-model="asset.IsMovable" data-ng-value="true" class="radio-template" /> True
+                                            <input type="radio" name="IsMovable" ng-model="asset.IsMovable" data-ng-value="false" class="radio-template" /> False<br />
+                                            <small class="text-danger" ng-if="(asset.IsMovable | getType) != 'boolean' && isValidate == false">Is Movable is required</small>
+                                        </div>
                                     </div>
-                                </div>
-                                <div ng-if="asset.ID != 'temp'" class="form-group row">
-                                    <label class="col-sm-3 form-control-label">Current Value</label>
-                                    <div class="col-sm-9">
-                                        <input disabled="disabled" type="text" class="form-control form-control-success" placeholder="Purchase Price" ng-model="asset.CurrentValue">
+                                    <div ng-class="(asset.Owner == null || asset.Owner == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
+                                        <label class="col-sm-3 form-control-label">Owner*</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control form-control-success" placeholder="Owner" ng-model="asset.Owner">
+                                            <small class="text-danger" ng-if="(asset.Owner == null || asset.Owner == '') && isValidate == false">Owner is required</small>
+                                        </div>
                                     </div>
-                                </div>
-                                <div ng-class="(asset.CategoryCD == null || asset.CategoryCD == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
-                                    <label class="col-sm-3 form-control-label">Category*</label>
-                                    <div class="col-sm-9">
-                                        <select class="form-control" ng-model="asset.CategoryCD">
-                                            <option ng-repeat="category in categorylist" ng-selected="isSelectedItem(category.Code,asset.CategoryCD)" value="{{category.Code}}">{{category.Value}}</option>
-                                        </select>
-                                        <small class="text-danger" ng-if="(asset.CategoryCD == null || asset.CategoryCD == '') && isValidate == false">Category Code is required</small>
+                                    <div ng-class="(asset.PurchaseDate == null || asset.PurchaseDate == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
+                                        <label class="col-sm-3 form-control-label">Purchase Date*</label>
+                                        <div class="col-sm-9">
+                                            <div class="datepicker_dis">
+                                                <input type="text" class="form-control" id="datepicker-purchasedate" placeholder="Select Purchase Date" ng-model="asset.PurchaseDate" ng-click="showDatePickerPurchaseDate()" />
+                                            </div>
+                                            <small class="text-danger" ng-if="(asset.PurchaseDate == null || asset.PurchaseDate == '') && isValidate == false">Purchase Date is required</small>
+                                        </div>
                                     </div>
+                                    <div ng-class="(asset.PurchasePrice == null || asset.PurchasePrice == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
+                                        <label class="col-sm-3 form-control-label">Purchase Price*</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control form-control-success" placeholder="Purchase Price" ng-model="asset.PurchasePrice" ng-change="setToNumberPatern(asset)">
+                                            <small class="text-danger" ng-if="(asset.PurchasePrice == null || asset.PurchasePrice == '') && isValidate == false">Purchase Price is required</small>
+                                        </div>
+                                    </div>
+                                    <div ng-class="(asset.DepreciationDuration == null || asset.DepreciationDuration == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
+                                        <label class="col-sm-3 form-control-label">Depreciation Duration*</label>
+                                        <div class="col-sm-9">
+                                            <div class="input-group">
+                                                <input ng-disabled="asset.CurrentValue == 0" type="text" class="form-control form-control-success" placeholder="Depreciation Duration" ng-model="asset.DepreciationDuration" ng-change="setToNumberPatern(asset)">
+                                                <span ng-if="asset.DepreciationDuration <=1" class="input-group-addon">Year</span>
+                                                <span ng-if="asset.DepreciationDuration > 1" class="input-group-addon">Years</span>
+                                            </div>
+                                            <!--<input type="text" class="form-control form-control-success" placeholder="Depreciation Duration" ng-model="asset.DepreciationDuration" ng-change="setToNumberPatern(asset)">-->
+                                            <small class="text-danger" ng-if="(asset.DepreciationDuration == null || asset.DepreciationDuration == '') && isValidate == false">Depreciation Duration is required</small>
+                                        </div>
+                                    </div>
+                                    <div ng-class="(asset.ManufactureDate == null || asset.ManufactureDate == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
+                                        <label class="col-sm-3 form-control-label">Manufacture Date*</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" id="datepicker-manufacturedate" placeholder="Select Manufacture Date" ng-model="asset.ManufactureDate" ng-click="showDatePickerManufactureDate()" />
+                                            <small class="text-danger" ng-if="(asset.ManufactureDate == null || asset.ManufactureDate == '') && isValidate == false">Manufacture Date is required</small>
+                                        </div>
+                                    </div>
+                                    <div ng-if="asset.ID != 'temp'" class="form-group row">
+                                        <label class="col-sm-3 form-control-label">Current Value</label>
+                                        <div class="col-sm-9">
+                                            <input disabled="disabled" type="text" class="form-control form-control-success" placeholder="Purchase Price" ng-model="asset.CurrentValue">
+                                        </div>
+                                    </div>
+                                    <div ng-class="(asset.CategoryCD == null || asset.CategoryCD == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
+                                        <label class="col-sm-3 form-control-label">Category*</label>
+                                        <div class="col-sm-9">
+                                            <select class="form-control" ng-model="asset.CategoryCD">
+                                                <option ng-repeat="category in categorylist" ng-selected="isSelectedItem(category.Code,asset.CategoryCD)" value="{{category.Code}}">{{category.Value}}</option>
+                                            </select>
+                                            <small class="text-danger" ng-if="(asset.CategoryCD == null || asset.CategoryCD == '') && isValidate == false">Category Code is required</small>
+                                        </div>
+                                    </div>
+
                                 </div>
 
-                            </div>
-
-                            <!--if action is delete-->
-                            <div ng-if="actionstatus == 'Delete'" class="modal-body">
-                                Are you sure you want to delete this asset ?
-                            </div>
-                            <div class="modal-footer">
-                                <a href="javascript:;" class="btn btn-default btn-width btn-margin" data-dismiss="modal">Cancel</a>
-                                <button ng-if="actionstatus == 'Create'" type="button" class="btn btn-primary btn-width" ng-click="create()">
-                                    <span>Create</span>
-                                </button>
-                                <button ng-if="actionstatus == 'Update'" type="button" class="btn btn-warning btn-width" ng-click="update()">
-                                    <span>Update</span>
-                                </button>
-                                <button ng-if="actionstatus == 'Delete'" type="button" class="btn btn-danger btn-width" ng-click="delete()">
-                                    <span>Delete</span>
-                                </button>
+                                <!--if action is delete-->
+                                <div ng-if="actionstatus == 'Delete'" class="modal-body">
+                                    Are you sure you want to delete this asset ?
+                                </div>
+                                <div class="modal-footer">
+                                    <a href="javascript:;" class="btn btn-default btn-width btn-margin" data-dismiss="modal">Cancel</a>
+                                    <button ng-if="actionstatus == 'Create'" type="button" class="btn btn-primary btn-width" ng-click="create()">
+                                        <span>Create</span>
+                                    </button>
+                                    <button ng-if="actionstatus == 'Update'" type="button" class="btn btn-warning btn-width" ng-click="update()">
+                                        <span>Update</span>
+                                    </button>
+                                    <button ng-if="actionstatus == 'Delete'" type="button" class="btn btn-danger btn-width" ng-click="delete()">
+                                        <span>Delete</span>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
         </div>
     </div>
 </div>

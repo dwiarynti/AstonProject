@@ -30,7 +30,6 @@ app.controller('MovementRequestCtrl', function ($scope, $rootScope, $state, tran
     $scope.GetLocation = function () {
         $scope.locationlist = [];
         locationResources.$GetLocation(function (data) {
-            //console.log(data);
             $scope.locationlist = data.obj;
         });
     }
@@ -51,7 +50,6 @@ app.controller('MovementRequestCtrl', function ($scope, $rootScope, $state, tran
         movementrequestResources.$SearchMovementRequest(function (data) {
             if (data.success) {
                 $scope.NumberofMovementRequest = data.obj.length != 0 ? data.obj[0].MovementRequest.TotalRow : 0;
-                console.log(data);
                 $scope.movementrequestlist = data.obj;
                 angular.forEach($scope.movementrequestlist, function(data) {
                     data.MovementRequest.MovementDate = commonService.convertdate(data.MovementRequest.MovementDate);
@@ -70,7 +68,6 @@ app.controller('MovementRequestCtrl', function ($scope, $rootScope, $state, tran
         //        obj.ApprovedDate = obj.ApprovedDate != null ? commonService.convertdate(obj.ApprovedDate) : obj.ApprovedDate;
         //    });
         //    $scope.movementrequestlist = data.obj;
-        //    console.log(data);
         //});
     }
 

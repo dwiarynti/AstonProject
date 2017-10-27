@@ -25,5 +25,7 @@ namespace Aston.Web.Models.AccountViewModels
         public string Code { get; set; }
         public string Id { get; set; }
         public string Username { get; set; }
+        public int DepartmentID { get; set; }
+        public string Role { get; set; }
     }
 }

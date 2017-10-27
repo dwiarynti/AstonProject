@@ -37,65 +37,66 @@
                         <button type="button" class="btn btn-primary" ng-click="add()">Add</button>
                     </div>
                 </div>
-                <table id="data-table" datatable="ng" dt-options="dtOptions" width="100%" class="table table-striped table-bordered">
-                    <thead>
-                    <tr>
-                        <th>Movement Date</th>
-                        <th>Description</th>
-                        <th>Location</th>
-                        <th>Approval Status</th>
-                        <th>Approved Date</th>
-                        <th>Approved By</th>
-                        <th>Notes</th>
-                        <th>Action</th>
+                <div class="table-responsive">
+                    <table id="data-table" datatable="ng" dt-options="dtOptions" width="100%" class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Movement Date</th>
+                                <th>Description</th>
+                                <th>Location</th>
+                                <th>Approval Status</th>
+                                <th>Approved Date</th>
+                                <th>Approved By</th>
+                                <th>Notes</th>
+                                <th>Action</th>
 
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr ng-repeat="movementrequest in movementrequestlist">
-                        <td>{{movementrequest.MovementRequest.MovementDate}}</td>
-                        <td>{{movementrequest.MovementRequest.Description}}</td>
-                        <td>{{movementrequest.MovementRequest.LocationName}}</td>
-                        <td>{{movementrequest.MovementRequest.ApprovalStatusName}}</td>
-                        <td>{{movementrequest.MovementRequest.ApprovedDate}}</td>
-                        <td>{{movementrequest.MovementRequest.ApprovedBy}}</td>
-                        <td>{{movementrequest.MovementRequest.Notes}}</td>
-                        <td>
-                            <button type="button" class="btn btn-warning btn-sm" ng-click="edit(movementrequest)">Edit</button>
-                            <button ng-disabled="movementrequest.MovementRequest.ApprovalStatus == 1" type="button" class="btn btn-danger btn-sm" ng-click="deletemodal(movementrequest)">Delete</button>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-
-                <div ng-hide="isLoading" class="form-group m-b-50">
-                    <div class="col-md-12 text-right">
-                        <ul style="float: right" uib-pagination total-items="NumberofMovementRequest" ng-model="bigCurrentPage" max-size="5" class="pagination" boundary-link-numbers="true" rotate="false" ng-change="init()"></ul>
-                    </div>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="movementrequest in movementrequestlist">
+                                <td>{{movementrequest.MovementRequest.MovementDate}}</td>
+                                <td>{{movementrequest.MovementRequest.Description}}</td>
+                                <td>{{movementrequest.MovementRequest.LocationName}}</td>
+                                <td>{{movementrequest.MovementRequest.ApprovalStatusName}}</td>
+                                <td>{{movementrequest.MovementRequest.ApprovedDate}}</td>
+                                <td>{{movementrequest.MovementRequest.ApprovedBy}}</td>
+                                <td>{{movementrequest.MovementRequest.Notes}}</td>
+                                <td>
+                                    <button type="button" class="btn btn-warning btn-sm" ng-click="edit(movementrequest)">Edit</button>
+                                    <button ng-disabled="movementrequest.MovementRequest.ApprovalStatus == 1" type="button" class="btn btn-danger btn-sm" ng-click="deletemodal(movementrequest)">Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
+                    <div ng-hide="isLoading" class="form-group m-b-50">
+                        <div class="col-md-12 text-right">
+                            <ul style="float: right" uib-pagination total-items="NumberofMovementRequest" ng-model="bigCurrentPage" max-size="5" class="pagination" boundary-link-numbers="true" rotate="false" ng-change="init()"></ul>
+                        </div>
+                    </div>
 
-                <div class="modal modal-message fade" id="modal-action" style="z-index: 10500">
-                    <div class="modal-dialog" style="width: 80%">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h4 class="modal-title">Movement Request Delete</h4>
-                                <a href="javascript:;" class="close" data-dismiss="modal">x</a>
-                            </div>
-                            <!--if action is delete-->
-                            <div class="modal-body">
-                                Are you sure you want to delete this movement request ?
-                            </div>
-                            <div class="modal-footer">
-                                <a href="javascript:;" class="btn btn-default btn-width btn-margin" data-dismiss="modal">Cancel</a>
-                                <button type="button" class="btn btn-default btn-width" ng-click="DeleteMovementRequest()">
-                                    <span>Delete</span>
-                                </button>
+                    <div class="modal modal-message fade" id="modal-action" style="z-index: 10500">
+                        <div class="modal-dialog" style="width: 80%">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Movement Request Delete</h4>
+                                    <a href="javascript:;" class="close" data-dismiss="modal">x</a>
+                                </div>
+                                <!--if action is delete-->
+                                <div class="modal-body">
+                                    Are you sure you want to delete this movement request ?
+                                </div>
+                                <div class="modal-footer">
+                                    <a href="javascript:;" class="btn btn-default btn-width btn-margin" data-dismiss="modal">Cancel</a>
+                                    <button type="button" class="btn btn-default btn-width" ng-click="DeleteMovementRequest()">
+                                        <span>Delete</span>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-            </div>
+                </div>
         </div>
     </div>
 </div>

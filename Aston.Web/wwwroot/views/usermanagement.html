@@ -18,12 +18,13 @@
                     </thead>
                     <tbody>
                         <tr ng-repeat="user in UserList">
-                            <td>{{user.UserName}}</td>
+                            <td>{{user.Username}}</td>
                             <td>{{user.Email}}</td>
                             <td>{{user.DepartmentIDName}}</td>
                             <td>
                                 <button type="button" class="btn btn-warning btn-sm" ng-click="edit(user)">Edit</button>
                                 <button type="button" class="btn btn-danger btn-sm" ng-click="deletemodal(user)">Delete</button>
+                                <button type="button" class="btn btn-danger btn-sm" ng-click="resetpassword(user)">Reset Password</button>
                             </td>
                         </tr>
                     </tbody>
@@ -44,41 +45,50 @@
                             </div>
                             <!--if action is add / edit-->
                             <div ng-if="actionstatus != 'Delete'" class="modal-body">
-                                <div ng-class="(User.Username == null || User.Username == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
+                                <div ng-if="actionstatus == 'Create' || actionstatus == 'Update'" ng-class="(User.Username == null || User.Username == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
                                     <label class="col-sm-3 form-control-label">Username*</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control form-control-success" placeholder="Name" ng-model="User.Username">
-                                        <small class="text-danger" ng-if="(User.Username == null || User.Username == '') && isValidate == false">Name is required</small>
+                                        <input type="text" class="form-control form-control-success" placeholder="Username" ng-model="User.Username">
+                                        <small class="text-danger" ng-if="(User.Username == null || User.Username == '') && isValidate == false">Username is required</small>
                                     </div>
                                 </div>
-                                <div ng-class="(User.Email == null || User.Email == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
+                                <div ng-if="actionstatus == 'Create' || actionstatus == 'Update'" ng-class="(User.Email == null || User.Email == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
                                     <label class="col-sm-3 form-control-label">Email*</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control form-control-success" placeholder="Description" ng-model="User.Email">
-                                        <small class="text-danger" ng-if="(User.Email == null || User.Email == '') && isValidate == false">Description is required</small>
+                                        <input type="text" class="form-control form-control-success" placeholder="Email" ng-model="User.Email">
+                                        <small class="text-danger" ng-if="(User.Email == null || User.Email == '') && isValidate == false">Email is required</small>
                                     </div>
                                 </div>
-                                <div ng-class="(User.Password == null || User.Password == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
+                                <div ng-if="actionstatus == 'Create' || actionstatus == 'Reset Password'" ng-class="(User.Password == null || User.Password == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
                                     <label class="col-sm-3 form-control-label">Password*</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control form-control-success" placeholder="Owner" ng-model="User.Password">
-                                        <small class="text-danger" ng-if="(User.Password == null || User.Password == '') && isValidate == false">Owner is required</small>
+                                        <input type="text" class="form-control form-control-success" placeholder="Password" ng-model="User.Password">
+                                        <small class="text-danger" ng-if="(User.Password == null || User.Password == '') && isValidate == false">Password is required</small>
                                     </div>
                                 </div>
-                                <div ng-class="(User.ConfirmPassword == null || User.ConfirmPassword == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
+                                <div ng-if="actionstatus == 'Create' || actionstatus == 'Reset Password'" ng-class="(User.ConfirmPassword == null || User.ConfirmPassword == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
                                     <label class="col-sm-3 form-control-label">Confirm Password*</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control form-control-success" placeholder="Purchase Price" ng-model="User.ConfirmPassword">
-                                        <small class="text-danger" ng-if="(User.ConfirmPassword == null || User.ConfirmPassword == '') && isValidate == false">Purchase Price is required</small>
+                                        <input type="text" class="form-control form-control-success" placeholder="Confirm Password" ng-model="User.ConfirmPassword">
+                                        <small class="text-danger" ng-if="(User.ConfirmPassword == null || User.ConfirmPassword == '') && isValidate == false">Confirm Password is required</small>
                                     </div>
                                 </div>
-                                <div ng-class="(User.DepartmentID == null || User.DepartmentID == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
+                                <div ng-if="actionstatus == 'Create' || actionstatus == 'Update'" ng-class="(User.DepartmentID == null || User.DepartmentID == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
                                     <label class="col-sm-3 form-control-label">Department*</label>
                                     <div class="col-sm-9">
                                         <select class="form-control" ng-model="User.DepartmentID">
-                                            <option ng-repeat="department in departmentlist" ng-selected="isSelectedItem(department.Code,User.DepartmentID)" value="{{department.ID}}">{{department.Name}}</option>
+                                            <option ng-repeat="department in departmentlist" ng-selected="department.ID==User.DepartmentID" value="{{department.ID}}">{{department.Name}}</option>
                                         </select>
-                                        <small class="text-danger" ng-if="(User.DepartmentID == null || User.DepartmentID == '') && isValidate == false">Category Code is required</small>
+                                        <small class="text-danger" ng-if="(User.DepartmentID == null || User.DepartmentID == '') && isValidate == false">Department is required</small>
+                                    </div>
+                                </div>
+                                <div ng-if="actionstatus == 'Create' || actionstatus == 'Update'" ng-class="(User.Role == null || User.Role == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
+                                    <label class="col-sm-3 form-control-label">Role*</label>
+                                    <div class="col-sm-9">
+                                        <select class="form-control" ng-model="User.Role">
+                                            <option ng-repeat="role in Roles" ng-selected="role.Id==User.Role" value="{{role.Id}}">{{role.Name}}</option>
+                                        </select>
+                                        <small class="text-danger" ng-if="(User.Role == null || User.Role == '') && isValidate == false">Role is required</small>
                                     </div>
                                 </div>
 
@@ -93,11 +103,14 @@
                                 <button ng-if="actionstatus == 'Create'" type="button" class="btn btn-primary btn-width" ng-click="CreateUser()">
                                     <span>Create</span>
                                 </button>
-                                <button ng-if="actionstatus == 'Update'" type="button" class="btn btn-warning btn-width" ng-click="update()">
+                                <button ng-if="actionstatus == 'Update'" type="button" class="btn btn-warning btn-width" ng-click="EditUser()">
                                     <span>Update</span>
                                 </button>
                                 <button ng-if="actionstatus == 'Delete'" type="button" class="btn btn-danger btn-width" ng-click="delete()">
                                     <span>Delete</span>
+                                </button>
+                                <button ng-if="actionstatus == 'Reset Password'" type="button" class="btn btn-danger btn-width" ng-click="ResetUserPassword()">
+                                    <span>Reset Password</span>
                                 </button>
                             </div>
                         </div>
