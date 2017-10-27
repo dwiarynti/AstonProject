@@ -61,6 +61,9 @@
 <body  ng-controller="MasterCtrl">
     <div class="page home-page">
         <!-- Main Navbar-->
+        @inject UserManager<ApplicationUser> UserManager
+        @if (User.Identity.IsAuthenticated)
+        {
         <header class="header">
             <nav class="navbar">
                 <!-- Search Box-->
@@ -88,9 +91,7 @@
                 </div>
             </nav>
         </header>
-        @inject UserManager<ApplicationUser> UserManager
-        @if (User.Identity.IsAuthenticated)
-        {
+
         <div class="page-content d-flex align-items-stretch">
             <!-- Side Navbar -->
             <nav class="side-navbar">
