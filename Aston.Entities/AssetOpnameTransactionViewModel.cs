@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Aston.Entities
 {
-    public class AssetOpnameTransactionViewModel
+    public class AssetOpnameTransactionViewModel 
     {
         public int ID { get; set; }
         public int AssetID { get; set; }
@@ -15,15 +15,23 @@ namespace Aston.Entities
         public string LocationName { get; set; }
         public string RecordDate { get; set; }
         public DateTime CreatedDate { get; set; }
+        public string CreatedBy { get; set; }
+
 
         public AssetTransactionViewModel AssetLatest { get; set; }
         public bool isOpname { get; set; }
+        public List<AssetOpnameViewModel> AssetOpname { get; set; }
         
     }
     public class AssetTransactionViewModel
     {
         public int AssetID { get; set; }
         public DateTime CreatedDate { get; set; }
+    }
+    public class AssetOpnameViewModel
+    {
+        public int ID { get; set; }
+        public string Barcode { get; set; }
     }
 
    
