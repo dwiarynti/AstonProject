@@ -220,9 +220,10 @@ namespace Aston.WebApi.Controllers
         [Route("OpnameAsset")]
         public HttpResponseMessage OpnameAsset(HttpRequestMessage request, [FromBody] AssetOpnameTransactionViewModel obj)
         {
+            obj.CreatedDate = _dateExtension.GetDateTime();
             var result = opnameservice.OpnameAsset(obj);
             HttpResponseMessage response = new HttpResponseMessage();
-            obj.CreatedDate = _dateExtension.GetDateTime();
+          
             response = request.CreateResponse(HttpStatusCode.OK, new { success = true, obj = result });
             return response;
         }

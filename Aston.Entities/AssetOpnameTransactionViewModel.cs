@@ -20,7 +20,9 @@ namespace Aston.Entities
 
         public AssetTransactionViewModel AssetLatest { get; set; }
         public bool isOpname { get; set; }
-        public List<AssetOpnameViewModel> AssetOpname { get; set; }
+        public List<string> AssetOpname { get; set; }
+
+        public List<int> AssetIDList { get; set; }
         
     }
     public class AssetTransactionViewModel
@@ -28,11 +30,6 @@ namespace Aston.Entities
         public int AssetID { get; set; }
         public DateTime CreatedDate { get; set; }
     }
-    public class AssetOpnameViewModel
-    {
-        public int ID { get; set; }
-        public string Barcode { get; set; }
-    }
-
+   
    
 }

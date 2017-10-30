@@ -500,6 +500,70 @@ namespace Aston.Business
             return result;
         }
 
+        public List<MovementRequestViewModel> GetMovementRequestComplatedByDepartment(int Departmentid)
+        {
+            List<MovementRequestViewModel> result = new List<MovementRequestViewModel>();
+
+            var movement = _movementrequest.GetMovementRequestToMove();
+            List<MovementRequestSearchResult> movementrequestlist = new List<MovementRequestSearchResult>();
+
+            foreach (var item in movement)
+            {
+                MovementRequestViewModel model = new MovementRequestViewModel();
+                model.MovementRequest = new MovementRequestSearchResult();
+                var approvalname = _pref.GetLookupByApprovalStatusCode(item.ApprovalStatus);
+                model.MovementRequest.ID = item.ID;
+                model.MovementRequest.MovementDate = item.MovementDate;
+                model.MovementRequest.Description = item.Description;
+                model.MovementRequest.ApprovedDate = item.ApprovedDate;
+                model.MovementRequest.LocationID = item.LocationID;
+                model.MovementRequest.LocationName = item.Location != null ? item.Location.Name : null;
+                model.MovementRequest.ApprovedBy = item.ApprovedBy;
+                model.MovementRequest.Notes = item.Notes;
+                model.MovementRequest.ApprovalStatus = item.ApprovalStatus;
+                model.MovementRequest.ApprovalStatusName = approvalname != null ? approvalname.Value : null;
+                model.MovementRequestDetail = new List<MovementRequestDetailViewModel>();
+                movementrequestlist.Add(model.MovementRequest);
+
+
+                foreach (var detail in item.MovementRequestDetail)
+                {
+                    if (detail.DeletedDate == null)
+                    {
+                        if (detail.RequestedTo == Departmentid)
+                        {
+                            MovementRequestDetailViewModel mvdetail = new MovementRequestDetailViewModel();
+                            var moveasset = _assetlocation.GetAssetLocationByMovementDetailID(detail.ID);
+                            mvdetail.Quantity = detail.Quantity;
+                            mvdetail.Transfered = moveasset != null ? moveasset.Count : 0;
+                            if (mvdetail.Quantity == mvdetail.Transfered)
+                            {
+
+                                var categoryname = _pref.GetLookupByCategoryCode(detail.AssetCategoryCD);
+                                var department = _department.GetDepartmentByID(detail.RequestedTo);
+
+                                mvdetail.ID = detail.ID;
+                                mvdetail.MovementRequestID = detail.MovementRequestID;
+                                mvdetail.Description = detail.Description;
+                                mvdetail.AssetCategoryCD = detail.AssetCategoryCD;
+                                mvdetail.CategoryCDName = categoryname != null ? categoryname.Value : null;
+                                mvdetail.RequestTo = detail.RequestedTo;
+                                mvdetail.RequestToName = department != null ? department.Name : null;
+                                model.MovementRequestDetail.Add(mvdetail);
+                            }
+
+                        }
+                    }
+                }
+                if (model.MovementRequestDetail.Count != 0)
+                {
+                    result.Add(model);
+                }
+            }
+
+            return result;
+        }
+
         public MovementRequestViewModel GetMovementRequestToMoveByID(int id)
         {
 

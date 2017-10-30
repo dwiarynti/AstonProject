@@ -80,6 +80,15 @@ namespace Aston.WebApi.Controllers
             response = request.CreateResponse(HttpStatusCode.OK, new { success = true, obj = result });
             return response;
         }
+        [HttpGet]
+        [Route("GetMovementRequestComplatedByDepartment/{id}")]
+        public HttpResponseMessage GetMovementRequestComplatedByDepartment(HttpRequestMessage request, int id)
+        {
+            var result = service.GetMovementRequestComplatedByDepartment(id);
+            HttpResponseMessage response = new HttpResponseMessage();
+            response = request.CreateResponse(HttpStatusCode.OK, new { success = true, obj = result });
+            return response;
+        }
         [HttpPost]
         [Route("CreateMovementRequest")]
         public HttpResponseMessage CreateMovementRequest(HttpRequestMessage request, [FromBody] MovementRequestViewModel obj)
