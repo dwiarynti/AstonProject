@@ -1990,6 +1990,10 @@ STYLE SWITCHER FOR DEMO
   transition: all 0.2s ease-in-out;
 }
 
+.btn-default-border {
+    border: 1px solid #796AEE;
+}
+
 .btn:focus, .btn.focus {
   outline: 0;
   box-shadow: 0 0 0 2px rgba(121, 106, 238, 0.25);
