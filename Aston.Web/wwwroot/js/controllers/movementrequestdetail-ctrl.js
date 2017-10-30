@@ -51,6 +51,8 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
 
         movementrequestResources.$GetMovementRequestByID({ id: id }, function (data) {
             $scope.movementrequestobj = data.obj;
+            $scope.movementrequestobj.MovementRequest.Notes = $scope.movementrequestobj.MovementRequest.Notes == '' && $scope.movementdetailaction == 'edit' || $scope.movementrequestobj.MovementRequest.Notes == null && $scope.movementdetailaction == 'edit' ? '--' : $scope.movementrequestobj.MovementRequest.Notes;
+
             $scope.addvalidationobj($scope.movementrequestobj.MovementRequestDetail);
             $scope.GetLocation();
         });

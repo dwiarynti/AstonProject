@@ -2,7 +2,7 @@
     <div class="row bg-white has-shadow">
         <div id="main-content" style="width: 100%" ui-view>
             <div ng-controller="UserCtrl">
-                <div ng-hide="isLoading" class="form-group">
+                <div class="form-group">
                     <div class="col-sm-12">
                         <button type="button" class="btn btn-primary" ng-click="add()">Add</button>
                     </div>
@@ -30,7 +30,7 @@
                     </tbody>
                 </table>
 
-                <div ng-hide="isLoading" class="form-group m-b-50">
+                <div class="form-group">
                     <div class="col-md-12 text-right">
                         <ul style="float: right" uib-pagination total-items="NumberofUser" ng-model="bigCurrentPage" max-size="5" class="pagination" boundary-link-numbers="true" rotate="false" ng-change="init()"></ul>
                     </div>
