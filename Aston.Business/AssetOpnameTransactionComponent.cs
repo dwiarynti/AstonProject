@@ -51,33 +51,38 @@ namespace Aston.Business
         public ResultViewModel OpnameAsset(AssetOpnameTransactionViewModel obj)
         {
             ResultViewModel result = new ResultViewModel();
+            List<AssetOpnameTransaction> assetopname = new List<AssetOpnameTransaction>();
             IDbContextTransaction transaction = _context.Database.BeginTransaction();
             if (obj != null)
             {
-                var asset = assetcomponent.GetAssetByCode(obj.AssetBarcode);
-                if(asset != null)
+                var listAsset = _context.Asset.Where(p => p.Code.Any(o => obj.AssetOpname.Contains(p.Code))).ToList();
+                if (listAsset != null)
                 {
-                    if (asset.Asset.ID == obj.AssetID)
+                    if (listAsset.Count() == obj.AssetOpname.Count())
                     {
-                        try
+                        foreach(var item in listAsset.ToList())
                         {
-                            AssetOpnameTransaction model = new AssetOpnameTransaction();
-                            model.AssetID = obj.AssetID;
-                            model.LocationID = obj.LocationID;
-                            model.CreatedDate = obj.CreatedDate;
-                            model.RecordDate = obj.CreatedDate.Date.ToString("ddmmyyyy");
+                            var asset = obj.AssetIDList.Where(p => p == item.ID).FirstOrDefault();
+                            if(asset != null)
+                            {
+                                AssetOpnameTransaction model = new AssetOpnameTransaction();
+                                model.AssetID = item.ID;
+                                model.LocationID = obj.LocationID;
+                                model.CreatedDate = obj.CreatedDate;
+                                model.RecordDate = obj.CreatedDate.Date.ToString("ddMMyyyy");
+                                model.CreatedBy = obj.CreatedBy;
+                                assetopname.Add(model);
+                                listAsset.Remove(item);
+                            }
+                        }
 
-                            _context.AssetOpnameTransaction.Add(model);
-                            _context.SaveChanges();
-                            transaction.Commit();
-                            result.status = true;
-                        }
-                        catch (Exception e)
+                        foreach(var item in assetopname)
                         {
-                            result.status = false;
-                            result.message = e.Message;
-                            transaction.Rollback();
+                            _context.AssetOpnameTransaction.Add(item);
+                            _context.SaveChanges();
                         }
+                        transaction.Commit();
+                        result.status = true;
                     }
                 }
             }
