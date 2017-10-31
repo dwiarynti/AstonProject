@@ -37,6 +37,8 @@ namespace Aston.Entities
         public string Username { get; set; }
         public int DepartmentID { get; set; }
         public string DepartmentName { get; set; }
+        public string RoleId { get; set; }
+        public string RoleName { get; set; }
     }
 
     public class RegisterUserViewModel

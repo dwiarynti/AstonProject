@@ -45,9 +45,12 @@ app.controller('UserCtrl', function ($scope, $rootScope, $window, $state, lookup
     }
 
     $scope.init = function () {
+        $scope.UserList = [];
+        var userResources = new userResource();
         userResources.Skip = 0;
         userResources.$GetUserPagination(function (data) {
             $scope.UserList = data.obj;
+            console.log(data.obj);
         });
         $scope.GetDepartment();
         $scope.GetRoles();
@@ -66,7 +69,7 @@ app.controller('UserCtrl', function ($scope, $rootScope, $window, $state, lookup
         userResources.Password = $scope.User.Password;
         userResources.ConfirmPassword = $scope.User.ConfirmPassword;
         userResources.DepartmentID = $scope.User.DepartmentID;
-        userResources.Role = $scope.User.Role;
+        userResources.Role = $scope.User.RoleId;
         userResources.$UserRegister(function (data) {
             if (data.success) {
                 $("#modal-action").modal('hide');
@@ -94,10 +97,10 @@ app.controller('UserCtrl', function ($scope, $rootScope, $window, $state, lookup
         userResources.Id = $scope.User.ID;
         userResources.Username = $scope.User.Username;
         userResources.Email = $scope.User.Email;
-        userResources.Password = $scope.User.Password;
-        userResources.ConfirmPassword = $scope.User.ConfirmPassword;
         userResources.Code = $scope.User.Code;
-        userResources.Role = $scope.User.Role;
+        userResources.Role = $scope.User.RoleId;
+        userResources.DepartmentID = $scope.User.DepartmentID;
+
         userResources.$UserEdit(function (data) {
             if (data.success) {
                 $("#modal-action").modal('hide');
@@ -113,6 +116,12 @@ app.controller('UserCtrl', function ($scope, $rootScope, $window, $state, lookup
         $("#modal-action").modal('show');
     }
 
+    $scope.assignrole = function (obj) {
+        $scope.User = obj;
+        $scope.actionstatus = "Assign Role";
+        $("#modal-action").modal('show');
+    }
+
     $scope.ResetUserPassword = function () {
         userResources.Id = $scope.User.ID;
         userResources.Username = $scope.User.Username;
@@ -121,6 +130,18 @@ app.controller('UserCtrl', function ($scope, $rootScope, $window, $state, lookup
         userResources.ConfirmPassword = $scope.User.ConfirmPassword;
         userResources.Code = $scope.User.Code;
         userResources.$ResetUserPassword(function (data) {
+            if (data.success) {
+                $("#modal-action").modal('hide');
+                $scope.init();
+            }
+        });
+    }
+
+    $scope.AssignUserRole = function () {
+        var userResources = new userResource();
+        userResources.Id = $scope.User.ID;
+        userResources.Role = $scope.User.RoleId;
+        userResources.$AssignUserRole(function (data) {
             if (data.success) {
                 $("#modal-action").modal('hide');
                 $scope.init();

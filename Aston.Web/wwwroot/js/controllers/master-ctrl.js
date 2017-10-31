@@ -8,7 +8,7 @@ angular.module('RDash')
 function MasterCtrl($scope, $rootScope, $state, movementrequestResource) {
     var movementrequestResources = new movementrequestResource();
 
-    $state.go('home');
+    //$state.go('home');
     $rootScope.PageName = '';
     $rootScope.openassetlocation = false;
     $rootScope.ApprovalNumber = 0;

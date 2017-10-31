@@ -96,7 +96,15 @@ namespace Aston.Web.Controllers
         {
             var user = new ApplicationUser { UserName = obj.Username, Email = obj.Email ,IsActive = true ,DepartmentID = obj.DepartmentID};
             var result = _userManager.CreateAsync(user, obj.Password);
+
+            var roles = _roleManager.Roles.ToList();
+            foreach (var role in roles)
+            {
+                user.Roles.Add(new IdentityUserRole<string>() { RoleId = role.Id });
+            }
+
             var addUserRole = _userManager.AddToRoleAsync(user, obj.Role);
+
 
             HttpResponseMessage response = new HttpResponseMessage();
             response = request.CreateResponse(HttpStatusCode.OK, new { success = result.Result.Succeeded && addUserRole.Result.Succeeded ? true:false, obj = user });
@@ -119,17 +127,47 @@ namespace Aston.Web.Controllers
         public HttpResponseMessage UserEdit(HttpRequestMessage request, [FromBody] ResetPasswordViewModel obj)
         {
             var user = _userManager.FindByIdAsync(obj.Id).Result;
+
             user.Email = obj.Email;
             user.UserName = obj.Username;
             user.DepartmentID = obj.DepartmentID;
             var update = _userManager.UpdateAsync(user);
-            var addUserRole = _userManager.AddToRoleAsync(user, obj.Role);
+
+            HttpResponseMessage response = new HttpResponseMessage();
+            response = request.CreateResponse(HttpStatusCode.OK, new { success = update.Result.Succeeded ? true:false });
+            return response;
+        }
+
+        [HttpPost]
+        [Route("AssignUserRole")]
+        public HttpResponseMessage AssignUserRole(HttpRequestMessage request, [FromBody] ResetPasswordViewModel obj)
+        {
+            var user = _userManager.FindByIdAsync(obj.Id).Result;
+            var update = _userManager.UpdateAsync(user);
+
+            var roles = _roleManager.Roles.ToList();
+            foreach (var role in roles)
+            {
+                user.Roles.Add(new IdentityUserRole<string>() { RoleId = role.Id });
+            }
+            var updateuserrolestatus = false;
+            try
+            {
+                var addUserRole = _userManager.AddToRoleAsync(user, obj.Role);
+                updateuserrolestatus = true;
+            }
+            catch (Exception ex)
+            {
+                updateuserrolestatus = false;
+
+            }
 
 
             HttpResponseMessage response = new HttpResponseMessage();
-            response = request.CreateResponse(HttpStatusCode.OK, new { success = update.Result.Succeeded && addUserRole.Result.Succeeded ? true:false });
+            response = request.CreateResponse(HttpStatusCode.OK, new { success = updateuserrolestatus ? true : false });
             return response;
         }
+
 
         [HttpPost]
         [Route("ResetUserPassword")]

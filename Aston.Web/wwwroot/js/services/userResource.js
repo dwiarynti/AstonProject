@@ -13,6 +13,7 @@
             GenerateUserCode: { method: 'POST', params: { action: 'GenerateUserCode' } },
             UserEdit: { method: 'POST', params: { action: 'UserEdit' } },
             ResetUserPassword: { method: 'POST', params: { action: 'ResetUserPassword' } },
+            AssignUserRole: { method: 'POST', params: { action: 'AssignUserRole' } },
 
         });
     }

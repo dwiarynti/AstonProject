@@ -13,6 +13,7 @@
                             <th>Username</th>
                             <th>Email</th>
                             <th>Department </th>
+                            <th>Role </th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -20,11 +21,17 @@
                         <tr ng-repeat="user in UserList">
                             <td>{{user.Username}}</td>
                             <td>{{user.Email}}</td>
-                            <td>{{user.DepartmentIDName}}</td>
+                            <td>{{user.DepartmentName}}</td>
+                            <td>{{user.RoleName}}</td>
                             <td>
                                 <button type="button" class="btn btn-warning btn-sm" ng-click="edit(user)">Edit</button>
-                                <button type="button" class="btn btn-danger btn-sm" ng-click="deletemodal(user)">Delete</button>
+
+                                <button ng-if="user.RoleId == null" type="button" class="btn btn-success btn-sm" ng-click="assignrole(user)">Assign Role</button>
+                                <button ng-if="user.RoleId != null" type="button" class="btn btn-success btn-sm" ng-click="assignrole(user)">Change Role</button>
+
                                 <button type="button" class="btn btn-danger btn-sm" ng-click="resetpassword(user)">Reset Password</button>
+
+                                <button type="button" class="btn btn-danger btn-sm" ng-click="deletemodal(user)">Delete</button>
                             </td>
                         </tr>
                     </tbody>
@@ -76,18 +83,14 @@
                                 <div ng-if="actionstatus == 'Create' || actionstatus == 'Update'" ng-class="(User.DepartmentID == null || User.DepartmentID == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
                                     <label class="col-sm-3 form-control-label">Department*</label>
                                     <div class="col-sm-9">
-                                        <select class="form-control" ng-model="User.DepartmentID">
-                                            <option ng-repeat="department in departmentlist" ng-selected="department.ID==User.DepartmentID" value="{{department.ID}}">{{department.Name}}</option>
-                                        </select>
+                                        <select class="form-control" ng-model="User.DepartmentID" ng-options="department.ID as department.Name for department in departmentlist"></select>
                                         <small class="text-danger" ng-if="(User.DepartmentID == null || User.DepartmentID == '') && isValidate == false">Department is required</small>
                                     </div>
                                 </div>
-                                <div ng-if="actionstatus == 'Create' || actionstatus == 'Update'" ng-class="(User.Role == null || User.Role == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
+                                <div ng-if="actionstatus == 'Assign Role'" ng-class="(User.Role == null || User.Role == '') && isValidate == false ? 'form-group row has-danger' : 'form-group row'">
                                     <label class="col-sm-3 form-control-label">Role*</label>
                                     <div class="col-sm-9">
-                                        <select class="form-control" ng-model="User.Role">
-                                            <option ng-repeat="role in Roles" ng-selected="role.Id==User.Role" value="{{role.Id}}">{{role.Name}}</option>
-                                        </select>
+                                        <select class="form-control" ng-model="User.RoleId" ng-options="role.Id as role.Name for role in Roles"></select>
                                         <small class="text-danger" ng-if="(User.Role == null || User.Role == '') && isValidate == false">Role is required</small>
                                     </div>
                                 </div>
@@ -111,6 +114,9 @@
                                 </button>
                                 <button ng-if="actionstatus == 'Reset Password'" type="button" class="btn btn-danger btn-width" ng-click="ResetUserPassword()">
                                     <span>Reset Password</span>
+                                </button>
+                                <button ng-if="actionstatus == 'Assign Role'" type="button" class="btn btn-success btn-width" ng-click="AssignUserRole()">
+                                    <span>Assign Role</span>
                                 </button>
                             </div>
                         </div>
