@@ -167,13 +167,22 @@ namespace Aston.Web.Controllers
         public HttpResponseMessage ResetUserPassword(HttpRequestMessage request, [FromBody] ResetPasswordViewModel obj)
         {
             var user = _userManager.FindByIdAsync(obj.Id).Result;
-            user.Email = obj.Email;
-            user.UserName = obj.Username;
-            user.DepartmentID = obj.DepartmentID;
             var resetpassword = _userManager.ResetPasswordAsync(user, obj.Code, obj.Password).Result;
 
             HttpResponseMessage response = new HttpResponseMessage();
             response = request.CreateResponse(HttpStatusCode.OK, new { success = resetpassword.Succeeded });
+            return response;
+        }
+
+        [HttpPost]
+        [Route("DeleteUser")]
+        public HttpResponseMessage DeleteUser(HttpRequestMessage request, [FromBody] ResetPasswordViewModel obj)
+        {
+            var user = _userManager.FindByIdAsync(obj.Id).Result;
+            var deleteuser = _userManager.DeleteAsync(user).Result;
+
+            HttpResponseMessage response = new HttpResponseMessage();
+            response = request.CreateResponse(HttpStatusCode.OK, new { success = deleteuser.Succeeded });
             return response;
         }
     }
