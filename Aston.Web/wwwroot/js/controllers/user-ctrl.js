@@ -84,6 +84,12 @@ app.controller('UserCtrl', function ($scope, $rootScope, $window, $state, $filte
         $("#modal-action").modal('show');
     }
 
+    $scope.delete = function (obj) {
+        $scope.User = obj;
+        $scope.actionstatus = "Delete";
+        $("#modal-action").modal('show');
+    }
+
     $scope.GenerateUserCode = function (obj) {
         userResources.Id = obj.ID;
         userResources.$GenerateUserCode(function (data) {
@@ -124,8 +130,6 @@ app.controller('UserCtrl', function ($scope, $rootScope, $window, $state, $filte
 
     $scope.ResetUserPassword = function () {
         userResources.Id = $scope.User.ID;
-        userResources.Username = $scope.User.Username;
-        userResources.Email = $scope.User.Email;
         userResources.Password = $scope.User.Password;
         userResources.ConfirmPassword = $scope.User.ConfirmPassword;
         userResources.Code = $scope.User.Code;
@@ -143,6 +147,17 @@ app.controller('UserCtrl', function ($scope, $rootScope, $window, $state, $filte
         userResources.Id = $scope.User.ID;
         userResources.Role = RoleName;
         userResources.$AssignUserRole(function (data) {
+            if (data.success) {
+                $("#modal-action").modal('hide');
+                $scope.init();
+            }
+        });
+    }
+
+    $scope.DeleteUser = function () {
+        var userResources = new userResource();
+        userResources.Id = $scope.User.ID;
+        userResources.$DeleteUser(function (data) {
             if (data.success) {
                 $("#modal-action").modal('hide');
                 $scope.init();

@@ -29,9 +29,9 @@
                                 <button ng-if="user.RoleId == null" type="button" class="btn btn-success btn-sm" ng-click="assignrole(user)">Assign Role</button>
                                 <button ng-if="user.RoleId != null" type="button" class="btn btn-success btn-sm" ng-click="assignrole(user)">Change Role</button>
 
-                                <button type="button" class="btn btn-danger btn-sm" ng-click="resetpassword(user)">Reset Password</button>
+                                <button type="button" class="btn btn-primary btn-sm" ng-click="resetpassword(user)">Reset Password</button>
 
-                                <button type="button" class="btn btn-danger btn-sm" ng-click="deletemodal(user)">Delete</button>
+                                <button type="button" class="btn btn-danger btn-sm" ng-click="delete(user)">Delete</button>
                             </td>
                         </tr>
                     </tbody>
@@ -109,7 +109,7 @@
                                 <button ng-if="actionstatus == 'Update'" type="button" class="btn btn-warning btn-width" ng-click="EditUser()">
                                     <span>Update</span>
                                 </button>
-                                <button ng-if="actionstatus == 'Delete'" type="button" class="btn btn-danger btn-width" ng-click="delete()">
+                                <button ng-if="actionstatus == 'Delete'" type="button" class="btn btn-danger btn-width" ng-click="DeleteUser()">
                                     <span>Delete</span>
                                 </button>
                                 <button ng-if="actionstatus == 'Reset Password'" type="button" class="btn btn-danger btn-width" ng-click="ResetUserPassword()">
