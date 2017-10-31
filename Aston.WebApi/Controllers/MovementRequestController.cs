@@ -53,8 +53,8 @@ namespace Aston.WebApi.Controllers
             return response;
         }
         [HttpGet]
-        [Route("GetMovementRequestcompleted}")]
-        public HttpResponseMessage GetMovementRequestcompletedByDepartment(HttpRequestMessage request)
+        [Route("GetMovementRequestcompleted")]
+        public HttpResponseMessage GetMovementRequestcompleted(HttpRequestMessage request)
         {
             var result = service.GetMovementRequestCompleted();
             HttpResponseMessage response = new HttpResponseMessage();
