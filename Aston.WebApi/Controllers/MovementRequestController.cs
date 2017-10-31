@@ -52,6 +52,15 @@ namespace Aston.WebApi.Controllers
             response = request.CreateResponse(HttpStatusCode.OK, new { success = true, obj = result });
             return response;
         }
+        [HttpGet]
+        [Route("GetMovementRequestcompleted")]
+        public HttpResponseMessage GetMovementRequestcompleted(HttpRequestMessage request)
+        {
+            var result = service.GetMovementRequestCompleted();
+            HttpResponseMessage response = new HttpResponseMessage();
+            response = request.CreateResponse(HttpStatusCode.OK, new { success = true, obj = result });
+            return response;
+        }
 
         [HttpGet]
         [Route("GetMovementRequestByID/{id}")]
@@ -81,10 +90,10 @@ namespace Aston.WebApi.Controllers
             return response;
         }
         [HttpGet]
-        [Route("GetMovementRequestComplatedByDepartment/{id}")]
-        public HttpResponseMessage GetMovementRequestComplatedByDepartment(HttpRequestMessage request, int id)
+        [Route("GetMovementRequestcompletedByDepartment/{id}")]
+        public HttpResponseMessage GetMovementRequestcompletedByDepartment(HttpRequestMessage request, int id)
         {
-            var result = service.GetMovementRequestComplatedByDepartment(id);
+            var result = service.GetMovementRequestcompletedByDepartment(id);
             HttpResponseMessage response = new HttpResponseMessage();
             response = request.CreateResponse(HttpStatusCode.OK, new { success = true, obj = result });
             return response;
