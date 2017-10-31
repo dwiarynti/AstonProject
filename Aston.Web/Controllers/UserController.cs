@@ -143,13 +143,6 @@ namespace Aston.Web.Controllers
         public HttpResponseMessage AssignUserRole(HttpRequestMessage request, [FromBody] ResetPasswordViewModel obj)
         {
             var user = _userManager.FindByIdAsync(obj.Id).Result;
-            var update = _userManager.UpdateAsync(user);
-
-            var roles = _roleManager.Roles.ToList();
-            foreach (var role in roles)
-            {
-                user.Roles.Add(new IdentityUserRole<string>() { RoleId = role.Id });
-            }
             var updateuserrolestatus = false;
             try
             {

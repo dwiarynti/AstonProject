@@ -2,7 +2,7 @@
  * User Controller
  */
 
-app.controller('UserCtrl', function ($scope, $rootScope, $window, $state, lookuplistResource, userResource) {
+app.controller('UserCtrl', function ($scope, $rootScope, $window, $state, $filter, lookuplistResource, userResource) {
     var userResources = new userResource();
     var lookuplistResources = new lookuplistResource();
 
@@ -138,9 +138,10 @@ app.controller('UserCtrl', function ($scope, $rootScope, $window, $state, lookup
     }
 
     $scope.AssignUserRole = function () {
+        var RoleName = $filter('filter')($scope.Roles, function (role) { return role.Id === $scope.User.RoleId })[0].Name;
         var userResources = new userResource();
         userResources.Id = $scope.User.ID;
-        userResources.Role = $scope.User.RoleId;
+        userResources.Role = RoleName;
         userResources.$AssignUserRole(function (data) {
             if (data.success) {
                 $("#modal-action").modal('hide');
