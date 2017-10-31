@@ -390,23 +390,33 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
     }
 
     $scope.addassetlocation = function (obj) {
-        var data = JSON.parse(obj);
-        angular.forEach($scope.assetlist, function (asset, index) {
-            if (asset.ID == data.ID) {
-                $scope.selectedassetlist.push({
-                    AssetID: data.ID,
-                    AssetName: data.Name,
-                    LocationID: $scope.movementrequestobj.MovementRequest.LocationID,
-                    LocationName: $scope.movementrequestobj.MovementRequest.LocationName,
-                    OnTransition: $scope.OnTransitionStatus,
-                    MovementRequestDetailID: data.ID,
-                });
-                $scope.assetlist.splice(index, 1);
-                $scope.asseterrormessage = '';
-            } else {
-                $scope.asseterrormessage = 'Please select asset';
+        if (!obj.hasOwnProperty("$$hashKey")) {
+            var data = JSON.parse(obj);
+            for (i = 0; i <= $scope.assetlist.length; i++) {
+                var asset = $scope.assetlist[i];
+                if (asset.ID == data.ID) {
+                    $scope.selectedassetlist.push({
+                        AssetID: data.ID,
+                        AssetName: data.Name,
+                        LocationID: $scope.movementrequestobj.MovementRequest.LocationID,
+                        LocationName: $scope.movementrequestobj.MovementRequest.LocationName,
+                        OnTransition: $scope.OnTransitionStatus,
+                        MovementRequestDetailID: data.ID,
+                    });
+                    $scope.assetlist.splice(i, 1);
+                    $scope.asseterrormessage = '';
+                    break;
+                } else {
+                    $scope.asseterrormessage = 'Please select asset';
+                }
             }
-        });
+        } else {
+            $scope.asseterrormessage = 'Please select asset';
+        }
+        
+        //angular.forEach($scope.assetlist, function (asset, index) {
+            
+        //});
         //var getasset = $filter('filter')($scope.assetlist, function (asset) { return asset.ID == data.ID });
         //if (getasset.length > 0) {
         //    $scope.selectedassetlist.push({

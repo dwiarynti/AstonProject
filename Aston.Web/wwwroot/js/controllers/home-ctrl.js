@@ -5,8 +5,10 @@
 app.controller('HomeCtrl', function ($scope, $rootScope, $window, $state, movementrequestResource, commonService, transferobjectService) {
     var movementrequestResources = new movementrequestResource();
     $scope.movementrequestlist = [];
+    //$rootScope.PageName = "Home";
     $rootScope.PageName = "Home";
-    $scope.data = "Welcome";
+
+    $scope.data = "WELCOME";
 
 
     $scope.init = function () {
