@@ -46,7 +46,7 @@ app.controller('UserCtrl', function ($scope, $rootScope, $window, $state, $filte
 
     $scope.init = function () {
         $scope.UserList = [];
-        var userResources = new userResource();
+        userResources = new userResource();
         userResources.Skip = 0;
         userResources.$GetUserPagination(function (data) {
             $scope.UserList = data.obj;

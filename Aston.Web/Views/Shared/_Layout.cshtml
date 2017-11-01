@@ -9,146 +9,122 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="all,follow">
 
-    <environment names="Development">
 
-        <link rel="stylesheet" href="~/css/site.css" />
-        <!-- Bootstrap CSS-->
-        <link rel="stylesheet" href="~/css/bootstrap.min.css">
-        <!-- Google fonts - Roboto -->
-        <link href="~/css/fonts-googleapis.css" rel="stylesheet" />
-        <!-- theme stylesheet-->
-        <link rel="stylesheet" href="~/css/style.default.css" id="theme-stylesheet">
-        <!-- Custom stylesheet - for your changes-->
-        <link href="~/css/custom.css" rel="stylesheet" />
-        <!-- Favicon-->
-        <link rel="shortcut icon" href="~/favicon.ico">
-        <!-- Font Awesome CDN-->
-        <!-- you can replace it by local Font Awesome-->
-        <!--<script src="https://use.fontawesome.com/99347ac47f.js"></script>-->
-        <!-- Font Icons CSS-->
-        <link href="~/css/icons.css" rel="stylesheet" />
-        <link href="~/js/ccsasset/bootstrap-datepicker/css/datepicker.css" rel="stylesheet" />
-        <link href="~/js/ccsasset/bootstrap-datepicker/css/datepicker3.css" rel="stylesheet" />
-    </environment>
-    <environment names="Staging,Production">
-        @*<link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/css/bootstrap.min.css"
-              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
-              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
-        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />*@
-        <link rel="stylesheet" href="~/css/site.css" />
-        <!-- Bootstrap CSS-->
-        <link rel="stylesheet" href="~/css/bootstrap.min.css">
-        <!-- Google fonts - Roboto -->
-        <link href="~/css/fonts-googleapis.css" rel="stylesheet" />
-        <!-- theme stylesheet-->
-        <link rel="stylesheet" href="~/css/style.default.css" id="theme-stylesheet">
-        <!-- Custom stylesheet - for your changes-->
-        <link href="~/css/custom.css" rel="stylesheet" />
-        <!-- Favicon-->
-        <link rel="shortcut icon" href="~/favicon.ico">
-        <!-- Font Awesome CDN-->
-        <!-- you can replace it by local Font Awesome-->
-        <!--<script src="https://use.fontawesome.com/99347ac47f.js"></script>-->
-        <!-- Font Icons CSS-->
-        <link href="~/css/icons.css" rel="stylesheet" />
-        <link href="~/js/ccsasset/bootstrap-datepicker/css/datepicker.css" rel="stylesheet" />
-        <link href="~/js/ccsasset/bootstrap-datepicker/css/datepicker3.css" rel="stylesheet" />
-    </environment>
+
+    <link rel="stylesheet" href="~/css/site.css" />
+    <!-- Bootstrap CSS-->
+    <link rel="stylesheet" href="~/css/bootstrap.min.css">
+    <!-- Google fonts - Roboto -->
+    <link href="~/css/fonts-googleapis.css" rel="stylesheet" />
+    <!-- theme stylesheet-->
+    <link rel="stylesheet" href="~/css/style.default.css" id="theme-stylesheet">
+    <!-- Custom stylesheet - for your changes-->
+    <link href="~/css/custom.css" rel="stylesheet" />
+    <!-- Favicon-->
+    <link rel="shortcut icon" href="~/favicon.ico">
+    <!-- Font Awesome CDN-->
+    <!-- you can replace it by local Font Awesome-->
+    <!--<script src="https://use.fontawesome.com/99347ac47f.js"></script>-->
+    <!-- Font Icons CSS-->
+    <link href="~/css/icons.css" rel="stylesheet" />
+    <link href="~/js/ccsasset/bootstrap-datepicker/css/datepicker.css" rel="stylesheet" />
+    <link href="~/js/ccsasset/bootstrap-datepicker/css/datepicker3.css" rel="stylesheet" />
+
     @*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />*@
-   
+
     @Html.ApplicationInsightsJavaScript(TelemetryConfiguration)
 </head>
-<body  ng-controller="MasterCtrl">
+<body ng-controller="MasterCtrl">
     <div class="page home-page">
         <!-- Main Navbar-->
         @inject UserManager<ApplicationUser> UserManager
         @if (User.Identity.IsAuthenticated)
         {
-        <header class="header">
-            <nav class="navbar">
-                <!-- Search Box-->
-                <div class="search-box">
-                    <button class="dismiss"><i class="icon-close"></i></button>
-                    <form id="searchForm" action="#" role="search">
-                        <input type="search" placeholder="What are you looking for..." class="form-control">
-                    </form>
-                </div>
-                <div class="container-fluid">
-                    <div class="navbar-holder d-flex align-items-center justify-content-between">
-                        <!-- Navbar Header-->
-                        <div class="navbar-header">
-                            <!-- Navbar Brand --><a class="navbar-brand">
-                                <div class="brand-text brand-big hidden-lg-down"><strong>ESCURITY</strong></div>
-                                <div class="brand-text brand-small"><strong>ESC</strong></div>
-                            </a>
-                            <!-- Toggle Button--><a id="toggle-btn" href="#" class="menu-btn active"><span></span><span></span><span></span></a>
-                        </div>
-                        <!-- Navbar Menu -->
-                        <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center">                      
-                            @await Html.PartialAsync("_LoginPartial")
-                        </ul>
+            <header class="header">
+                <nav class="navbar">
+                    <!-- Search Box-->
+                    <div class="search-box">
+                        <button class="dismiss"><i class="icon-close"></i></button>
+                        <form id="searchForm" action="#" role="search">
+                            <input type="search" placeholder="What are you looking for..." class="form-control">
+                        </form>
                     </div>
-                </div>
-            </nav>
-        </header>
+                    <div class="container-fluid">
+                        <div class="navbar-holder d-flex align-items-center justify-content-between">
+                            <!-- Navbar Header-->
+                            <div class="navbar-header">
+                                <!-- Navbar Brand --><a class="navbar-brand">
+                                    <div class="brand-text brand-big hidden-lg-down"><strong>ESCURITY</strong></div>
+                                    <div class="brand-text brand-small"><strong>ESC</strong></div>
+                                </a>
+                                <!-- Toggle Button--><a id="toggle-btn" href="#" class="menu-btn active"><span></span><span></span><span></span></a>
+                            </div>
+                            <!-- Navbar Menu -->
+                            <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center">
+                                @await Html.PartialAsync("_LoginPartial")
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </header>
 
-        <div class="page-content d-flex align-items-stretch">
-            <!-- Side Navbar -->
-            <nav class="side-navbar">
-                <!-- Sidebar Header-->
-                <div class="sidebar-header d-flex align-items-center">
-                    <div class="avatar"></div>
-                    <div class="title">
-                        <h3><a>Hello @UserManager.GetUserName(User)!</a></h3>
-                    </div>
-                </div>
-                <!-- Sidebar Navidation Menus-->
-                @*<span class="heading">Main</span>*@
-                <ul class="list-unstyled">
-                    <li class="active"> <a href="#home"><i class="icon-home"></i>Home</a></li>
-                    <li> <a href="#assetmanagement"> <i class="icon-screen"></i>Asset</a></li>
-                    <li> <a href="#locationmanagement"> <i class="icon-picture"></i> Location</a></li>
-                    <li> <a href="#assetlocationmanagement"> <i class="icon-check"></i>Asset Location</a></li>
-                    <li> <a href="#movementrequestmanagement"> <i class="icon-list"></i>Movement Request</a></li>
-                    <li> <a href="#approval"> <i class="icon-bill"></i>Approval <span ng-if="ApprovalNumber != 0" class="badge">{{ApprovalNumber}}</span></a></li>
-                    <li> <a href="#user"> <i class="icon-user"></i>User Management</a></li>
-                </ul>
-            </nav>
-            <div class="content-inner">
-                <!-- Page Header-->
-                <header class="page-header">
-                    <div class="container-fluid">
-                        <h2 class="no-margin-bottom">{{PageName}}</h2>
-                    </div>
-                </header>
-                <section class="dashboard-counts no-padding-bottom" ui-view>
-                    @RenderBody()
-                </section>
-                @*<section class="dashboard-counts no-padding-bottom">
-                    <div class="container-fluid">
-                        <div class="row bg-white has-shadow">
-                            <div id="main-content" style="width: 100%" ui-view>
-                                @RenderBody()
-                            </div>
+            <div class="page-content d-flex align-items-stretch">
+                <!-- Side Navbar -->
+                <nav class="side-navbar">
+                    <!-- Sidebar Header-->
+                    <div class="sidebar-header d-flex align-items-center">
+                        <div class="avatar"></div>
+                        <div class="title">
+                            <h3><a>Hello @UserManager.GetUserName(User)!</a></h3>
                         </div>
                     </div>
-                </section>*@
+                    <!-- Sidebar Navidation Menus-->
+                    @*<span class="heading">Main</span>*@
+                    <ul class="list-unstyled">
+                        <li class="active"> <a href="#home"><i class="icon-home"></i>Home</a></li>
+                        <li> <a href="#assetmanagement"> <i class="icon-screen"></i>Asset</a></li>
+                        <li> <a href="#locationmanagement"> <i class="icon-picture"></i> Location</a></li>
+                        <li> <a href="#assetlocationmanagement"> <i class="icon-check"></i>Asset Location</a></li>
+                        <li> <a href="#movementrequestmanagement"> <i class="icon-list"></i>Movement Request</a></li>
+                        <li> <a href="#approval"> <i class="icon-bill"></i>Approval <span ng-if="ApprovalNumber != 0" class="badge">{{ApprovalNumber}}</span></a></li>
+                        <li> <a href="#user"> <i class="icon-user"></i>User Management</a></li>
+                    </ul>
+                </nav>
+                <div class="content-inner">
+                    <!-- Page Header-->
+                    <header class="page-header">
+                        <div class="container-fluid">
+                            <h2 class="no-margin-bottom">{{PageName}}</h2>
+                        </div>
+                    </header>
+                    <section class="dashboard-counts no-padding-bottom" ui-view>
+                        @RenderBody()
+                    </section>
+                    @*<section class="dashboard-counts no-padding-bottom">
+                            <div class="container-fluid">
+                                <div class="row bg-white has-shadow">
+                                    <div id="main-content" style="width: 100%" ui-view>
+                                        @RenderBody()
+                                    </div>
+                                </div>
+                            </div>
+                        </section>*@
 
-                <!-- Page Footer-->
-                <footer class="main-footer">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <p>Escurity &copy; @DateTime.Now.Year</p>
-                            </div>
-                            <div class="col-sm-6 text-right">
-                                @*<p>Design by Escurity</p>*@
+                    <!-- Page Footer-->
+                    <footer class="main-footer">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <p>Escurity &copy; @DateTime.Now.Year</p>
+                                </div>
+                                <div class="col-sm-6 text-right">
+                                    @*<p>Design by Escurity</p>*@
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </footer>
+                    </footer>
+                </div>
             </div>
-        </div>
         }
         else
         {
@@ -163,109 +139,52 @@
             </section>
         }
     </div>
-   
-    <environment names="Development">
-        <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-        @*<script src="~/js/site.js" asp-append-version="true"></script>*@
-        <script src="~/lib/jquery/dist/jquery.min.js"></script>
-        <script src="~/js/ccsasset/DataTables/media/js/jquery.dataTables.min.js"></script>
-        <script src="~/lib/tether.min.js"></script>
-        <script src="~/lib/bootstrap.min.js"></script>
-        <script src="~/lib/jquery.cookie.js"> </script>
-        <script src="~/lib/jquery.validate.min.js"></script>
-        <script src="~/lib/front.js"></script>
-        <!-- Angular JS -->
-        <script type="text/javascript" src="~/js/ccsasset/angular/angular.js"></script>
-        <script src="~/js/ccsasset/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
-        <script type="text/javascript" src="~/js/ccsasset/angular-ui-router/release/angular-ui-router.min.js"></script>
-        <script type="text/javascript" src="~/js/ccsasset/angular/ocLazyLoad.min.js"></script>
-        <script src="~/js/ccsasset/angular/angular-resource.js"></script>
-        <script type="text/javascript" src="~/js/ccsasset/Angular-datatables/src/angular-datatables.util.js"></script>
-        <script type="text/javascript" src="~/js/ccsasset/Angular-datatables/src/angular-datatables.renderer.js"></script>
-        <script type="text/javascript" src="~/js/ccsasset/Angular-datatables/src/angular-datatables.options.js"></script>
-        <script type="text/javascript" src="~/js/ccsasset/Angular-datatables/src/angular-datatables.js"></script>
-        <script type="text/javascript" src="~/js/ccsasset/Angular-datatables/src/angular-datatables.instances.js"></script>
-        <script type="text/javascript" src="~/js/ccsasset/Angular-datatables/src/angular-datatables.factory.js"></script>
-        <script type="text/javascript" src="~/js/ccsasset/Angular-datatables/src/angular-datatables.directive.js"></script>
-        <script src="~/js/ccsasset/FileSaver/FileSaver.min.js"></script>
-        <script src="~/js/ccsasset/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-        <script src="~/js/route.js"></script>
-        <script src="~/js/services/transferobject.service.js"></script>
-        <script src="~/js/services/commonService.js"></script>
-        <script src="~/js/services/assetResource.js"></script>
-        <script src="~/js/services/locationResource.js"></script>
-        <script src="~/js/services/assetlocationResource.js"></script>
-        <script src="~/js/services/lookuplistResource.js"></script>
-        <script src="~/js/services/movementrequestResource.js"></script>
-        <script src="~/js/services/userResource.js"></script>
-        <script src="~/js/controllers/master-ctrl.js"></script>
-        <script src="~/js/controllers/asset-ctrl.js"></script>
-        <script src="~/js/controllers/location-ctrl.js"></script>
-        <script src="~/js/controllers/assetlocation-ctrl.js"></script>
-        <script src="~/js/controllers/movementrequest-ctrl.js"></script>
-        <script src="~/js/controllers/movementrequestdetail-ctrl.js"></script>
-        <script src="~/js/controllers/home-ctrl.js"></script>
-        <script src="~/js/controllers/assethistory-ctrl.js"></script>
-        <script src="~/js/controllers/user-ctrl.js"></script>
-        <script src="~/js/controllers/approval-ctrl.js"></script>
 
-    </environment>
-    <environment names="Staging,Production">
-        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
-                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-                asp-fallback-test="window.jQuery">
-        </script>
-        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/bootstrap.min.js"
-                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
-                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal">
-        </script>
-        <script src="~/js/site.min.js" asp-append-version="true"></script>
-        <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-        @*<script src="~/js/site.js" asp-append-version="true"></script>*@
-        <script src="~/lib/jquery/dist/jquery.min.js"></script>
-        <script src="~/js/ccsasset/DataTables/media/js/jquery.dataTables.min.js"></script>
-        <script src="~/lib/tether.min.js"></script>
-        <script src="~/lib/bootstrap.min.js"></script>
-        <script src="~/lib/jquery.cookie.js"> </script>
-        <script src="~/lib/jquery.validate.min.js"></script>
-        <script src="~/lib/front.js"></script>
-        <!-- Angular JS -->
-        <script type="text/javascript" src="~/js/ccsasset/angular/angular.js"></script>
-        <script src="~/js/ccsasset/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
-        <script type="text/javascript" src="~/js/ccsasset/angular-ui-router/release/angular-ui-router.min.js"></script>
-        <script type="text/javascript" src="~/js/ccsasset/angular/ocLazyLoad.min.js"></script>
-        <script src="~/js/ccsasset/angular/angular-resource.js"></script>
-        <script type="text/javascript" src="~/js/ccsasset/Angular-datatables/src/angular-datatables.util.js"></script>
-        <script type="text/javascript" src="~/js/ccsasset/Angular-datatables/src/angular-datatables.renderer.js"></script>
-        <script type="text/javascript" src="~/js/ccsasset/Angular-datatables/src/angular-datatables.options.js"></script>
-        <script type="text/javascript" src="~/js/ccsasset/Angular-datatables/src/angular-datatables.js"></script>
-        <script type="text/javascript" src="~/js/ccsasset/Angular-datatables/src/angular-datatables.instances.js"></script>
-        <script type="text/javascript" src="~/js/ccsasset/Angular-datatables/src/angular-datatables.factory.js"></script>
-        <script type="text/javascript" src="~/js/ccsasset/Angular-datatables/src/angular-datatables.directive.js"></script>
-        <script src="~/js/ccsasset/FileSaver/FileSaver.min.js"></script>
-        <script src="~/js/ccsasset/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-        <script src="~/js/route.js"></script>
-        <script src="~/js/services/transferobject.service.js"></script>
-        <script src="~/js/services/commonService.js"></script>
-        <script src="~/js/services/assetResource.js"></script>
-        <script src="~/js/services/locationResource.js"></script>
-        <script src="~/js/services/assetlocationResource.js"></script>
-        <script src="~/js/services/lookuplistResource.js"></script>
-        <script src="~/js/services/movementrequestResource.js"></script>
-        <script src="~/js/controllers/master-ctrl.js"></script>
-        <script src="~/js/controllers/asset-ctrl.js"></script>
-        <script src="~/js/controllers/location-ctrl.js"></script>
-        <script src="~/js/controllers/assetlocation-ctrl.js"></script>
-        <script src="~/js/controllers/movementrequest-ctrl.js"></script>
-        <script src="~/js/controllers/movementrequestdetail-ctrl.js"></script>
-        <script src="~/js/controllers/home-ctrl.js"></script>
-        <script src="~/js/controllers/assethistory-ctrl.js"></script>
-        <script src="~/js/controllers/user-ctrl.js"></script>
-        <script src="~/js/controllers/approval-ctrl.js"></script>
-    </environment>
 
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    @*<script src="~/js/site.js" asp-append-version="true"></script>*@
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/ccsasset/DataTables/media/js/jquery.dataTables.min.js"></script>
+    <script src="~/lib/tether.min.js"></script>
+    <script src="~/lib/bootstrap.min.js"></script>
+    <script src="~/lib/jquery.cookie.js"> </script>
+    <script src="~/lib/jquery.validate.min.js"></script>
+    <script src="~/lib/front.js"></script>
+    <!-- Angular JS -->
+    <script type="text/javascript" src="~/js/ccsasset/angular/angular.js"></script>
+    <script src="~/js/ccsasset/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+    <script type="text/javascript" src="~/js/ccsasset/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script type="text/javascript" src="~/js/ccsasset/angular/ocLazyLoad.min.js"></script>
+    <script src="~/js/ccsasset/angular/angular-resource.js"></script>
+    <script type="text/javascript" src="~/js/ccsasset/Angular-datatables/src/angular-datatables.util.js"></script>
+    <script type="text/javascript" src="~/js/ccsasset/Angular-datatables/src/angular-datatables.renderer.js"></script>
+    <script type="text/javascript" src="~/js/ccsasset/Angular-datatables/src/angular-datatables.options.js"></script>
+    <script type="text/javascript" src="~/js/ccsasset/Angular-datatables/src/angular-datatables.js"></script>
+    <script type="text/javascript" src="~/js/ccsasset/Angular-datatables/src/angular-datatables.instances.js"></script>
+    <script type="text/javascript" src="~/js/ccsasset/Angular-datatables/src/angular-datatables.factory.js"></script>
+    <script type="text/javascript" src="~/js/ccsasset/Angular-datatables/src/angular-datatables.directive.js"></script>
+    <script src="~/js/ccsasset/FileSaver/FileSaver.min.js"></script>
+    <script src="~/js/ccsasset/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+    <script src="~/js/route.js"></script>
+    <script src="~/js/services/transferobject.service.js"></script>
+    <script src="~/js/services/commonService.js"></script>
+    <script src="~/js/services/assetResource.js"></script>
+    <script src="~/js/services/locationResource.js"></script>
+    <script src="~/js/services/assetlocationResource.js"></script>
+    <script src="~/js/services/lookuplistResource.js"></script>
+    <script src="~/js/services/movementrequestResource.js"></script>
+    <script src="~/js/services/userResource.js"></script>
+    <script src="~/js/controllers/master-ctrl.js"></script>
+    <script src="~/js/controllers/asset-ctrl.js"></script>
+    <script src="~/js/controllers/location-ctrl.js"></script>
+    <script src="~/js/controllers/assetlocation-ctrl.js"></script>
+    <script src="~/js/controllers/movementrequest-ctrl.js"></script>
+    <script src="~/js/controllers/movementrequestdetail-ctrl.js"></script>
+    <script src="~/js/controllers/home-ctrl.js"></script>
+    <script src="~/js/controllers/assethistory-ctrl.js"></script>
+    <script src="~/js/controllers/user-ctrl.js"></script>
+    <script src="~/js/controllers/approval-ctrl.js"></script>
 
     @RenderSection("scripts", required: false)
 </body>
