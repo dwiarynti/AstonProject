@@ -97,17 +97,15 @@ namespace Aston.Web.Controllers
             var user = new ApplicationUser { UserName = obj.Username, Email = obj.Email ,IsActive = true ,DepartmentID = obj.DepartmentID};
             var result = _userManager.CreateAsync(user, obj.Password);
 
-            var roles = _roleManager.Roles.ToList();
-            foreach (var role in roles)
-            {
-                user.Roles.Add(new IdentityUserRole<string>() { RoleId = role.Id });
-            }
-
-            var addUserRole = _userManager.AddToRoleAsync(user, obj.Role);
-
+            // Uncomment to set default role for new user
+            //string defaultRoleName = "user";
+            //if (_roleManager.RoleExistsAsync(defaultRoleName).Result)
+            //{
+            //    var addUserRole = _userManager.AddToRoleAsync(user, defaultRoleName).Result;
+            //}
 
             HttpResponseMessage response = new HttpResponseMessage();
-            response = request.CreateResponse(HttpStatusCode.OK, new { success = result.Result.Succeeded && addUserRole.Result.Succeeded ? true:false, obj = user });
+            response = request.CreateResponse(HttpStatusCode.OK, new { success = result.Result.Succeeded ? true:false, obj = user });
             return response;
         }
 
@@ -146,7 +144,15 @@ namespace Aston.Web.Controllers
             var updateuserrolestatus = false;
             try
             {
-                var addUserRole = _userManager.AddToRoleAsync(user, obj.Role);
+                var currentRole = _userManager.GetRolesAsync(user).Result;
+      
+                if (currentRole.Count > 0)
+                {
+                    var removeCurrentRole = _userManager.RemoveFromRoleAsync(user, currentRole.FirstOrDefault()).Result;
+                }
+               
+                var addUserRole = _userManager.AddToRoleAsync(user, obj.Role).Result;
+               
                 updateuserrolestatus = true;
             }
             catch (Exception ex)

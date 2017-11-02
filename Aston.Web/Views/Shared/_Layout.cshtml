@@ -88,6 +88,8 @@
                         <li> <a href="#movementrequestmanagement"> <i class="icon-list"></i>Movement Request</a></li>
                         <li> <a href="#approval"> <i class="icon-bill"></i>Approval <span ng-if="ApprovalNumber != 0" class="badge">{{ApprovalNumber}}</span></a></li>
                         <li> <a href="#user"> <i class="icon-user"></i>User Management</a></li>
+                        <li> <a href="#role"> <i class="icon-user"></i>Role Management</a></li>
+                        <li> <a href="#department"> <i class="icon-user"></i>Department Management</a></li>
                     </ul>
                 </nav>
                 <div class="content-inner">
@@ -175,6 +177,8 @@
     <script src="~/js/services/lookuplistResource.js"></script>
     <script src="~/js/services/movementrequestResource.js"></script>
     <script src="~/js/services/userResource.js"></script>
+    <script src="~/js/services/roleResource.js"></script>
+    <script src="~/js/services/departmentResource.js"></script>
     <script src="~/js/controllers/master-ctrl.js"></script>
     <script src="~/js/controllers/asset-ctrl.js"></script>
     <script src="~/js/controllers/location-ctrl.js"></script>
@@ -185,6 +189,8 @@
     <script src="~/js/controllers/assethistory-ctrl.js"></script>
     <script src="~/js/controllers/user-ctrl.js"></script>
     <script src="~/js/controllers/approval-ctrl.js"></script>
+    <script src="~/js/controllers/role-ctrl.js"></script>
+    <script src="~/js/controllers/department-ctrl.js"></script>
 
     @RenderSection("scripts", required: false)
 </body>

@@ -47,7 +47,7 @@ namespace Aston.Business
      
         public List<Department> GetDepartment()
         {
-            return _department.GetDepartment();
+            return _department.GetActiveDepartment();
         }
 
         public Department GetDepartmentByID(int id)

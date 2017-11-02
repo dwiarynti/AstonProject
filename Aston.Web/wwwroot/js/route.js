@@ -56,6 +56,14 @@ app.config([
                 url: '/user',
                 templateUrl: 'views/usermanagement.html'
             })
+            .state('role', {
+                url: '/role',
+                templateUrl: 'views/rolemanagement.html'
+            })
+             .state('department', {
+                 url: '/department',
+                 templateUrl: 'views/departmentmanagement.html'
+             })
             .state('approval', {
                 url: '/approval',
                 templateUrl: 'views/approval.html'

@@ -84,6 +84,8 @@ namespace Aston.Web
             services.AddTransient<LookupListProcess>();
             services.AddTransient<MovementRequestProcces>();
             services.AddTransient<UserProcess>();
+            services.AddTransient<RoleProcess>();
+            services.AddTransient<DepartmentProcess>();
 
         }
 

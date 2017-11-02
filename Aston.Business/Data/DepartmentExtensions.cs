@@ -12,7 +12,7 @@ namespace Aston.Business.Data
         AstonContext context = new AstonContext();
 
 
-        public List<Department> GetDepartment ()
+        public List<Department> GetActiveDepartment()
         {
             var obj = context.Department.Where(p => p.IsActive == true).ToList();
             return obj;
