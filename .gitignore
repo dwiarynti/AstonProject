@@ -52,3 +52,16 @@ Mkfile.old
 dkms.conf
 /Aston.Web/bin
 /Aston.Web/Data/Migrations
+
+bin/Release/
+bin/Debug/
+obj/Release/
+obj/Debug/
+bin/
+packages/
+
+.vs
+bin
+debug
+publish
+*.lock.*
