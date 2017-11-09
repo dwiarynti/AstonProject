@@ -15,5 +15,6 @@ namespace Aston.Entities
     {
         public string ID { get; set; }
         public string Name { get; set; }
+        public int TotalRow { get; set; }
     }
 }

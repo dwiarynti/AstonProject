@@ -45,14 +45,15 @@ namespace Aston.Business
             return _pref.GetLookupByApprovalStatusCode(code);
         }
      
-        public List<Department> GetDepartment()
-        {
-            return _department.GetActiveDepartment();
-        }
+        // Duplicate
+        //public List<Department> GetDepartment()
+        //{
+        //    return _department.GetActiveDepartment();
+        //}
 
-        public Department GetDepartmentByID(int id)
-        {
-            return _department.GetDepartmentByID(id);
-        }
+        //public Department GetDepartmentByID(int id)
+        //{
+        //    return _department.GetDepartmentByID(id);
+        //}
     }
 }

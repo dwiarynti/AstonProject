@@ -40,6 +40,7 @@ app.controller('RoleCtrl', function ($scope, $rootScope, $window, $state, $filte
         roleResources = new roleResource();
         roleResources.Skip = 0;
         roleResources.$GetRolePagination(function (data) {
+            $scope.NumberofRole = data.obj.length != 0 ? data.obj[0].TotalRow : 0;
             $scope.RoleList = data.obj;
             console.log(data.obj);
         });

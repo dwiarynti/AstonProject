@@ -20,14 +20,32 @@ namespace Aston.Business
         AstonContext _context = new AstonContext();
         DepartmentExtensions _extension = new DepartmentExtensions();
 
-       public List<DepartmentViewModel> GetDepartment()
+        public List<DepartmentViewModel> GetActiveDepartments()
+        {
+            List<DepartmentViewModel> result = new List<DepartmentViewModel>();
+            var list = _extension.GetActiveDepartment();
+            foreach (var item in list)
+            {
+                DepartmentViewModel model = new DepartmentViewModel();
+
+                model.ID = item.ID;
+                model.Name = item.Name;
+                model.Description = item.Description;
+                model.IsActive = item.IsActive;
+
+                result.Add(model);
+            }
+            return result;
+        }
+
+        public List<DepartmentViewModel> GetDepartments()
         {
             List<DepartmentViewModel> result = new List<DepartmentViewModel>();
             var list = _context.Department.ToList();
-            foreach(var item in list)
+            foreach (var item in list)
             {
                 DepartmentViewModel model = new DepartmentViewModel();
-               
+
                 model.ID = item.ID;
                 model.Name = item.Name;
                 model.Description = item.Description;
@@ -52,11 +70,16 @@ namespace Aston.Business
             return result;
         }
 
+        public List<DepartmentViewModel> GetDepartmentPagination(int Skip)
+        {
+            return _extension.GetDepartment_Pagination(Skip);
+        }
+
         public bool CreateDepartment(DepartmentViewModel obj)
         {
             bool result;
             IDbContextTransaction transaction = _context.Database.BeginTransaction();
-            if(obj != null)
+            if (obj != null)
             {
                 try
                 {
@@ -91,7 +114,7 @@ namespace Aston.Business
             bool result;
             IDbContextTransaction transaction = _context.Database.BeginTransaction();
             var prevObj = _extension.GetDepartmentByID(obj.ID);
-            if(prevObj != null)
+            if (prevObj != null)
             {
                 try
                 {
@@ -104,7 +127,7 @@ namespace Aston.Business
                     transaction.Commit();
                     result = true;
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     transaction.Rollback();
                     result = false;
@@ -123,7 +146,7 @@ namespace Aston.Business
             IDbContextTransaction transaction = _context.Database.BeginTransaction();
             var prevObj = _extension.GetDepartmentByID(obj.ID);
             if (prevObj != null)
-            { 
+            {
                 try
                 {
                     // uncomment after adding audit field on table department
@@ -137,7 +160,7 @@ namespace Aston.Business
                     transaction.Commit();
                     result = true;
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     result = false;
                     transaction.Rollback();
@@ -149,6 +172,6 @@ namespace Aston.Business
             }
             return result;
         }
-        
+
     }
 }

@@ -2,9 +2,9 @@
  * User Controller
  */
 
-app.controller('UserCtrl', function ($scope, $rootScope, $window, $state, $filter, lookuplistResource, userResource) {
+app.controller('UserCtrl', function ($scope, $rootScope, $window, $state, $filter, departmentResource, userResource) {
     var userResources = new userResource();
-    var lookuplistResources = new lookuplistResource();
+    var departmentResources = new departmentResource();
 
     $scope.isValidate = true;
     $scope.Userlist = [];
@@ -33,7 +33,7 @@ app.controller('UserCtrl', function ($scope, $rootScope, $window, $state, $filte
 
 
     $scope.GetDepartment = function () {
-        lookuplistResources.$GetDepartment(function (data) {
+        departmentResources.$GetActiveDepartments(function (data) {
             $scope.departmentlist = data.obj;
         });
     }
@@ -49,6 +49,7 @@ app.controller('UserCtrl', function ($scope, $rootScope, $window, $state, $filte
         userResources = new userResource();
         userResources.Skip = 0;
         userResources.$GetUserPagination(function (data) {
+            $scope.NumberofUser = data.obj.length != 0 ? data.obj[0].TotalRow : 0;
             $scope.UserList = data.obj;
             console.log(data.obj);
         });

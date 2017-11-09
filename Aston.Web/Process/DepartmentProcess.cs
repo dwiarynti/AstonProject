@@ -26,13 +26,31 @@ namespace Aston.Web.Process
             return result;
         }
 
-        public HttpResponseMessage GetDepartment()
+        public HttpResponseMessage GetDepartments()
         {
             HttpResponseMessage result = default(HttpResponseMessage);
-            string requestUri = "api/Department/GetDepartment/";
+            string requestUri = "api/Department/GetDepartments/";
             result = REST(requestUri, RESTConstants.GET);
             return result;
         }
+
+        public HttpResponseMessage GetActiveDepartments()
+        {
+            HttpResponseMessage result = default(HttpResponseMessage);
+            string requestUri = "api/Department/GetActiveDepartments/";
+            result = REST(requestUri, RESTConstants.GET);
+            return result;
+        }
+
+
+        public HttpResponseMessage GetDepartmentPagination(int Skip)
+        {
+            HttpResponseMessage result = default(HttpResponseMessage);
+            string requestUri = "api/Department/GetDepartmentPagination";
+            result = REST(requestUri, RESTConstants.POST, JsonConvert.SerializeObject(Skip));
+            return result;
+        }
+
 
         public HttpResponseMessage CreateDepartment(DepartmentViewModel obj)
         {

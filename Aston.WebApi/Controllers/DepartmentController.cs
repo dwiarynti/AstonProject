@@ -39,12 +39,32 @@ namespace Aston.WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("GetDepartment")]
-        public HttpResponseMessage GetDepartment(HttpRequestMessage request)
+        [Route("GetDepartments")]
+        public HttpResponseMessage GetDepartments(HttpRequestMessage request)
         {
-            var result = service.GetDepartment();
+            var result = service.GetDepartments();
             HttpResponseMessage response = new HttpResponseMessage();
             response = request.CreateResponse(HttpStatusCode.OK, new {success = true, obj = result});
+            return response;
+        }
+
+        [HttpGet]
+        [Route("GetActiveDepartments")]
+        public HttpResponseMessage GetActiveDepartments(HttpRequestMessage request)
+        {
+            var result = service.GetActiveDepartments();
+            HttpResponseMessage response = new HttpResponseMessage();
+            response = request.CreateResponse(HttpStatusCode.OK, new { success = true, obj = result });
+            return response;
+        }
+
+        [HttpPost]
+        [Route("GetDepartmentPagination")]
+        public HttpResponseMessage GetDepartmentPagination(HttpRequestMessage request, [FromBody] int Skip)
+        {
+            var result = service.GetDepartmentPagination(Skip);
+            HttpResponseMessage response = new HttpResponseMessage();
+            response = request.CreateResponse(HttpStatusCode.OK, new { success = true, obj = result });
             return response;
         }
 

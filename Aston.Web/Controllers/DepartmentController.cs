@@ -32,12 +32,30 @@ namespace Aston.Web.Controllers
             return response;
         }
 
-        [Route("GetDepartment")]
+        [Route("GetDepartments")]
         [HttpGet]
-        public HttpResponseMessage GetDepartment(HttpRequestMessage request)
+        public HttpResponseMessage GetDepartments(HttpRequestMessage request)
         {
             HttpResponseMessage response = new HttpResponseMessage();
-            response = _process.GetDepartment();
+            response = _process.GetDepartments();
+            return response;
+        }
+
+        [Route("GetActiveDepartments")]
+        [HttpGet]
+        public HttpResponseMessage GetActiveDepartments(HttpRequestMessage request)
+        {
+            HttpResponseMessage response = new HttpResponseMessage();
+            response = _process.GetActiveDepartments();
+            return response;
+        }
+
+        [HttpPost]
+        [Route("GetDepartmentPagination")]
+        public HttpResponseMessage GetUserPagination(HttpRequestMessage request, [FromBody] int Skip)
+        {
+            HttpResponseMessage response = new HttpResponseMessage();
+            response = _process.GetDepartmentPagination(Skip);
             return response;
         }
 

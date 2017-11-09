@@ -12,8 +12,7 @@ namespace Aston.Business.Data
 {
     public class UserExtensions
     {
-        AstonContext context = new AstonContext();
- 
+
         public List<UserPaginationViewModel> GetUser_Pagination(int Skip)
         {
             var result = new List<UserPaginationViewModel>();
@@ -21,6 +20,9 @@ namespace Aston.Business.Data
 
             using (AstonContext dbContext = new AstonContext())
             {
+
+
+
                 dbContext.Database.OpenConnection();
                 DbCommand cmd = dbContext.Database.GetDbConnection().CreateCommand();
                 cmd.CommandText = "dbo.sp_UserPagination";

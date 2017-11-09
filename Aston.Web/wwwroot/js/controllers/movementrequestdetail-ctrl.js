@@ -4,6 +4,7 @@
 
 app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $rootScope, $window, transferobjectService, movementrequestResource, lookuplistResource, assetResource, locationResource, assetLocationResource, commonService) {
     var movementrequestResources = new movementrequestResource();
+    var departmentResources = new departmentResource();
     var lookuplistResources = new lookuplistResource();
     var locationResources = new locationResource();
     var assetLocationResources = new assetLocationResource();
@@ -68,7 +69,7 @@ app.controller('MovementRequestDetailCtrl', function ($scope, $state, $filter, $
 
 
     $scope.GetDepartment = function() {
-        lookuplistResources.$GetDepartment(function(data) {
+        departmentResources.$GetActiveDepartments(function (data) {
             $scope.departmentlist = data.obj;
         });
     }

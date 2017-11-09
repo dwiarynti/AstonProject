@@ -41,6 +41,7 @@ app.controller('DepartmentCtrl', function ($scope, $rootScope, $window, $state, 
         departmentResources.Skip = 0;
         departmentResources.$GetDepartments(function (data) {
             $scope.DepartmentList = data.obj;
+            $scope.NumberofDepartment = data.obj.length != 0 ? data.obj[0].TotalRow : 0;
             console.log(data.obj);
         });
     }

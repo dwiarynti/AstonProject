@@ -54,22 +54,23 @@ namespace Aston.Web.Controllers
             response = _prefProcess.GetApprovalStatus();
             return response;
         }
-        [Route("GetDepartment")]
-        [HttpGet]
-        public HttpResponseMessage GetDepartment(HttpRequestMessage request)
-        {
-            HttpResponseMessage response = new HttpResponseMessage();
-            response = _prefProcess.GetDepartment();
-            return response;
-        }
-        [Route("GetDepartmentByID/{id}")]
-        [HttpGet]
-        public HttpResponseMessage GetDepartmentByID(HttpRequestMessage request , int id)
-        {
-            HttpResponseMessage response = new HttpResponseMessage();
-            response = _prefProcess.GetDepartmentByID(id);
-            return response;
-        }
+        //Duplicate
+        //[Route("GetDepartment")]
+        //[HttpGet]
+        //public HttpResponseMessage GetDepartment(HttpRequestMessage request)
+        //{
+        //    HttpResponseMessage response = new HttpResponseMessage();
+        //    response = _prefProcess.GetDepartment();
+        //    return response;
+        //}
+        //[Route("GetDepartmentByID/{id}")]
+        //[HttpGet]
+        //public HttpResponseMessage GetDepartmentByID(HttpRequestMessage request , int id)
+        //{
+        //    HttpResponseMessage response = new HttpResponseMessage();
+        //    response = _prefProcess.GetDepartmentByID(id);
+        //    return response;
+        //}
 
     }
 }
